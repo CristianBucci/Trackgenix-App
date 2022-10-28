@@ -1,6 +1,23 @@
 .container {
   flex: 1;
+  flex-direction: column;
+  margin: auto;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.column {
+  list-style: none;
+}
+
+.table {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.listTitle {
+  font-weight: bold;
 }
