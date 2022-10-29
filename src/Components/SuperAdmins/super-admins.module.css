@@ -8,16 +8,24 @@
   align-items: center;
 }
 
-.column {
-  list-style: none;
-}
-
 .table {
   display: flex;
+  flex-direction: column;
   width: 100%;
   justify-content: space-between;
 }
 
-.listTitle {
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.titles {
+  display: flex;
+  justify-content: space-between;
   font-weight: bold;
+}
+
+.data {
+  width: 35%;
 }
