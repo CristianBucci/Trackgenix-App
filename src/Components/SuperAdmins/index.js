@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
 
-function SuperAdmins() {
-  const [superAdmins, setSuperAdmins] = useState([]);
+function SuperAdminsList() {
+  const [superAdminsList, setSuperAdminsList] = useState([]);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}superAdmin/`)
       .then((response) => response.json())
       .then((response) => {
-        setSuperAdmins(response.data);
+        setSuperAdminsList(response.data);
       });
   }, []);
 
@@ -21,9 +21,20 @@ function SuperAdmins() {
           <div className={styles.data}>Email</div>
           <div className={styles.actionButtons}>Actions</div>
         </div>
-        {superAdmins.map((superAdmin) => {
+        {superAdminsList.map((superAdmin) => {
           const deleteSuperAdmin = (id) => {
-            setSuperAdmins([...superAdmins.filter((superAdmin) => superAdmin._id !== id)]);
+            fetch(`${process.env.REACT_APP_API_URL}superAdmin/${id}`, {
+              method: 'DELETE'
+            }).then(() => {
+              fetch(`${process.env.REACT_APP_API_URL}superAdmin/`)
+                .then((response) => response.json())
+                .then((response) => {
+                  setSuperAdminsList(response.data);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            });
           };
           const deleteHandler = () => {
             deleteSuperAdmin(superAdmin._id);
@@ -37,7 +48,7 @@ function SuperAdmins() {
               <div className={styles.data}>{superAdmin.email}</div>
               <div className={styles.actionButtons}>
                 <button>o</button>
-                <button onClick={() => deleteHandler(superAdmin.id)}>x</button>
+                <button onClick={() => deleteHandler()}>x</button>
               </div>
             </div>
           );
@@ -47,4 +58,4 @@ function SuperAdmins() {
   );
 }
 
-export default SuperAdmins;
+export default SuperAdminsList;
