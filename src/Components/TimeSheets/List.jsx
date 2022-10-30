@@ -1,31 +1,42 @@
 import React from 'react';
+import styles from './time-sheets.module.css';
 
 const List = ({ list, deleteItem }) => {
-  const handleDelete = () => {
-    deleteItem(list._id);
-  };
-
   return (
     <section>
-      <h2>TimeSheets</h2>
+      <div className={styles.tableTitle}>
+        <h2>TimeSheets</h2>
+      </div>
       <div>
         <table>
           <thead>
             <tr>
-              <th id="description">Description</th>
-              <th id="date">Date</th>
-              <th id="hours">Hours</th>
+              <th className={styles.textLeft}>Description</th>
+              <th className={styles.textLeft}>Date</th>
+              <th className={styles.textLeft}>Hours</th>
+              <th className={styles.textLeft}>Task</th>
+              <th className={styles.textLeft}>Employee</th>
+              <th className={styles.textLeft}>Project</th>
+              <th className={styles.textLeft}>
+                <button>New TimeSheet</button>
+              </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="table-hover">
             {list.map((item) => {
               return (
                 <tr key={item._id}>
-                  <td>{item.description}</td>
-                  <td>{item.date}</td>
-                  <td>{item.hours}</td>
-                  <td>
-                    <button onClick={() => handleDelete(item._id)}>X</button>
+                  <td className={styles.textLeft}>{item.description}</td>
+                  <td className={styles.textLeft}>{item.date}</td>
+                  <td className={styles.textLeft}>{item.hours}</td>
+                  <td className={styles.textLeft}>{item.task['description']}</td>
+                  <td className={styles.textLeft}>
+                    {item.employee['firstName']} {item.employee['lastName']}
+                  </td>
+                  <td className={styles.textLeft}>{item.project['description']}</td>
+                  <td className={styles.textLeft}>
+                    <button onClick={() => deleteItem(item._id)}>Delete</button>
+                    <button onClick={() => deleteItem(item._id)}>Update</button>
                   </td>
                 </tr>
               );

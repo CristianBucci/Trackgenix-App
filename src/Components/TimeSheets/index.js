@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import styles from './time-sheets.module.css';
 import List from './List';
 
 function TimeSheets() {
@@ -15,6 +14,7 @@ function TimeSheets() {
 
   //Delete
   const deleteItem = (id) => {
+    console.log('Delete');
     setList([...list.filter((listItem) => listItem.id !== id)]);
   };
 
