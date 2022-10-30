@@ -14,7 +14,6 @@ function Projects() {
       console.error(error);
     }
   }, []);
-  console.log(projects);
 
   return (
     <section className={styles.container}>

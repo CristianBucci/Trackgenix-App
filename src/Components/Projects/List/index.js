@@ -1,8 +1,9 @@
-import ListItem from '../listItems';
+import ListItem from '../ListItems';
 
 const ProjectTable = ({ list }) => {
   return (
     <div>
+      <button>Add project</button>
       <table>
         <thead>
           <tr>
@@ -12,6 +13,7 @@ const ProjectTable = ({ list }) => {
             <th id="StartingDate">Starting Date</th>
             <th id="EndDate">End Date</th>
             <th id="Employees">Employees</th>
+            <th id="Actions">Edit and Delete</th>
           </tr>
         </thead>
         <tbody>
