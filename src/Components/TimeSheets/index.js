@@ -4,18 +4,23 @@ import List from './List';
 function TimeSheets() {
   const [list, setList] = useState([]);
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}timesheets/`)
-      .then((res) => res.json())
-      .then((json) => {
-        setList(json.data);
-      });
+  useEffect(async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}timesheets/`);
+      const json = await response.json();
+      console.log(json.data);
+      setList(json.data);
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   //Delete
-  const deleteItem = (id) => {
-    console.log('Delete');
-    setList([...list.filter((listItem) => listItem.id !== id)]);
+  const deleteItem = async (id) => {
+    await fetch(`${process.env.REACT_APP_API_URL}timesheets/${id}`, {
+      method: 'DELETE'
+    });
+    location.reload();
   };
 
   return (

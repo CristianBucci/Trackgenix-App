@@ -31,7 +31,7 @@ const List = ({ list, deleteItem }) => {
                   <td className={styles.textLeft}>{item.hours}</td>
                   <td className={styles.textLeft}>{item.task['description']}</td>
                   <td className={styles.textLeft}>
-                    {item.employee['firstName']} {item.employee['lastName']}
+                    {item.employee['lastName']} {item.employee['name']}
                   </td>
                   <td className={styles.textLeft}>{item.project['description']}</td>
                   <td className={styles.textLeft}>
