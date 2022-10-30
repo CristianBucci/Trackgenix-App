@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import List from './List';
+import CreateTimeSheet from './CreateTimeSheet';
 
 function TimeSheets() {
   const [list, setList] = useState([]);
+  const [active, setActive] = useState(false);
 
   useEffect(async () => {
     try {
@@ -25,7 +27,26 @@ function TimeSheets() {
 
   return (
     <div className="App">
-      <List list={list} setList={setList} deleteItem={deleteItem} />
+      {!active ? (
+        <button
+          onClick={() => {
+            setActive(true);
+          }}
+        >
+          Create TimeSheet
+        </button>
+      ) : null}
+      {active ? <CreateTimeSheet /> : null}
+      {!active ? <List list={list} setList={setList} deleteItem={deleteItem} /> : null}
+      {active ? (
+        <button
+          onClick={() => {
+            setActive(false);
+          }}
+        >
+          Cancel
+        </button>
+      ) : null}
     </div>
   );
 }

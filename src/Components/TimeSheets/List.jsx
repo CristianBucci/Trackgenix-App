@@ -17,9 +17,7 @@ const List = ({ list, deleteItem }) => {
               <th className={styles.textLeft}>Task</th>
               <th className={styles.textLeft}>Employee</th>
               <th className={styles.textLeft}>Project</th>
-              <th className={styles.textLeft}>
-                <button>New TimeSheet</button>
-              </th>
+              <th className={styles.textLeft}></th>
             </tr>
           </thead>
           <tbody className="table-hover">
