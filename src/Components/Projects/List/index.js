@@ -1,6 +1,6 @@
 import ListItem from '../ListItems';
 
-const ProjectTable = ({ list }) => {
+const ProjectTable = ({ list, deleteItem }) => {
   return (
     <div>
       <button>Add project</button>
@@ -18,7 +18,7 @@ const ProjectTable = ({ list }) => {
         </thead>
         <tbody>
           {list.map((item) => (
-            <ListItem key={item.id} listItem={item} />
+            <ListItem key={item.id} listItem={item} deleteItem={deleteItem} />
           ))}
         </tbody>
       </table>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-const ListItem = ({ listItem }) => {
+const ListItem = ({ listItem, deleteItem }) => {
   const [employeeName, setEmployeeName] = useState([]);
   useEffect(async () => {
     try {
@@ -14,6 +14,10 @@ const ListItem = ({ listItem }) => {
     }
   }, []);
 
+  const handleDelete = (id) => {
+    deleteItem(id);
+  };
+
   return (
     <tr>
       <td>{listItem.name} </td>
@@ -25,10 +29,10 @@ const ListItem = ({ listItem }) => {
         {employeeName.name} {employeeName.lastName}
       </td>
       <td>
-        <a>delete</a>
+        <button onClick={() => handleDelete(listItem._id)}>delete</button>
       </td>
       <td>
-        <a>edit</a>
+        <button>edit</button>
       </td>
     </tr>
   );

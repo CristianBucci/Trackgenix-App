@@ -14,10 +14,16 @@ function Projects() {
       console.error(error);
     }
   }, []);
+  console.log(projects);
+
+  const deleteItem = async (id) => {
+    await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, { method: 'DELETE' });
+    setProjects([...projects.filter((item) => item._id !== id)]);
+  };
 
   return (
     <section className={styles.container}>
-      <ProjectTable list={projects} />
+      <ProjectTable list={projects} deleteItem={deleteItem} />
     </section>
   );
 }
