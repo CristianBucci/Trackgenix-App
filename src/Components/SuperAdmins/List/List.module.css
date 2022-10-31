@@ -1,0 +1,26 @@
+th {
+    text-align: start;
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.data {
+    width: 35%;
+}
+
+.actionButtons {
+    width: 10%;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+}

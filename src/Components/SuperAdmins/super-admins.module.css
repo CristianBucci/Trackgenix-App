@@ -1,31 +1,10 @@
 .container {
-  flex: 1;
+  display: flex;
   flex-direction: column;
-  margin: auto;
   width: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: auto;
 }
 
-.table {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.titles {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-}
-
-.data {
-  width: 35%;
+.container > h2 {
+  align-self: center;
 }
