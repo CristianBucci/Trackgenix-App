@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItem from '../ListItem/ListItem';
+import ListItem from './ListItem/ListItem';
 import styles from './List.module.css';
 
 const List = ({ superAdminsList, deleteSuperAdmin }) => {

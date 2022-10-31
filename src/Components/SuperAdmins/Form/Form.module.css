@@ -1,0 +1,47 @@
+.background {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: #00000090;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 80%;
+    background-color: white;
+    color: black;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    height: 10%;
+    background-color: #EA3354;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header button {
+    margin-right: 10px;
+}
+
+.header h2 {
+    margin-left: 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    margin: auto;
+    justify-content: space-between;
+}

@@ -17,6 +17,8 @@ th {
 }
 
 .actionButtons {
+    display: flex;
+    justify-content: center;
     width: 10%;
 }
 
