@@ -4,7 +4,25 @@ th {
 
 .table {
     display: flex;
+    width: 75%;
+    margin: auto;
     flex-direction: column;
+}
+
+tr {
+    padding-top: 5px;
+}
+
+thead {
+    border-bottom: #000 solid 1px;
+}
+
+tbody > tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody > tr:hover {
+    background-color: #EA335450;
 }
 
 .row {

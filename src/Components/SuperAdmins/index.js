@@ -3,6 +3,7 @@ import List from './List/List';
 import styles from './super-admins.module.css';
 
 const SuperAdminsList = () => {
+  const formURL = './super-admins/form';
   const [superAdminsList, setSuperAdminsList] = useState([]);
   const getList = async () => {
     try {
@@ -23,7 +24,7 @@ const SuperAdminsList = () => {
   }, []);
 
   const onClick = () => {
-    window.location.assign('./super-admins/form');
+    window.location.assign(formURL);
   };
 
   const deleteSuperAdmin = async (id) => {
@@ -39,9 +40,11 @@ const SuperAdminsList = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.title}>
-        <h2>SuperAdmins</h2>
-        <button onClick={onClick}>Create new</button>
+      <div className={styles.header}>
+        <div className={styles.title}>
+          <h2>SuperAdmins</h2>
+          <button onClick={onClick}>Create new</button>
+        </div>
       </div>
       <List
         superAdminsList={superAdminsList}

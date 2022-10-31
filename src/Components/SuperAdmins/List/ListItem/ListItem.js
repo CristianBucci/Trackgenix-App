@@ -2,12 +2,13 @@ import React from 'react';
 import styles from './ListItem.module.css';
 
 const ListItem = ({ listItem, deleteSuperAdmin }) => {
+  const formURL = `/super-admins/form?id=${listItem._id}`;
   const deleteHandler = () => {
     deleteSuperAdmin(listItem._id);
   };
 
   const onClick = () => {
-    window.location.assign(`/super-admins/form?id=${listItem._id}`);
+    window.location.assign(formURL);
   };
 
   return (

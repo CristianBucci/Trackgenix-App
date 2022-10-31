@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './Form.module.css';
 
 const Form = () => {
-  const [setSuperAdminsList] = useState([]);
+  const listURL = 'http://localhost:3000/super-admins';
   const [superAdminInput, setSuperAdminInput] = useState({
     name: '',
     lastName: '',
@@ -10,16 +10,7 @@ const Form = () => {
     password: ''
   });
 
-  const getList = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`);
-      response = await response.json();
-      setSuperAdminsList(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getSuperAdmin = async () => {
+  const currentSuperAdminInput = async () => {
     try {
       const url = window.location.href;
       const id = url.substring(url.lastIndexOf('=') + 1);
@@ -39,9 +30,7 @@ const Form = () => {
 
   useEffect(async () => {
     if (window.location.href.includes('id=')) {
-      getSuperAdmin();
-    } else {
-      return null;
+      currentSuperAdminInput();
     }
   }, []);
 
@@ -58,7 +47,7 @@ const Form = () => {
   };
 
   const onClick = () => {
-    window.location.assign('http://localhost:3000/super-admins');
+    window.location.assign(listURL);
   };
 
   const addSuperAdmin = async (input) => {
@@ -70,9 +59,14 @@ const Form = () => {
         },
         body: JSON.stringify(input)
       });
-      response = await response.json();
-      getList();
-      alert(response.message);
+      if (response.status === 201) {
+        response = await response.json();
+        alert(response.message);
+        window.location.assign(listURL);
+      } else {
+        response = await response.json();
+        alert(response.message);
+      }
     } catch (error) {
       alert(error);
     }
@@ -89,9 +83,15 @@ const Form = () => {
         },
         body: JSON.stringify(input)
       });
-      response = await response.json();
-      getList();
-      alert(response.message);
+      console.log(response);
+      if (response.status === 200) {
+        response = await response.json();
+        alert(response.message);
+        window.location.assign(listURL);
+      } else {
+        response = await response.json();
+        alert(response.message);
+      }
     } catch (error) {
       alert(error);
     }
@@ -100,48 +100,42 @@ const Form = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     await handler();
-    window.location.assign('http://localhost:3000/super-admins');
   };
 
   return (
-    <div className={styles.background}>
-      <div className={styles.container}>
-        <div className={styles.header}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div>
           <h2>Super Admins</h2>
           <button onClick={onClick}>x</button>
         </div>
-        <form onSubmit={onSubmit} className={styles.form}>
-          <div>
-            <label>First Name</label>
-            <input type="text" name="name" value={superAdminInput.name} onChange={onChange} />
-          </div>
-          <div>
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={superAdminInput.lastName}
-              onChange={onChange}
-            />
-          </div>
-          <div>
-            <label>Email</label>
-            <input type="text" name="email" value={superAdminInput.email} onChange={onChange} />
-          </div>
-          <div>
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={superAdminInput.password}
-              onChange={onChange}
-            />
-          </div>
-          <div>
-            <input type="submit" value="Confirm" />
-          </div>
-        </form>
       </div>
+      <form onSubmit={onSubmit} className={styles.form}>
+        <div className={styles.input}>
+          <label>First Name</label>
+          <input type="text" name="name" value={superAdminInput.name} onChange={onChange} />
+        </div>
+        <div className={styles.input}>
+          <label>Last Name</label>
+          <input type="text" name="lastName" value={superAdminInput.lastName} onChange={onChange} />
+        </div>
+        <div className={styles.input}>
+          <label>Email</label>
+          <input type="text" name="email" value={superAdminInput.email} onChange={onChange} />
+        </div>
+        <div className={styles.input}>
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={superAdminInput.password}
+            onChange={onChange}
+          />
+        </div>
+        <div className={styles.submit}>
+          <input type="submit" value="Confirm" />
+        </div>
+      </form>
     </div>
   );
 };

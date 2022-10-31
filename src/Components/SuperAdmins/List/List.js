@@ -4,7 +4,7 @@ import styles from './List.module.css';
 
 const List = ({ superAdminsList, deleteSuperAdmin }) => {
   return (
-    <div className={styles.as}>
+    <div>
       <table className={styles.table}>
         <thead>
           <tr className={styles.row}>
