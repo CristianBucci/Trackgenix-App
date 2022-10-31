@@ -1,5 +1,6 @@
 .container {
-  position: absolute;
+  position: fixed;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,17 +38,14 @@
     justify-content: space-evenly;
 }
 
-.buttonConfirm {
-    width: 75.98px;
-    height: 31.26px;
-    background: #AACE9B;
-    border-radius: 5px;
-    border: 0px;
-    color: #000000;
+.cardButton button {
+  margin: 10px;
 }
 
-.buttonCancel {
-    width: 75.98px;
-    height: 31.26px;
-    color: #000000;
+button.cancel{
+  background: #ff6666;
+}
+
+button.confirm{
+  background: #71da71;
 }

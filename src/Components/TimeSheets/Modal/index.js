@@ -15,13 +15,13 @@ function Modal(props) {
         <h3 className={styles.modalTitle}>{props.title}</h3>
         <div className={styles.buttonsDiv}>
           <div>
-            <button onClick={props.closeModal} className={styles.buttonCancel}>
+            <button onClick={props.closeModal} className={styles.cancel}>
               Cancel
             </button>
           </div>
           <div>
             <button
-              className={styles.buttonConfirm}
+              className={styles.confirm}
               onClick={() => {
                 onCloseModal();
               }}
