@@ -5,12 +5,12 @@ import styles from './form.module.css';
 
 function Form() {
   const [timeSheetInput, setTimeSheetInput] = useState({
-    description: 'Create Test',
-    date: '2022-06-24T03:00:00.000Z',
-    hours: 3,
-    task: '635fec26bd648fd82aab6946',
-    employee: '635feed4d4914c0ceb5a98c4',
-    project: '63600509d4914c0ceb5a99f8'
+    description: '',
+    date: '',
+    hours: '',
+    task: '',
+    employee: '',
+    project: ''
   });
   const [showModal, setShowModal] = useState(false);
   const [serverError, setServerError] = useState('');
@@ -34,7 +34,7 @@ function Form() {
         setFormText('Update TimeSheet');
         setTimeSheetInput({
           description: json.data.description,
-          date: json.data.date,
+          date: fixDate(json.data.date),
           hours: json.data.hours,
           task: json.data.task['_id'],
           employee: json.data.employee['_id'],
@@ -48,6 +48,10 @@ function Form() {
     }
   }, []);
 
+  const fixDate = (date) => {
+    let dateFormated = date.substr(0, 10);
+    return dateFormated;
+  };
   const closeModal = () => {
     setShowModal(false);
   };
