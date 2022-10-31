@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from './Form Modal/index';
 import FormText from './Form Title';
+import styles from './form.module.css';
 
 function Form() {
   const [timeSheetInput, setTimeSheetInput] = useState({
@@ -109,11 +110,11 @@ function Form() {
     <div>
       <Modal show={showModal} title={serverError} closeModal={closeModal} />
       <form onSubmit={onSubmit}>
-        <div>
-          <FormText title={formText} />
-        </div>
-        <div>
-          <div>
+        <div className={styles.card}>
+          <div className={styles.cardTitle}>
+            <FormText title={formText} />
+          </div>
+          <div className={styles.cardField}>
             <label>Description</label>
             <input
               type="text"
@@ -123,17 +124,17 @@ function Form() {
               onChange={onChange}
             />
           </div>
-          <div>
+          <div className={styles.cardField}>
             <label>Date</label>
             <input
-              type="text"
+              type="date"
               name="date"
               required
               value={timeSheetInput.date}
               onChange={onChange}
             />
           </div>
-          <div>
+          <div className={styles.cardField}>
             <label>Hours</label>
             <input
               type="number"
@@ -143,7 +144,7 @@ function Form() {
               onChange={onChange}
             />
           </div>
-          <div>
+          <div className={styles.cardField}>
             <label>Task</label>
             <input
               type="text"
@@ -153,7 +154,7 @@ function Form() {
               onChange={onChange}
             />
           </div>
-          <div>
+          <div className={styles.cardField}>
             <label>Employee</label>
             <input
               type="text"
@@ -163,7 +164,7 @@ function Form() {
               onChange={onChange}
             />
           </div>
-          <div>
+          <div className={styles.cardField}>
             <label>Project</label>
             <input
               type="text"
@@ -173,13 +174,20 @@ function Form() {
               onChange={onChange}
             />
           </div>
-        </div>
-        <div>
-          <div>
-            <button onClick={() => window.location.assign('/time-sheets')}>Cancel</button>
-          </div>
-          <div>
-            <button type="submit">Confirm</button>
+          <div className={styles.cardButton}>
+            <div>
+              <button
+                className={styles.cancel}
+                onClick={() => window.location.assign('/time-sheets')}
+              >
+                Cancel
+              </button>
+            </div>
+            <div>
+              <button className={styles.confirm} type="submit">
+                Confirm
+              </button>
+            </div>
           </div>
         </div>
       </form>

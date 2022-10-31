@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import TimeSheet from './TimeSheet/index';
 import Modal from './Modal/index';
 import styles from './time-sheets.module.css';
 
@@ -63,7 +62,7 @@ function TimeSheets() {
               </th>
             </tr>
           </thead>
-          <tbody className="table-hover">
+          <tbody>
             {timeSheet.map((timeSheet) => {
               return (
                 <tr key={timeSheet._id}>
