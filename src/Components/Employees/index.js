@@ -1,26 +1,30 @@
 import { useEffect, useState } from 'react';
-import styles from './employees.module.css';
+import List from './List';
+// import styles from './employees.module.css';
 
 function Employees() {
-  const [employees, saveEmployees] = useState([]);
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/users`)
-      .then((response) => response.json())
-      .then((response) => {
-        saveEmployees(response);
+      .then((res) => res.json())
+      .then((json) => {
+        console.log('data', json);
+        setEmployees(json);
       });
   }, []);
 
+  const deleteEmployee = async (id) => {
+    await fetch(`${process.env.REACT_APP_API_URL}employees/${id}`, {
+      method: 'DELETE'
+    });
+    location.reload();
+  };
+
   return (
-    <section className={styles.container}>
-      <h2>Employees</h2>
-      <div>
-        {employees.map((employee) => {
-          return <div key={employee.id}>{employee.name}</div>;
-        })}
-      </div>
-    </section>
+    <>
+      <List list={employees} setEmployees={setEmployees} deleteEmployee={deleteEmployee} />
+    </>
   );
 }
 
