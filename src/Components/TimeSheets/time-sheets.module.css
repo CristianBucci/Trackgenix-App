@@ -1,39 +1,44 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 30px;
+}
 
-div.tableTitle {
-display: flex;
-   margin-left: 5%;
-   padding:5px;
- }
+.tableTitle {
+  padding: 5px;
+}
 
- .tableTitle h3 {
-    color: #fafafa;
-    font-size: 30px;
-    font-weight: 400;
-    font-style:normal;
-    font-family: "Roboto", helvetica, arial, sans-serif;
-    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-    text-transform:uppercase;
- }
+.tableTitle h3 {
+  color: #fafafa;
+  font-size: 30px;
+  font-weight: 400;
+  font-style: normal;
+  font-family: 'Roboto', helvetica, arial, sans-serif;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+}
 
 table {
   background: white;
   border-radius: 3px;
   border-collapse: collapse;
   height: 320px;
-  margin-left: 5%;
   padding: 5px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   animation: float 5s infinite;
 }
 
 th {
-  color: #d5dde5;
-  background: #1b1e24;
-  border-bottom: 4px solid #9ea7af;
-  border-right: 1px solid #343a45;
-  font-size: 23px;
-  font-weight: 100;
+  color: #000;
+  background: #ea3354;
+  border-bottom: 1px solid #000;
+  border-right: 1px solid #000;
+  font-size: 1rem;
+  font-weight: 600;
   padding: 24px;
   text-align: left;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -58,12 +63,6 @@ tr {
   text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
 }
 
-tr:hover td {
-  background: #4e5066;
-  color: #ffffff;
-  border-top: 1px solid #22262e;
-}
-
 tr:first-child {
   border-top: none;
 }
@@ -74,10 +73,6 @@ tr:last-child {
 
 tr:nth-child(odd) td {
   background: #ebebeb;
-}
-
-tr:nth-child(odd):hover td {
-  background: #4e5066;
 }
 
 tr:last-child td:first-child {
@@ -125,4 +120,35 @@ td.text-center {
 
 td.text-right {
   text-align: right;
+}
+
+button{
+  display: block;
+  width: 150px;
+  height: 30px;
+  font-size: 1rem;
+  font-weight: 400;
+  border: 1px solid #000;
+  border-radius: 3px;
+  text-align: center;
+}
+
+button.add{
+  height: 50px;
+  background: #71da71;
+}
+
+button.update{
+  background: #66c2ff;
+  margin-bottom:5px;
+
+}
+
+button.delete{
+  background: #ff6666;
+}
+
+button:hover{
+  border: 2px solid #000;
+  font-weight: 600;
 }

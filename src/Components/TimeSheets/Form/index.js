@@ -78,7 +78,7 @@ function Form() {
       }
     } else {
       event.preventDefault();
-      const fullUrl = window.location.href; //fullUrl.slice(36)
+      const fullUrl = window.location.href;
       const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
       const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
         method: 'PUT',
