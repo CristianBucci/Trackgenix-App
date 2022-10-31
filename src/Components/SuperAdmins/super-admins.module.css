@@ -5,6 +5,12 @@
   margin: auto;
 }
 
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .container > h2 {
   align-self: center;
 }

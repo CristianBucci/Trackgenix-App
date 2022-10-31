@@ -6,6 +6,10 @@ const ListItem = ({ listItem, deleteSuperAdmin }) => {
     deleteSuperAdmin(listItem._id);
   };
 
+  const onClick = () => {
+    window.location.assign(`/super-admins/form?id=${listItem._id}`);
+  };
+
   return (
     <tr className={styles.row}>
       <td className={styles.data}>
@@ -13,7 +17,7 @@ const ListItem = ({ listItem, deleteSuperAdmin }) => {
       </td>
       <td className={styles.data}>{listItem.email}</td>
       <td className={styles.actionButtons}>
-        <button>o</button>
+        <button onClick={onClick}>o</button>
         <button onClick={() => deleteHandler()}>x</button>
       </td>
     </tr>

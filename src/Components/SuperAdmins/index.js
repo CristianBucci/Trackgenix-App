@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import List from './List/List';
-import AddSuperAdmin from './AddSuperAdmin/AddSuperAdmin';
-import Form from './Form/Form';
 import styles from './super-admins.module.css';
 
-const SuperAdmins = () => {
+const SuperAdminsList = () => {
   const [superAdminsList, setSuperAdminsList] = useState([]);
   const getList = async () => {
     try {
@@ -24,6 +22,10 @@ const SuperAdmins = () => {
     }
   }, []);
 
+  const onClick = () => {
+    window.location.assign('./super-admins/form');
+  };
+
   const deleteSuperAdmin = async (id) => {
     try {
       await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
@@ -35,32 +37,12 @@ const SuperAdmins = () => {
     }
   };
 
-  const addSuperAdmin = async (input) => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(input)
-      });
-      response = await response.json();
-      alert(response.message);
-      getList();
-    } catch (error) {
-      alert(error);
-    }
-  };
-
   return (
     <div className={styles.container}>
-      <h2>SuperAdmins</h2>
-      <Form />
-      <AddSuperAdmin
-        superAdminsList={superAdminsList}
-        setSuperAdminsList={setSuperAdminsList}
-        addSuperAdmin={addSuperAdmin}
-      />
+      <div className={styles.title}>
+        <h2>SuperAdmins</h2>
+        <button onClick={onClick}>Create new</button>
+      </div>
       <List
         superAdminsList={superAdminsList}
         setSuperAdminsList={setSuperAdminsList}
@@ -70,4 +52,4 @@ const SuperAdmins = () => {
   );
 };
 
-export default SuperAdmins;
+export default SuperAdminsList;
