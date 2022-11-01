@@ -92,13 +92,7 @@ const TimeSheets = () => {
                       : timeSheet.employee['lastName'] + timeSheet.employee['name']}
                   </td>
                   <td className={styles.textLeft}>
-<<<<<<< HEAD
                     {timeSheet.project === null ? 'Not found in DB' : timeSheet.project['name']}
-=======
-                    {timeSheet.project === null
-                      ? 'Not found in DB'
-                      : timeSheet.project['description']}
->>>>>>> 9b259bbd54e6becd4dbce6180a16bca42b1e530c
                   </td>
                   <td className={styles.buttons}>
                     <button
