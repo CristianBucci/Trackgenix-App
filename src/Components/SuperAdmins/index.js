@@ -17,8 +17,8 @@ const SuperAdminsList = () => {
     }
   };
 
-  useEffect(async () => {
-    await getList();
+  useEffect(() => {
+    getList();
   }, []);
 
   const deleteSuperAdmin = async (id) => {
