@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 const ListItem = ({ listItem, deleteItem }) => {
   const [employeeName, setEmployeeName] = useState([]);
   useEffect(async () => {
@@ -9,6 +10,7 @@ const ListItem = ({ listItem, deleteItem }) => {
       );
       const data = await response.json();
       setEmployeeName(data.data);
+      console.log(employee);
     } catch (error) {
       console.error(error);
     }
