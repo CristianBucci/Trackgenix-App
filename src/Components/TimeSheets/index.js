@@ -70,15 +70,17 @@ function TimeSheets() {
                   <td className={styles.textLeft}>{timeSheet.date}</td>
                   <td className={styles.textLeft}>{timeSheet.hours}</td>
                   <td className={styles.textLeft}>
-                    {timeSheet.task === null ? 'Error' : timeSheet.task['description']}
+                    {timeSheet.task === null ? 'Not found in DB' : timeSheet.task['description']}
                   </td>
                   <td className={styles.textLeft}>
                     {timeSheet.employee === null
-                      ? 'Error'
+                      ? 'Not found in DB'
                       : timeSheet.employee['lastName'] + timeSheet.employee['name']}
                   </td>
                   <td className={styles.textLeft}>
-                    {timeSheet.project === null ? 'Error' : timeSheet.project['description']}
+                    {timeSheet.project === null
+                      ? 'Not found in DB'
+                      : timeSheet.project['description']}
                   </td>
                   <td className={styles.buttons}>
                     <button

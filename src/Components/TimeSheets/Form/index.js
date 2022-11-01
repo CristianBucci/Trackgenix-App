@@ -36,9 +36,9 @@ function Form() {
           description: json.data.description,
           date: fixDate(json.data.date),
           hours: json.data.hours,
-          task: json.data.task['_id'],
-          employee: json.data.employee['_id'],
-          project: json.data.project['_id']
+          task: json.data.task === null ? 'Not found in DB' : json.data.task['_id'],
+          employee: json.data.employee === null ? 'Not found in DB' : json.data.employee['_id'],
+          project: json.data.project === null ? 'Not found in DB' : json.data.project['_id']
         });
       } catch (error) {
         console.error(error);
