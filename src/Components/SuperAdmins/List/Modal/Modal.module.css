@@ -56,10 +56,11 @@
 .yBtn {
     background-color: #EA3354;
 }
- .yBtn:hover {
+
+.yBtn:hover {
     background-color: #a1233a;
  }
 
- .nBtn:hover {
+.nBtn:hover {
     background-color: #00000050;
  }

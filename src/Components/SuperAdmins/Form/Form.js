@@ -9,7 +9,7 @@ const Form = () => {
     email: '',
     password: ''
   });
-  const [err, setError] = useState('');
+  const [err, setErr] = useState('');
 
   const currentSuperAdminInput = async () => {
     try {
@@ -25,7 +25,7 @@ const Form = () => {
         password: response.data.password
       });
     } catch (error) {
-      setError(error);
+      setErr(error);
       alert(err);
     }
   };
@@ -36,7 +36,7 @@ const Form = () => {
     }
   }, []);
 
-  const handler = () => {
+  const addOrEditHandler = () => {
     if (window.location.href.includes('id=')) {
       editSuperAdmin(superAdminInput);
     } else {
@@ -70,7 +70,7 @@ const Form = () => {
         alert(response.message);
       }
     } catch (error) {
-      setError(error);
+      setErr(error);
       alert(err);
     }
   };
@@ -95,14 +95,14 @@ const Form = () => {
         alert(response.message);
       }
     } catch (error) {
-      setError(error);
+      setErr(error);
       alert(err);
     }
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await handler();
+    await addOrEditHandler();
   };
 
   return (
