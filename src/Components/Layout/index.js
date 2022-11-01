@@ -25,10 +25,10 @@ function Layout() {
     case '/projects':
       currentScreen = <Projects />;
       break;
-    case '/time-sheets':
+    case '/timesheets':
       currentScreen = <TimeSheets />;
       break;
-    case '/time-sheets/form':
+    case '/timesheets/form':
       currentScreen = <TimeSheetsForm />;
       break;
     case '/tasks':

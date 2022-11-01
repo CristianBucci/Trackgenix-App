@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import Modal from './Modal/index';
-import styles from './time-sheets.module.css';
+import styles from './timeSheets.module.css';
 
-function TimeSheets() {
-  const [timeSheet, saveList] = useState([]);
+const TimeSheets = () => {
+  const [timeSheets, setTimesheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState(undefined);
 
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}timesheets/`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/`);
       const json = await response.json();
-      saveList(json.data);
+      setTimesheet(json.data);
     } catch (error) {
-      console.error(error);
+      alert('Could not GET TimeSheets.', error);
     }
   }, []);
 
@@ -21,11 +21,25 @@ function TimeSheets() {
     setShowModal(false);
   };
 
+  const fixDate = (date) => {
+    let dateFormated = date.substr(0, 10);
+    return dateFormated;
+  };
+
   const deleteTimeSheet = async (id) => {
-    saveList([...timeSheet.filter((timeSheet) => timeSheet._id !== id)]);
-    await fetch(`${process.env.REACT_APP_API_URL}timesheets/${id}`, {
-      method: 'DELETE'
-    });
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
+        method: 'DELETE'
+      });
+      if (response.status === 204) {
+        alert('TimeSheet removed.');
+        setTimesheet([...timeSheets.filter((timeSheet) => timeSheet._id !== id)]);
+      } else {
+        alert('TimeSheet could not be removed.');
+      }
+    } catch (error) {
+      alert('TimeSheet could not be removed.', error);
+    }
   };
 
   return (
@@ -43,7 +57,7 @@ function TimeSheets() {
           <button
             className={styles.add}
             onClick={() => {
-              window.location.assign('/time-sheets/form');
+              window.location.assign('/timesheets/form');
             }}
           >
             <img src="/assets/images/add.svg" alt="add TimeSheet" />
@@ -63,28 +77,28 @@ function TimeSheets() {
             </tr>
           </thead>
           <tbody>
-            {timeSheet.map((timeSheet) => {
+            {timeSheets.map((timeSheet) => {
               return (
                 <tr key={timeSheet._id}>
                   <td className={styles.textLeft}>{timeSheet.description}</td>
-                  <td className={styles.textLeft}>{timeSheet.date}</td>
+                  <td className={styles.textLeft}>{fixDate(timeSheet.date)}</td>
                   <td className={styles.textLeft}>{timeSheet.hours}</td>
                   <td className={styles.textLeft}>
-                    {timeSheet.task === null ? 'Error' : timeSheet.task['description']}
+                    {timeSheet.task === null ? 'Not found in DB' : timeSheet.task['description']}
                   </td>
                   <td className={styles.textLeft}>
                     {timeSheet.employee === null
-                      ? 'Error'
+                      ? 'Not found in DB'
                       : timeSheet.employee['lastName'] + timeSheet.employee['name']}
                   </td>
                   <td className={styles.textLeft}>
-                    {timeSheet.project === null ? 'Error' : timeSheet.project['description']}
+                    {timeSheet.project === null ? 'Not found in DB' : timeSheet.project['name']}
                   </td>
                   <td className={styles.buttons}>
                     <button
                       className={styles.update}
                       onClick={() => {
-                        window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
+                        window.location.assign(`/timesheets/form?id=${timeSheet._id}`);
                       }}
                     >
                       <img src="/assets/images/edit.svg" alt="update" />
@@ -107,6 +121,6 @@ function TimeSheets() {
       </div>
     </section>
   );
-}
+};
 
 export default TimeSheets;

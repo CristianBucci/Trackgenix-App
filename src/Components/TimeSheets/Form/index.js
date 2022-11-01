@@ -3,7 +3,7 @@ import Modal from './Form Modal/index';
 import FormText from './Form Title';
 import styles from './form.module.css';
 
-function Form() {
+const Form = () => {
   const [timeSheetInput, setTimeSheetInput] = useState({
     description: '',
     date: '',
@@ -36,12 +36,12 @@ function Form() {
           description: json.data.description,
           date: fixDate(json.data.date),
           hours: json.data.hours,
-          task: json.data.task['_id'],
-          employee: json.data.employee['_id'],
-          project: json.data.project['_id']
+          task: json.data.task === null ? 'Not found in DB' : json.data.task['_id'],
+          employee: json.data.employee === null ? 'Not found in DB' : json.data.employee['_id'],
+          project: json.data.project === null ? 'Not found in DB' : json.data.project['_id']
         });
       } catch (error) {
-        console.error(error);
+        alert('Could not GET TimeSheets.', error);
       }
     } else {
       return null;
@@ -52,6 +52,7 @@ function Form() {
     let dateFormated = date.substr(0, 10);
     return dateFormated;
   };
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -59,53 +60,63 @@ function Form() {
   const onSubmit = async (event) => {
     if (formMode) {
       event.preventDefault();
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/timesheets`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: timeSheetInput.description,
-          date: timeSheetInput.date,
-          hours: timeSheetInput.hours,
-          task: timeSheetInput.task,
-          employee: timeSheetInput.employee,
-          project: timeSheetInput.project
-        })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
-        window.location.assign('/time-sheets');
-      } else {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            description: timeSheetInput.description,
+            date: timeSheetInput.date,
+            hours: timeSheetInput.hours,
+            task: timeSheetInput.task,
+            employee: timeSheetInput.employee,
+            project: timeSheetInput.project
+          })
+        });
+        if (response.status === 201) {
+          alert('TimeSheet Added.');
+          window.location.assign('/timesheets');
+        } else {
+          setShowModal(true);
+          setServerError('TimeSheet could not be Added.');
+        }
+      } catch (error) {
         setShowModal(true);
-        setServerError(content.message);
+        setServerError('TimeSheet could not be Updated.');
       }
     } else {
       event.preventDefault();
-      const fullUrl = window.location.href;
-      const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
-      const rawResponse = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: timeSheetInput.description,
-          date: timeSheetInput.date,
-          hours: timeSheetInput.hours,
-          task: timeSheetInput.task,
-          employee: timeSheetInput.employee,
-          project: timeSheetInput.project
-        })
-      });
-      const content = await rawResponse.json();
-      if (!content.error) {
-        window.location.assign('/time-sheets');
-      } else {
+      try {
+        const fullUrl = window.location.href;
+        const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            description: timeSheetInput.description,
+            date: timeSheetInput.date,
+            hours: timeSheetInput.hours,
+            task: timeSheetInput.task,
+            employee: timeSheetInput.employee,
+            project: timeSheetInput.project
+          })
+        });
+        if (response.status === 200) {
+          alert('TimeSheet Updated.');
+          window.location.assign('/timesheets');
+        } else {
+          setShowModal(true);
+          setServerError('TimeSheet could not be Updated.');
+        }
+      } catch (error) {
         setShowModal(true);
-        setServerError(content.message);
+        setServerError('TimeSheet could not be Updated.');
       }
     }
   };
@@ -182,7 +193,7 @@ function Form() {
             <div>
               <button
                 className={styles.cancel}
-                onClick={() => window.location.assign('/time-sheets')}
+                onClick={() => window.location.assign('/timesheets')}
               >
                 Cancel
               </button>
@@ -197,6 +208,6 @@ function Form() {
       </form>
     </div>
   );
-}
+};
 
 export default Form;
