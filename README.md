@@ -33,7 +33,16 @@ You will also see any lint errors in the console.
 (example)
 |Photo | Name  | Mail | Github
 | :-----: | :-----: | :-----: | :-----: |
-<img src="https://avatars.githubusercontent.com/u/20587232?v=4" height="50" width="50">| Esteban Frare | esteban.frare@radiumrocket.com | [@estefrare](https://github.com/estefrare)
+<img src="https://avatars.githubusercontent.com/u/72083744?v=4" height="50" width="50">| Ignacio Aristo | ignacio.aristo@radiumrocket.com | [@ignacioaristo](https://github.com/ignacioaristo)
+<img src="https://avatars.githubusercontent.com/u/90566262?v=4" height="50" width="50">| Nicolas Blasco | nicolas.blasco@radiumrocket.com | [@nicolasblasco](https://github.com/nicolasblasco)
+<img src="https://avatars.githubusercontent.com/u/111019134?v=4" height="50" width="50">| Adrián Da Silva | ansitoxkfe@gmail.com | [@Ansitox](https://github.com/Ansitox)
+<img src="https://avatars.githubusercontent.com/u/76186035?v=4" height="50" width="50">| Cristian Bucci | cristianivanbucci@gmail.com | [@CristianBucci](https://github.com/CristianBucci)
+<img src="https://avatars.githubusercontent.com/u/91098568?v=4" height="50" width="50">| Mateo Scarabino | matescarabino@gmail.com | [@matescarabino](https://github.com/matescarabino)
+<img src="https://avatars.githubusercontent.com/u/68981016?v=4" height="50" width="50">| Melissa Bonilla | melibonilla3@gmail.com | [@melissabonillasellanes](https://github.com/melissabonillasellanes)
+<img src="https://avatars.githubusercontent.com/u/58220306?v=4" height="50" width="50">| Renzo Pimentel | renzopimentel@gmail.com | [@renzopimentel](https://github.com/renzopimentel)
+<img src="https://avatars.githubusercontent.com/u/108374329?v=4" height="50" width="50">| Maximiliano Gonzalez | maximilianogonzalezit@gmail.com | [@MaxiG-dev](https://github.com/MaxiG-dev)
+
+
 
 
 
