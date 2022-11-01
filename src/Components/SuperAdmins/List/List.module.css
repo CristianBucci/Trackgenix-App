@@ -4,9 +4,9 @@ th {
 
 .table {
     display: flex;
+    flex-direction: column;
     width: 75%;
     margin: auto;
-    flex-direction: column;
 }
 
 tr {
@@ -28,6 +28,8 @@ tbody > tr:hover {
 .row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
 }
 
 .data {
@@ -37,10 +39,24 @@ tbody > tr:hover {
 .actionButtons {
     display: flex;
     justify-content: center;
-    width: 10%;
+    width: 20%;
 }
 
 .body {
     display: flex;
     flex-direction: column;
 }
+
+.createBtn {
+    padding: 5px 15px;
+    background-color: #EA3354;
+    border: #000000 1px solid;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #000000;
+  }
+
+  .createBtn:hover {
+    background-color: #00000080;
+    color: #000000;
+  }

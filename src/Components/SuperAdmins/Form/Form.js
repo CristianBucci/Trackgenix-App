@@ -9,6 +9,7 @@ const Form = () => {
     email: '',
     password: ''
   });
+  const [err, setError] = useState('');
 
   const currentSuperAdminInput = async () => {
     try {
@@ -24,7 +25,8 @@ const Form = () => {
         password: response.data.password
       });
     } catch (error) {
-      console.error(error);
+      setError(error);
+      alert(err);
     }
   };
 
@@ -68,7 +70,8 @@ const Form = () => {
         alert(response.message);
       }
     } catch (error) {
-      alert(error);
+      setError(error);
+      alert(err);
     }
   };
 
@@ -83,7 +86,6 @@ const Form = () => {
         },
         body: JSON.stringify(input)
       });
-      console.log(response);
       if (response.status === 200) {
         response = await response.json();
         alert(response.message);
@@ -93,7 +95,8 @@ const Form = () => {
         alert(response.message);
       }
     } catch (error) {
-      alert(error);
+      setError(error);
+      alert(err);
     }
   };
 
@@ -107,7 +110,9 @@ const Form = () => {
       <div className={styles.header}>
         <div>
           <h2>Super Admins</h2>
-          <button onClick={onClick}>x</button>
+          <button className={styles.closeBtn} onClick={onClick}>
+            x
+          </button>
         </div>
       </div>
       <form onSubmit={onSubmit} className={styles.form}>
@@ -133,7 +138,7 @@ const Form = () => {
           />
         </div>
         <div className={styles.submit}>
-          <input type="submit" value="Confirm" />
+          <input type="submit" value="Confirm" className={styles.confirmBtn} />
         </div>
       </form>
     </div>

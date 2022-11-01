@@ -12,23 +12,11 @@
 
 .title {
   display: flex;
+  justify-content: center;
   width: 75%;
   margin: auto;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .container > h2 {
   align-self: center;
-}
-
-.title > button {
-  border: #ffffff 1px solid;
-  background-color: #ffffff50;
-  padding: 5px 15px;
-  border-radius: 5px;
-}
-
-.title > button:hover {
-  background-color: #00000080;
 }

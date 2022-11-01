@@ -18,8 +18,12 @@ const ListItem = ({ listItem, deleteSuperAdmin }) => {
       </td>
       <td className={styles.data}>{listItem.email}</td>
       <td className={styles.actionButtons}>
-        <button onClick={onClick}>o</button>
-        <button onClick={() => deleteHandler()}>x</button>
+        <button className={styles.editBtn} onClick={onClick}>
+          Edit
+        </button>
+        <button className={styles.deleteBtn} onClick={() => deleteHandler()}>
+          Delete
+        </button>
       </td>
     </tr>
   );
