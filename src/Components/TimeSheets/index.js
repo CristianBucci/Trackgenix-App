@@ -40,6 +40,15 @@ function TimeSheets() {
       <div className={styles.list}>
         <div className={styles.tableTitle}>
           <h2>TimeSheets</h2>
+          <button
+            className={styles.add}
+            onClick={() => {
+              window.location.assign('/time-sheets/form');
+            }}
+          >
+            <img src="/assets/images/add.svg" alt="add TimeSheet" />
+            <a>Add new timeSheet</a>
+          </button>
         </div>
         <table>
           <thead>
@@ -50,16 +59,7 @@ function TimeSheets() {
               <th className={styles.textLeft}>Task</th>
               <th className={styles.textLeft}>Employee</th>
               <th className={styles.textLeft}>Project</th>
-              <th className={styles.textLeft}>
-                <button
-                  className={styles.add}
-                  onClick={() => {
-                    window.location.assign('/time-sheets/form');
-                  }}
-                >
-                  <a>Add TimeSheet</a>
-                </button>
-              </th>
+              <th className={styles.button}></th>
             </tr>
           </thead>
           <tbody>
@@ -80,14 +80,14 @@ function TimeSheets() {
                   <td className={styles.textLeft}>
                     {timeSheet.project === null ? 'Error' : timeSheet.project['description']}
                   </td>
-                  <td className={styles.textLeft}>
+                  <td className={styles.buttons}>
                     <button
                       className={styles.update}
                       onClick={() => {
                         window.location.assign(`/time-sheets/form?id=${timeSheet._id}`);
                       }}
                     >
-                      Update
+                      <img src="/assets/images/edit.svg" alt="update" />
                     </button>
                     <button
                       className={styles.delete}
@@ -96,7 +96,7 @@ function TimeSheets() {
                         setTimeSheetId(timeSheet._id);
                       }}
                     >
-                      Delete
+                      <img src="/assets/images/trash.svg" alt="delete" />
                     </button>
                   </td>
                 </tr>

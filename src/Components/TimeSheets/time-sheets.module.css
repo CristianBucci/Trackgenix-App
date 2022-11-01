@@ -57,7 +57,7 @@ th:last-child {
 tr {
   border-top: 1px solid #c1c3d1;
   border-bottom: 1px solid #c1c3d1;
-  color: #666b85;
+  color: #000;
   font-size: 16px;
   font-weight: normal;
   text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
@@ -110,6 +110,12 @@ td.text-right {
   text-align: right;
 }
 
+td.buttons{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 button{
   display: block;
   width: 150px;
@@ -121,18 +127,33 @@ button{
 }
 
 button.add{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   height: 50px;
-  background: #71da71;
+  width: 200px;
+  font-weight: 600;
+  background: #ebebeb;
+  margin-bottom: 10px;
+  margin-left: -5px;
+}
+
+button.add a{
+  margin-top: 5px;
 }
 
 button.update{
-  background: #66c2ff;
-  margin-bottom:5px;
-
+  height: 35px;
+  width: 40px;
+  border: 0px;
+  background-color: inherit;
 }
 
 button.delete{
-  background: #ff6666;
+  height: 35px;
+  width: 40px;
+  border: 0px;
+  background-color: inherit;
 }
 
 button:hover{
