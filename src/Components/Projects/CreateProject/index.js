@@ -39,6 +39,8 @@ const AddProject = ({ onCreateProject }) => {
     }
   }, []);
   console.log(employeeData);
+  const employeesNames = employeeData.map((e) => [e.name, ' ', e.lastName, ' id:', e._id]);
+  console.log(employeesNames);
   const cleanInputs = () => {
     setProject(initialValue);
     setEmployees([]);
@@ -73,24 +75,29 @@ const AddProject = ({ onCreateProject }) => {
             />
           </div>
           <div>
-            <label>Employees</label>
+            <label> Add Employees</label>
             {employees.map((employee, index) => (
               <div key={index} id="employee-form">
-                <input
+                <label>Employee</label>
+                <select
                   type="text"
                   name="employeeId"
                   onChange={(e) =>
                     setEmployees([
-                      //modify one and getback all
                       ...employees.slice(0, index),
                       {
                         ...employee,
-                        employeeId: e.target.value
+                        employeeId: e.target.value.slice(-24)
                       },
                       ...employees.slice(index + 1)
                     ])
                   }
-                />
+                >
+                  {employeesNames.map((e, idx) => (
+                    <option key={idx}>{e}</option>
+                  ))}
+                </select>
+                <label>rate</label>
                 <input
                   type="text"
                   name="rate"
@@ -105,7 +112,7 @@ const AddProject = ({ onCreateProject }) => {
                     ])
                   }
                 />
-                <input
+                <select
                   type="text"
                   name="role"
                   onChange={(e) =>
@@ -118,7 +125,13 @@ const AddProject = ({ onCreateProject }) => {
                       ...employees.slice(index + 1)
                     ])
                   }
-                />
+                >
+                  <option></option>
+                  <option>DEV</option>
+                  <option>QA</option>
+                  <option>PM</option>
+                  <option>TL</option>
+                </select>
                 <button
                   type="button"
                   onClick={(e) => {
