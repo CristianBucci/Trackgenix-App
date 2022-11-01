@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './projects.module.css';
 import ProjectTable from './List';
-import CreateItem from './CreateProject';
 
 function Projects() {
   const [projects, setProjects] = useState([]);
@@ -14,6 +13,7 @@ function Projects() {
       console.error(error);
     }
   };
+
   useEffect(() => {
     getProjects();
   }, []);
@@ -26,9 +26,6 @@ function Projects() {
     <>
       <section className={styles.container}>
         <ProjectTable list={projects} deleteItem={deleteItem} />
-      </section>
-      <section className={styles.container2}>
-        <CreateItem onCreateProject={getProjects} />
       </section>
     </>
   );

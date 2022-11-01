@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from '../projects.module.css';
 
+const fullUrl = window.location.href;
+const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
 const initialValue = {
   clientName: '',
   description: '',
@@ -8,10 +10,70 @@ const initialValue = {
   name: '',
   startDate: ''
 };
-const AddProject = ({ onCreateProject }) => {
+const AddProject = () => {
   const [project, setProject] = useState(initialValue);
   const [employees, setEmployees] = useState([]);
   const [employeeData, setEmployeeName] = useState([]);
+  // const params = new URLSearchParams(window.location.search);
+  // const projectId = params.get('id');
+  // console.log(projectId);
+
+  const getProjects = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
+      const data = await response.json();
+      setProject(data.data);
+    } catch (error) {
+      alert('Could not GET Projects', error);
+    }
+  };
+
+  useEffect(async () => {
+    if (window.location.href.includes('id')) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`);
+        const data = await response.json();
+        // setEmployees(project.employees);
+        setProject({
+          clientName: data.data.clientName,
+          description: data.data.description,
+          startDate: data.data.startDate.substr(0, 10),
+          endDate: data.data.endDate.substr(0, 10),
+          employees: [
+            {
+              employeeId: data.data.employeeId,
+              rate: data.data.rate,
+              role: data.data.role
+            }
+          ],
+          name: data.data.name
+        });
+      } catch (error) {
+        alert('Could not GET Project.', error);
+      }
+    } else {
+      return null;
+    }
+  }, []);
+
+  const editProject = async ({ clientName, description, endDate, name, startDate }) => {
+    await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        clientName,
+        description,
+        employees: employees,
+        endDate,
+        name,
+        startDate
+      })
+    });
+    getProjects();
+  };
+
   const createProject = async ({ clientName, description, endDate, name, startDate }) => {
     await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
       method: 'POST',
@@ -27,7 +89,7 @@ const AddProject = ({ onCreateProject }) => {
         startDate
       })
     });
-    onCreateProject();
+    getProjects();
   };
   useEffect(async () => {
     try {
@@ -35,26 +97,30 @@ const AddProject = ({ onCreateProject }) => {
       const data = await response.json();
       setEmployeeName(data.data);
     } catch (error) {
-      console.error(error);
+      alert('Could not create Project', error);
     }
   }, []);
-  console.log(employeeData);
   const employeesNames = employeeData.map((e) => [e.name, ' ', e.lastName, ' id:', e._id]);
-  console.log(employeesNames);
   const cleanInputs = () => {
     setProject(initialValue);
     setEmployees([]);
   };
   const onSubmit = (e) => {
-    e.preventDefault();
-    createProject(project);
-    cleanInputs();
+    if (!window.location.href.includes('id')) {
+      e.preventDefault();
+      createProject(project);
+      cleanInputs();
+    } else {
+      e.preventDefault();
+      editProject(project);
+      cleanInputs();
+    }
   };
 
   return (
     <div className={styles.formContainer}>
       <div>
-        <h2>Add new Project</h2>
+        <h2>Project Form</h2>
         <form onSubmit={onSubmit}>
           <div>
             <label>Client Name</label>

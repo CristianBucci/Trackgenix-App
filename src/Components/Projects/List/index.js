@@ -1,9 +1,10 @@
 import ListItem from '../ListItems';
-
 const ProjectTable = ({ list, deleteItem }) => {
   return (
     <div>
-      <button>Add project</button>
+      <a href={'/projects/form'}>
+        <button>Add Project</button>
+      </a>
       <table>
         <thead>
           <tr>

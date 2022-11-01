@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react';
 
 const ListItem = ({ listItem, deleteItem }) => {
-  const [employeeName, setEmployeeName] = useState([]);
+  const [employeeData, setEmployeeData] = useState([]);
   useEffect(async () => {
     try {
-      const employee = listItem.employees.find((employee) => employee);
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/employees/${employee.employeeId}`
-      );
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
       const data = await response.json();
-      setEmployeeName(data.data);
-      console.log(employee);
+      setEmployeeData(data.data);
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [employeeData]);
 
   const handleDelete = (id) => {
     deleteItem(id);
   };
-
+  const projectsEmployee = listItem.employees.map((e) => e.employeeId);
   return (
     <tr>
       <td>{listItem.name} </td>
@@ -27,17 +23,20 @@ const ListItem = ({ listItem, deleteItem }) => {
       <td>{listItem.clientName} </td>
       <td>{listItem.startDate} </td>
       <td>{listItem.endDate} </td>
-      <td>
-        {employeeName.name} {employeeName.lastName}
-      </td>
+      <td>{projectsEmployee}</td>
       <td>
         <button onClick={() => handleDelete(listItem._id)}>delete</button>
       </td>
       <td>
-        <button>edit</button>
+        <a
+          onClick={() => {
+            window.location.assign(`/projects/form?id=${listItem._id}`);
+          }}
+        >
+          edit
+        </a>
       </td>
     </tr>
   );
 };
-
 export default ListItem;
