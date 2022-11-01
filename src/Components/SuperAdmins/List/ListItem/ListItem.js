@@ -1,14 +1,15 @@
 import React from 'react';
 import styles from './ListItem.module.css';
 
-const ListItem = ({ listItem, deleteSuperAdmin }) => {
+const ListItem = ({ listItem, setShowModal, setDelId }) => {
   const formURL = `/super-admins/form?id=${listItem._id}`;
-  const deleteHandler = () => {
-    deleteSuperAdmin(listItem._id);
-  };
 
   const onClick = () => {
     window.location.assign(formURL);
+  };
+  const openModal = () => {
+    setShowModal(true);
+    setDelId(listItem._id);
   };
 
   return (
@@ -21,7 +22,7 @@ const ListItem = ({ listItem, deleteSuperAdmin }) => {
         <button className={styles.editBtn} onClick={onClick}>
           Edit
         </button>
-        <button className={styles.deleteBtn} onClick={() => deleteHandler()}>
+        <button className={styles.deleteBtn} onClick={openModal}>
           Delete
         </button>
       </td>

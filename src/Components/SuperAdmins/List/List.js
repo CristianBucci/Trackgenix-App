@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ListItem from './ListItem/ListItem';
+import Modal from './Modal/Modal';
 import styles from './List.module.css';
 
 const List = ({ superAdminsList, deleteSuperAdmin }) => {
   const formURL = './super-admins/form';
+  const [showModal, setShowModal] = useState(false);
+  const [delId, setDelId] = useState('');
+  const closeModal = () => {
+    setShowModal(false);
+  };
+  const deleteHandler = async () => {
+    deleteSuperAdmin(delId);
+    setShowModal(false);
+    setDelId('');
+  };
   const onClick = () => {
     window.location.assign(formURL);
   };
 
   return (
     <div>
+      <Modal
+        show={showModal}
+        closeModal={closeModal}
+        deleteHandler={deleteHandler}
+        setDelId={setDelId}
+      />
       <table className={styles.table}>
         <thead>
           <tr className={styles.row}>
@@ -28,7 +45,8 @@ const List = ({ superAdminsList, deleteSuperAdmin }) => {
               <ListItem
                 key={superAdmin._id}
                 listItem={superAdmin}
-                deleteSuperAdmin={deleteSuperAdmin}
+                setShowModal={setShowModal}
+                setDelId={setDelId}
               />
             );
           })}
