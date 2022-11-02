@@ -9,10 +9,9 @@ const Employees = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
       const json = await response.json();
-      console.log('data', json.data);
       setEmployees(json.data);
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   }, []);
 

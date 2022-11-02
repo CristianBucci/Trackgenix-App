@@ -4,7 +4,7 @@ import styles from './modal.module.css';
 const Modal = ({ content, contentMessage, title, setModalDisplay }) => {
   return (
     <div id="id-screen" className={styles.screen}>
-      <div className={styles.modal} onBlur={() => console.log(1)}>
+      <div className={styles.modal}>
         <header className={styles.header}>
           <h3 className={styles.header__title}>{title}</h3>
           <button className={styles.header__button} onClick={() => setModalDisplay(false)}>
