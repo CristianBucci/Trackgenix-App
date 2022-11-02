@@ -39,7 +39,7 @@ function Form() {
         setPasswordValue(data.data.password);
         setPhoneValue(data.data.phone);
       } catch (error) {
-        console.error(error);
+        alert(error);
       }
     }, []);
   }

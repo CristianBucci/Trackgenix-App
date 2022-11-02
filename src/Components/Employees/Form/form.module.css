@@ -1,4 +1,9 @@
-
+  :root {
+    --main-color: #373867;
+    --width: 60%;
+    --cancel-color: #ff7c7c;
+    --header-table: #EBECF0;
+  }
 
 form h2 {
     width: 100%;
@@ -76,11 +81,4 @@ form h2 {
     background-color: #d44a4a;
     transition: 0.2s;
     color: white;
-  }
-
-  :root {
-    --main-color: #373867;
-    --width: 60%;
-    --cancel-color: #ff7c7c;
-    --header-table: #EBECF0;
   }
