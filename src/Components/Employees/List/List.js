@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../employees.module.css';
+import style from './list.module.css';
 
 const List = ({ employees, deleteEmployee }) => {
   return (
@@ -32,9 +32,11 @@ const List = ({ employees, deleteEmployee }) => {
                     <button
                       onClick={() => window.location.assign(`/employees/form?id=${employee._id}`)}
                     >
-                      Update
+                      <img src="/assets/images/pencil.png" alt="update" />
                     </button>
-                    <button onClick={() => deleteEmployee(employee._id)}>Delete</button>
+                    <button onClick={() => deleteEmployee(employee._id)}>
+                      <img src="/assets/images/trash.png" alt="delete" />
+                    </button>
                   </td>
                 </tr>
               );
