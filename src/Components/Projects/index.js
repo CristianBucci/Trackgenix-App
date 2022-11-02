@@ -10,7 +10,7 @@ function Projects() {
       const data = await response.json();
       setProjects(data.data);
     } catch (error) {
-      console.error(error);
+      alert('Could not GET Project.', error);
     }
   };
 

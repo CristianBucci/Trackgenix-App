@@ -37,37 +37,44 @@ const AddProject = () => {
   }, []);
 
   const createProject = async ({ clientName, description, endDate, name, startDate }) => {
-    await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        clientName,
-        description,
-        employees: employees,
-        endDate,
-        name,
-        startDate
-      })
-    });
+    try {
+      await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          clientName,
+          description,
+          employees: employees,
+          endDate,
+          name,
+          startDate
+        })
+      });
+    } catch (error) {
+      alert('Could not create Project.', error);
+    }
   };
-
   const editProject = async ({ clientName, description, endDate, name, startDate }) => {
-    await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        clientName,
-        description,
-        employees: employees,
-        endDate,
-        name,
-        startDate
-      })
-    });
+    try {
+      await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          clientName,
+          description,
+          employees: employees,
+          endDate,
+          name,
+          startDate
+        })
+      });
+    } catch (error) {
+      alert('Could not update Project.', error);
+    }
   };
 
   useEffect(async () => {

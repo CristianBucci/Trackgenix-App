@@ -8,7 +8,7 @@ const ListItem = ({ listItem, deleteItem }) => {
       const data = await response.json();
       setEmployeeData(data.data);
     } catch (error) {
-      alert('Could not GET Employeees', error);
+      alert('Could not get Employeees', error);
     }
   }, []);
 
@@ -20,7 +20,6 @@ const ListItem = ({ listItem, deleteItem }) => {
     .filter((emp) => projectsEmployee.includes(emp._id))
     .map((emp) => emp.name)
     .join(',');
-  console.log(employeeData.filter((emp) => projectsEmployee.includes(emp._id)));
   return (
     <tr>
       <td>{listItem.name} </td>
@@ -30,7 +29,7 @@ const ListItem = ({ listItem, deleteItem }) => {
       <td>{listItem.endDate} </td>
       <td>{employeeNames}</td>
       <td>
-        <button onClick={() => handleDelete(listItem._id)}>delete</button>
+        <button onClick={() => handleDelete(listItem._id)}>Delete</button>
       </td>
       <td>
         <button
@@ -38,7 +37,7 @@ const ListItem = ({ listItem, deleteItem }) => {
             window.location.assign(`/projects/form?id=${listItem._id}`);
           }}
         >
-          edit
+          Edit
         </button>
       </td>
     </tr>
