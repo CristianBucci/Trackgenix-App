@@ -1,0 +1,39 @@
+section {
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 2px 2px 5px 3px rgba(0, 0, 0, 0.2);
+}
+
+table {
+    width: 90%;
+    margin-left: 5%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px;
+    border-bottom: 1px solid #000;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #000;
+}
+
+td > button {
+    background-color: transparent;
+}
+
+td > button > img {
+    width: 22px;
+    height: 24px;
+}
+
+p {
+    margin: 0;
+}
+
+.btnAdd:hover {
+    background-color: #373867;
+}

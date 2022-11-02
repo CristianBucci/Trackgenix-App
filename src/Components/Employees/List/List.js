@@ -6,9 +6,9 @@ const List = ({ employees, deleteEmployee }) => {
     <section>
       <div className={style.title}>
         <h2>Employees</h2>
-        <a href={'employees/form'}>
-          <button>Create Employee</button>
-        </a>
+        <button className={style.btnAdd} onClick={() => window.location.assign(`/employees/form`)}>
+          Create Employee
+        </button>
       </div>
       <div>
         <table>
