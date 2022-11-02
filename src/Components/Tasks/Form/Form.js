@@ -6,7 +6,6 @@ let taskType = window.location.search.slice(26);
 const setTask = async (data, id) => {
   try {
     await (id ? put(data, id) : post(data));
-    window.location.assign('/tasks');
   } catch (error) {
     return error;
   }

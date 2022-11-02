@@ -17,8 +17,7 @@ const Tasks = () => {
   }, []);
 
   const deleteTask = async (id) => {
-    await del(id);
-    setTasksList([...tasksList.filter((task) => task._id !== id)]);
+    (await del(id)) ? setTasksList([...tasksList.filter((task) => task._id !== id)]) : '';
   };
 
   return (
