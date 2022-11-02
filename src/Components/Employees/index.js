@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import List from './List/List';
-// import styles from './employees.module.css';
+import styles from './employees.module.css';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -24,9 +24,9 @@ const Employees = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <List employees={employees} setEmployees={setEmployees} deleteEmployee={deleteEmployee} />
-    </>
+    </div>
   );
 };
 
