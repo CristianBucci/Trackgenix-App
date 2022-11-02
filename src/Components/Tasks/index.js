@@ -8,11 +8,14 @@ const Tasks = () => {
 
   useEffect(async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-      const data = await res.json();
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
+      if (!response.ok) {
+        throw new Error('Failed to get tasks');
+      }
+      const data = await response.json();
       setTasksList(data.data);
     } catch (error) {
-      return error;
+      alert(error);
     }
   }, []);
 
