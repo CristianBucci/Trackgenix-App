@@ -5,7 +5,7 @@ import Modal from '../Modal';
 function Form() {
   const urlValues = window.location.search;
   const urlParams = new URLSearchParams(urlValues);
-  var product = urlParams.get('id');
+  let product = urlParams.get('id');
   const idRegEx = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
   const [nameValue, setNameValue] = useState('');
