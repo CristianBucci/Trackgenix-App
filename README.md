@@ -30,7 +30,6 @@ You will also see any lint errors in the console.
 
 ### Members
 
-(example)
 |Photo | Name  | Mail | Github
 | :-----: | :-----: | :-----: | :-----: |
 <img src="https://avatars.githubusercontent.com/u/72083744?v=4" height="50" width="50">| Ignacio Aristo | ignacio.aristo@radiumrocket.com | [@ignacioaristo](https://github.com/ignacioaristo)
