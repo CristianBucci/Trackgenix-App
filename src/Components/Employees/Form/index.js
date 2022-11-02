@@ -5,7 +5,7 @@ import Modal from '../Modal';
 function Form() {
   const urlValues = window.location.search;
   const params = new URLSearchParams(urlValues);
-  let product = params.get('id');
+  let employeeId = params.get('id');
   const idRegEx = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
   const [nameValue, setNameValue] = useState('');
@@ -30,7 +30,7 @@ function Form() {
 
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${product}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`);
       const data = await response.json();
       setNameValue(data.data.name);
       setLastNameValue(data.data.lastName);
@@ -43,9 +43,9 @@ function Form() {
     setModalDisplay(true);
   }, []);
 
-  const editEmployee = async (product) => {
+  const editEmployee = async (employeeId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${product}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -140,7 +140,7 @@ function Form() {
     <>
       <div className={styles.container}>
         <form onSubmit={onSubmit}>
-          <h2>{idRegEx.test(product) ? 'Edit Employee' : 'Create Employee'}</h2>
+          <h2>{idRegEx.test(employeeId) ? 'Edit Employee' : 'Create Employee'}</h2>
           <div className="form-item">
             <label htmlFor="input-name">Name</label>
             <input id="input-name" name="name" required value={nameValue} onChange={changeName} />
@@ -195,7 +195,9 @@ function Form() {
             <button
               type="submit"
               className={styles.buttonSave}
-              onClick={idRegEx.test(product) ? () => editEmployee(product) : () => createEmployee()}
+              onClick={
+                idRegEx.test(employeeId) ? () => editEmployee(employeeId) : () => createEmployee()
+              }
             >
               Save
             </button>
