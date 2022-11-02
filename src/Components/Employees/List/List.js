@@ -33,11 +33,12 @@ const List = ({ employees, deleteEmployee }) => {
                   <td>{employee.email}</td>
                   <td>
                     <button
+                      className={style.btnIcons}
                       onClick={() => window.location.assign(`/employees/form?id=${employee._id}`)}
                     >
                       <img src="/assets/images/pencil.png" alt="update" />
                     </button>
-                    <button onClick={() => deleteEmployee(employee._id)}>
+                    <button className={style.btnIcons} onClick={() => deleteEmployee(employee._id)}>
                       <img src="/assets/images/trash.png" alt="delete" />
                     </button>
                   </td>
