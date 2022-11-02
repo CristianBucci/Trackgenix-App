@@ -15,10 +15,27 @@ const Form = () => {
   const [serverError, setServerError] = useState('');
   const [formMode, setFormMode] = useState(true);
   const [formText, setFormText] = useState('Add timeSheet');
+  const [employees, setEmployees] = useState();
+  const [tasks, setTasks] = useState();
+  const [projects, setProjects] = useState();
 
-  const onChange = (e) => {
-    setTimeSheetInput({ ...timeSheetInput, [e.target.name]: e.target.value });
-  };
+  useEffect(async () => {
+    try {
+      const employees = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
+      const jsonEmployees = await employees.json();
+      setEmployees(jsonEmployees.data);
+
+      const tasks = await fetch(`${process.env.REACT_APP_API_URL}/tasks/`);
+      const jsonTasks = await tasks.json();
+      setTasks(jsonTasks.data);
+
+      const projects = await fetch(`${process.env.REACT_APP_API_URL}/projects/`);
+      const jsonProjects = await projects.json();
+      setProjects(jsonProjects.data);
+    } catch (error) {
+      alert('Error.', error);
+    }
+  }, []);
 
   useEffect(async () => {
     if (window.location.href.includes('id=')) {
@@ -133,7 +150,9 @@ const Form = () => {
               name="description"
               required
               value={timeSheetInput.description}
-              onChange={onChange}
+              onChange={(e) => {
+                setTimeSheetInput({ ...timeSheetInput, description: e.target.value });
+              }}
             />
           </div>
           <div className={styles.cardField}>
@@ -143,7 +162,9 @@ const Form = () => {
               name="date"
               required
               value={timeSheetInput.date}
-              onChange={onChange}
+              onChange={(e) => {
+                setTimeSheetInput({ ...timeSheetInput, date: e.target.value });
+              }}
             />
           </div>
           <div className={styles.cardField}>
@@ -153,38 +174,64 @@ const Form = () => {
               name="hours"
               required
               value={timeSheetInput.hours}
-              onChange={onChange}
+              onChange={(e) => {
+                setTimeSheetInput({ ...timeSheetInput, hours: e.target.value });
+              }}
             />
           </div>
           <div className={styles.cardField}>
             <label>Task</label>
-            <input
-              type="text"
-              name="task"
-              required
+            <select
               value={timeSheetInput.task}
-              onChange={onChange}
-            />
+              onChange={(e) => {
+                setTimeSheetInput({ ...timeSheetInput, task: e.target.value });
+              }}
+            >
+              <option>--Select Task--</option>
+              {tasks?.map((task) => {
+                return (
+                  <option key={task._id} value={task._id}>
+                    {task.description}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className={styles.cardField}>
             <label>Employee</label>
-            <input
-              type="text"
-              name="employee"
-              required
+            <select
               value={timeSheetInput.employee}
-              onChange={onChange}
-            />
+              onChange={(e) => {
+                setTimeSheetInput({ ...timeSheetInput, employee: e.target.value });
+              }}
+            >
+              <option>--Select Employee--</option>
+              {employees?.map((employee) => {
+                return (
+                  <option key={employee._id} value={employee._id}>
+                    {employee.lastName} {employee.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className={styles.cardField}>
             <label>Project</label>
-            <input
-              type="text"
-              name="project"
-              required
+            <select
               value={timeSheetInput.project}
-              onChange={onChange}
-            />
+              onChange={(e) => {
+                setTimeSheetInput({ ...timeSheetInput, project: e.target.value });
+              }}
+            >
+              <option>--Select Project--</option>
+              {projects?.map((project) => {
+                return (
+                  <option key={project._id} value={project._id}>
+                    {project.name} {project.lastName}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className={styles.cardButton}>
             <div>
