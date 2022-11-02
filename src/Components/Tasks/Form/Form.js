@@ -1,4 +1,5 @@
 import { put, post } from '../Methods/TaskMethods';
+import styles from '../tasks.module.css';
 
 const id = window.location.search.slice(1, 25);
 let taskType = window.location.search.slice(26);
@@ -13,8 +14,12 @@ const setTask = async (data, id) => {
 
 const Form = () => {
   return (
-    <div className="alert">
-      <button onClick={() => window.location.assign('/tasks')}>X</button>
+    <div className={styles.formContainer}>
+      <span>
+        <button onClick={() => window.location.assign('/tasks')}>
+          <img src={`${process.env.PUBLIC_URL}/assets/images/close.svg`} alt="Close icon" />
+        </button>
+      </span>
       {id ? (
         <p>
           Edit task {taskType} whit {id}
@@ -29,7 +34,7 @@ const Form = () => {
         }}
       >
         <div>
-          <p>Task type</p>
+          <p>Select task type</p>
           <label>
             <input
               type="radio"
@@ -51,9 +56,7 @@ const Form = () => {
             BE
           </label>
         </div>
-        <div>
-          <input type="submit" value="Confirm" />
-        </div>
+        <input type="submit" value="Confirm" />
       </form>
     </div>
   );

@@ -3,4 +3,90 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+.title {
+  width: 80%;
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  background-color: #EA3354;
+  border-radius: 10px;
+}
+.table {
+  width: 80%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.table thead {
+  height: 50px;
+  color: white;
+  background-color: #EA3354;
+}
+.table button {
+  border: none;
+  background: none;
+}
+.table thead button {
+  color: white;
+  font-size: 20px;
+}
+.table td {
+  text-align: center;
+}
+.rows {
+  height: 50px;
+  background-color: #FF8787;
+  font-size: 20px;
+}
+.rows:nth-child(odd){
+  background-color: #e77777;
+}
+.rows:hover {
+  background-color: #f76868;
+}
+.formContainer {
+  margin: auto;
+  padding: 10px;
+  background-color: #EA3354;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 10px;
+}
+.formContainer span {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.formContainer button {
+  border: none;
+  background: none;
+}
+.formContainer p {
+  padding: 10px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.formContainer form p {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+.formContainer form input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 18px;
+  border: solid 1px white;
+  border-radius: 10px;
+}
+.formContainer form input:hover {
+  background-color: #e42447;
 }

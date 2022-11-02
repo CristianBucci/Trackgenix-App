@@ -23,7 +23,7 @@ const Tasks = () => {
 
   return (
     <section className={styles.container}>
-      <h2>Tasks</h2>
+      <h2 className={styles.title}>Tasks</h2>
       <List tasksList={tasksList} deleteTask={deleteTask} />
     </section>
   );
