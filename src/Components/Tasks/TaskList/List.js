@@ -1,41 +1,27 @@
-import { useState } from 'react';
 import ListItem from './ListItem';
-import Popup from '../Popup/Popup';
 
-const List = ({ tasksList = [], deleteTask, setTask }) => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupId, setPopupId] = useState(false);
+const form = () => {
+  window.location.assign('tasks/form');
+};
 
-  const setPutPost = (boolean, id) => {
-    id ? setPopupId(id) : setPopupId(false);
-    setShowPopup(boolean);
-  };
-
+const List = ({ tasksList = [], deleteTask }) => {
   return (
-    <>
-      <Popup popup={showPopup} setPutPost={setPutPost} setTask={setTask} id={popupId} />
-      <table>
-        <thead>
-          <tr>
-            <th id="id">ID</th>
-            <th id="description">Description</th>
-            <td>
-              <button onClick={() => setPutPost(true)}>ADD</button>
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-          {tasksList.map((task) => (
-            <ListItem
-              key={task.id}
-              taskList={task}
-              deleteTask={deleteTask}
-              setPutPost={setPutPost}
-            />
-          ))}
-        </tbody>
-      </table>
-    </>
+    <table>
+      <thead>
+        <tr>
+          <th id="id">ID</th>
+          <th id="description">Description</th>
+          <td>
+            <button onClick={() => form()}>ADD</button>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        {tasksList.map((task) => (
+          <ListItem key={task.id} taskList={task} deleteTask={deleteTask} />
+        ))}
+      </tbody>
+    </table>
   );
 };
 
