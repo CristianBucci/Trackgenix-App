@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import Modal from './Form Modal/index';
-import FormText from './Form Title';
 import styles from './form.module.css';
 
 const Form = () => {
@@ -126,9 +125,7 @@ const Form = () => {
       <Modal show={showModal} title={serverError} closeModal={closeModal} />
       <form onSubmit={onSubmit}>
         <div className={styles.card}>
-          <div className={styles.cardTitle}>
-            <FormText title={formText} />
-          </div>
+          <div className={styles.cardTitle}>{formText}</div>
           <div className={styles.cardField}>
             <label>Description</label>
             <input
