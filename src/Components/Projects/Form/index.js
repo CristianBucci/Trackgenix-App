@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from '../projects.module.css';
 
-const fullUrl = window.location.href;
-const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
+const url = window.location.href;
+const id = url.substring(url.lastIndexOf('=') + 1);
 const initialValue = {
   clientName: '',
   description: '',
@@ -14,40 +14,20 @@ const AddProject = () => {
   const [project, setProject] = useState(initialValue);
   const [employees, setEmployees] = useState([]);
   const [employeeData, setEmployeeName] = useState([]);
-  // const params = new URLSearchParams(window.location.search);
-  // const projectId = params.get('id');
-  // console.log(projectId);
-
-  const getProjects = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
-      const data = await response.json();
-      setProject(data.data);
-    } catch (error) {
-      alert('Could not GET Projects', error);
-    }
-  };
 
   useEffect(async () => {
     if (window.location.href.includes('id')) {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`);
         const data = await response.json();
-        // setEmployees(project.employees);
         setProject({
           clientName: data.data.clientName,
           description: data.data.description,
           startDate: data.data.startDate.substr(0, 10),
           endDate: data.data.endDate.substr(0, 10),
-          employees: [
-            {
-              employeeId: data.data.employeeId,
-              rate: data.data.rate,
-              role: data.data.role
-            }
-          ],
           name: data.data.name
         });
+        setEmployees(data.data.employees);
       } catch (error) {
         alert('Could not GET Project.', error);
       }
@@ -55,24 +35,6 @@ const AddProject = () => {
       return null;
     }
   }, []);
-
-  const editProject = async ({ clientName, description, endDate, name, startDate }) => {
-    await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        clientName,
-        description,
-        employees: employees,
-        endDate,
-        name,
-        startDate
-      })
-    });
-    getProjects();
-  };
 
   const createProject = async ({ clientName, description, endDate, name, startDate }) => {
     await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
@@ -89,8 +51,25 @@ const AddProject = () => {
         startDate
       })
     });
-    getProjects();
   };
+
+  const editProject = async ({ clientName, description, endDate, name, startDate }) => {
+    await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        clientName,
+        description,
+        employees: employees,
+        endDate,
+        name,
+        startDate
+      })
+    });
+  };
+
   useEffect(async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
@@ -100,11 +79,14 @@ const AddProject = () => {
       alert('Could not create Project', error);
     }
   }, []);
+
   const employeesNames = employeeData.map((e) => [e.name, ' ', e.lastName, ' id:', e._id]);
+
   const cleanInputs = () => {
     setProject(initialValue);
     setEmployees([]);
   };
+
   const onSubmit = (e) => {
     if (!window.location.href.includes('id')) {
       e.preventDefault();
@@ -116,7 +98,6 @@ const AddProject = () => {
       cleanInputs();
     }
   };
-
   return (
     <div className={styles.formContainer}>
       <div>
@@ -254,9 +235,12 @@ const AddProject = () => {
             />
           </div>
           <div>
-            <input type="submit" value="submit" />
+            <button type="submit">Submit</button>
           </div>
         </form>
+        <a href={'http://localhost:3000/projects'}>
+          <button type="text">Cancel</button>
+        </a>
       </div>
     </div>
   );
