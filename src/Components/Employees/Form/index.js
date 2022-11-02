@@ -4,8 +4,8 @@ import Modal from '../Modal';
 
 function Form() {
   const urlValues = window.location.search;
-  const urlParams = new URLSearchParams(urlValues);
-  let product = urlParams.get('id');
+  const params = new URLSearchParams(urlValues);
+  let product = params.get('id');
   const idRegEx = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
   const [nameValue, setNameValue] = useState('');
@@ -20,29 +20,28 @@ function Form() {
 
   const editAndCreateMessage = (contentSubTitle, name, lastName, email, password, phone) => {
     return ` ${contentSubTitle}:\n
-  Name: ${name}
-  Last Name: ${lastName}
-  Email: ${email}
-  Password: ${password}
-  Phone: ${phone}
-  `;
+    Name: ${name}
+    Last Name: ${lastName}
+    Email: ${email}
+    Password: ${password}
+    Phone: ${phone}
+    `;
   };
 
-  if (idRegEx.test(product)) {
-    useEffect(async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${product}`);
-        const data = await response.json();
-        setNameValue(data.data.name);
-        setLastNameValue(data.data.lastName);
-        setEmailValue(data.data.email);
-        setPasswordValue(data.data.password);
-        setPhoneValue(data.data.phone);
-      } catch (error) {
-        alert(error);
-      }
-    }, []);
-  }
+  useEffect(async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${product}`);
+      const data = await response.json();
+      setNameValue(data.data.name);
+      setLastNameValue(data.data.lastName);
+      setEmailValue(data.data.email);
+      setPasswordValue(data.data.password);
+      setPhoneValue(data.data.phone);
+    } catch (error) {
+      setContentMessage(error);
+    }
+    setModalDisplay(true);
+  }, []);
 
   const editEmployee = async (product) => {
     try {
@@ -77,6 +76,7 @@ function Form() {
     } catch (error) {
       setContentMessage(error);
     }
+    setModalDisplay(true);
   };
 
   const createEmployee = async () => {
