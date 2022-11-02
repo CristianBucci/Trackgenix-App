@@ -40,7 +40,6 @@ function Form() {
     } catch (error) {
       setContentMessage(error);
     }
-    setModalDisplay(true);
   }, []);
 
   const editEmployee = async (employeeId) => {
