@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from '../projects.module.css';
+import styles from './createItem.module.css';
 
 const url = window.location.href;
 const id = url.substring(url.lastIndexOf('=') + 1);
@@ -52,6 +52,7 @@ const AddProject = () => {
           startDate
         })
       });
+      alert('Project Created');
     } catch (error) {
       alert('Could not create Project.', error);
     }
@@ -72,6 +73,7 @@ const AddProject = () => {
           startDate
         })
       });
+      alert('Project Updated');
     } catch (error) {
       alert('Could not update Project.', error);
     }
@@ -106,11 +108,11 @@ const AddProject = () => {
     }
   };
   return (
-    <div className={styles.formContainer}>
-      <div>
+    <div>
+      <div className={styles.formContainer}>
         <h2>Project Form</h2>
-        <form onSubmit={onSubmit}>
-          <div>
+        <form onSubmit={onSubmit} className={styles.projectForm}>
+          <div className={styles.projectInputs}>
             <label>Client Name</label>
             <input
               type="text"
@@ -119,13 +121,40 @@ const AddProject = () => {
               onChange={(e) => setProject({ ...project, clientName: e.target.value })}
             />
           </div>
-          <div>
+          <div className={styles.projectInputs}>
+            <label>Project Name</label>
+            <input
+              type="text"
+              name="name"
+              value={project.name}
+              onChange={(e) => setProject({ ...project, name: e.target.value })}
+            />
+          </div>
+          <div className={styles.projectInputs}>
             <label>Description</label>
             <input
               type="text"
               name="description"
               value={project.description}
               onChange={(e) => setProject({ ...project, description: e.target.value })}
+            />
+          </div>
+          <div className={styles.projectInputs}>
+            <label>Start Date</label>
+            <input
+              type="date"
+              name="startDate"
+              value={project.startDate}
+              onChange={(e) => setProject({ ...project, startDate: e.target.value })}
+            />
+          </div>
+          <div className={styles.projectInputs}>
+            <label>End Date</label>
+            <input
+              type="date"
+              name="endDate"
+              value={project.endDate}
+              onChange={(e) => setProject({ ...project, endDate: e.target.value })}
             />
           </div>
           <div>
@@ -213,33 +242,6 @@ const AddProject = () => {
                 Add Employee
               </button>
             </div>
-          </div>
-          <div>
-            <label>End Date</label>
-            <input
-              type="date"
-              name="endDate"
-              value={project.endDate}
-              onChange={(e) => setProject({ ...project, endDate: e.target.value })}
-            />
-          </div>
-          <div>
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              value={project.name}
-              onChange={(e) => setProject({ ...project, name: e.target.value })}
-            />
-          </div>
-          <div>
-            <label>Start Date</label>
-            <input
-              type="date"
-              name="startDate"
-              value={project.startDate}
-              onChange={(e) => setProject({ ...project, startDate: e.target.value })}
-            />
           </div>
           <div>
             <button type="submit">Submit</button>

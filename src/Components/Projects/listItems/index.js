@@ -14,6 +14,9 @@ const ListItem = ({ listItem, deleteItem }) => {
 
   const handleDelete = (id) => {
     deleteItem(id);
+    {
+      alert('Project Deleted');
+    }
   };
   const projectsEmployee = listItem.employees.map((e) => e.employeeId);
   const employeeNames = employeeData

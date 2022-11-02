@@ -1,0 +1,25 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: auto;
+    border: 1px solid rgb(9, 9, 9);
+    border-radius: 10px;
+}
+
+.projectForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 80%;
+    height: 300px;
+}
+
+.projectInputs {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+}
