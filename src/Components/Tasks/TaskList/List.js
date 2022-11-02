@@ -1,7 +1,7 @@
 import ListItem from './ListItem';
 import styles from '../tasks.module.css';
 
-const form = () => {
+const formRedirect = () => {
   window.location.assign('tasks/form');
 };
 
@@ -13,7 +13,7 @@ const List = ({ tasksList = [], deleteTask }) => {
           <th id="id">ID</th>
           <th id="description">Description</th>
           <td>
-            <button onClick={() => form()}>
+            <button onClick={() => formRedirect()}>
               <img src={`${process.env.PUBLIC_URL}/assets/images/add.svg`} alt="Edit icon" />
               Add new task
             </button>
