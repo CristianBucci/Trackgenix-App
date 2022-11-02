@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Modal from './Form Modal/index';
+import Modal from './FormModal/index';
 import styles from './form.module.css';
 
 const Form = () => {
