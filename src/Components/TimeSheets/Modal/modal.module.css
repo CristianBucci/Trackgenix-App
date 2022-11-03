@@ -1,0 +1,51 @@
+.container {
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 200px;
+  background: #FFFFFF;
+  box-shadow: 0px 3px 6px rgb(0 0 0 / 25%);
+  border-radius: 2px;
+  color: #EA3354;
+}
+
+.modalTitle {
+    display: flex;
+    align-items: center;
+    height: 50%;
+}
+
+.buttonsDiv {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.cardButton button {
+  margin: 10px;
+}
+
+button.cancel{
+  background: #ff6666;
+}
+
+button.confirm{
+  background: #71da71;
+}

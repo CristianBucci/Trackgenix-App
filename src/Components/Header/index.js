@@ -44,7 +44,7 @@ function Header() {
             <a href="/projects">projects</a>
           </li>
           <li>
-            <a href="/time-sheets">timesheets</a>
+            <a href="/timesheets">timesheets</a>
           </li>
           <li>
             <a href="/tasks">tasks</a>
