@@ -9,8 +9,8 @@ const Employees = () => {
   useEffect(async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const json = await response.json();
-      setEmployees(json.data);
+      const data = await response.json();
+      setEmployees(data.data);
     } catch (error) {
       setErr(error);
       alert(err);
