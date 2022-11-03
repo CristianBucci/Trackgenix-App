@@ -10,7 +10,7 @@
     box-shadow: 2px 2px 5px 3px rgba(0, 0, 0, 0.3);    background-color:  #ea335532;
 }
 
-h2{
+.formTitle{
     width: 70%;
     padding: 10px;
     border-radius: 7px;

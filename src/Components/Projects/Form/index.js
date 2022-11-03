@@ -51,7 +51,7 @@ const AddProject = () => {
         body: JSON.stringify({
           clientName,
           description,
-          employees: employees,
+          employees,
           endDate,
           name,
           startDate
@@ -79,7 +79,7 @@ const AddProject = () => {
         body: JSON.stringify({
           clientName,
           description,
-          employees: employees,
+          employees,
           endDate,
           name,
           startDate
@@ -130,7 +130,7 @@ const AddProject = () => {
     <>
       <div>
         <div className={styles.container}>
-          <h2>Project Form</h2>
+          <h2 className={styles.formTitle}>Project Form</h2>
           <form onSubmit={onSubmit} className={styles.form}>
             <div className={styles.formRaws}>
               <label>Client Name</label>

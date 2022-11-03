@@ -8,6 +8,7 @@ const Projects = () => {
   const [modalDisplay, setModalDisplay] = useState('');
   const [contentMessage, setContentMessage] = useState('');
   const [modalTitle, setModalTitle] = useState('');
+  const [errors, setErrors] = useState('');
 
   const getProjects = async () => {
     try {
@@ -15,8 +16,8 @@ const Projects = () => {
       const data = await response.json();
       setProjects(data.data);
     } catch (error) {
-      setProjects('Cannot get projects', { error });
-      alert(projects);
+      setErrors('Cannot get projects', { error });
+      alert(errors);
     }
   };
 

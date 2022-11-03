@@ -4,9 +4,8 @@ const ListItem = ({ listItem, deleteItem }) => {
     deleteItem(id);
   };
   const projectsEmployeesNames = listItem.employees
-    .map((e) => e.employeeId)
-    .map((n) => [n.name, ' ', n.lastName, ' ']);
-  console.log(projectsEmployeesNames);
+    .map((employee) => employee.employeeId)
+    .map((projectEmployee) => [projectEmployee.name, ' ', projectEmployee.lastName, ' ']);
   return (
     <tr>
       <td>{listItem.name} </td>
