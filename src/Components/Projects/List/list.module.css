@@ -1,3 +1,12 @@
-.table-heads {
-    width: 50px;
+table{
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 5px 3px #00000033;
+    text-align: center;
+}
+
+th{
+    padding: 10px;
+    border-bottom: 1px solid #010101;
 }

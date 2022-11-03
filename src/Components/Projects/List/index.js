@@ -1,10 +1,9 @@
 import ListItem from '../ListItems';
-const ProjectTable = ({ list, deleteItem }) => {
+import './list.module.css';
+
+const ProjectList = ({ list, deleteItem }) => {
   return (
     <div>
-      <a href={'/projects/form'}>
-        <button>Add Project</button>
-      </a>
       <table>
         <thead>
           <tr>
@@ -14,7 +13,11 @@ const ProjectTable = ({ list, deleteItem }) => {
             <th id="StartingDate">Starting Date</th>
             <th id="EndDate">End Date</th>
             <th id="Employees">Employees</th>
-            <th id="Actions">Edit and Delete</th>
+            <th id="Actions">
+              <a href={'/projects/form'}>
+                <button>Add Project</button>
+              </a>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -27,4 +30,4 @@ const ProjectTable = ({ list, deleteItem }) => {
   );
 };
 
-export default ProjectTable;
+export default ProjectList;
