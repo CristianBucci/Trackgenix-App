@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 const Form = () => {
-  const listUrl = 'http://localhost:3000/admins';
   const [admin, setAdmin] = useState({
     name: '',
     lastName: '',
@@ -45,7 +44,6 @@ const Form = () => {
       if (response.status === 201) {
         response = await response.json();
         alert(response.message);
-        window.location.assign(listUrl);
       } else {
         response = await response.json();
         alert(response.message);
@@ -69,7 +67,6 @@ const Form = () => {
       if (response.status === 200) {
         response = await response.json();
         alert(response.message);
-        window.location.assign(listUrl);
       } else {
         response = await response.json();
         alert(response.message);
