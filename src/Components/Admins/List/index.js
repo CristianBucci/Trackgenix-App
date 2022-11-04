@@ -1,6 +1,7 @@
+import React from 'react';
 import styles from './list.module.css';
 
-const adminsList = ({ list, selectUpdate, deleteAdmin, setShow }) => {
+const List = ({ list, deleteAdmin }) => {
   return (
     <section className={styles.table}>
       <table className={styles.td}>
@@ -21,17 +22,19 @@ const adminsList = ({ list, selectUpdate, deleteAdmin, setShow }) => {
                 <td>{admin.lastName}</td>
                 <td>{admin.email}</td>
                 <td>
-                  <button onClick={() => selectUpdate(admin._id)}>Update</button>
+                  <button onClick={() => window.location.assign(`/admins/form?id=${admin._id}`)}>
+                    Update
+                  </button>
                   <button onClick={() => deleteAdmin(admin._id)}>Delete</button>
                 </td>
               </tr>
             );
           })}
-          <button onClick={() => setShow(3)}>Add</button>
+          <button onClick={() => window.location.assign('/admins/form')}>Add</button>
         </tbody>
       </table>
     </section>
   );
 };
 
-export default adminsList;
+export default List;

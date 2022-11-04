@@ -1,8 +1,7 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
-import AdminsAdd from '../Admins/Add/index';
-import AdminsUpdate from '../Admins/Update/index';
+import AdminsForm from '../Admins/Form/index';
 import SuperAdmins from '../SuperAdmins/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
@@ -17,11 +16,8 @@ function Layout() {
     case '/admins':
       currentScreen = <Admins />;
       break;
-    case '/admins/add':
-      currentScreen = <AdminsAdd />;
-      break;
-    case '/admins/update':
-      currentScreen = <AdminsUpdate />;
+    case '/admins/form':
+      currentScreen = <AdminsForm />;
       break;
     case '/super-admins':
       currentScreen = <SuperAdmins />;
