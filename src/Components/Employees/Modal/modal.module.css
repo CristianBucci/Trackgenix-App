@@ -37,13 +37,13 @@
 
 .header {
     display: flex;
-    width: 90%;
-    margin-top: 10px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.132);
+    width: 90%;
+    margin-top: 10px;
     padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.132);
 }
 
 .header__title {
@@ -62,9 +62,9 @@
 }
 
 .content__message {
+    max-width: 100%;
     margin: 0;
     font-size: 15px;
-    max-width: 100%;
     color: var(--color-soft);
     white-space: pre-line;
 }
