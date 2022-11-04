@@ -1,6 +1,6 @@
 import styles from './list.module.css';
 
-const list = ({ list, selectUpdate, deleteAdmin, setShow }) => {
+const adminsList = ({ list, selectUpdate, deleteAdmin, setShow }) => {
   return (
     <section className={styles.table}>
       <table className={styles.td}>
@@ -34,4 +34,4 @@ const list = ({ list, selectUpdate, deleteAdmin, setShow }) => {
   );
 };
 
-export default list;
+export default adminsList;
