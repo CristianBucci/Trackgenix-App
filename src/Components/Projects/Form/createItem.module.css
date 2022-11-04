@@ -1,3 +1,21 @@
+label{
+    margin-bottom: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+
+button{
+    width:150px;
+    margin: 4px 2px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: #EA3354;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .container{
     display: flex;
     flex-direction: column;
@@ -31,12 +49,6 @@
     flex-direction: column;
 }
 
-label{
-    margin-bottom: 5px;
-    text-align: center;
-    font-weight: 500;
-}
-
 .inputs{
     width: 200px;
     height: 30px;
@@ -45,17 +57,7 @@ label{
     border-radius: 4px;
 }
 
-button{
-    width:150px;
-    margin: 4px 2px;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    background-color: #EA3354;
-    text-decoration: none;
-    cursor: pointer;
-}
+
 
 .addEmployeeButton{
     display: flex;
