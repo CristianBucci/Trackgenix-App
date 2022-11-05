@@ -7,7 +7,6 @@ const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState();
-  const [contentMessage, setContentMessage] = useState('');
   const [err, setErr] = useState([]);
 
   useEffect(async () => {
@@ -28,8 +27,6 @@ const Employees = () => {
           method: 'DELETE'
         });
         setEmployees([...employees.filter((employees) => employees._id !== id)]);
-        const data = await response.json();
-        setContentMessage(data.message);
         if (response.ok) {
           setEmployees(employees.filter((employee) => employee._id !== id));
           setModalTitle('Success');
@@ -52,9 +49,7 @@ const Employees = () => {
         setShowModal={setShowModal}
         deleteEmployee={deleteEmployee}
       />
-      {showModal ? (
-        <Modal title={modalTitle} contentMessage={contentMessage} setShowModal={setShowModal} />
-      ) : null}
+      {showModal ? <Modal title={modalTitle} setShowModal={setShowModal} /> : null}
     </div>
   );
 };

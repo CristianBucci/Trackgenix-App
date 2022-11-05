@@ -2,6 +2,10 @@ import React from 'react';
 import style from './list.module.css';
 
 const List = ({ employees, deleteEmployee }) => {
+  const handleDelete = (id) => {
+    deleteEmployee(id);
+  };
+
   return (
     <section>
       <div className={style.title}>
@@ -38,13 +42,7 @@ const List = ({ employees, deleteEmployee }) => {
                     >
                       <img src="/assets/images/pencil.png" alt="update" />
                     </button>
-                    <button
-                      className={style.btnIcons}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        deleteEmployee(employee._id);
-                      }}
-                    >
+                    <button className={style.btnIcons} onClick={() => handleDelete(employee._id)}>
                       <img src="/assets/images/trash.png" alt="delete" />
                     </button>
                   </td>
