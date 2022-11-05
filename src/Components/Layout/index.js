@@ -1,7 +1,9 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
-import SuperAdmins from '../SuperAdmins/index';
+import AdminsForm from '../Admins/Form/index';
+import SuperAdminsList from '../SuperAdmins/index';
+import SuperAmdminsForm from '../SuperAdmins/Form/Form';
 import Home from '../Home/index';
 import styles from './layout.module.css';
 import Employees from '../Employees/index';
@@ -10,6 +12,7 @@ import ProjectsForm from '../Projects/Form/index';
 import TimeSheets from '../TimeSheets/index';
 import TimeSheetsForm from '../TimeSheets/Form/index';
 import Tasks from '../Tasks/index';
+import TasksForm from '../Tasks/Form/Form';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -17,8 +20,14 @@ function Layout() {
     case '/admins':
       currentScreen = <Admins />;
       break;
-    case '/super-admin':
-      currentScreen = <SuperAdmins />;
+    case '/admins/form':
+      currentScreen = <AdminsForm />;
+      break;
+    case '/super-admins':
+      currentScreen = <SuperAdminsList />;
+      break;
+    case '/super-admins/form':
+      currentScreen = <SuperAmdminsForm />;
       break;
     case '/employees':
       currentScreen = <Employees />;
@@ -37,6 +46,9 @@ function Layout() {
       break;
     case '/tasks':
       currentScreen = <Tasks />;
+      break;
+    case '/tasks/form':
+      currentScreen = <TasksForm />;
       break;
     default:
       break;
