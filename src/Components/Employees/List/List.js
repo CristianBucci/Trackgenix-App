@@ -38,7 +38,13 @@ const List = ({ employees, deleteEmployee }) => {
                     >
                       <img src="/assets/images/pencil.png" alt="update" />
                     </button>
-                    <button className={style.btnIcons} onClick={() => deleteEmployee(employee._id)}>
+                    <button
+                      className={style.btnIcons}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        deleteEmployee(employee._id);
+                      }}
+                    >
                       <img src="/assets/images/trash.png" alt="delete" />
                     </button>
                   </td>

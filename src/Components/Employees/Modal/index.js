@@ -16,7 +16,12 @@ const Modal = ({ content, contentMessage, title, setModalDisplay }) => {
           {contentMessage ? <p className={styles.content__message}>{contentMessage}</p> : null}
           <button
             className={`${styles.options__button} ${styles.options__close}`}
-            onClick={() => setModalDisplay(false)}
+            onClick={() => {
+              setModalDisplay(false);
+              if (title !== 'Error') {
+                window.location.assign(`/employees`);
+              }
+            }}
           >
             Close
           </button>

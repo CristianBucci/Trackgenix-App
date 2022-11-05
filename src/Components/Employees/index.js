@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import List from './List/List';
 import styles from './employees.module.css';
+import Modal from './Modal/modalDelete';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState();
+  const [contentMessage, setContentMessage] = useState('');
   const [err, setErr] = useState([]);
 
   useEffect(async () => {
@@ -18,25 +22,39 @@ const Employees = () => {
   }, []);
 
   const deleteEmployee = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.status === 204) {
-        alert('Employee removed.');
-        setEmployees([...employees.filter((employee) => employee._id !== id)]);
-      } else {
-        alert('Employee could not be removed.');
+    if (confirm('Are you sure that you want to delete this Employee?')) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
+          method: 'DELETE'
+        });
+        setEmployees([...employees.filter((employees) => employees._id !== id)]);
+        const data = await response.json();
+        setContentMessage(data.message);
+        if (response.ok) {
+          setEmployees(employees.filter((employee) => employee._id !== id));
+          setModalTitle('Success');
+        } else {
+          setModalTitle('Error');
+        }
+        setShowModal(true);
+      } catch (error) {
+        setErr(error);
+        alert('Employee could not be removed.', err);
       }
-    } catch (error) {
-      setErr(error);
-      alert('Employee could not be removed.', err);
     }
   };
 
   return (
     <div className={styles.container}>
-      <List employees={employees} setEmployees={setEmployees} deleteEmployee={deleteEmployee} />
+      <List
+        employees={employees}
+        setEmployees={setEmployees}
+        setShowModal={setShowModal}
+        deleteEmployee={deleteEmployee}
+      />
+      {showModal ? (
+        <Modal title={modalTitle} contentMessage={contentMessage} setShowModal={setShowModal} />
+      ) : null}
     </div>
   );
 };

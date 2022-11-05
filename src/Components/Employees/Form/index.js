@@ -3,109 +3,70 @@ import styles from './form.module.css';
 import Modal from '../Modal';
 
 function Form() {
-  const urlValues = window.location.search;
-  const params = new URLSearchParams(urlValues);
+  const params = new URLSearchParams(window.location.search);
   let employeeId = params.get('id');
-  const idRegEx = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
-  const [nameValue, setNameValue] = useState('');
-  const [lastNameValue, setLastNameValue] = useState('');
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [phoneValue, setPhoneValue] = useState('');
+  const [formValues, setFormValues] = useState({
+    name: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phone: ''
+  });
 
   const [modalDisplay, setModalDisplay] = useState('');
   const [contentMessage, setContentMessage] = useState('');
   const [modalTitle, setModalTitle] = useState('');
 
-  const editAndCreateMessage = (contentSubTitle, name, lastName, email, password, phone) => {
-    return ` ${contentSubTitle}:\n
-    Name: ${name}
-    Last Name: ${lastName}
-    Email: ${email}
-    Password: ${password}
-    Phone: ${phone}
-    `;
-  };
-
   useEffect(async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`);
       const data = await response.json();
-      setNameValue(data.data.name);
-      setLastNameValue(data.data.lastName);
-      setEmailValue(data.data.email);
-      setPasswordValue(data.data.password);
-      setPhoneValue(data.data.phone);
+      setFormValues({
+        name: data.data.name,
+        lastName: data.data.lastName,
+        email: data.data.email,
+        password: data.data.password,
+        phone: data.data.phone
+      });
     } catch (error) {
       setContentMessage(error);
     }
   }, []);
 
-  const editEmployee = async (employeeId) => {
+  const createEmployee = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
-        method: 'PUT',
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: nameValue,
-          lastName: lastNameValue,
-          email: emailValue,
-          password: passwordValue,
-          phone: phoneValue
-        })
+        body: JSON.stringify(formValues)
       });
       const data = await response.json();
-      setModalTitle('Edit employee');
-      if (data.error === true) {
-        setContentMessage(data.message);
+      setContentMessage(data.message);
+      if (response.ok) {
+        setModalTitle('Success');
       } else {
-        setContentMessage(() =>
-          editAndCreateMessage(
-            data.message,
-            data.data.name,
-            data.data.lastName,
-            data.data.email,
-            data.data.password,
-            data.data.phone
-          )
-        );
+        setModalTitle('Error');
       }
       setModalDisplay(true);
     } catch (error) {
       setContentMessage(error);
     }
-    setModalDisplay(true);
   };
 
-  const createEmployee = async () => {
+  const editEmployee = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/`, {
-        method: 'POST',
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: nameValue,
-          lastName: lastNameValue,
-          email: emailValue,
-          password: passwordValue,
-          phone: phoneValue
-        })
+        body: JSON.stringify(formValues)
       });
       const data = await response.json();
-      setModalTitle('Create employee');
-      if (data.error === true) {
-        setContentMessage(data.message);
+      setContentMessage(data.message);
+      if (response.ok) {
+        setModalTitle('Success');
       } else {
-        setContentMessage(() =>
-          editAndCreateMessage(
-            data.message,
-            data.data.name,
-            data.data.lastName,
-            data.data.email,
-            data.data.password,
-            data.data.phone
-          )
-        );
+        setModalTitle('Error');
       }
       setModalDisplay(true);
     } catch (error) {
@@ -118,31 +79,25 @@ function Form() {
     event.preventDefault();
   };
 
-  const changeName = (e) => {
-    setNameValue(e.target.value);
-  };
-  const changeLastName = (e) => {
-    setLastNameValue(e.target.value);
-  };
-  const changeEmail = (e) => {
-    setEmailValue(e.target.value);
-  };
-
-  const changePassword = (e) => {
-    setPasswordValue(e.target.value);
-  };
-  const changePhone = (e) => {
-    setPhoneValue(e.target.value);
-  };
-
   return (
     <>
       <div className={styles.container}>
         <form onSubmit={onSubmit}>
-          <h2>{idRegEx.test(employeeId) ? 'Edit Employee' : 'Create Employee'}</h2>
+          <h2>{employeeId ? 'Edit Employee' : 'Create Employee'}</h2>
           <div className="form-item">
             <label htmlFor="input-name">Name</label>
-            <input id="input-name" name="name" required value={nameValue} onChange={changeName} />
+            <input
+              id="input-name"
+              name="name"
+              required
+              value={formValues.name}
+              onChange={(e) => {
+                setFormValues({
+                  ...formValues,
+                  name: e.target.value
+                });
+              }}
+            />
           </div>
           <div className="form-item">
             <label htmlFor="input-lastName">Last Name</label>
@@ -150,8 +105,13 @@ function Form() {
               id="input-lastName"
               name="lastName"
               required
-              value={lastNameValue}
-              onChange={changeLastName}
+              value={formValues.lastName}
+              onChange={(e) => {
+                setFormValues({
+                  ...formValues,
+                  lastName: e.target.value
+                });
+              }}
             />
           </div>
           <div className="form-item">
@@ -160,8 +120,13 @@ function Form() {
               id="input-email"
               name="email"
               required
-              value={emailValue}
-              onChange={changeEmail}
+              value={formValues.email}
+              onChange={(e) => {
+                setFormValues({
+                  ...formValues,
+                  email: e.target.value
+                });
+              }}
             />
           </div>
           <div className="form-item">
@@ -171,8 +136,13 @@ function Form() {
               type="password"
               name="password"
               required
-              value={passwordValue}
-              onChange={changePassword}
+              value={formValues.password}
+              onChange={(e) => {
+                setFormValues({
+                  ...formValues,
+                  password: e.target.value
+                });
+              }}
             />
           </div>
           <div className="form-item">
@@ -181,8 +151,13 @@ function Form() {
               id="input-phone"
               name="phone"
               required
-              value={phoneValue}
-              onChange={changePhone}
+              value={formValues.phone}
+              onChange={(e) => {
+                setFormValues({
+                  ...formValues,
+                  phone: e.target.value
+                });
+              }}
             />
           </div>
           <div>
@@ -194,9 +169,7 @@ function Form() {
             <button
               type="submit"
               className={styles.buttonSave}
-              onClick={
-                idRegEx.test(employeeId) ? () => editEmployee(employeeId) : () => createEmployee()
-              }
+              onClick={employeeId ? () => editEmployee() : () => createEmployee()}
             >
               Save
             </button>
