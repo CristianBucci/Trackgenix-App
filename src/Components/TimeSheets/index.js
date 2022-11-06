@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Modal from './Modal/index';
 import styles from './timeSheets.module.css';
@@ -8,9 +7,6 @@ const TimeSheets = (props) => {
   const [timeSheets, setTimesheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState(undefined);
-  const params = useParams();
-  console.log(params);
-  console.log(props);
 
   useEffect(async () => {
     try {

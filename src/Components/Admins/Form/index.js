@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 const Form = (props) => {
   const params = useParams();
   const id = params.Id ? params.Id : '';
-  console.log(params);
   const [admin, setAdmin] = useState({
     name: '',
     lastName: '',
