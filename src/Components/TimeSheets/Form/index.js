@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
+import Select from '../../Shared/Select/index';
 
 const Form = (props) => {
   const [timeSheetInput, setTimeSheetInput] = useState({
@@ -180,57 +181,40 @@ const Form = (props) => {
           </div>
           <div className={styles.cardField}>
             <label>Task</label>
-            <select
+            <Select
               value={timeSheetInput.task}
-              onChange={(e) => {
-                setTimeSheetInput({ ...timeSheetInput, task: e.target.value });
+              options={tasks}
+              title={'Task'}
+              fieldToShow={'description'}
+              onChange={(value) => {
+                setTimeSheetInput({ ...timeSheetInput, task: value });
               }}
-            >
-              <option>--Select Task--</option>
-              {tasks?.map((task) => {
-                return (
-                  <option key={task._id} value={task._id}>
-                    {task.description}
-                  </option>
-                );
-              })}
-            </select>
+            ></Select>
           </div>
           <div className={styles.cardField}>
             <label>Employee</label>
-            <select
+            <Select
               value={timeSheetInput.employee}
-              onChange={(e) => {
-                setTimeSheetInput({ ...timeSheetInput, employee: e.target.value });
+              options={employees}
+              title={'Employee'}
+              fieldToShow={'name'}
+              second={'lastName'}
+              onChange={(value) => {
+                setTimeSheetInput({ ...timeSheetInput, employee: value });
               }}
-            >
-              <option>--Select Employee--</option>
-              {employees?.map((employee) => {
-                return (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.lastName} {employee.name}
-                  </option>
-                );
-              })}
-            </select>
+            ></Select>
           </div>
           <div className={styles.cardField}>
             <label>Project</label>
-            <select
+            <Select
               value={timeSheetInput.project}
-              onChange={(e) => {
-                setTimeSheetInput({ ...timeSheetInput, project: e.target.value });
+              options={projects}
+              title={'Project'}
+              fieldToShow={'name'}
+              onChange={(value) => {
+                setTimeSheetInput({ ...timeSheetInput, project: value });
               }}
-            >
-              <option>--Select Project--</option>
-              {projects?.map((project) => {
-                return (
-                  <option key={project._id} value={project._id}>
-                    {project.name} {project.lastName}
-                  </option>
-                );
-              })}
-            </select>
+            ></Select>
           </div>
           <div className={styles.cardButton}>
             <div>
