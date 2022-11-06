@@ -1,8 +1,8 @@
 import { put, post } from '../Methods/TaskMethods';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from '../tasks.module.css';
-
-const id = window.location.search.slice(1, 25);
-let taskType = window.location.search.slice(26);
+let taskType = '';
 const setTask = async (data, id) => {
   try {
     await (id ? put(data, id) : post(data));
@@ -12,12 +12,16 @@ const setTask = async (data, id) => {
 };
 
 const TasksForm = () => {
+  const params = useParams();
+  const id = params.id ? params.id : '';
   return (
     <div className={styles.formContainer}>
       <span>
-        <button onClick={() => window.location.assign('/tasks')}>
-          <img src={`${process.env.PUBLIC_URL}/assets/images/close.svg`} alt="Close icon" />
-        </button>
+        <Link to={'/tasks'}>
+          <button>
+            <img src={`${process.env.PUBLIC_URL}/assets/images/close.svg`} alt="Close icon" />
+          </button>
+        </Link>
       </span>
       {id ? (
         <p>

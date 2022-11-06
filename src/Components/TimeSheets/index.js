@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Modal from './Modal/index';
 import styles from './timeSheets.module.css';
 
-const TimeSheets = () => {
+const TimeSheets = (props) => {
   const [timeSheets, setTimesheet] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [timeSheetId, setTimeSheetId] = useState(undefined);
+  const params = useParams();
+  console.log(params);
+  console.log(props);
 
   useEffect(async () => {
     try {
@@ -57,7 +62,7 @@ const TimeSheets = () => {
           <button
             className={styles.add}
             onClick={() => {
-              window.location.assign('/timesheets/form');
+              props.history.push('/timesheets/form');
             }}
           >
             <img src="/assets/images/add.svg" alt="add TimeSheet" />
@@ -95,14 +100,11 @@ const TimeSheets = () => {
                     {timeSheet.project === null ? 'Not found in DB' : timeSheet.project['name']}
                   </td>
                   <td className={styles.buttons}>
-                    <button
-                      className={styles.update}
-                      onClick={() => {
-                        window.location.assign(`/timesheets/form?id=${timeSheet._id}`);
-                      }}
-                    >
-                      <img src="/assets/images/edit.svg" alt="update" />
-                    </button>
+                    <Link to={`/timesheets/${timeSheet._id}`}>
+                      <button className={styles.update}>
+                        <img src="/assets/images/edit.svg" alt="update" />
+                      </button>
+                    </Link>
                     <button
                       className={styles.delete}
                       onClick={() => {

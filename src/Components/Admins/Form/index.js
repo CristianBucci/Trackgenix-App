@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-const Form = () => {
+const Form = (props) => {
   const params = useParams();
-  const id = params.id ? params.id : '';
+  const id = params.Id ? params.Id : '';
+  console.log(params);
   const [admin, setAdmin] = useState({
     name: '',
     lastName: '',
@@ -46,6 +47,7 @@ const Form = () => {
       if (response.status === 201) {
         response = await response.json();
         alert(response.message);
+        props.history.push('/admins');
       } else {
         response = await response.json();
         alert(response.message);
@@ -68,6 +70,7 @@ const Form = () => {
       if (response.status === 200) {
         response = await response.json();
         alert(response.message);
+        props.history.push('/admins');
       } else {
         response = await response.json();
         alert(response.message);

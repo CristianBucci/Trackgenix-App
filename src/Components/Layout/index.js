@@ -7,7 +7,7 @@ import Home from '../Home/index';
 import Admins from '../Admins/index';
 import AdminsForm from '../Admins/Form';
 import SuperAdminsList from '../SuperAdmins/index';
-import SuperAdminsForm from '../SuperAdmins/Form/Form';
+import SuperAdminsListForm from '../SuperAdmins/Form/Form';
 import Employees from '../Employees/index';
 import EmployeesForm from '../Employees/Form';
 import Projects from '../Projects';
@@ -27,8 +27,8 @@ function Layout() {
         <Route path="/admins/form" component={AdminsForm} />
         <Route path="/admins/:Id" component={AdminsForm} />
         <Route exact path="/super-admins" component={SuperAdminsList} />
-        <Route path="/super-admins/form" component={SuperAdminsForm} />
-        <Route path="/super-admins/:id" component={SuperAdminsForm} />
+        <Route path="/super-admins/form" component={SuperAdminsListForm} />
+        <Route path="/super-admins/:id" component={SuperAdminsListForm} />
         <Route exact path="/employees" component={Employees} />
         <Route path="/employees/form" component={EmployeesForm} />
         <Route path="/employees/:id" component={EmployeesForm} />

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
 
-const Form = () => {
+const Form = (props) => {
   const [timeSheetInput, setTimeSheetInput] = useState({
     description: '',
     date: '',
@@ -18,6 +19,8 @@ const Form = () => {
   const [employees, setEmployees] = useState();
   const [tasks, setTasks] = useState();
   const [projects, setProjects] = useState();
+  const params = useParams();
+  const id = params.id ? params.id : '';
 
   useEffect(async () => {
     try {
@@ -38,10 +41,8 @@ const Form = () => {
   }, []);
 
   useEffect(async () => {
-    if (window.location.href.includes('id=')) {
+    if (id) {
       try {
-        const fullUrl = window.location.href;
-        const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
         const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
           method: 'GET'
         });
@@ -94,7 +95,7 @@ const Form = () => {
         });
         if (response.status === 201) {
           alert('TimeSheet Added.');
-          window.location.assign('/timesheets');
+          props.history.push('/timesheets');
         } else {
           setShowModal(true);
           setServerError('TimeSheet could not be Added.');
@@ -106,8 +107,6 @@ const Form = () => {
     } else {
       event.preventDefault();
       try {
-        const fullUrl = window.location.href;
-        const id = fullUrl.substring(fullUrl.lastIndexOf('=') + 1);
         const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
           method: 'PUT',
           headers: {
@@ -125,7 +124,7 @@ const Form = () => {
         });
         if (response.status === 200) {
           alert('TimeSheet Updated.');
-          window.location.assign('/timesheets');
+          props.history.push('/timesheets');
         } else {
           setShowModal(true);
           setServerError('TimeSheet could not be Updated.');
@@ -235,10 +234,7 @@ const Form = () => {
           </div>
           <div className={styles.cardButton}>
             <div>
-              <button
-                className={styles.cancel}
-                onClick={() => window.location.assign('/timesheets')}
-              >
+              <button className={styles.cancel} onClick={() => props.history.push('/timesheets')}>
                 Cancel
               </button>
             </div>

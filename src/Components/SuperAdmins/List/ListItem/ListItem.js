@@ -1,12 +1,8 @@
 import React from 'react';
 import styles from './ListItem.module.css';
+import { Link } from 'react-router-dom';
 
 const ListItem = ({ listItem, setShowModal, setDelId }) => {
-  const formURL = `/super-admins/form?id=${listItem._id}`;
-
-  const onClick = () => {
-    window.location.assign(formURL);
-  };
   const openModal = () => {
     setShowModal(true);
     setDelId(listItem._id);
@@ -19,9 +15,9 @@ const ListItem = ({ listItem, setShowModal, setDelId }) => {
       </td>
       <td className={styles.data}>{listItem.email}</td>
       <td className={styles.actionButtons}>
-        <button className={styles.editBtn} onClick={onClick}>
-          Edit
-        </button>
+        <Link to={`/super-admins/${listItem._id}`}>
+          <button className={styles.editBtn}>Edit</button>
+        </Link>
         <button className={styles.deleteBtn} onClick={openModal}>
           Delete
         </button>
