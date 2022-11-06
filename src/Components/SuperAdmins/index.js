@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import List from './List/List';
+//import List from './List/List';
+import Table from '../Shared/Table/Table';
 import styles from './super-admins.module.css';
 
 const SuperAdminsList = () => {
@@ -40,11 +41,16 @@ const SuperAdminsList = () => {
           <h2>SuperAdmins</h2>
         </div>
       </div>
-      <List
+      <Table
+        data={superAdminsList}
+        headers={['name', 'email', 'lastName']}
+        deleteFunction={deleteSuperAdmin}
+      />
+      {/* <List
         superAdminsList={superAdminsList}
         setSuperAdminsList={setSuperAdminsList}
         deleteSuperAdmin={deleteSuperAdmin}
-      />
+      /> */}
     </div>
   );
 };
