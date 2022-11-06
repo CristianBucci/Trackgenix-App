@@ -11,7 +11,7 @@ const setTask = async (data, id) => {
   }
 };
 
-const Form = () => {
+const TasksForm = () => {
   return (
     <div className={styles.formContainer}>
       <span>
@@ -61,4 +61,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default TasksForm;

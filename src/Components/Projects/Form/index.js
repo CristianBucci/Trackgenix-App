@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './createItem.module.css';
 import Modal from '../Modals/modal.js';
 
-const url = window.location.href;
-const id = url.substring(url.lastIndexOf('=') + 1);
 const initialValue = {
   clientName: '',
   description: '',
@@ -11,33 +11,31 @@ const initialValue = {
   name: '',
   startDate: ''
 };
+
 const AddProject = () => {
   const [project, setProject] = useState(initialValue);
   const [employees, setEmployees] = useState([]);
   const [employeeData, setEmployeeName] = useState([]);
-
   const [modalDisplay, setModalDisplay] = useState('');
   const [contentMessage, setContentMessage] = useState('');
   const [modalTitle, setModalTitle] = useState('');
+  const params = useParams();
+  const id = params.id ? params.id : '';
 
   useEffect(async () => {
-    if (window.location.href.includes('id')) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`);
-        const data = await response.json();
-        setProject({
-          clientName: data.data.clientName,
-          description: data.data.description,
-          startDate: data.data.startDate.substr(0, 10),
-          endDate: data.data.endDate.substr(0, 10),
-          name: data.data.name
-        });
-        setEmployees(data.data.employees);
-      } catch (error) {
-        alert('Could not GET Project.', error);
-      }
-    } else {
-      return null;
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`);
+      const data = await response.json();
+      setProject({
+        clientName: data.data.clientName,
+        description: data.data.description,
+        startDate: data.data.startDate.substr(0, 10),
+        endDate: data.data.endDate.substr(0, 10),
+        name: data.data.name
+      });
+      setEmployees(data.data.employees);
+    } catch (error) {
+      alert('Could not GET Project.', error);
     }
   }, []);
 
@@ -69,6 +67,7 @@ const AddProject = () => {
       alert('Could not create Project.', error);
     }
   };
+
   const editProject = async ({ clientName, description, endDate, name, startDate }) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
@@ -116,7 +115,7 @@ const AddProject = () => {
   };
 
   const onSubmit = (e) => {
-    if (!window.location.href.includes('id')) {
+    if (!id) {
       e.preventDefault();
       createProject(project);
       cleanInputs();
@@ -278,9 +277,9 @@ const AddProject = () => {
               <button type="submit">Submit</button>
             </div>
           </form>
-          <a href={'http://localhost:3000/projects'}>
+          <Link to={'/projects'}>
             <button type="text">Cancel</button>
-          </a>
+          </Link>
         </div>
       </div>
       {modalDisplay ? (

@@ -1,10 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import modalstyles from './modal.module.css';
 
 const Modal = ({ content, contentMessage, title, setModalDisplay }) => {
   const onCloseModal = () => {
     setModalDisplay(false);
-    window.location.assign(`/projects`);
   };
   return (
     <>
@@ -23,12 +23,14 @@ const Modal = ({ content, contentMessage, title, setModalDisplay }) => {
         <div className={modalstyles.content}>
           {content ?? null}
           {contentMessage ? <p className={modalstyles.content__message}>{contentMessage}</p> : null}
-          <button
-            className={`${modalstyles.options__button} ${modalstyles.options__close}`}
-            onClick={onCloseModal}
-          >
-            Close
-          </button>
+          <Link to={'/projects'}>
+            <button
+              className={`${modalstyles.options__button} ${modalstyles.options__close}`}
+              onClick={onCloseModal}
+            >
+              Close
+            </button>
+          </Link>
         </div>
       </div>
     </>

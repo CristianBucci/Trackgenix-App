@@ -1,4 +1,5 @@
 import ListItem from '../ListItems';
+import { Link } from 'react-router-dom';
 import './list.module.css';
 
 const ProjectList = ({ list, deleteItem }) => {
@@ -14,9 +15,9 @@ const ProjectList = ({ list, deleteItem }) => {
             <th id="EndDate">End Date</th>
             <th id="Employees">Employees</th>
             <th id="Actions">
-              <a href={'/projects/form'}>
+              <Link to={'/projects/form'}>
                 <button>Add Project</button>
-              </a>
+              </Link>
             </th>
           </tr>
         </thead>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './Form.module.css';
 
-const Form = () => {
+const SuperAdminsForm = () => {
   const listURL = 'http://localhost:3000/super-admins';
   const [superAdminInput, setSuperAdminInput] = useState({
     name: '',
@@ -145,4 +145,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default SuperAdminsForm;
