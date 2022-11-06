@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import ListItem from './ListItem/ListItem';
 import Modal from './Modal/Modal';
 import styles from './List.module.css';
+import { Link } from 'react-router-dom';
 
 const List = ({ superAdminsList, deleteSuperAdmin }) => {
-  const formURL = './super-admins/form';
   const [showModal, setShowModal] = useState(false);
   const [delId, setDelId] = useState('');
   const closeModal = () => {
@@ -15,10 +15,6 @@ const List = ({ superAdminsList, deleteSuperAdmin }) => {
     setShowModal(false);
     setDelId('');
   };
-  const onClick = () => {
-    window.location.assign(formURL);
-  };
-
   return (
     <div>
       <Modal
@@ -33,9 +29,9 @@ const List = ({ superAdminsList, deleteSuperAdmin }) => {
             <th className={styles.data}>Name</th>
             <th className={styles.data}>Email</th>
             <th className={styles.actionButtons}>
-              <button className={styles.createBtn} onClick={onClick}>
-                Create new
-              </button>
+              <Link to={'./super-admins/form'}>
+                <button className={styles.createBtn}>Create new</button>
+              </Link>
             </th>
           </tr>
         </thead>

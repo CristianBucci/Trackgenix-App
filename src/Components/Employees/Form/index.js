@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from './form.module.css';
 import Modal from '../Modal';
 
 function Form() {
-  const params = new URLSearchParams(window.location.search);
-  let employeeId = params.get('id');
-
+  const params = useParams();
+  const id = params.id ? params.id : '';
   const [formValues, setFormValues] = useState({
     name: '',
     lastName: '',
@@ -17,10 +17,9 @@ function Form() {
   const [modalDisplay, setModalDisplay] = useState('');
   const [contentMessage, setContentMessage] = useState('');
   const [modalTitle, setModalTitle] = useState('');
-
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
       const data = await response.json();
       setFormValues({
         name: data.data.name,
@@ -56,7 +55,7 @@ function Form() {
 
   const editEmployee = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${employeeId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formValues)
@@ -83,7 +82,7 @@ function Form() {
     <>
       <div className={styles.container}>
         <form onSubmit={onSubmit}>
-          <h2>{employeeId ? 'Edit Employee' : 'Create Employee'}</h2>
+          <h2>{id ? 'Edit Employee' : 'Create Employee'}</h2>
           <div className="form-item">
             <label htmlFor="input-name">Name</label>
             <input
@@ -169,7 +168,7 @@ function Form() {
             <button
               type="submit"
               className={styles.buttonSave}
-              onClick={employeeId ? () => editEmployee() : () => createEmployee()}
+              onClick={id ? () => editEmployee() : () => createEmployee()}
             >
               Save
             </button>

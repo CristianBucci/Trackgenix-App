@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import style from './list.module.css';
 
 const List = ({ employees, deleteEmployee }) => {
@@ -10,12 +11,9 @@ const List = ({ employees, deleteEmployee }) => {
     <section>
       <div className={style.title}>
         <h2>Employees</h2>
-        <button
-          className={style.buttonCreate}
-          onClick={() => window.location.assign(`/employees/form`)}
-        >
-          Create Employee
-        </button>
+        <Link to={'/employees/form'}>
+          <button className={style.buttonCreate}>Create Employee</button>
+        </Link>
       </div>
       <div>
         <table>
@@ -36,12 +34,11 @@ const List = ({ employees, deleteEmployee }) => {
                   <td>{employee.phone}</td>
                   <td>{employee.email}</td>
                   <td>
-                    <button
-                      className={style.btnIcons}
-                      onClick={() => window.location.assign(`/employees/form?id=${employee._id}`)}
-                    >
-                      <img src="/assets/images/pencil.png" alt="update" />
-                    </button>
+                    <Link to={`/employees/${employee._id}`}>
+                      <button className={style.btnIcons}>
+                        <img src="/assets/images/pencil.png" alt="update" />
+                      </button>
+                    </Link>
                     <button className={style.btnIcons} onClick={() => handleDelete(employee._id)}>
                       <img src="/assets/images/trash.png" alt="delete" />
                     </button>

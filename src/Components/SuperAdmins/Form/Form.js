@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from './Form.module.css';
 
-const Form = () => {
-  const listURL = 'http://localhost:3000/super-admins';
+const Form = (props) => {
   const [superAdminInput, setSuperAdminInput] = useState({
     name: '',
     lastName: '',
@@ -10,11 +10,11 @@ const Form = () => {
     password: ''
   });
   const [err, setErr] = useState('');
+  const params = useParams();
+  const id = params.id ? params.id : '';
 
   const currentSuperAdminInput = async () => {
     try {
-      const url = window.location.href;
-      const id = url.substring(url.lastIndexOf('=') + 1);
       let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`);
       response = await response.json();
 
@@ -31,13 +31,13 @@ const Form = () => {
   };
 
   useEffect(async () => {
-    if (window.location.href.includes('id=')) {
+    if (id) {
       currentSuperAdminInput();
     }
   }, []);
 
   const addOrEditHandler = () => {
-    if (window.location.href.includes('id=')) {
+    if (id) {
       editSuperAdmin(superAdminInput);
     } else {
       addSuperAdmin(superAdminInput);
@@ -49,7 +49,7 @@ const Form = () => {
   };
 
   const onClick = () => {
-    window.location.assign(listURL);
+    props.history.push('/super-admins');
   };
 
   const addSuperAdmin = async (input) => {
@@ -64,7 +64,7 @@ const Form = () => {
       if (response.status === 201) {
         response = await response.json();
         alert(response.message);
-        window.location.assign(listURL);
+        props.history.push('/super-admins');
       } else {
         response = await response.json();
         alert(response.message);
@@ -89,7 +89,7 @@ const Form = () => {
       if (response.status === 200) {
         response = await response.json();
         alert(response.message);
-        window.location.assign(listURL);
+        props.history.push('/super-admins');
       } else {
         response = await response.json();
         alert(response.message);

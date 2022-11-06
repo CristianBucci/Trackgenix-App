@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-const Form = () => {
+const Form = (props) => {
+  const params = useParams();
+  const id = params.Id ? params.Id : '';
   const [admin, setAdmin] = useState({
     name: '',
     lastName: '',
@@ -11,7 +14,6 @@ const Form = () => {
 
   const adminForm = async () => {
     try {
-      const id = window.location.href.substring(window.location.href.lastIndexOf('=') + 1);
       let response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`);
       response = await response.json();
       setAdmin({
@@ -27,7 +29,7 @@ const Form = () => {
   };
 
   useEffect(async () => {
-    if (window.location.href.includes('id=')) {
+    if (id) {
       adminForm();
     }
   }, []);
@@ -44,6 +46,7 @@ const Form = () => {
       if (response.status === 201) {
         response = await response.json();
         alert(response.message);
+        props.history.push('/admins');
       } else {
         response = await response.json();
         alert(response.message);
@@ -56,7 +59,6 @@ const Form = () => {
 
   const updateAdmin = async (newData) => {
     try {
-      const id = window.location.href.substring(window.location.href.lastIndexOf('=') + 1);
       let response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
         method: 'PUT',
         headers: {
@@ -67,6 +69,7 @@ const Form = () => {
       if (response.status === 200) {
         response = await response.json();
         alert(response.message);
+        props.history.push('/admins');
       } else {
         response = await response.json();
         alert(response.message);
@@ -78,7 +81,7 @@ const Form = () => {
   };
 
   const changeController = () => {
-    if (window.location.href.includes('id=')) {
+    if (id) {
       updateAdmin(admin);
     } else {
       addAdmin(admin);

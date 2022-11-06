@@ -1,4 +1,5 @@
 import styles from './list.module.css';
+import { Link } from 'react-router-dom';
 
 const List = ({ list, deleteAdmin }) => {
   return (
@@ -21,15 +22,17 @@ const List = ({ list, deleteAdmin }) => {
                 <td>{admin.lastName}</td>
                 <td>{admin.email}</td>
                 <td>
-                  <button onClick={() => window.location.assign(`/admins/form?id=${admin._id}`)}>
-                    Update
-                  </button>
+                  <Link to={`/admins/${admin._id}`}>
+                    <button>Update</button>
+                  </Link>
                   <button onClick={() => deleteAdmin(admin._id)}>Delete</button>
                 </td>
               </tr>
             );
           })}
-          <button onClick={() => window.location.assign('/admins/form')}>Add</button>
+          <Link to={'/admins/form'}>
+            <button>Add</button>
+          </Link>
         </tbody>
       </table>
     </section>

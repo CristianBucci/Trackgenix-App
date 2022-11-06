@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './modal.module.css';
 
 const Modal = ({ content, contentMessage, title, setModalDisplay }) => {
@@ -19,7 +20,7 @@ const Modal = ({ content, contentMessage, title, setModalDisplay }) => {
             onClick={() => {
               setModalDisplay(false);
               if (title !== 'Error') {
-                window.location.assign(`/employees`);
+                <Link to={'/employees'}></Link>;
               }
             }}
           >
