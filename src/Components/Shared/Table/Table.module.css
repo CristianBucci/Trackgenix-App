@@ -1,8 +1,52 @@
+table {
+   width: 100%;
+   border-collapse: collapse;
+   caption-side: top;
+   margin: 0 0 5em 0;
+   text-align: left;
+}
+
+caption, td, th {
+   padding: 0.5em 1em;
+}
+
+th, td {
+   border-bottom: 1px solid #999;
+}
+
+caption {
+   font-weight: bold;
+   font-style: italic;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     width: 80%;
     margin: auto;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+.top div {
+    display: flex;
+    border-bottom: 1px solid #999;
+}
+
+.top input {
+    border: none;
+}
+
+.createBtn {
+    background-color: #FC6225;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #ffffff;
 }
 
 .createBtn {
@@ -15,6 +59,7 @@
 
 .header {
     text-align: left;
+    font-size: large;
     color: #FC6225;
 }
 

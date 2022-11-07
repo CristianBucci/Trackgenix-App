@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '../Button/Button';
 import styles from './Modal.module.css';
 
 const Modal = (props) => {
@@ -14,8 +13,8 @@ const Modal = (props) => {
           <div className={styles.text}>{props.modalContent}</div>
         </div>
         <div className={styles.buttons}>
-          <Button btnText={'Yes'} function={props.modalFunction} btnType={'prim'} />
-          <Button btnText={'No'} function={props.closeModal} btnType={'sec'} />
+          <button>Yes</button>
+          <button>No</button>
         </div>
       </div>
     </div>

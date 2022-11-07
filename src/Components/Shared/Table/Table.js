@@ -28,9 +28,15 @@ const Table = (props) => {
         modalFunction={deleteHandler}
       />
       <div className={styles.container}>
-        <Link to={'./super-admins/form'} className={styles.createBtn}>
-          <button>Create new</button>
-        </Link>
+        <div className={styles.top}>
+          <div className={styles.searchBox}>
+            <img src="/assets/images/lens.svg" alt="update" />
+            <input type="text" placeholder="Search"></input>
+          </div>
+          <Link to={'./super-admins/form'}>
+            <button className={styles.createBtn}>+</button>
+          </Link>
+        </div>
         <table className={styles.table}>
           <thead className={styles.header}>
             <tr>
