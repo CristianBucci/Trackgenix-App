@@ -7,7 +7,6 @@ const Table = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [itemId, setItemId] = useState('');
   const location = useLocation();
-
   const closeModal = () => {
     setShowModal(false);
   };
@@ -58,21 +57,31 @@ const Table = (props) => {
                 <>
                   <tr key={item._id} className={styles.row}>
                     {props.dataValues.map((value, index) => {
-                      return (
-                        <>
-                          <td key={index}>{item[value]}</td>
-                        </>
-                      );
+                      if (item[value].length == 1 && item[value][0]) {
+                        return (
+                          <>
+                            <td key={index}>{}</td>
+                          </>
+                        );
+                      } else {
+                        return (
+                          <>
+                            <td key={index}>{item[value]}</td>
+                          </>
+                        );
+                      }
                     })}
-                    <td key={item._id} className={styles.btnContainer}>
-                      <Link to={`${location.pathname}/${item._id}`}>
-                        <button className={styles.button}>
-                          <img src="/assets/images/edit.svg" alt="update" />
+                    <td key={item._id}>
+                      <div className={styles.btnContainer}>
+                        <Link to={`${location.pathname}/${item._id}`}>
+                          <button className={styles.button}>
+                            <img src="/assets/images/edit.svg" alt="update" />
+                          </button>
+                        </Link>
+                        <button onClick={openModal} className={styles.button}>
+                          <img src="/assets/images/trash.svg" alt="delete" />
                         </button>
-                      </Link>
-                      <button onClick={openModal} className={styles.button}>
-                        <img src="/assets/images/trash.svg" alt="delete" />
-                      </button>
+                      </div>
                     </td>
                   </tr>
                 </>

@@ -1,14 +1,9 @@
 import { useEffect, useState } from 'react';
+import Table from '../Shared/Table/Table';
 import styles from './projects.module.css';
-import ProjectList from './List';
-import Modal from './Modals/modal.js';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
-  const [modalDisplay, setModalDisplay] = useState('');
-  const [contentMessage, setContentMessage] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
-  const [errors, setErrors] = useState('');
 
   const getProjects = async () => {
     try {
@@ -16,8 +11,7 @@ const Projects = () => {
       const data = await response.json();
       setProjects(data.data);
     } catch (error) {
-      setErrors('Cannot get projects', { error });
-      alert(errors);
+      alert('Could not GET Projects.', error);
     }
   };
 
@@ -25,34 +19,41 @@ const Projects = () => {
     getProjects();
   }, []);
 
-  const deleteItem = async (id) => {
+  const deleteProject = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
         method: 'DELETE'
       });
-      setProjects([...projects.filter((item) => item._id !== id)]);
-      const data = await response.json();
-      setContentMessage(data.message);
-      setProjects(projects.filter((projects) => projects._id !== id));
-      setModalTitle('Success');
-      setModalDisplay(true);
+      if (response.status === 204) {
+        alert('Project removed.');
+        setProjects([...projects.filter((project) => project._id !== id)]);
+      } else {
+        alert('Project could not be removed.');
+      }
     } catch (error) {
-      setModalTitle('Error', { error });
+      alert('Project could not be removed.', error);
     }
   };
+
   return (
-    <>
-      <section className={styles.container}>
-        <ProjectList list={projects} deleteItem={deleteItem} />
-      </section>
-      {modalDisplay ? (
-        <Modal
-          title={modalTitle}
-          contentMessage={contentMessage}
-          setModalDisplay={setModalDisplay}
-        />
-      ) : null}
-    </>
+    <div className={styles.container}>
+      <div className={styles.title}>
+        <h2>projects</h2>
+      </div>
+      <Table
+        data={projects}
+        headers={[
+          'Project Name',
+          'Desription',
+          'Client Name',
+          'Starting Date',
+          'End Date',
+          'Employees'
+        ]}
+        dataValues={['name', 'description', 'clientName', 'startDate', 'endDate', 'employees']}
+        modalFunction={deleteProject}
+      />
+    </div>
   );
 };
 
