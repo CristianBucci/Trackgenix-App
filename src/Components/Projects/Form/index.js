@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Input from '../../Shared/Inputs';
 import styles from './createItem.module.css';
 import Modal from '../Modals/modal.js';
 
@@ -131,36 +132,33 @@ const AddProject = () => {
         <div className={styles.container}>
           <h2 className={styles.formTitle}>Project Form</h2>
           <form onSubmit={onSubmit} className={styles.form}>
-            <div className={styles.formRaws}>
-              <label>Client Name</label>
-              <input
-                className={styles.inputs}
-                type="text"
-                value={project.clientName}
-                name="clientName"
-                onChange={(e) => setProject({ ...project, clientName: e.target.value })}
-              />
-            </div>
-            <div className={styles.formRaws}>
-              <label>Project Name</label>
-              <input
-                className={styles.inputs}
-                type="text"
-                name="name"
-                value={project.name}
-                onChange={(e) => setProject({ ...project, name: e.target.value })}
-              />
-            </div>
-            <div className={styles.formRaws}>
-              <label>Description</label>
-              <input
-                className={styles.inputs}
-                type="text"
-                name="description"
-                value={project.description}
-                onChange={(e) => setProject({ ...project, description: e.target.value })}
-              />
-            </div>
+            <Input
+              label={'Client Name'}
+              name="clientName"
+              required
+              type="text"
+              value={project.clientName}
+              onChange={(e) => setProject({ ...project, clientName: e.target.value })}
+              placeholder={'Client Name'}
+            />
+            <Input
+              label={'Project Name'}
+              name="name"
+              required
+              type="text"
+              value={project.name}
+              onChange={(e) => setProject({ ...project, name: e.target.value })}
+              placeholder={'Client Name'}
+            />
+            <Input
+              label={'Description'}
+              name="description"
+              required
+              type="text"
+              value={project.description}
+              onChange={(e) => setProject({ ...project, description: e.target.value })}
+              placeholder={'Client Name'}
+            />
             <div className={styles.formRaws}>
               <label>Start Date</label>
               <input
@@ -200,6 +198,7 @@ const AddProject = () => {
                       ])
                     }
                   >
+                    employeesProject.splice(employeesProject[index], 1)
                     {employeesNames.map((e, idx) => (
                       <>
                         <option></option>
@@ -207,11 +206,12 @@ const AddProject = () => {
                       </>
                     ))}
                   </select>
-                  <label>Rate</label>
-                  <input
-                    className={styles.inputs}
-                    type="text"
+                  <Input
+                    label={'Rate'}
                     name="rate"
+                    required
+                    type="number"
+                    value={project.rate}
                     onChange={(e) =>
                       setEmployees([
                         ...employees.slice(0, index),
@@ -222,6 +222,7 @@ const AddProject = () => {
                         ...employees.slice(index + 1)
                       ])
                     }
+                    placeholder={'Rate'}
                   />
                   <label>Role</label>
                   <select

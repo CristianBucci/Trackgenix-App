@@ -129,7 +129,7 @@ const Form = (props) => {
         />
         <Input
           label={'Password'}
-          type="text"
+          type="password"
           name="password"
           required
           value={admin.password}
