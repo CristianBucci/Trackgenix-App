@@ -57,7 +57,7 @@ const Table = (props) => {
                 <>
                   <tr key={item._id} className={styles.row}>
                     {props.dataValues.map((value, index) => {
-                      if (item[value].length == 1 && item[value][0]) {
+                      if (item[value].length == 1) {
                         return (
                           <>
                             <td key={index}>{}</td>
