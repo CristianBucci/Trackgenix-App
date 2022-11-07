@@ -23,7 +23,7 @@ const ProjectList = ({ list, deleteItem }) => {
         </thead>
         <tbody>
           {list.map((item) => (
-            <ListItem key={item.id} listItem={item} deleteItem={deleteItem} />
+            <ListItem key={item._id} listItem={item} deleteItem={deleteItem} />
           ))}
         </tbody>
       </table>
