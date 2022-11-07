@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-//import List from './List/List';
 import Table from '../Shared/Table/Table';
 import styles from './super-admins.module.css';
 
@@ -36,21 +35,15 @@ const SuperAdminsList = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.title}>
-          <h2>SuperAdmins</h2>
-        </div>
+      <div className={styles.title}>
+        <h2>superadmins</h2>
       </div>
       <Table
         data={superAdminsList}
-        headers={['name', 'lastName', 'email']}
+        headers={['First name', 'Last name', 'Email']}
+        dataValues={['name', 'lastName', 'email']}
         modalFunction={deleteSuperAdmin}
       />
-      {/* <List
-        superAdminsList={superAdminsList}
-        setSuperAdminsList={setSuperAdminsList}
-        deleteSuperAdmin={deleteSuperAdmin}
-      /> */}
     </div>
   );
 };

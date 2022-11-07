@@ -27,13 +27,13 @@ const Table = (props) => {
         modalContent={modalContent}
         modalFunction={deleteHandler}
       />
-      <div>
-        <Link to={'./super-admins/form'}>
-          <button className={styles.createBtn}>Create new</button>
+      <div className={styles.container}>
+        <Link to={'./super-admins/form'} className={styles.createBtn}>
+          <button>Create new</button>
         </Link>
         <table className={styles.table}>
-          <thead>
-            <tr className={styles.row}>
+          <thead className={styles.header}>
+            <tr>
               {props.headers.map((header, index) => {
                 return <th key={index}>{header}</th>;
               })}
@@ -48,19 +48,23 @@ const Table = (props) => {
               };
               return (
                 <>
-                  <tr key={item._id}>
-                    {props.headers.map((header, index) => {
+                  <tr key={item._id} className={styles.row}>
+                    {props.dataValues.map((value, index) => {
                       return (
                         <>
-                          <td key={index}>{item[header]}</td>
+                          <td key={index}>{item[value]}</td>
                         </>
                       );
                     })}
-                    <td key={item._id}>
-                      <button onClick={openModal}>DEL</button>
+                    <td key={item._id} className={styles.btnContainer}>
                       <Link to={`/super-admins/form?id=${item._id}`}>
-                        <button>EDIT</button>
+                        <button className={styles.button}>
+                          <img src="/assets/images/edit.svg" alt="update" />
+                        </button>
                       </Link>
+                      <button onClick={openModal} className={styles.button}>
+                        <img src="/assets/images/trash.svg" alt="delete" />
+                      </button>
                     </td>
                   </tr>
                 </>
