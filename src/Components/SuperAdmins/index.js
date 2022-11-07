@@ -43,8 +43,8 @@ const SuperAdminsList = () => {
       </div>
       <Table
         data={superAdminsList}
-        headers={['name', 'email', 'lastName']}
-        deleteFunction={deleteSuperAdmin}
+        headers={['name', 'lastName', 'email']}
+        modalFunction={deleteSuperAdmin}
       />
       {/* <List
         superAdminsList={superAdminsList}
