@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
 import styles from './Table.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Table = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [itemId, setItemId] = useState('');
+  const location = useLocation();
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -33,7 +35,7 @@ const Table = (props) => {
             <img src="/assets/images/lens.svg" alt="update" />
             <input type="text" placeholder="Search"></input>
           </div>
-          <Link to={'./super-admins/form'}>
+          <Link to={`.${location.pathname}/form`}>
             <button className={styles.createBtn}>+</button>
           </Link>
         </div>
@@ -63,7 +65,7 @@ const Table = (props) => {
                       );
                     })}
                     <td key={item._id} className={styles.btnContainer}>
-                      <Link to={`/super-admins/form?id=${item._id}`}>
+                      <Link to={`${location.pathname}/form?id=${item._id}`}>
                         <button className={styles.button}>
                           <img src="/assets/images/edit.svg" alt="update" />
                         </button>

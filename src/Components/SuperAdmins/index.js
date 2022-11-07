@@ -4,7 +4,6 @@ import styles from './super-admins.module.css';
 
 const SuperAdminsList = () => {
   const [superAdminsList, setSuperAdminsList] = useState([]);
-  const [err, setErr] = useState('');
 
   const getList = async () => {
     try {
@@ -12,14 +11,13 @@ const SuperAdminsList = () => {
       response = await response.json();
       setSuperAdminsList(response.data);
     } catch (error) {
-      setErr(error);
-      alert(err);
+      alert('Could not GET SuperAdmins.', error);
     }
   };
 
   useEffect(() => {
     getList();
-  }, [superAdminsList]);
+  }, []);
 
   const deleteSuperAdmin = async (id) => {
     try {
