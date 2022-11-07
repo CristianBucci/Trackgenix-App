@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import Input from '../../Shared/Inputs';
 const Form = (props) => {
   const params = useParams();
   const id = params.Id ? params.Id : '';
@@ -100,22 +100,42 @@ const Form = (props) => {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <div>
-          <label>Name</label>
-          <input type="text" name="name" value={admin.name} onChange={onChange} />
-        </div>
-        <div>
-          <label>Last Name</label>
-          <input type="text" name="lastName" value={admin.lastName} onChange={onChange} />
-        </div>
-        <div>
-          <label>Email</label>
-          <input type="text" name="email" value={admin.email} onChange={onChange} />
-        </div>
-        <div>
-          <label>Password</label>
-          <input type="password" name="password" value={admin.password} onChange={onChange} />
-        </div>
+        <Input
+          label={'Name'}
+          type="text"
+          name="name"
+          required
+          value={admin.name}
+          onChange={onChange}
+          placeholder={'Name'}
+        />
+        <Input
+          label={'Last Name'}
+          type="text"
+          name="lastName"
+          required
+          value={admin.lastName}
+          onChange={onChange}
+          placeholder={'Last Name'}
+        />
+        <Input
+          label={'Email'}
+          type="text"
+          name="email"
+          required
+          value={admin.email}
+          onChange={onChange}
+          placeholder={'Email'}
+        />
+        <Input
+          label={'Password'}
+          type="text"
+          name="password"
+          required
+          value={admin.password}
+          onChange={onChange}
+          placeholder={'Password'}
+        />
         <div>
           <input type="submit" value="Confirm" />
         </div>
