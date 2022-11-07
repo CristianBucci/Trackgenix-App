@@ -1,32 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Table from '../Shared/Table/Table';
 import styles from './tasks.module.css';
-import List from './TaskList/List';
-import { del } from './Methods/TaskMethods';
 
 const Tasks = () => {
   const [tasksList, setTasksList] = useState([]);
 
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-      if (!response.ok) {
-        throw new Error('Failed to get tasks');
-      }
-      const data = await response.json();
-      setTasksList(data.data);
+      let response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
+      response = await response.json();
+      setTasksList(response.data);
     } catch (error) {
-      alert(error);
+      alert('Could not GET Tasks.', error);
     }
   }, []);
 
   const deleteTask = async (id) => {
-    (await del(id)) ? setTasksList([...tasksList.filter((task) => task._id !== id)]) : '';
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+        method: 'DELETE'
+      });
+      if (response.status === 204) {
+        alert('Tasks removed.');
+        setTasksList([...tasksList.filter((task) => task._id !== id)]);
+      } else {
+        alert('Tasks could not be removed.');
+      }
+    } catch (error) {
+      alert('Tasks could not be removed.', error);
+    }
   };
 
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Tasks</h2>
-      <List tasksList={tasksList} deleteTask={deleteTask} />
+      <Table
+        data={tasksList}
+        headers={['ID', 'Description']}
+        dataValues={['_id', 'description']}
+        modalFunction={deleteTask}
+      />
     </section>
   );
 };
