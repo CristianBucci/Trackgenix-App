@@ -184,8 +184,10 @@ const Form = (props) => {
             <Select
               value={timeSheetInput.task}
               options={tasks}
+              keyMap={'_id'}
               title={'Task'}
               fieldToShow={'description'}
+              isDisabled={false}
               onChange={(value) => {
                 setTimeSheetInput({ ...timeSheetInput, task: value });
               }}
@@ -196,9 +198,11 @@ const Form = (props) => {
             <Select
               value={timeSheetInput.employee}
               options={employees}
+              keyMap={'_id'}
               title={'Employee'}
               fieldToShow={'name'}
               second={'lastName'}
+              isDisabled={false}
               onChange={(value) => {
                 setTimeSheetInput({ ...timeSheetInput, employee: value });
               }}
@@ -209,8 +213,10 @@ const Form = (props) => {
             <Select
               value={timeSheetInput.project}
               options={projects}
+              keyMap={'_id'}
               title={'Project'}
               fieldToShow={'name'}
+              isDisabled={false}
               onChange={(value) => {
                 setTimeSheetInput({ ...timeSheetInput, project: value });
               }}

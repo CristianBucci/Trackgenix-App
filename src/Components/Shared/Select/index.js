@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Select = ({ value, options, title, fieldToShow, second, onChange }) => {
+const Select = ({ value, options, keyMap, title, fieldToShow, second, onChange, isDisabled }) => {
   return (
-    <select value={value} onChange={(event) => onChange(event.target.value)}>
+    <select disabled={isDisabled} value={value} onChange={(event) => onChange(event.target.value)}>
       <option>--Select {title}--</option>
       {options?.map((option) => {
         return (
-          <option key={option._id} value={option._id}>
+          <option key={option[`${keyMap}`]} value={option[`${keyMap}`]}>
             {option[`${fieldToShow}`]} {second ? option[`${second}`] : null}
           </option>
         );
