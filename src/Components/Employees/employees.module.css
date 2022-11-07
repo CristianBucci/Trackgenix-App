@@ -1,13 +1,8 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
-
 .container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
 }
 
-.container h2 {
-  text-align: center;
+.title {
+  padding: 0px 20px;
+  text-transform: uppercase;
 }

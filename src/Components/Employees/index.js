@@ -1,55 +1,51 @@
 import { useEffect, useState } from 'react';
-import List from './List/List';
+import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
-import Modal from './Modal/modalDelete';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState();
-  const [err, setErr] = useState([]);
 
-  useEffect(async () => {
+  const getEmployees = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      setEmployees(data.data);
+      let response = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
+      response = await response.json();
+      setEmployees(response.data);
     } catch (error) {
-      setErr(error);
-      alert(err);
+      alert('Could not GET Employees.', error);
     }
+  };
+
+  useEffect(() => {
+    getEmployees();
   }, []);
 
   const deleteEmployee = async (id) => {
-    if (confirm('Are you sure that you want to delete this Employee?')) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-          method: 'DELETE'
-        });
-        setEmployees([...employees.filter((employees) => employees._id !== id)]);
-        if (response.ok) {
-          setEmployees(employees.filter((employee) => employee._id !== id));
-          setModalTitle('Success');
-        } else {
-          setModalTitle('Error');
-        }
-        setShowModal(true);
-      } catch (error) {
-        setErr(error);
-        alert('Employee could not be removed.', err);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
+        method: 'DELETE'
+      });
+      if (response.status === 204) {
+        alert('SuperAdmin removed.');
+        setEmployees([...employees.filter((employee) => employee._id !== id)]);
+      } else {
+        alert('SuperAdmin could not be removed.');
       }
+    } catch (error) {
+      alert('SuperAdmin could not be removed.', error);
     }
   };
 
   return (
     <div className={styles.container}>
-      <List
-        employees={employees}
-        setEmployees={setEmployees}
-        setShowModal={setShowModal}
-        deleteEmployee={deleteEmployee}
+      <div className={styles.title}>
+        <h2>employees</h2>
+      </div>
+      <Table
+        data={employees}
+        headers={['First name', 'Last name', 'Phone', 'Email']}
+        dataValues={['name', 'lastName', 'phone', 'email']}
+        modalFunction={deleteEmployee}
       />
-      {showModal ? <Modal title={modalTitle} setShowModal={setShowModal} /> : null}
     </div>
   );
 };

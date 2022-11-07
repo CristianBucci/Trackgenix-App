@@ -65,7 +65,7 @@ const Table = (props) => {
                       );
                     })}
                     <td key={item._id} className={styles.btnContainer}>
-                      <Link to={`${location.pathname}/form?id=${item._id}`}>
+                      <Link to={`${location.pathname}/${item._id}`}>
                         <button className={styles.button}>
                           <img src="/assets/images/edit.svg" alt="update" />
                         </button>

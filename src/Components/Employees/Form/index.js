@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './form.module.css';
-import Modal from '../Modal';
+import Modal from '../../Shared/Modal/Modal';
 
 function Form() {
   const params = useParams();
