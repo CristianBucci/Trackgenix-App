@@ -19,17 +19,21 @@ const SuperAdminsList = () => {
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [superAdminsList]);
 
   const deleteSuperAdmin = async (id) => {
     try {
-      await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/superadmin/${id}`, {
         method: 'DELETE'
       });
-      getList();
+      if (response.status === 204) {
+        alert('SuperAdmin removed.');
+        setSuperAdminsList([...superAdminsList.filter((superAdmin) => superAdmin._id !== id)]);
+      } else {
+        alert('SuperAdmin could not be removed.');
+      }
     } catch (error) {
-      setErr(error);
-      alert(err);
+      alert('SuperAdmin could not be removed.', error);
     }
   };
 

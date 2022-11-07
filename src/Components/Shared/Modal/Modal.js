@@ -13,8 +13,8 @@ const Modal = (props) => {
           <div className={styles.text}>{props.modalContent}</div>
         </div>
         <div className={styles.buttons}>
-          <button>Yes</button>
-          <button>No</button>
+          <button onClick={props.modalFunction}>Yes</button>
+          <button onClick={props.closeModal}>No</button>
         </div>
       </div>
     </div>
