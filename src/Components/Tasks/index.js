@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
 import Table from '../Shared/Table/Table';
+import { useLocation } from 'react-router-dom';
 import styles from './tasks.module.css';
 
 const Tasks = () => {
   const [tasksList, setTasksList] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [itemId, setItemId] = useState('');
+  const location = useLocation();
 
   useEffect(async () => {
     try {
@@ -15,6 +21,7 @@ const Tasks = () => {
     }
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   const deleteTask = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
@@ -38,7 +45,9 @@ const Tasks = () => {
         data={tasksList}
         headers={['ID', 'Description']}
         dataValues={['_id', 'description']}
-        modalFunction={deleteTask}
+        location={location}
+        setShowModal={setShowModal}
+        setItemId={setItemId}
       />
     </section>
   );

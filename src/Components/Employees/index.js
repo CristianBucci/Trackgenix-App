@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
 import Table from '../Shared/Table/Table';
+import { useLocation } from 'react-router-dom';
 import styles from './employees.module.css';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [itemId, setItemId] = useState('');
+  const location = useLocation();
 
   const getEmployees = async () => {
     try {
@@ -19,6 +25,7 @@ const Employees = () => {
     getEmployees();
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   const deleteEmployee = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
@@ -44,7 +51,9 @@ const Employees = () => {
         data={employees}
         headers={['First name', 'Last name', 'Phone', 'Email']}
         dataValues={['name', 'lastName', 'phone', 'email']}
-        modalFunction={deleteEmployee}
+        location={location}
+        setShowModal={setShowModal}
+        setItemId={setItemId}
       />
     </div>
   );

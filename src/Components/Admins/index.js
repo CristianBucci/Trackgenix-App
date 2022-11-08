@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
 import Table from '../Shared/Table/Table';
+import { useLocation } from 'react-router-dom';
 import styles from './admins.module.css';
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [itemId, setItemId] = useState('');
+  const location = useLocation();
 
   const getAdmins = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`);
-      const responseJson = await response.json();
-      setAdmins(responseJson.data);
+      let response = await fetch(`${process.env.REACT_APP_API_URL}/admin`);
+      response = await response.json();
+      setAdmins(response.data);
     } catch (error) {
       alert('Could not GET Admins.', error);
     }
@@ -19,6 +25,7 @@ const Admins = () => {
     getAdmins();
   }, [admins]);
 
+  // eslint-disable-next-line no-unused-vars
   const deleteAdmin = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
@@ -44,7 +51,9 @@ const Admins = () => {
         data={admins}
         headers={['First name', 'Last name', 'Email']}
         dataValues={['name', 'lastName', 'email']}
-        modalFunction={deleteAdmin}
+        location={location}
+        setShowModal={setShowModal}
+        setItemId={setItemId}
       />
     </div>
   );

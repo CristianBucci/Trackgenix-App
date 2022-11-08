@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
 import Table from '../Shared/Table/Table';
+import { useLocation } from 'react-router-dom';
 import styles from './super-admins.module.css';
 
 const SuperAdminsList = () => {
   const [superAdminsList, setSuperAdminsList] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [itemId, setItemId] = useState('');
+  const location = useLocation();
 
   const getList = async () => {
     try {
@@ -19,6 +25,7 @@ const SuperAdminsList = () => {
     getList();
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   const deleteSuperAdmin = async (id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/superadmin/${id}`, {
@@ -44,7 +51,9 @@ const SuperAdminsList = () => {
         data={superAdminsList}
         headers={['First name', 'Last name', 'Email']}
         dataValues={['name', 'lastName', 'email']}
-        modalFunction={deleteSuperAdmin}
+        location={location}
+        setShowModal={setShowModal}
+        setItemId={setItemId}
       />
     </div>
   );
