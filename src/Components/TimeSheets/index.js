@@ -45,7 +45,7 @@ const TimeSheets = () => {
   const timeSheetList = [];
   for (let i = 0; i < timeSheets.length; i++) {
     const timeSheet = timeSheets[i];
-    if (timeSheet.task == null && timeSheet.employee == null && timeSheet.projet == null) {
+    if (timeSheet.task == null && timeSheet.employee == null && timeSheet.project == null) {
       const newTimeSheet = {
         ...timeSheet,
         task: 'N/A',
@@ -53,7 +53,7 @@ const TimeSheets = () => {
         project: 'N/A'
       };
       timeSheetList.push(newTimeSheet);
-    } else if (timeSheet.task == null && timeSheet.employee == null && timeSheet.projet !== null) {
+    } else if (timeSheet.task == null && timeSheet.employee == null && timeSheet.project !== null) {
       const newTimeSheet = {
         ...timeSheet,
         task: 'N/A',
@@ -61,7 +61,7 @@ const TimeSheets = () => {
         project: `${timeSheet.project['name']}`
       };
       timeSheetList.push(newTimeSheet);
-    } else if (timeSheet.task == null && timeSheet.employee !== null && timeSheet.projet == null) {
+    } else if (timeSheet.task == null && timeSheet.employee !== null && timeSheet.project == null) {
       const newTimeSheet = {
         ...timeSheet,
         task: 'N/A',
@@ -69,7 +69,7 @@ const TimeSheets = () => {
         project: 'N/A'
       };
       timeSheetList.push(newTimeSheet);
-    } else if (timeSheet.task !== null && timeSheet.employee == null && timeSheet.projet == null) {
+    } else if (timeSheet.task !== null && timeSheet.employee == null && timeSheet.project == null) {
       const newTimeSheet = {
         ...timeSheet,
         task: `${timeSheet.project['description']}`,
@@ -77,7 +77,11 @@ const TimeSheets = () => {
         project: 'N/A'
       };
       timeSheetList.push(newTimeSheet);
-    } else if (timeSheet.task == null && timeSheet.employee !== null && timeSheet.projet !== null) {
+    } else if (
+      timeSheet.task == null &&
+      timeSheet.employee !== null &&
+      timeSheet.project !== null
+    ) {
       const newTimeSheet = {
         ...timeSheet,
         task: 'N/A',
@@ -85,7 +89,11 @@ const TimeSheets = () => {
         project: `${timeSheet.project['name']}`
       };
       timeSheetList.push(newTimeSheet);
-    } else if (timeSheet.task !== null && timeSheet.employee == null && timeSheet.projet !== null) {
+    } else if (
+      timeSheet.task !== null &&
+      timeSheet.employee == null &&
+      timeSheet.project !== null
+    ) {
       const newTimeSheet = {
         ...timeSheet,
         task: `${timeSheet.project['description']}`,
@@ -93,7 +101,11 @@ const TimeSheets = () => {
         project: `${timeSheet.project['name']}`
       };
       timeSheetList.push(newTimeSheet);
-    } else if (timeSheet.task !== null && timeSheet.employee !== null && timeSheet.projet == null) {
+    } else if (
+      timeSheet.task !== null &&
+      timeSheet.employee !== null &&
+      timeSheet.project == null
+    ) {
       const newTimeSheet = {
         ...timeSheet,
         task: `${timeSheet.project['description']}`,
