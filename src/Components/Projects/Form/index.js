@@ -220,11 +220,11 @@ const AddProject = (props) => {
                       ])
                     }
                   ></Select>
-                  <label>Rate</label>
-                  <input
-                    type="text"
+                  <Input
+                    label={'Rate'}
                     name="rate"
                     required
+                    type="number"
                     value={option.rate}
                     onChange={(e) =>
                       setEmployeesProject([
