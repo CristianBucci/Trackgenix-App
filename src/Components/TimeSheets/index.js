@@ -6,9 +6,6 @@ import styles from './timeSheets.module.css';
 const TimeSheets = () => {
   const [timeSheets, setTimesheet] = useState([]);
   // eslint-disable-next-line no-unused-vars
-  const [timeSheetList, setTimeSheetList] = useState([]);
-
-  // eslint-disable-next-line no-unused-vars
   const [showModal, setShowModal] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [itemId, setItemId] = useState('');
@@ -19,7 +16,6 @@ const TimeSheets = () => {
       let response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/`);
       response = await response.json();
       setTimesheet(response.data);
-      setTimeSheetList(response.data);
     } catch (error) {
       alert('Could not GET TimeSheets.', error);
     }
@@ -46,45 +42,75 @@ const TimeSheets = () => {
     }
   };
 
-  /* console.log({ timeSheets });
+  const timeSheetList = [];
   for (let i = 0; i < timeSheets.length; i++) {
     const timeSheet = timeSheets[i];
-    if (timeSheet.employee != null) {
+    if (timeSheet.task == null && timeSheet.employee == null && timeSheet.projet == null) {
       const newTimeSheet = {
         ...timeSheet,
-        employee: `${timeSheets[i].employee['name']} ${timeSheet.employee['lastName']}`
+        task: 'N/A',
+        employee: 'N/A',
+        project: 'N/A'
       };
-      console.log(newTimeSheet);
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task == null && timeSheet.employee == null && timeSheet.projet !== null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: 'N/A',
+        employee: 'N/A',
+        project: `${timeSheet.project['name']}`
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task == null && timeSheet.employee !== null && timeSheet.projet == null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: 'N/A',
+        employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
+        project: 'N/A'
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task !== null && timeSheet.employee == null && timeSheet.projet == null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: `${timeSheet.project['description']}`,
+        employee: 'N/A',
+        project: 'N/A'
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task == null && timeSheet.employee !== null && timeSheet.projet !== null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: 'N/A',
+        employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
+        project: `${timeSheet.project['name']}`
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task !== null && timeSheet.employee == null && timeSheet.projet !== null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: `${timeSheet.project['description']}`,
+        employee: 'N/A',
+        project: `${timeSheet.project['name']}`
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task !== null && timeSheet.employee !== null && timeSheet.projet == null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: `${timeSheet.project['description']}`,
+        employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
+        project: 'N/A'
+      };
+      timeSheetList.push(newTimeSheet);
     } else {
       const newTimeSheet = {
         ...timeSheet,
-        employee: 'N/A'
+        task: `${timeSheet.project['description']}`,
+        employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
+        project: `${timeSheet.project['name']}`
       };
-      console.log(newTimeSheet);
+      timeSheetList.push(newTimeSheet);
     }
-  } */
-  /* timeSheetList.map((timeSheet, index) => {
-    if (timeSheet.employee != null) {
-      setTimeSheetList([
-        ...timeSheetList.slice(0, index),
-        {
-          ...timeSheet,
-          employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`
-        },
-        ...timeSheetList.slice(index + 1)
-      ]);
-    } else {
-      setTimeSheetList([
-        ...timeSheetList.slice(0, index),
-        {
-          ...timeSheet,
-          employee: 'N/A'
-        },
-        ...timeSheetList.slice(index + 1)
-      ]);
-    }
-  });
-  console.log({ timeSheetList }); */
+  }
 
   return (
     <div className={styles.container}>
@@ -92,7 +118,7 @@ const TimeSheets = () => {
         <h2>timesheets</h2>
       </div>
       <Table
-        data={timeSheets}
+        data={timeSheetList}
         headers={['Description', 'Date', 'Hours', 'Task', 'Employee', 'Project']}
         dataValues={['description', 'date', 'hours', 'task', 'employee', 'project']}
         location={location}
