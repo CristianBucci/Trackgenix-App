@@ -57,10 +57,12 @@ const Projects = () => {
       };
       projectList.push(newProject);
     } else {
-      const employees = project.employees;
       let names = [];
+      let employees = project.employees;
       employees.map((employee) => {
-        names.push(`${employee.employeeId.name} ${employee.employeeId.lastName}`);
+        if (employee.employeeId !== null) {
+          names.push(`${employee.employeeId.name} ${employee.employeeId.lastName}`);
+        }
       });
       const nameList = names.join('-');
       const newProject = {
