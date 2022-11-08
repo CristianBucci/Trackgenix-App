@@ -10,7 +10,6 @@ const put = async (data, id) => {
     if (!response.ok) {
       throw new Error('Failed to update task');
     }
-    window.location.assign('/tasks');
     alert(`Task with id ${id} updated successfully`);
   } catch (error) {
     alert(error);
@@ -29,7 +28,6 @@ const post = async (data) => {
     if (!response.ok) {
       throw new Error('Failed to create task');
     }
-    window.location.assign('/tasks');
     alert(`New task ${data} created successfully`);
   } catch (error) {
     alert(error);
