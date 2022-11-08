@@ -34,19 +34,11 @@ const Table = ({ data, headers, dataValues, setShowModal, setItemId, location })
                 <>
                   <tr key={item._id} className={styles.row}>
                     {dataValues.map((value, index) => {
-                      if (typeof item[value] == 'string' || typeof item[value] == 'number') {
-                        return (
-                          <>
-                            <td key={index}>{item[value]}</td>
-                          </>
-                        );
-                      } else {
-                        return (
-                          <>
-                            <td key={index}>{}</td>
-                          </>
-                        );
-                      }
+                      return (
+                        <>
+                          <td key={index}>{item[value]}</td>
+                        </>
+                      );
                     })}
                     <td key={item._id}>
                       <div className={styles.btnContainer}>
