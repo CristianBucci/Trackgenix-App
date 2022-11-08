@@ -1,33 +1,10 @@
-import React, { useState } from 'react';
-import Modal from '../Modal/Modal';
+import React from 'react';
 import styles from './Table.module.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Table = (props) => {
-  const [showModal, setShowModal] = useState(false);
-  const [itemId, setItemId] = useState('');
-  const location = useLocation();
-  const closeModal = () => {
-    setShowModal(false);
-  };
-  const modalTitle = 'Delete item.';
-  const modalContent = 'Are you sure to delete this Super Admin?';
-
-  const deleteHandler = async () => {
-    props.modalFunction(itemId);
-    setShowModal(false);
-    setItemId('');
-  };
-
+const Table = ({ data, headers, dataValues, setShowModal, setItemId, location }) => {
   return (
     <>
-      <Modal
-        show={showModal}
-        closeModal={closeModal}
-        modalTitle={modalTitle}
-        modalContent={modalContent}
-        modalFunction={deleteHandler}
-      />
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.searchBox}>
@@ -41,14 +18,14 @@ const Table = (props) => {
         <table className={styles.table}>
           <thead className={styles.header}>
             <tr>
-              {props.headers.map((header, index) => {
+              {headers.map((header, index) => {
                 return <th key={index}>{header}</th>;
               })}
-              <th key={props.headers.length - 1}>Actions</th>
+              <th key={headers.length - 1}>Actions</th>
             </tr>
           </thead>
           <tbody className={styles.body}>
-            {props.data.map((item) => {
+            {data.map((item) => {
               const openModal = () => {
                 setShowModal(true);
                 setItemId(item._id);
@@ -56,61 +33,19 @@ const Table = (props) => {
               return (
                 <>
                   <tr key={item._id} className={styles.row}>
-                    {props.dataValues.map((value, index) => {
+                    {dataValues.map((value, index) => {
                       if (typeof item[value] == 'string' || typeof item[value] == 'number') {
                         return (
                           <>
                             <td key={index}>{item[value]}</td>
                           </>
                         );
-                      }
-                      if (Array.isArray(item[value])) {
-                        if (item[value][0].employeeId == null) {
-                          return (
-                            <>
-                              <td key={index}>{'N/A'}</td>
-                            </>
-                          );
-                        } else {
-                          return (
-                            <>
-                              <td
-                                key={index}
-                              >{`${item[value][0].employeeId.name} ${item[value][0].employeeId.lastName}`}</td>
-                            </>
-                          );
-                        }
-                      }
-                      if (typeof item[value] == 'object') {
-                        if (item[value] == null) {
-                          return (
-                            <>
-                              <td key={index}>{'N/A'}</td>
-                            </>
-                          );
-                        } else {
-                          if (value == 'task') {
-                            return (
-                              <>
-                                <td key={index}>{item[value].description}</td>
-                              </>
-                            );
-                          }
-                          if (value == 'employee') {
-                            return (
-                              <>
-                                <td key={index}>{`${item[value].name} ${item[value].lastName}`}</td>
-                              </>
-                            );
-                          }
-                          if (value == 'project') {
-                            return (
-                              <>
-                                <td key={index}>{item[value].name}</td>
-                              </>
-                            );
-                          }
-                        }
+                      } else {
+                        return (
+                          <>
+                            <td key={index}>{}</td>
+                          </>
+                        );
                       }
                     })}
                     <td key={item._id}>
