@@ -2,6 +2,7 @@ import { put, post } from '../Methods/TaskMethods';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from '../tasks.module.css';
+import Buttons from '../../Shared/Button/index';
 let taskType = '';
 const setTask = async (data, id) => {
   try {
@@ -59,7 +60,10 @@ const TasksForm = () => {
             BE
           </label>
         </div>
-        <input type="submit" value="Confirm" />
+        <Buttons type="submit" variant="confirm" name="Confirm" />
+        <Link to={'/tasks'}>
+          <Buttons variant="cancel" name="Cancel" />
+        </Link>
       </form>
     </div>
   );

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './form.module.css';
 import Modal from '../Modal';
+import { Link } from 'react-router-dom';
+import Buttons from '../../Shared/Button/index';
 
 function Form() {
   const params = useParams();
@@ -160,18 +162,15 @@ function Form() {
             />
           </div>
           <div>
-            <a href={'../employees'}>
-              <button type="button" className={styles.buttonCancel}>
-                Cancel
-              </button>
-            </a>
-            <button
+            <Buttons
               type="submit"
-              className={styles.buttonSave}
+              variant="confirm"
+              name="Confirm"
               onClick={id ? () => editEmployee() : () => createEmployee()}
-            >
-              Save
-            </button>
+            />
+            <Link to={'/employees'}>
+              <Buttons variant="cancel" name="Cancel" />
+            </Link>
           </div>
         </form>
       </div>

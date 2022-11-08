@@ -1,0 +1,15 @@
+.confirm {
+    background-color: #FF0000;
+    color: white;
+    font-size: 16px;
+    padding: 10px 30px;
+    text-align: center;
+}
+
+.cancel {
+    background-color: #001A72;
+    color: white;
+    font-size: 16px;
+    padding: 10px 30px;
+    text-align: center;
+}
