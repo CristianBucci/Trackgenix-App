@@ -43,7 +43,7 @@ const TimeSheets = () => {
       <Table
         data={timeSheets}
         headers={['Description', 'Date', 'Hours', 'Task', 'Employee', 'Project']}
-        dataValues={['description', 'date', 'hours']}
+        dataValues={['description', 'date', 'hours', 'task', 'employee', 'project']}
         modalFunction={deleteTimeSheet}
       />
     </div>

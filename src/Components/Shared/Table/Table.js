@@ -57,18 +57,60 @@ const Table = (props) => {
                 <>
                   <tr key={item._id} className={styles.row}>
                     {props.dataValues.map((value, index) => {
-                      if (item[value].length == 1) {
-                        return (
-                          <>
-                            <td key={index}>{}</td>
-                          </>
-                        );
-                      } else {
+                      if (typeof item[value] == 'string' || typeof item[value] == 'number') {
                         return (
                           <>
                             <td key={index}>{item[value]}</td>
                           </>
                         );
+                      }
+                      if (Array.isArray(item[value])) {
+                        if (item[value][0].employeeId == null) {
+                          return (
+                            <>
+                              <td key={index}>{'N/A'}</td>
+                            </>
+                          );
+                        } else {
+                          return (
+                            <>
+                              <td
+                                key={index}
+                              >{`${item[value][0].employeeId.name} ${item[value][0].employeeId.lastName}`}</td>
+                            </>
+                          );
+                        }
+                      }
+                      if (typeof item[value] == 'object') {
+                        if (item[value] == null) {
+                          return (
+                            <>
+                              <td key={index}>{'N/A'}</td>
+                            </>
+                          );
+                        } else {
+                          if (value == 'task') {
+                            return (
+                              <>
+                                <td key={index}>{item[value].description}</td>
+                              </>
+                            );
+                          }
+                          if (value == 'employee') {
+                            return (
+                              <>
+                                <td key={index}>{`${item[value].name} ${item[value].lastName}`}</td>
+                              </>
+                            );
+                          }
+                          if (value == 'project') {
+                            return (
+                              <>
+                                <td key={index}>{item[value].name}</td>
+                              </>
+                            );
+                          }
+                        }
                       }
                     })}
                     <td key={item._id}>
