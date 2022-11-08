@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Input from '../../Shared/Inputs';
 import styles from './Form.module.css';
 
 const Form = (props) => {
@@ -77,8 +78,6 @@ const Form = (props) => {
 
   const editSuperAdmin = async (input) => {
     try {
-      const url = window.location.href;
-      const id = url.substring(url.lastIndexOf('=') + 1);
       let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
         method: 'PUT',
         headers: {
@@ -116,27 +115,42 @@ const Form = (props) => {
         </div>
       </div>
       <form onSubmit={onSubmit} className={styles.form}>
-        <div className={styles.input}>
-          <label>First Name</label>
-          <input type="text" name="name" value={superAdminInput.name} onChange={onChange} />
-        </div>
-        <div className={styles.input}>
-          <label>Last Name</label>
-          <input type="text" name="lastName" value={superAdminInput.lastName} onChange={onChange} />
-        </div>
-        <div className={styles.input}>
-          <label>Email</label>
-          <input type="text" name="email" value={superAdminInput.email} onChange={onChange} />
-        </div>
-        <div className={styles.input}>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={superAdminInput.password}
-            onChange={onChange}
-          />
-        </div>
+        <Input
+          label={'First Name'}
+          name="name"
+          required
+          type="text"
+          value={superAdminInput.name}
+          onChange={onChange}
+          placeholder={'First Name'}
+        />
+        <Input
+          label={'Last Name'}
+          name="lastName"
+          required
+          type="text"
+          value={superAdminInput.lastName}
+          onChange={onChange}
+          placeholder={'Last Name'}
+        />
+        <Input
+          label={'Email'}
+          name="email"
+          required
+          type="text"
+          value={superAdminInput.email}
+          onChange={onChange}
+          placeholder={'Email'}
+        />
+        <Input
+          label={'Password'}
+          name="password"
+          required
+          type="password"
+          value={superAdminInput.password}
+          onChange={onChange}
+          placeholder={'Password'}
+        />
         <div className={styles.submit}>
           <input type="submit" value="Confirm" className={styles.confirmBtn} />
         </div>
