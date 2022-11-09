@@ -13,9 +13,9 @@ const SuperAdminsList = () => {
 
   const getList = async () => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`);
-      response = await response.json();
-      setSuperAdminsList(response.data);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`);
+      const data = await response.json();
+      setSuperAdminsList(data.data);
     } catch (error) {
       alert('Could not GET SuperAdmins.', error);
     }
@@ -24,23 +24,6 @@ const SuperAdminsList = () => {
   useEffect(() => {
     getList();
   }, []);
-
-  // eslint-disable-next-line no-unused-vars
-  const deleteSuperAdmin = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/superadmin/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.status === 204) {
-        alert('SuperAdmin removed.');
-        setSuperAdminsList([...superAdminsList.filter((superAdmin) => superAdmin._id !== id)]);
-      } else {
-        alert('SuperAdmin could not be removed.');
-      }
-    } catch (error) {
-      alert('SuperAdmin could not be removed.', error);
-    }
-  };
 
   return (
     <div className={styles.container}>

@@ -13,9 +13,9 @@ const Admins = () => {
 
   const getAdmins = async () => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/admin`);
-      response = await response.json();
-      setAdmins(response.data);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`);
+      const data = await response.json();
+      setAdmins(data.data);
     } catch (error) {
       alert('Could not GET Admins.', error);
     }
@@ -24,23 +24,6 @@ const Admins = () => {
   useEffect(() => {
     getAdmins();
   }, [admins]);
-
-  // eslint-disable-next-line no-unused-vars
-  const deleteAdmin = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.status === 204) {
-        alert('Admin removed.');
-        setAdmins([...admins.filter((admin) => admin._id !== id)]);
-      } else {
-        alert('Admin could not be removed.');
-      }
-    } catch (error) {
-      alert('Admin could not be removed.', error);
-    }
-  };
 
   return (
     <div className={styles.container}>

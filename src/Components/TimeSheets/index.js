@@ -13,9 +13,9 @@ const TimeSheets = () => {
 
   const getList = async () => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/`);
-      response = await response.json();
-      setTimesheet(response.data);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/`);
+      const data = await response.json();
+      setTimesheet(data.data);
     } catch (error) {
       alert('Could not GET TimeSheets.', error);
     }
@@ -24,23 +24,6 @@ const TimeSheets = () => {
   useEffect(() => {
     getList();
   }, []);
-
-  // eslint-disable-next-line no-unused-vars
-  const deleteTimeSheet = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.status === 204) {
-        alert('Timesheet removed.');
-        setTimesheet([...timeSheets.filter((timeSheet) => timeSheet._id !== id)]);
-      } else {
-        alert('Timesheet could not be removed.');
-      }
-    } catch (error) {
-      alert('Timesheet could not be removed.', error);
-    }
-  };
 
   const timeSheetList = [];
   for (let i = 0; i < timeSheets.length; i++) {

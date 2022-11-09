@@ -13,9 +13,9 @@ const Projects = () => {
 
   const getProjects = async () => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
-      response = await response.json();
-      setProjects(response.data);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
+      const data = await response.json();
+      setProjects(data.data);
     } catch (error) {
       alert('Could not GET Projects.', error);
     }
@@ -24,22 +24,6 @@ const Projects = () => {
   useEffect(() => {
     getProjects();
   }, []);
-
-  const deleteProject = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.status === 204) {
-        alert('Project removed.');
-        setProjects([...projects.filter((project) => project._id !== id)]);
-      } else {
-        alert('Project could not be removed.');
-      }
-    } catch (error) {
-      alert('Project could not be removed.', error);
-    }
-  };
 
   const projectList = [];
   for (let i = 0; i < projects.length; i++) {
@@ -90,7 +74,8 @@ const Projects = () => {
         ]}
         dataValues={['name', 'description', 'clientName', 'startDate', 'endDate', 'employees']}
         location={location}
-        modalFunction={deleteProject}
+        setShowModal={setShowModal}
+        setItemId={setItemId}
       />
     </div>
   );

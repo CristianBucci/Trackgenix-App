@@ -13,30 +13,13 @@ const Tasks = () => {
 
   useEffect(async () => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-      response = await response.json();
-      setTasksList(response.data);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
+      const data = await response.json();
+      setTasksList(data.data);
     } catch (error) {
       alert('Could not GET Tasks.', error);
     }
   }, []);
-
-  // eslint-disable-next-line no-unused-vars
-  const deleteTask = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.status === 204) {
-        alert('Tasks removed.');
-        setTasksList([...tasksList.filter((task) => task._id !== id)]);
-      } else {
-        alert('Tasks could not be removed.');
-      }
-    } catch (error) {
-      alert('Tasks could not be removed.', error);
-    }
-  };
 
   return (
     <section className={styles.container}>
