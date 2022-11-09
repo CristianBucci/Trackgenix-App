@@ -5,7 +5,7 @@ import Modal from '../Modal';
 import { Link } from 'react-router-dom';
 import Buttons from '../../Shared/Button/index';
 
-function Form() {
+function Form(props) {
   const params = useParams();
   const id = params.id ? params.id : '';
   const [formValues, setFormValues] = useState({
@@ -46,6 +46,7 @@ function Form() {
       setContentMessage(data.message);
       if (response.ok) {
         setModalTitle('Success');
+        props.history.push('/employees');
       } else {
         setModalTitle('Error');
       }
@@ -66,6 +67,7 @@ function Form() {
       setContentMessage(data.message);
       if (response.ok) {
         setModalTitle('Success');
+        props.history.push('/employees');
       } else {
         setModalTitle('Error');
       }

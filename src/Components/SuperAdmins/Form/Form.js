@@ -75,8 +75,6 @@ const Form = (props) => {
 
   const editSuperAdmin = async (input) => {
     try {
-      const url = window.location.href;
-      const id = url.substring(url.lastIndexOf('=') + 1);
       let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
         method: 'PUT',
         headers: {
