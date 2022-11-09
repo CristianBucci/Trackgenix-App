@@ -72,7 +72,7 @@ const TimeSheets = () => {
     } else if (timeSheet.task !== null && timeSheet.employee == null && timeSheet.project == null) {
       const newTimeSheet = {
         ...timeSheet,
-        task: `${timeSheet.project['description']}`,
+        task: `${timeSheet.task['description']}`,
         employee: 'N/A',
         project: 'N/A'
       };
@@ -96,7 +96,7 @@ const TimeSheets = () => {
     ) {
       const newTimeSheet = {
         ...timeSheet,
-        task: `${timeSheet.project['description']}`,
+        task: `${timeSheet.task['description']}`,
         employee: 'N/A',
         project: `${timeSheet.project['name']}`
       };
@@ -108,7 +108,7 @@ const TimeSheets = () => {
     ) {
       const newTimeSheet = {
         ...timeSheet,
-        task: `${timeSheet.project['description']}`,
+        task: `${timeSheet.task['description']}`,
         employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
         project: 'N/A'
       };
@@ -116,7 +116,7 @@ const TimeSheets = () => {
     } else {
       const newTimeSheet = {
         ...timeSheet,
-        task: `${timeSheet.project['description']}`,
+        task: `${timeSheet.task['description']}`,
         employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
         project: `${timeSheet.project['name']}`
       };

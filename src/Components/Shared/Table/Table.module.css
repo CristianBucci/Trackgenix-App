@@ -1,4 +1,4 @@
-table {
+.table {
    width: 100%;
    border-collapse: collapse;
    caption-side: top;
@@ -6,17 +6,12 @@ table {
    text-align: left;
 }
 
-caption, td, th {
+.table caption, td, th {
    padding: 0.5em 1em;
 }
 
-th, td {
+.table th, td {
    border-bottom: 1px solid #999;
-}
-
-caption {
-   font-weight: bold;
-   font-style: italic;
 }
 
 .container {
