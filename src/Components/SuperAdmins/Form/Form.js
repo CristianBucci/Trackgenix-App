@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Input from '../../Shared/Inputs';
 import styles from './Form.module.css';
+import { Link } from 'react-router-dom';
+import Buttons from '../../Shared/Button/index';
 
 const Form = (props) => {
   const [superAdminInput, setSuperAdminInput] = useState({
@@ -47,10 +49,6 @@ const Form = (props) => {
 
   const onChange = (e) => {
     setSuperAdminInput({ ...superAdminInput, [e.target.name]: e.target.value });
-  };
-
-  const onClick = () => {
-    props.history.push('/super-admins');
   };
 
   const addSuperAdmin = async (input) => {
@@ -109,9 +107,6 @@ const Form = (props) => {
       <div className={styles.header}>
         <div>
           <h2>Super Admins</h2>
-          <button className={styles.closeBtn} onClick={onClick}>
-            x
-          </button>
         </div>
       </div>
       <form onSubmit={onSubmit} className={styles.form}>
@@ -152,7 +147,10 @@ const Form = (props) => {
           placeholder={'Password'}
         />
         <div className={styles.submit}>
-          <input type="submit" value="Confirm" className={styles.confirmBtn} />
+          <Buttons type="submit" variant="primary" name="Confirm" />
+          <Link to={'/super-admins'}>
+            <Buttons variant="secondary" name="Cancel" />
+          </Link>
         </div>
       </form>
     </div>

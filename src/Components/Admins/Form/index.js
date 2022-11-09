@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Buttons from '../../Shared/Button/index';
+
 import Input from '../../Shared/Inputs';
 const Form = (props) => {
   const params = useParams();
@@ -137,7 +140,10 @@ const Form = (props) => {
           placeholder={'Password'}
         />
         <div>
-          <input type="submit" value="Confirm" />
+          <Buttons type="submit" variant="primary" name="Confirm" />
+          <Link to={'/admins'}>
+            <Buttons variant="secondary" name="Cancel" />
+          </Link>
         </div>
       </form>
     </div>

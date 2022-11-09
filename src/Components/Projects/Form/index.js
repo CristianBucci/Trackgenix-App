@@ -4,6 +4,7 @@ import Input from '../../Shared/Inputs';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
 import Select from '../../Shared/Select/index';
+import Buttons from '../../Shared/Button/index';
 
 const AddProject = (props) => {
   const [projectInput, setProjectInput] = useState({
@@ -293,17 +294,13 @@ const AddProject = (props) => {
             </div>
           </div>
         </div>
-        <div className={styles.cardButton}>
-          <div>
-            <button className={styles.cancel} onClick={() => props.history.push('/projects')}>
-              Cancel
-            </button>
-          </div>
-          <div>
-            <button className={styles.confirm} type="submit">
-              Confirm
-            </button>
-          </div>
+        <div>
+          <Buttons type="submit" variant="primary" name="Confirm" />
+          <Buttons
+            variant="secondary"
+            name="Cancel"
+            onClick={() => props.history.push('/projects')}
+          />
         </div>
       </form>
     </div>

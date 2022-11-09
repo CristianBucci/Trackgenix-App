@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Input from '../../Shared/Inputs';
 import Modal from '../Modal';
+import Buttons from '../../Shared/Button/index';
 
-function Form() {
+function Form(props) {
   const params = useParams();
   const id = params.id ? params.id : '';
   const [formValues, setFormValues] = useState({
@@ -46,6 +47,7 @@ function Form() {
       setContentMessage(data.message);
       if (response.ok) {
         setModalTitle('Success');
+        props.history.push('/employees');
       } else {
         setModalTitle('Error');
       }
@@ -66,6 +68,7 @@ function Form() {
       setContentMessage(data.message);
       if (response.ok) {
         setModalTitle('Success');
+        props.history.push('/employees');
       } else {
         setModalTitle('Error');
       }
@@ -161,18 +164,15 @@ function Form() {
             placeholder={'Phone'}
           />
           <div>
-            <Link to={'/employees'}>
-              <button type="button" className={styles.buttonCancel}>
-                Cancel
-              </button>
-            </Link>
-            <button
+            <Buttons
               type="submit"
-              className={styles.buttonSave}
+              variant="primary"
+              name="Confirm"
               onClick={id ? () => editEmployee() : () => createEmployee()}
-            >
-              Save
-            </button>
+            />
+            <Link to={'/employees'}>
+              <Buttons variant="secondary" name="Cancel" />
+            </Link>
           </div>
         </form>
       </div>
