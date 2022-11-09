@@ -38,6 +38,7 @@
 
 .content button {
   background-color: rgb(27, 195, 83);
+  color: black;
 }
 .content button:first-child {
   background-color: rgb(195, 27, 27);

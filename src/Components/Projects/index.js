@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './projects.module.css';
 import ProjectList from './List';
-import Modal from './Modals/modal.js';
+import ModalMessage from '../Shared/Modal/Modal.message';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -46,10 +46,11 @@ const Projects = () => {
         <ProjectList list={projects} deleteItem={deleteItem} />
       </section>
       {modalDisplay ? (
-        <Modal
-          title={modalTitle}
-          contentMessage={contentMessage}
-          setModalDisplay={setModalDisplay}
+        <ModalMessage
+          show={modalDisplay}
+          closeModal={setModalDisplay}
+          modalTitle={modalTitle}
+          modalContent={contentMessage}
         />
       ) : null}
     </>

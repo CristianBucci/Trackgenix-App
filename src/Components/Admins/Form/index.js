@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Input from '../../Shared/Inputs';
+import ModalConfirm from '../../Shared/Modal/Modal.confirm';
 const Form = (props) => {
   const params = useParams();
   const id = params.Id ? params.Id : '';
@@ -11,6 +12,7 @@ const Form = (props) => {
     password: ''
   });
   const [err, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const adminForm = async () => {
     try {
@@ -94,11 +96,19 @@ const Form = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    changeController();
+    setShowModal(true);
   };
 
   return (
     <div>
+      <ModalConfirm
+        show={showModal}
+        closeModal={setShowModal}
+        modalTitle={'Update admin'}
+        modalContent={`Are you sure you want to Update admin whit ID ${id}`}
+        modalFunction={changeController}
+        modalId={null}
+      />
       <form onSubmit={onSubmit}>
         <Input
           label={'Name'}

@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
 import Input from '../../Shared/Inputs';
-import Modal from '../Modal';
+import ModalConfirm from '../../Shared/Modal/Modal.confirm';
+import ModalMessage from '../../Shared/Modal/Modal.message';
 
 function Form() {
   const params = useParams();
@@ -16,7 +17,8 @@ function Form() {
     phone: ''
   });
 
-  const [modalDisplay, setModalDisplay] = useState('');
+  const [modalDisplay, setModalDisplay] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState(false);
   const [contentMessage, setContentMessage] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   useEffect(async () => {
@@ -76,8 +78,14 @@ function Form() {
     setModalDisplay(true);
   };
 
+  const modalFunction = () => {
+    id ? editEmployee() : createEmployee();
+    setModalConfirm(false);
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
+    setModalConfirm(true);
   };
 
   return (
@@ -166,21 +174,28 @@ function Form() {
                 Cancel
               </button>
             </Link>
-            <button
-              type="submit"
-              className={styles.buttonSave}
-              onClick={id ? () => editEmployee() : () => createEmployee()}
-            >
+            <button type="submit" className={styles.buttonSave}>
               Save
             </button>
           </div>
         </form>
       </div>
+      {modalConfirm ? (
+        <ModalConfirm
+          show={modalConfirm}
+          closeModal={setModalConfirm}
+          modalTitle={modalTitle}
+          modalContent={contentMessage}
+          modalFunction={modalFunction}
+          modalId={null}
+        />
+      ) : null}
       {modalDisplay ? (
-        <Modal
-          title={modalTitle}
-          contentMessage={contentMessage}
-          setModalDisplay={setModalDisplay}
+        <ModalMessage
+          show={modalDisplay}
+          closeModal={setModalDisplay}
+          modalTitle={modalTitle}
+          modalContent={contentMessage}
         />
       ) : null}
     </>

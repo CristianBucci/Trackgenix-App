@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './modal.module.css';
 
-const ModalConfirm = ({ show, closeModal, modalFunction, modalTitle, modalContent }) => {
+const ModalConfirm = ({ show, closeModal, modalFunction, modalTitle, modalContent, modalId }) => {
   return show ? (
     <div className={styles.overlay}>
       <div className={styles.container}>
@@ -15,7 +15,14 @@ const ModalConfirm = ({ show, closeModal, modalFunction, modalTitle, modalConten
           <span>{modalContent}</span>
           <span>
             <button onClick={() => closeModal(false)}>Cancel</button>
-            <button onClick={modalFunction}>Confirm</button>
+            <button
+              onClick={() => {
+                modalFunction(modalId);
+                closeModal(false);
+              }}
+            >
+              Confirm
+            </button>
           </span>
         </div>
       </div>

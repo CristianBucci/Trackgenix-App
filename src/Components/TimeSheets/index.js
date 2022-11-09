@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from './Modal/index';
+import ModalConfirm from '../Shared/Modal/Modal.confirm';
 import styles from './timeSheets.module.css';
 
 const TimeSheets = (props) => {
@@ -17,10 +17,6 @@ const TimeSheets = (props) => {
       alert('Could not GET TimeSheets.', error);
     }
   }, []);
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
 
   const fixDate = (date) => {
     let dateFormated = date.substr(0, 10);
@@ -45,12 +41,13 @@ const TimeSheets = (props) => {
 
   return (
     <section>
-      <Modal
+      <ModalConfirm
         show={showModal}
-        closeModal={closeModal}
-        deleteTimeSheet={deleteTimeSheet}
-        timeSheetId={timeSheetId}
-        title="Do you want to delete this TimeSheet?"
+        closeModal={setShowModal}
+        modalTitle={'Delete TimeSheet'}
+        modalContent={`Do you want to delete this TimeSheet?`}
+        modalFunction={deleteTimeSheet}
+        modalId={timeSheetId}
       />
       <div className={styles.list}>
         <div className={styles.tableTitle}>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Modal from './FormModal/index';
+import ModalConfirm from '../../Shared/Modal/Modal.confirm';
+import ModalMessage from '../../Shared/Modal/Modal.message';
 import styles from './form.module.css';
 import Input from '../../Shared/Inputs';
 import Select from '../../Shared/Select/index';
@@ -14,6 +15,7 @@ const Form = (props) => {
     employee: '',
     project: ''
   });
+  const [modalConfirm, setModalConfirm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [serverError, setServerError] = useState('');
   const [formMode, setFormMode] = useState(true);
@@ -72,13 +74,13 @@ const Form = (props) => {
     return dateFormated;
   };
 
-  const closeModal = () => {
-    setShowModal(false);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setModalConfirm(true);
   };
 
-  const onSubmit = async (event) => {
+  const modalFunction = async () => {
     if (formMode) {
-      event.preventDefault();
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets`, {
           method: 'POST',
@@ -107,7 +109,6 @@ const Form = (props) => {
         setServerError('TimeSheet could not be Updated.');
       }
     } else {
-      event.preventDefault();
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
           method: 'PUT',
@@ -140,7 +141,24 @@ const Form = (props) => {
 
   return (
     <div>
-      <Modal show={showModal} title={serverError} closeModal={closeModal} />
+      {modalConfirm ? (
+        <ModalConfirm
+          show={modalConfirm}
+          closeModal={setModalConfirm}
+          modalTitle={'Update project'}
+          modalContent={'Are you sure you want to update this project?'}
+          modalFunction={modalFunction}
+          modalId={null}
+        />
+      ) : null}
+      {showModal ? (
+        <ModalMessage
+          show={showModal}
+          closeModal={setShowModal}
+          modalTitle={''}
+          modalContent={serverError}
+        />
+      ) : null}
       <form onSubmit={onSubmit}>
         <div className={styles.card}>
           <div className={styles.cardTitle}>{formText}</div>

@@ -42,7 +42,7 @@ const List = ({ superAdminsList, deleteSuperAdmin }) => {
                 key={superAdmin._id}
                 listItem={superAdmin}
                 setShowModal={setShowModal}
-                setDelId={setDelId}
+                setDelId={deleteSuperAdmin}
               />
             );
           })}

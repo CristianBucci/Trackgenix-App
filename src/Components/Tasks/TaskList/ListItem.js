@@ -6,8 +6,8 @@ import ModalConfirm from '../../Shared/Modal/Modal.confirm';
 const ListItem = ({ taskList, deleteTask }) => {
   const [showModal, setShowModal] = useState(false);
 
-  const confirmDelete = () => {
-    deleteTask(taskList._id);
+  const confirmDelete = (id) => {
+    deleteTask(id);
     setShowModal(false);
   };
 
@@ -19,6 +19,7 @@ const ListItem = ({ taskList, deleteTask }) => {
         modalTitle={'Delete task'}
         modalContent={`Are you sure you want to delete task ${taskList.description} whit ID ${taskList._id}`}
         modalFunction={confirmDelete}
+        modalId={taskList._id}
       />
       <tr className={styles.rows}>
         <td>{taskList._id}</td>

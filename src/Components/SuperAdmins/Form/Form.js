@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Input from '../../Shared/Inputs';
 import styles from './Form.module.css';
+import ModalConfirm from '../../Shared/Modal/Modal.confirm';
 
 const Form = (props) => {
   const [superAdminInput, setSuperAdminInput] = useState({
@@ -13,6 +14,7 @@ const Form = (props) => {
   const [err, setErr] = useState('');
   const params = useParams();
   const id = params.id ? params.id : '';
+  const [showModal, setShowModal] = useState(false);
 
   const currentSuperAdminInput = async () => {
     try {
@@ -101,11 +103,19 @@ const Form = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await addOrEditHandler();
+    setShowModal(true);
   };
 
   return (
     <div className={styles.container}>
+      <ModalConfirm
+        show={showModal}
+        closeModal={setShowModal}
+        modalTitle={'Update admin'}
+        modalContent={`Are you sure you want to Update admin whit ID ${id}`}
+        modalFunction={addOrEditHandler}
+        modalId={null}
+      />
       <div className={styles.header}>
         <div>
           <h2>Super Admins</h2>
