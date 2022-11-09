@@ -1,22 +1,40 @@
+import React, { useState } from 'react';
 import styles from '../tasks.module.css';
 import { Link } from 'react-router-dom';
+import ModalConfirm from '../../Shared/Modal/Modal.confirm';
 
 const ListItem = ({ taskList, deleteTask }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const confirmDelete = () => {
+    deleteTask(taskList._id);
+    setShowModal(false);
+  };
+
   return (
-    <tr className={styles.rows}>
-      <td>{taskList._id}</td>
-      <td>{taskList.description}</td>
-      <td>
-        <Link to={`tasks/${taskList._id}`}>
-          <button>
-            <img src={`${process.env.PUBLIC_URL}/assets/images/edit.svg`} alt="Edit icon" />
+    <>
+      <ModalConfirm
+        show={showModal}
+        closeModal={setShowModal}
+        modalTitle={'Delete task'}
+        modalContent={`Are you sure you want to delete task ${taskList.description} whit ID ${taskList._id}`}
+        modalFunction={confirmDelete}
+      />
+      <tr className={styles.rows}>
+        <td>{taskList._id}</td>
+        <td>{taskList.description}</td>
+        <td>
+          <Link to={`tasks/${taskList._id}`}>
+            <button>
+              <img src={`${process.env.PUBLIC_URL}/assets/images/edit.svg`} alt="Edit icon" />
+            </button>
+          </Link>
+          <button onClick={() => setShowModal(true)}>
+            <img src={`${process.env.PUBLIC_URL}/assets/images/delete.svg`} alt="Delete icon" />
           </button>
-        </Link>
-        <button onClick={() => deleteTask(taskList._id)}>
-          <img src={`${process.env.PUBLIC_URL}/assets/images/delete.svg`} alt="Delete icon" />
-        </button>
-      </td>
-    </tr>
+        </td>
+      </tr>
+    </>
   );
 };
 

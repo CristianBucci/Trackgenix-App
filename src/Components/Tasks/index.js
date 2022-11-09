@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from './tasks.module.css';
 import List from './TaskList/List';
+import ModalMessages from '../Shared/Modal/Modal.message';
 import { del } from './Methods/TaskMethods';
 
 const Tasks = () => {
   const [tasksList, setTasksList] = useState([]);
+  const [showModal, setShowModal] = useState(true);
+  let modalTitle = 'Title example';
+  let modalContent = 'Example message content';
 
   useEffect(async () => {
     try {
@@ -25,6 +29,12 @@ const Tasks = () => {
 
   return (
     <section className={styles.container}>
+      <ModalMessages
+        show={showModal}
+        closeModal={setShowModal}
+        modalTitle={modalTitle}
+        modalContent={modalContent}
+      />
       <h2 className={styles.title}>Tasks</h2>
       <List tasksList={tasksList} deleteTask={deleteTask} />
     </section>
