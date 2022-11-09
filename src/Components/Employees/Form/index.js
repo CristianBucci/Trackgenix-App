@@ -164,12 +164,12 @@ function Form() {
           <div>
             <Buttons
               type="submit"
-              variant="confirm"
+              variant="primary"
               name="Confirm"
               onClick={id ? () => editEmployee() : () => createEmployee()}
             />
             <Link to={'/employees'}>
-              <Buttons variant="cancel" name="Cancel" />
+              <Buttons variant="secondary" name="Cancel" />
             </Link>
           </div>
         </form>

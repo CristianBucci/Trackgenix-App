@@ -296,8 +296,12 @@ const AddProject = (props) => {
           </div>
         </div>
         <div>
-          <Buttons type="submit" variant="confirm" name="Confirm" />
-          <Buttons variant="cancel" name="Cancel" onClick={() => props.history.push('/projects')} />
+          <Buttons type="submit" variant="primary" name="Confirm" />
+          <Buttons
+            variant="secondary"
+            name="Cancel"
+            onClick={() => props.history.push('/projects')}
+          />
         </div>
       </form>
     </div>

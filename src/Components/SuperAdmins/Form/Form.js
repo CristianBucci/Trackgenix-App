@@ -133,9 +133,9 @@ const Form = (props) => {
           />
         </div>
         <div className={styles.submit}>
-          <Buttons type="submit" variant="confirm" name="Confirm" />
+          <Buttons type="submit" variant="primary" name="Confirm" />
           <Link to={'/super-admins'}>
-            <Buttons variant="cancel" name="Cancel" />
+            <Buttons variant="secondary" name="Cancel" />
           </Link>
         </div>
       </form>

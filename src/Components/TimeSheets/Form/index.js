@@ -224,9 +224,9 @@ const Form = (props) => {
             ></Select>
           </div>
           <div className={styles.cardButton}>
-            <Buttons type="submit" variant="confirm" name="Confirm" />
+            <Buttons type="submit" variant="primary" name="Confirm" />
             <Buttons
-              variant="cancel"
+              variant="secondary"
               name="Cancel"
               onClick={() => props.history.push('/timesheets')}
             />

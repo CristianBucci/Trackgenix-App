@@ -119,9 +119,9 @@ const Form = (props) => {
           <input type="password" name="password" value={admin.password} onChange={onChange} />
         </div>
         <div>
-          <Buttons type="submit" variant="confirm" name="Confirm" />
+          <Buttons type="submit" variant="primary" name="Confirm" />
           <Link to={'/admins'}>
-            <Buttons variant="cancel" name="Cancel" />
+            <Buttons variant="secondary" name="Cancel" />
           </Link>
         </div>
       </form>

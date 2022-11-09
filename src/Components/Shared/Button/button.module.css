@@ -1,4 +1,4 @@
-.confirm {
+.primary {
     background-color: #FF0000;
     color: white;
     font-size: 16px;
@@ -6,7 +6,7 @@
     text-align: center;
 }
 
-.cancel {
+.secondary {
     background-color: #001A72;
     color: white;
     font-size: 16px;
