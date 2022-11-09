@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import styles from './form.module.css';
-import Modal from '../Modal';
 import { Link } from 'react-router-dom';
+import styles from './form.module.css';
+import Input from '../../Shared/Inputs';
+import Modal from '../Modal';
 import Buttons from '../../Shared/Button/index';
 
 function Form(props) {
@@ -87,82 +88,81 @@ function Form(props) {
       <div className={styles.container}>
         <form onSubmit={onSubmit}>
           <h2>{id ? 'Edit Employee' : 'Create Employee'}</h2>
-          <div className="form-item">
-            <label htmlFor="input-name">Name</label>
-            <input
-              id="input-name"
-              name="name"
-              required
-              value={formValues.name}
-              onChange={(e) => {
-                setFormValues({
-                  ...formValues,
-                  name: e.target.value
-                });
-              }}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="input-lastName">Last Name</label>
-            <input
-              id="input-lastName"
-              name="lastName"
-              required
-              value={formValues.lastName}
-              onChange={(e) => {
-                setFormValues({
-                  ...formValues,
-                  lastName: e.target.value
-                });
-              }}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="input-email">Email</label>
-            <input
-              id="input-email"
-              name="email"
-              required
-              value={formValues.email}
-              onChange={(e) => {
-                setFormValues({
-                  ...formValues,
-                  email: e.target.value
-                });
-              }}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="input-password">Password</label>
-            <input
-              id="input-password"
-              type="password"
-              name="password"
-              required
-              value={formValues.password}
-              onChange={(e) => {
-                setFormValues({
-                  ...formValues,
-                  password: e.target.value
-                });
-              }}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="input-phone">Phone</label>
-            <input
-              id="input-phone"
-              name="phone"
-              required
-              value={formValues.phone}
-              onChange={(e) => {
-                setFormValues({
-                  ...formValues,
-                  phone: e.target.value
-                });
-              }}
-            />
-          </div>
+          <Input
+            label={'Name'}
+            id="input-name"
+            name="name"
+            required
+            type="text"
+            value={formValues.name}
+            onChange={(e) => {
+              setFormValues({
+                ...formValues,
+                name: e.target.value
+              });
+            }}
+            placeholder={'Name'}
+          />
+          <Input
+            label={'Last Name'}
+            id="input-lastName"
+            name="lastName"
+            required
+            type="text"
+            value={formValues.lastName}
+            onChange={(e) => {
+              setFormValues({
+                ...formValues,
+                lastName: e.target.value
+              });
+            }}
+            placeholder={'Last Name'}
+          />
+          <Input
+            label={'Email'}
+            id="input-email"
+            name="email"
+            required
+            type="text"
+            value={formValues.email}
+            onChange={(e) => {
+              setFormValues({
+                ...formValues,
+                email: e.target.value
+              });
+            }}
+            placeholder={'Email'}
+          />
+          <Input
+            label={'Password'}
+            id="input-password"
+            name="password"
+            required
+            type="password"
+            value={formValues.password}
+            onChange={(e) => {
+              setFormValues({
+                ...formValues,
+                password: e.target.value
+              });
+            }}
+            placeholder={'Password'}
+          />
+          <Input
+            label={'Phone'}
+            id="input-phone"
+            name="phone"
+            required
+            type="number"
+            value={formValues.phone}
+            onChange={(e) => {
+              setFormValues({
+                ...formValues,
+                phone: e.target.value
+              });
+            }}
+            placeholder={'Phone'}
+          />
           <div>
             <Buttons
               type="submit"

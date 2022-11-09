@@ -1,9 +1,11 @@
 import { put, post } from '../Methods/TaskMethods';
 import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Input from '../../Shared/Inputs';
 import styles from '../tasks.module.css';
 import Buttons from '../../Shared/Button/index';
-let taskType = '';
+
 const setTask = async (data, id) => {
   try {
     await (id ? put(data, id) : post(data));
@@ -15,6 +17,18 @@ const setTask = async (data, id) => {
 const TasksForm = () => {
   const params = useParams();
   const id = params.id ? params.id : '';
+  const [taskInput, setTaskInput] = useState('');
+
+  useEffect(async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`);
+      const json = await response.json();
+      setTaskInput(json.data.description);
+    } catch (error) {
+      alert('Could not GET TimeSheets.', error);
+    }
+  }, []);
+
   return (
     <div className={styles.formContainer}>
       <span>
@@ -26,7 +40,7 @@ const TasksForm = () => {
       </span>
       {id ? (
         <p>
-          Edit task {taskType} whit {id}
+          Edit task {taskInput} whit id: {id}
         </p>
       ) : (
         <p>Create new task</p>
@@ -34,31 +48,19 @@ const TasksForm = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          id ? setTask(taskType, id) : setTask(taskType);
+          id ? setTask(taskInput, id) : setTask(taskInput);
         }}
       >
         <div>
-          <p>Select task type</p>
-          <label>
-            <input
-              type="radio"
-              name="taskType"
-              value="FE"
-              required
-              onChange={(e) => (taskType = e.target.value)}
-            />
-            FE
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="taskType"
-              value="BE"
-              required
-              onChange={(e) => (taskType = e.target.value)}
-            />
-            BE
-          </label>
+          <Input
+            label={'Task Type'}
+            name="taskType"
+            required
+            type="text"
+            value={taskInput}
+            onChange={(e) => setTaskInput(e.target.value)}
+            placeholder={'Task Type'}
+          />
         </div>
         <Buttons type="submit" variant="primary" name="Confirm" />
         <Link to={'/tasks'}>

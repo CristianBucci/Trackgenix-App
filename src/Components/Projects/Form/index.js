@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Input from '../../Shared/Inputs';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
 import Select from '../../Shared/Select/index';
@@ -139,30 +140,28 @@ const AddProject = (props) => {
       <form onSubmit={onSubmit}>
         <div className={styles.card}>
           <div className={styles.cardTitle}>{formText}</div>
-          <div className={styles.cardField}>
-            <label>Project Name</label>
-            <input
-              type="text"
-              name="name"
-              required
-              value={projectInput.name}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, name: e.target.value });
-              }}
-            />
-          </div>
-          <div className={styles.cardField}>
-            <label>Description</label>
-            <input
-              type="text"
-              name="description"
-              required
-              value={projectInput.description}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, description: e.target.value });
-              }}
-            />
-          </div>
+          <Input
+            label={'Project Name'}
+            name="name"
+            required
+            type="text"
+            value={projectInput.name}
+            onChange={(e) => {
+              setProjectInput({ ...projectInput, name: e.target.value });
+            }}
+            placeholder={'Project Name'}
+          />
+          <Input
+            label={'Description'}
+            name="description"
+            required
+            type="text"
+            value={projectInput.description}
+            onChange={(e) => {
+              setProjectInput({ ...projectInput, description: e.target.value });
+            }}
+            placeholder={'Description'}
+          />
           <div className={styles.cardField}>
             <label>Start Date</label>
             <input
@@ -187,18 +186,17 @@ const AddProject = (props) => {
               }}
             />
           </div>
-          <div className={styles.cardField}>
-            <label>Client Name</label>
-            <input
-              type="text"
-              name="clientName"
-              required
-              value={projectInput.clientName}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, clientName: e.target.value });
-              }}
-            />
-          </div>
+          <Input
+            label={'Client Name'}
+            name="clientName"
+            required
+            type="text"
+            value={projectInput.clientName}
+            onChange={(e) => {
+              setProjectInput({ ...projectInput, clientName: e.target.value });
+            }}
+            placeholder={'Client Name'}
+          />
           <div className={styles.card}>
             {employeesProject?.map((option, index) => {
               return (
@@ -223,11 +221,11 @@ const AddProject = (props) => {
                       ])
                     }
                   ></Select>
-                  <label>Rate</label>
-                  <input
-                    type="text"
+                  <Input
+                    label={'Rate'}
                     name="rate"
                     required
+                    type="number"
                     value={option.rate}
                     onChange={(e) =>
                       setEmployeesProject([
@@ -239,6 +237,7 @@ const AddProject = (props) => {
                         ...employeesProject.slice(index + 1)
                       ])
                     }
+                    placeholder={'Rate'}
                   />
                   <label>Role</label>
                   <Select

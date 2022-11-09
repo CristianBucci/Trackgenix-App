@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
+import Input from '../../Shared/Inputs';
 import Select from '../../Shared/Select/index';
 import Buttons from '../../Shared/Button/index';
 
@@ -144,18 +145,17 @@ const Form = (props) => {
       <form onSubmit={onSubmit}>
         <div className={styles.card}>
           <div className={styles.cardTitle}>{formText}</div>
-          <div className={styles.cardField}>
-            <label>Description</label>
-            <input
-              type="text"
-              name="description"
-              required
-              value={timeSheetInput.description}
-              onChange={(e) => {
-                setTimeSheetInput({ ...timeSheetInput, description: e.target.value });
-              }}
-            />
-          </div>
+          <Input
+            label={'Description'}
+            name="description"
+            required
+            type="text"
+            value={timeSheetInput.description}
+            onChange={(e) => {
+              setTimeSheetInput({ ...timeSheetInput, description: e.target.value });
+            }}
+            placeholder={'Description'}
+          />
           <div className={styles.cardField}>
             <label>Date</label>
             <input
@@ -168,18 +168,17 @@ const Form = (props) => {
               }}
             />
           </div>
-          <div className={styles.cardField}>
-            <label>Hours</label>
-            <input
-              type="number"
-              name="hours"
-              required
-              value={timeSheetInput.hours}
-              onChange={(e) => {
-                setTimeSheetInput({ ...timeSheetInput, hours: e.target.value });
-              }}
-            />
-          </div>
+          <Input
+            label={'Hours'}
+            name="hours"
+            required
+            type="number"
+            value={timeSheetInput.hours}
+            onChange={(e) => {
+              setTimeSheetInput({ ...timeSheetInput, hours: e.target.value });
+            }}
+            placeholder={'Hours'}
+          />
           <div className={styles.cardField}>
             <label>Task</label>
             <Select
