@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
 import Input from '../../Shared/Inputs';
+import Datepicker from '../../Shared/Datepicker';
 import Select from '../../Shared/Select/index';
 import Buttons from '../../Shared/Button/index';
 
@@ -156,18 +157,16 @@ const Form = (props) => {
             }}
             placeholder={'Description'}
           />
-          <div className={styles.cardField}>
-            <label>Date</label>
-            <input
-              type="date"
-              name="date"
-              required
-              value={timeSheetInput.date}
-              onChange={(e) => {
-                setTimeSheetInput({ ...timeSheetInput, date: e.target.value });
-              }}
-            />
-          </div>
+          <Datepicker
+            label={'Date'}
+            required
+            name="date"
+            type="date"
+            value={timeSheetInput.date}
+            onChange={(e) => {
+              setTimeSheetInput({ ...timeSheetInput, date: e.target.value });
+            }}
+          />
           <Input
             label={'Hours'}
             name="hours"

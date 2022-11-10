@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Input from '../../Shared/Inputs';
+import Datepicker from '../../Shared/Datepicker';
 import Modal from './FormModal/index';
 import styles from './form.module.css';
 import Select from '../../Shared/Select/index';
@@ -162,30 +163,26 @@ const AddProject = (props) => {
             }}
             placeholder={'Description'}
           />
-          <div className={styles.cardField}>
-            <label>Start Date</label>
-            <input
-              type="date"
-              name="startDate"
-              required
-              value={projectInput.startDate}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, startDate: e.target.value });
-              }}
-            />
-          </div>
-          <div className={styles.cardField}>
-            <label>End Date</label>
-            <input
-              type="date"
-              name="endDate"
-              required
-              value={projectInput.endDate}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, endDate: e.target.value });
-              }}
-            />
-          </div>
+          <Datepicker
+            label={'Start Date'}
+            required
+            name="start date"
+            type="date"
+            value={projectInput.startDate}
+            onChange={(e) => {
+              setProjectInput({ ...projectInput, startDate: e.target.value });
+            }}
+          />
+          <Datepicker
+            label={'End Date'}
+            required
+            name="end date"
+            type="date"
+            value={projectInput.endDate}
+            onChange={(e) => {
+              setProjectInput({ ...projectInput, endDate: e.target.value });
+            }}
+          />
           <Input
             label={'Client Name'}
             name="clientName"
