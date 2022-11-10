@@ -31,27 +31,22 @@ const Projects = () => {
     if (project.employees.length == 0) {
       const newProject = {
         ...project,
-        employees: 'N/A'
-      };
-      projectList.push(newProject);
-    } else if (project.employees[0].employeeId == null) {
-      const newProject = {
-        ...project,
-        employees: 'N/A'
+        employees: 'No employees'
       };
       projectList.push(newProject);
     } else {
-      let names = [];
+      let names = '';
       let employees = project.employees;
-      employees.map((employee) => {
+      employees.forEach((employee) => {
         if (employee.employeeId !== null) {
-          names.push(`${employee.employeeId.name} ${employee.employeeId.lastName}`);
+          names += `- ${employee.employeeId.name} ${employee.employeeId.lastName}\n`;
+        } else {
+          names += '- N/A\n';
         }
       });
-      const nameList = names.join('-');
       const newProject = {
         ...project,
-        employees: `${nameList}`
+        employees: names
       };
       projectList.push(newProject);
     }
