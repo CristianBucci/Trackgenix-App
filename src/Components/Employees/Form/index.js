@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './form.module.css';
+import Modal from '../../Shared/Modal/Modal';
 import Input from '../../Shared/Inputs';
-import Modal from '../Modal';
 import Buttons from '../../Shared/Button/index';
 
 function Form(props) {

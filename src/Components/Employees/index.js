@@ -1,55 +1,43 @@
 import { useEffect, useState } from 'react';
-import List from './List/List';
+import Table from '../Shared/Table/Table';
+import { useLocation } from 'react-router-dom';
 import styles from './employees.module.css';
-import Modal from './Modal/modalDelete';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [showModal, setShowModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState();
-  const [err, setErr] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [itemId, setItemId] = useState('');
+  const location = useLocation();
 
-  useEffect(async () => {
+  const getEmployees = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
       const data = await response.json();
       setEmployees(data.data);
     } catch (error) {
-      setErr(error);
-      alert(err);
-    }
-  }, []);
-
-  const deleteEmployee = async (id) => {
-    if (confirm('Are you sure that you want to delete this Employee?')) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-          method: 'DELETE'
-        });
-        setEmployees([...employees.filter((employees) => employees._id !== id)]);
-        if (response.ok) {
-          setEmployees(employees.filter((employee) => employee._id !== id));
-          setModalTitle('Success');
-        } else {
-          setModalTitle('Error');
-        }
-        setShowModal(true);
-      } catch (error) {
-        setErr(error);
-        alert('Employee could not be removed.', err);
-      }
+      alert('Could not GET Employees.', error);
     }
   };
 
+  useEffect(() => {
+    getEmployees();
+  }, []);
+
   return (
     <div className={styles.container}>
-      <List
-        employees={employees}
-        setEmployees={setEmployees}
+      <div className={styles.title}>
+        <h2>employees</h2>
+      </div>
+      <Table
+        data={employees}
+        headers={['First name', 'Last name', 'Phone', 'Email']}
+        dataValues={['name', 'lastName', 'phone', 'email']}
+        location={location}
         setShowModal={setShowModal}
-        deleteEmployee={deleteEmployee}
+        setItemId={setItemId}
       />
-      {showModal ? <Modal title={modalTitle} setShowModal={setShowModal} /> : null}
     </div>
   );
 };

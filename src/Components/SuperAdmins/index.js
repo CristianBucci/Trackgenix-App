@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react';
-import List from './List/List';
+import Table from '../Shared/Table/Table';
+import { useLocation } from 'react-router-dom';
 import styles from './super-admins.module.css';
 
 const SuperAdminsList = () => {
   const [superAdminsList, setSuperAdminsList] = useState([]);
-  const [err, setErr] = useState('');
+  // eslint-disable-next-line no-unused-vars
+  const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [itemId, setItemId] = useState('');
+  const location = useLocation();
 
   const getList = async () => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`);
-      response = await response.json();
-      setSuperAdminsList(response.data);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`);
+      const data = await response.json();
+      setSuperAdminsList(data.data);
     } catch (error) {
-      setErr(error);
-      alert(err);
+      alert('Could not GET SuperAdmins.', error);
     }
   };
 
@@ -21,29 +25,18 @@ const SuperAdminsList = () => {
     getList();
   }, []);
 
-  const deleteSuperAdmin = async (id) => {
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
-        method: 'DELETE'
-      });
-      getList();
-    } catch (error) {
-      setErr(error);
-      alert(err);
-    }
-  };
-
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.title}>
-          <h2>SuperAdmins</h2>
-        </div>
+      <div className={styles.title}>
+        <h2>superadmins</h2>
       </div>
-      <List
-        superAdminsList={superAdminsList}
-        setSuperAdminsList={setSuperAdminsList}
-        deleteSuperAdmin={deleteSuperAdmin}
+      <Table
+        data={superAdminsList}
+        headers={['First name', 'Last name', 'Email']}
+        dataValues={['name', 'lastName', 'email']}
+        location={location}
+        setShowModal={setShowModal}
+        setItemId={setItemId}
       />
     </div>
   );

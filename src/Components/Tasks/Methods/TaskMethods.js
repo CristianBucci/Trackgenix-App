@@ -1,19 +1,3 @@
-const del = async (id) => {
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-      method: 'DELETE'
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete task');
-    }
-    alert(`Task with id ${id} delete successfully`);
-    return true;
-  } catch (error) {
-    alert(error);
-    return false;
-  }
-};
-
 const put = async (data, id) => {
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
@@ -50,4 +34,4 @@ const post = async (data) => {
   }
 };
 
-export { del, put, post };
+export { put, post };
