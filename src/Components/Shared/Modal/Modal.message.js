@@ -16,9 +16,7 @@ const ModalMessage = ({ show, closeModal, modalTitle, modalContent }) => {
         </div>
       </div>
     </div>
-  ) : (
-    ''
-  );
+  ) : null;
 };
 
 export default ModalMessage;
