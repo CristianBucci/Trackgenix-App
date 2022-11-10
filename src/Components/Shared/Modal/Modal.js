@@ -1,24 +1,24 @@
 import React from 'react';
-import styles from './Modal.module.css';
+import styles from './modal.module.css';
 
-const Modal = (props) => {
-  if (!props.show) {
-    return null;
-  }
+const ModalMessage = ({ show, closeModal, modalTitle, modalContent }) => {
   return (
-    <div className={styles.background}>
-      <div className={styles.container}>
-        <div className={styles.header}>{props.modalTitle}</div>
-        <div className={styles.body}>
-          <div className={styles.text}>{props.modalContent}</div>
-        </div>
-        <div className={styles.buttons}>
-          <button onClick={props.modalFunction}>Yes</button>
-          <button onClick={props.closeModal}>No</button>
+    show && (
+      <div className={styles.overlay}>
+        <div className={styles.container}>
+          <span className={styles.header}>
+            <p>{modalTitle}</p>
+            <button className={styles.modalCloseButton} onClick={() => closeModal(false)}>
+              <img src={`${process.env.PUBLIC_URL}/assets/images/close.svg`} alt="Close icon" />
+            </button>
+          </span>
+          <div className={styles.content}>
+            <span>{modalContent}</span>
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 
-export default Modal;
+export default ModalMessage;

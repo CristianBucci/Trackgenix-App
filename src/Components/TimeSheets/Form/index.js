@@ -4,6 +4,7 @@ import Modal from './FormModal/index';
 import styles from './form.module.css';
 import Input from '../../Shared/Inputs';
 import Select from '../../Shared/Select/index';
+import Buttons from '../../Shared/Button/index';
 
 const Form = (props) => {
   const [timeSheetInput, setTimeSheetInput] = useState({
@@ -222,16 +223,12 @@ const Form = (props) => {
             ></Select>
           </div>
           <div className={styles.cardButton}>
-            <div>
-              <button className={styles.cancel} onClick={() => props.history.push('/timesheets')}>
-                Cancel
-              </button>
-            </div>
-            <div>
-              <button className={styles.confirm} type="submit">
-                Confirm
-              </button>
-            </div>
+            <Buttons type="submit" variant="primary" name="Confirm" />
+            <Buttons
+              variant="secondary"
+              name="Cancel"
+              onClick={() => props.history.push('/timesheets')}
+            />
           </div>
         </div>
       </form>

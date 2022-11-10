@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Input from '../../Shared/Inputs';
 import styles from '../tasks.module.css';
+import Buttons from '../../Shared/Button/index';
 
 const setTask = async (data, id) => {
   try {
@@ -61,7 +62,10 @@ const TasksForm = () => {
             placeholder={'Task Type'}
           />
         </div>
-        <input type="submit" value="Confirm" />
+        <Buttons type="submit" variant="primary" name="Confirm" />
+        <Link to={'/tasks'}>
+          <Buttons variant="secondary" name="Cancel" />
+        </Link>
       </form>
     </div>
   );
