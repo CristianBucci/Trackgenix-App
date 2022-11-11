@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ModalConfirm, ModalMessage } from '../../Shared/Modal/Modal';
+import ModalConfirm from '../../Shared/Modal/ModalConfirm';
+import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
 import Buttons from '../../Shared/Button/index';
 import styles from './Form.module.css';

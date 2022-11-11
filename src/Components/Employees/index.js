@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ModalConfirm, ModalMessage } from '../Shared/Modal/Modal';
+import ModalConfirm from '../Shared/Modal/ModalConfirm';
+import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ModalConfirm, ModalMessage } from '../../Shared/Modal/Modal';
+import ModalConfirm from '../../Shared/Modal/ModalConfirm';
+import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
 import Datepicker from '../../Shared/Datepicker';
 import Select from '../../Shared/Select/index';

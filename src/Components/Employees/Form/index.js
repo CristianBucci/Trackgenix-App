@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { ModalConfirm, ModalMessage } from '../../Shared/Modal/Modal';
+import ModalConfirm from '../../Shared/Modal/ModalConfirm';
+import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
 import Buttons from '../../Shared/Button/index';
 import styles from './form.module.css';
@@ -211,12 +212,7 @@ function Form(props) {
             placeholder={'Phone'}
           />
           <div>
-            <Buttons
-              type="submit"
-              variant="primary"
-              name="Confirm"
-              onClick={id ? () => updateEmployee() : () => createEmployee()}
-            />
+            <Buttons type="submit" variant="primary" name="Confirm" />
             <Link to={'/employees'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
