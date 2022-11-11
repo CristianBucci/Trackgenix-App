@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import styles from './form.module.css';
-import Modal from '../../Shared/Modal/Modal';
+import ModalConfirm from '../../Shared/Modal/ModalConfirm';
+import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
 import Buttons from '../../Shared/Button/index';
+import styles from './form.module.css';
 
 function Form(props) {
-  const params = useParams();
-  const id = params.id ? params.id : '';
   const [formValues, setFormValues] = useState({
     name: '',
     lastName: '',
@@ -16,13 +15,34 @@ function Form(props) {
     password: '',
     phone: ''
   });
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
+  const params = useParams();
+  const id = params.id && params.id;
 
-  const [modalDisplay, setModalDisplay] = useState('');
-  const [contentMessage, setContentMessage] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setModalContent({
+      title: 'Confirm',
+      content: `Are you sure you want to ${
+        id ? 'edit the employee with id ' + id : 'create a new employee'
+      }?`
+    });
+    setShowModalConfirm(true);
+  };
+
+  const modalFunction = () => {
+    id ? updateEmployee() : createEmployee();
+  };
+
+  const redirect = () => {
+    props.history.push('/employees');
+  };
+
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id ? id : ''}`);
       const data = await response.json();
       setFormValues({
         name: data.data.name,
@@ -32,59 +52,87 @@ function Form(props) {
         phone: data.data.phone
       });
     } catch (error) {
-      setContentMessage(error);
+      setModalContent({ title: 'ERROR!', content: `Could not GET Employee! ${error.message}` });
+      setShowModalMessage(true);
     }
   }, []);
 
   const createEmployee = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+      let response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formValues)
       });
-      const data = await response.json();
-      setContentMessage(data.message);
-      if (response.ok) {
-        setModalTitle('Success');
-        props.history.push('/employees');
+      if (response.status === 201) {
+        response = await response.json();
+        setModalContent({
+          title: 'SUCCESS!',
+          content: response.message
+        });
+        setShowModalMessage(true);
       } else {
-        setModalTitle('Error');
+        response = await response.json();
+        setModalContent({
+          title: 'ERROR!',
+          content: `Could not create new Employee! ${response.message}`
+        });
+        setShowModalMessage(true);
       }
-      setModalDisplay(true);
     } catch (error) {
-      setContentMessage(error);
+      setModalContent({
+        title: 'ERROR!',
+        content: `Could not create new Employee! ${error.message}`
+      });
+      setShowModalMessage(true);
     }
   };
 
-  const editEmployee = async () => {
+  const updateEmployee = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
+      let response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formValues)
       });
-      const data = await response.json();
-      setContentMessage(data.message);
-      if (response.ok) {
-        setModalTitle('Success');
-        props.history.push('/employees');
+      if (response.status === 200) {
+        response = await response.json();
+        setModalContent({
+          title: 'SUCCESS!',
+          content: response.message
+        });
+        setShowModalMessage(true);
       } else {
-        setModalTitle('Error');
+        response = await response.json();
+        setModalContent({
+          title: 'ERROR!',
+          content: `Could not update Employee! ${response.message}`
+        });
+        setShowModalMessage(true);
       }
-      setModalDisplay(true);
     } catch (error) {
-      setContentMessage(error);
+      setModalContent({ title: 'ERROR!', content: `Could not update Employee! ${error.message}` });
+      setShowModalMessage(true);
     }
-    setModalDisplay(true);
-  };
-
-  const onSubmit = (event) => {
-    event.preventDefault();
   };
 
   return (
     <>
+      <ModalConfirm
+        show={showModalConfirm}
+        closeModal={setShowModalConfirm}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={modalFunction}
+        modalId={id}
+      />
+      <ModalMessage
+        show={showModalMessage}
+        closeModal={setShowModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={redirect}
+      />
       <div className={styles.container}>
         <form onSubmit={onSubmit}>
           <h2>{id ? 'Edit Employee' : 'Create Employee'}</h2>
@@ -164,25 +212,13 @@ function Form(props) {
             placeholder={'Phone'}
           />
           <div>
-            <Buttons
-              type="submit"
-              variant="primary"
-              name="Confirm"
-              onClick={id ? () => editEmployee() : () => createEmployee()}
-            />
+            <Buttons type="submit" variant="primary" name="Confirm" />
             <Link to={'/employees'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
           </div>
         </form>
       </div>
-      {modalDisplay ? (
-        <Modal
-          title={modalTitle}
-          contentMessage={contentMessage}
-          setModalDisplay={setModalDisplay}
-        />
-      ) : null}
     </>
   );
 }

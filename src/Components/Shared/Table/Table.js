@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Table.module.css';
 import { Link } from 'react-router-dom';
 
-const Table = ({ data, headers, dataValues, setShowModal, setItemId, location }) => {
+const Table = ({ data, headers, dataValues, setShowModal, location }) => {
   return (
     <>
       <div className={styles.container}>
@@ -27,8 +27,7 @@ const Table = ({ data, headers, dataValues, setShowModal, setItemId, location })
           <tbody className={styles.body}>
             {data.map((item) => {
               const openModal = () => {
-                setShowModal(true);
-                setItemId(item._id);
+                setShowModal(item._id);
               };
               return (
                 <>

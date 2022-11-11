@@ -1,44 +1,76 @@
 import { useEffect, useState } from 'react';
-import Table from '../Shared/Table/Table';
 import { useLocation } from 'react-router-dom';
+import ModalConfirm from '../Shared/Modal/ModalConfirm';
+import ModalMessage from '../Shared/Modal/ModalMessage';
+import Table from '../Shared/Table/Table';
 import styles from './admins.module.css';
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [showModal, setShowModal] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [itemId, setItemId] = useState('');
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
+  const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
-  const getAdmins = async () => {
+  const modalWrapper = (id) => {
+    setItemId(id);
+    setModalContent({
+      title: 'CONFIRM',
+      content: `Are you sure you want to delete the admin with id ${id}?`
+    });
+    setShowModalConfirm(true);
+  };
+
+  let delParams = {
+    id: itemId,
+    path: 'Admin',
+    list: admins,
+    setList: setAdmins,
+    setModalContent,
+    setShowModalMessage
+  };
+
+  useEffect(async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`);
       const data = await response.json();
       setAdmins(data.data);
     } catch (error) {
-      alert('Could not GET Admins.', error);
+      setModalContent({ title: 'ERROR!', content: `Could not GET admins! ${error.message}` });
+      setShowModalMessage(true);
     }
-  };
-
-  useEffect(() => {
-    getAdmins();
-  }, [admins]);
+  }, []);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.title}>
-        <h2>admins</h2>
-      </div>
-      <Table
-        data={admins}
-        headers={['First name', 'Last name', 'Email']}
-        dataValues={['name', 'lastName', 'email']}
-        location={location}
-        setShowModal={setShowModal}
-        setItemId={setItemId}
+    <>
+      <ModalConfirm
+        show={showModalConfirm}
+        closeModal={setShowModalConfirm}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={delParams}
+        modalId={null}
       />
-    </div>
+      <ModalMessage
+        show={showModalMessage}
+        closeModal={setShowModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+      />
+      <div className={styles.container}>
+        <div className={styles.title}>
+          <h2>admins</h2>
+        </div>
+        <Table
+          data={admins}
+          headers={['First name', 'Last name', 'Email']}
+          dataValues={['name', 'lastName', 'email']}
+          location={location}
+          setShowModal={modalWrapper}
+        />
+      </div>
+    </>
   );
 };
 
