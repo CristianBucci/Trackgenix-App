@@ -1,51 +1,75 @@
 import { useEffect, useState } from 'react';
-import List from './List/List';
+import { useLocation } from 'react-router-dom';
+import { ModalConfirm, ModalMessage } from '../Shared/Modal/Modal';
+import Table from '../Shared/Table/Table';
 import styles from './super-admins.module.css';
 
 const SuperAdminsList = () => {
   const [superAdminsList, setSuperAdminsList] = useState([]);
-  const [err, setErr] = useState('');
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
+  const [itemId, setItemId] = useState(null);
+  const location = useLocation();
 
-  const getList = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`);
-      response = await response.json();
-      setSuperAdminsList(response.data);
-    } catch (error) {
-      setErr(error);
-      alert(err);
-    }
+  const modalWrapper = (id) => {
+    setItemId(id);
+    setModalContent({
+      title: 'CONFIRM',
+      content: `Are you sure you want to delete the SuperAdmin with id ${id}?`
+    });
+    setShowModalConfirm(true);
   };
 
-  useEffect(() => {
-    getList();
+  let delParams = {
+    id: itemId,
+    path: 'SuperAdmin',
+    list: superAdminsList,
+    setList: setSuperAdminsList,
+    setModalContent,
+    setShowModalMessage
+  };
+
+  useEffect(async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin`);
+      const data = await response.json();
+      setSuperAdminsList(data.data);
+    } catch (error) {
+      setModalContent({ title: 'ERROR!', content: `Could not GET SuperAdmin! ${error.message}` });
+      setShowModalMessage(true);
+    }
   }, []);
 
-  const deleteSuperAdmin = async (id) => {
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
-        method: 'DELETE'
-      });
-      getList();
-    } catch (error) {
-      setErr(error);
-      alert(err);
-    }
-  };
-
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.title}>
-          <h2>SuperAdmins</h2>
-        </div>
-      </div>
-      <List
-        superAdminsList={superAdminsList}
-        setSuperAdminsList={setSuperAdminsList}
-        deleteSuperAdmin={deleteSuperAdmin}
+    <>
+      <ModalConfirm
+        show={showModalConfirm}
+        closeModal={setShowModalConfirm}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={delParams}
+        modalId={null}
       />
-    </div>
+      <ModalMessage
+        show={showModalMessage}
+        closeModal={setShowModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+      />
+      <div className={styles.container}>
+        <div className={styles.title}>
+          <h2>superadmins</h2>
+        </div>
+        <Table
+          data={superAdminsList}
+          headers={['First name', 'Last name', 'Email']}
+          dataValues={['name', 'lastName', 'email']}
+          location={location}
+          setShowModal={modalWrapper}
+        />
+      </div>
+    </>
   );
 };
 

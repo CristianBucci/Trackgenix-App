@@ -1,6 +1,8 @@
 .container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+}
+
+.title {
+  padding: 0px 20px;
+  text-transform: uppercase;
 }

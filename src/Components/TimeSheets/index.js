@@ -1,120 +1,158 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import ModalConfirm from '../Shared/Modal/Modal.confirm';
+import { useLocation } from 'react-router-dom';
+import { ModalConfirm, ModalMessage } from '../Shared/Modal/Modal';
+import Table from '../Shared/Table/Table';
 import styles from './timeSheets.module.css';
 
-const TimeSheets = (props) => {
+const TimeSheets = () => {
   const [timeSheets, setTimesheet] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [timeSheetId, setTimeSheetId] = useState(undefined);
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
+  const [itemId, setItemId] = useState(null);
+  const location = useLocation();
+
+  const modalWrapper = (id) => {
+    setItemId(id);
+    setModalContent({
+      title: 'CONFIRM',
+      content: `Are you sure you want to delete the TimeSheet with id ${id}?`
+    });
+    setShowModalConfirm(true);
+  };
+
+  let delParams = {
+    id: itemId,
+    path: 'TimeSheets',
+    list: timeSheets,
+    setList: setTimesheet,
+    setModalContent,
+    setShowModalMessage
+  };
 
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/`);
-      const json = await response.json();
-      setTimesheet(json.data);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets`);
+      const data = await response.json();
+      setTimesheet(data.data);
     } catch (error) {
-      alert('Could not GET TimeSheets.', error);
+      setModalContent({ title: 'ERROR!', content: `Could not GET TimeSheets! ${error.message}` });
+      setShowModalMessage(true);
     }
   }, []);
 
-  const fixDate = (date) => {
-    let dateFormated = date.substr(0, 10);
-    return dateFormated;
-  };
-
-  const deleteTimeSheet = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.status === 204) {
-        alert('TimeSheet removed.');
-        setTimesheet([...timeSheets.filter((timeSheet) => timeSheet._id !== id)]);
-      } else {
-        alert('TimeSheet could not be removed.');
-      }
-    } catch (error) {
-      alert('TimeSheet could not be removed.', error);
+  const timeSheetList = [];
+  for (let i = 0; i < timeSheets.length; i++) {
+    const timeSheet = timeSheets[i];
+    if (timeSheet.task == null && timeSheet.employee == null && timeSheet.project == null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: 'N/A',
+        employee: 'N/A',
+        project: 'N/A'
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task == null && timeSheet.employee == null && timeSheet.project !== null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: 'N/A',
+        employee: 'N/A',
+        project: `${timeSheet.project['name']}`
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task == null && timeSheet.employee !== null && timeSheet.project == null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: 'N/A',
+        employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
+        project: 'N/A'
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (timeSheet.task !== null && timeSheet.employee == null && timeSheet.project == null) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: `${timeSheet.task['description']}`,
+        employee: 'N/A',
+        project: 'N/A'
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (
+      timeSheet.task == null &&
+      timeSheet.employee !== null &&
+      timeSheet.project !== null
+    ) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: 'N/A',
+        employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
+        project: `${timeSheet.project['name']}`
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (
+      timeSheet.task !== null &&
+      timeSheet.employee == null &&
+      timeSheet.project !== null
+    ) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: `${timeSheet.task['description']}`,
+        employee: 'N/A',
+        project: `${timeSheet.project['name']}`
+      };
+      timeSheetList.push(newTimeSheet);
+    } else if (
+      timeSheet.task !== null &&
+      timeSheet.employee !== null &&
+      timeSheet.project == null
+    ) {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: `${timeSheet.task['description']}`,
+        employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
+        project: 'N/A'
+      };
+      timeSheetList.push(newTimeSheet);
+    } else {
+      const newTimeSheet = {
+        ...timeSheet,
+        task: `${timeSheet.task['description']}`,
+        employee: `${timeSheet.employee['name']} ${timeSheet.employee['lastName']}`,
+        project: `${timeSheet.project['name']}`
+      };
+      timeSheetList.push(newTimeSheet);
     }
-  };
+  }
 
   return (
-    <section>
+    <>
+      {' '}
       <ModalConfirm
-        show={showModal}
-        closeModal={setShowModal}
-        modalTitle={'Delete TimeSheet'}
-        modalContent={`Do you want to delete this TimeSheet?`}
-        modalFunction={deleteTimeSheet}
-        modalId={timeSheetId}
+        show={showModalConfirm}
+        closeModal={setShowModalConfirm}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={delParams}
+        modalId={null}
       />
-      <div className={styles.list}>
-        <div className={styles.tableTitle}>
-          <h2>TimeSheets</h2>
-          <button
-            className={styles.add}
-            onClick={() => {
-              props.history.push('/timesheets/form');
-            }}
-          >
-            <img src="/assets/images/add.svg" alt="add TimeSheet" />
-            <a>Add new timeSheet</a>
-          </button>
+      <ModalMessage
+        show={showModalMessage}
+        closeModal={setShowModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+      />
+      <div className={styles.container}>
+        <div className={styles.title}>
+          <h2>timesheets</h2>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th className={styles.textLeft}>Description</th>
-              <th className={styles.textLeft}>Date</th>
-              <th className={styles.textLeft}>Hours</th>
-              <th className={styles.textLeft}>Task</th>
-              <th className={styles.textLeft}>Employee</th>
-              <th className={styles.textLeft}>Project</th>
-              <th className={styles.button}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {timeSheets.map((timeSheet) => {
-              return (
-                <tr key={timeSheet._id}>
-                  <td className={styles.textLeft}>{timeSheet.description}</td>
-                  <td className={styles.textLeft}>{fixDate(timeSheet.date)}</td>
-                  <td className={styles.textLeft}>{timeSheet.hours}</td>
-                  <td className={styles.textLeft}>
-                    {timeSheet.task === null ? 'Not found in DB' : timeSheet.task['description']}
-                  </td>
-                  <td className={styles.textLeft}>
-                    {timeSheet.employee === null
-                      ? 'Not found in DB'
-                      : timeSheet.employee['lastName'] + timeSheet.employee['name']}
-                  </td>
-                  <td className={styles.textLeft}>
-                    {timeSheet.project === null ? 'Not found in DB' : timeSheet.project['name']}
-                  </td>
-                  <td className={styles.buttons}>
-                    <Link to={`/timesheets/${timeSheet._id}`}>
-                      <button className={styles.update}>
-                        <img src="/assets/images/edit.svg" alt="update" />
-                      </button>
-                    </Link>
-                    <button
-                      className={styles.delete}
-                      onClick={() => {
-                        setShowModal(true);
-                        setTimeSheetId(timeSheet._id);
-                      }}
-                    >
-                      <img src="/assets/images/trash.svg" alt="delete" />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <Table
+          data={timeSheetList}
+          headers={['Description', 'Date', 'Hours', 'Task', 'Employee', 'Project']}
+          dataValues={['description', 'date', 'hours', 'task', 'employee', 'project']}
+          location={location}
+          setShowModal={modalWrapper}
+        />
       </div>
-    </section>
+    </>
   );
 };
 

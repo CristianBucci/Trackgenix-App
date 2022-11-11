@@ -1,13 +1,34 @@
 import { useEffect, useState } from 'react';
-import List from './List/List';
+import { useLocation } from 'react-router-dom';
+import { ModalConfirm, ModalMessage } from '../Shared/Modal/Modal';
+import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
-import Modal from './Modal/modalDelete';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState();
-  const [err, setErr] = useState([]);
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
+  const [itemId, setItemId] = useState(null);
+  const location = useLocation();
+
+  const modalWrapper = (id) => {
+    setItemId(id);
+    setModalContent({
+      title: 'CONFIRM',
+      content: `Are you sure you want to delete the employee with id ${id}?`
+    });
+    setShowModalConfirm(true);
+  };
+
+  let delParams = {
+    id: itemId,
+    path: 'employees',
+    list: employees,
+    setList: setEmployees,
+    setModalContent,
+    setShowModalMessage
+  };
 
   useEffect(async () => {
     try {
@@ -15,42 +36,40 @@ const Employees = () => {
       const data = await response.json();
       setEmployees(data.data);
     } catch (error) {
-      setErr(error);
-      alert(err);
+      setModalContent({ title: 'ERROR!', content: `Could not GET employees! ${error.message}` });
+      setShowModalMessage(true);
     }
   }, []);
 
-  const deleteEmployee = async (id) => {
-    if (confirm('Are you sure that you want to delete this Employee?')) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-          method: 'DELETE'
-        });
-        setEmployees([...employees.filter((employees) => employees._id !== id)]);
-        if (response.ok) {
-          setEmployees(employees.filter((employee) => employee._id !== id));
-          setModalTitle('Success');
-        } else {
-          setModalTitle('Error');
-        }
-        setShowModal(true);
-      } catch (error) {
-        setErr(error);
-        alert('Employee could not be removed.', err);
-      }
-    }
-  };
-
   return (
-    <div className={styles.container}>
-      <List
-        employees={employees}
-        setEmployees={setEmployees}
-        setShowModal={setShowModal}
-        deleteEmployee={deleteEmployee}
+    <>
+      <ModalConfirm
+        show={showModalConfirm}
+        closeModal={setShowModalConfirm}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={delParams}
+        modalId={null}
       />
-      {showModal ? <Modal title={modalTitle} setShowModal={setShowModal} /> : null}
-    </div>
+      <ModalMessage
+        show={showModalMessage}
+        closeModal={setShowModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+      />
+      <div className={styles.container}>
+        <div className={styles.title}>
+          <h2>employees</h2>
+        </div>
+        <Table
+          data={employees}
+          headers={['First name', 'Last name', 'Phone', 'Email']}
+          dataValues={['name', 'lastName', 'phone', 'email']}
+          location={location}
+          setShowModal={modalWrapper}
+        />
+      </div>
+    </>
   );
 };
 

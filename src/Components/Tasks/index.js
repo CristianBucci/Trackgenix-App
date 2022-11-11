@@ -1,43 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ModalConfirm, ModalMessage } from '../Shared/Modal/Modal';
+import Table from '../Shared/Table/Table';
 import styles from './tasks.module.css';
-import List from './TaskList/List';
-import ModalMessages from '../Shared/Modal/Modal.message';
-import { del } from './Methods/TaskMethods';
 
 const Tasks = () => {
   const [tasksList, setTasksList] = useState([]);
-  const [showModal, setShowModal] = useState(true);
-  let modalTitle = 'Title example';
-  let modalContent = 'Example message content';
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
+  const [itemId, setItemId] = useState(null);
+  const location = useLocation();
+
+  const modalWrapper = (id) => {
+    setItemId(id);
+    setModalContent({
+      title: 'CONFIRM',
+      content: `Are you sure you want to delete the Task with id ${id}?`
+    });
+    setShowModalConfirm(true);
+  };
+
+  let delParams = {
+    id: itemId,
+    path: 'Tasks',
+    list: tasksList,
+    setList: setTasksList,
+    setModalContent,
+    setShowModalMessage
+  };
 
   useEffect(async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-      if (!response.ok) {
-        throw new Error('Failed to get tasks');
-      }
       const data = await response.json();
       setTasksList(data.data);
     } catch (error) {
-      alert(error);
+      setModalContent({ title: 'ERROR!', content: `Could not GET Tasks! ${error.message}` });
+      setShowModalMessage(true);
     }
   }, []);
 
-  const deleteTask = async (id) => {
-    (await del(id)) ? setTasksList([...tasksList.filter((task) => task._id !== id)]) : '';
-  };
-
   return (
-    <section className={styles.container}>
-      <ModalMessages
-        show={showModal}
-        closeModal={setShowModal}
-        modalTitle={modalTitle}
-        modalContent={modalContent}
+    <>
+      <ModalConfirm
+        show={showModalConfirm}
+        closeModal={setShowModalConfirm}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={delParams}
+        modalId={null}
       />
-      <h2 className={styles.title}>Tasks</h2>
-      <List tasksList={tasksList} deleteTask={deleteTask} />
-    </section>
+      <ModalMessage
+        show={showModalMessage}
+        closeModal={setShowModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+      />
+      <section className={styles.container}>
+        <h2 className={styles.title}>Tasks</h2>
+        <Table
+          data={tasksList}
+          headers={['ID', 'Description']}
+          dataValues={['_id', 'description']}
+          location={location}
+          setShowModal={modalWrapper}
+        />
+      </section>
+    </>
   );
 };
 
