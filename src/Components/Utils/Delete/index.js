@@ -1,5 +1,4 @@
 const deleteItem = async ({ id, path, list, setList, setModalContent, setShowModalMessage }) => {
-  console.log(id);
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/${path}/${id}`, {
       method: 'DELETE'
