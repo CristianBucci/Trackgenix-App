@@ -25,7 +25,7 @@ const AddProject = (props) => {
   const id = params.id && params.id;
   const roles = [{ role: 'DEV' }, { role: 'QA' }, { role: 'PM' }, { role: 'TL' }];
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     setModalContent({
       title: 'Confirm',

@@ -18,7 +18,7 @@ const Form = (props) => {
   const params = useParams();
   const id = params.Id && params.Id;
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     setModalContent({
       title: 'Confirm',

@@ -13,7 +13,7 @@ const TasksForm = (props) => {
   const params = useParams();
   const id = params.id && params.id;
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     setModalContent({
       title: 'Confirm',
