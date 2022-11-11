@@ -42,7 +42,7 @@ function Form(props) {
 
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id ? id : ''}`);
       const data = await response.json();
       setFormValues({
         name: data.data.name,
