@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux';
-
-import adminsReducer from './admins/reducer';
-import empolyeesReducer from './employees/reducer';
-import projectsReducer from './projects/reducer';
-import superAdminsReducer from './super-admins/reducer';
-import tasksReducer from './tasks/reducer';
-import timesheetsReducer from './timesheets/reducer';
+import adminsReducer from '../admins/reducer';
+import empolyeesReducer from '../employees/reducer';
+import projectsReducer from '../project/reducer';
+import superAdminsReducer from '../super-admins/reducer';
+import tasksReducer from '../tasks/reducer';
+import timesheetsReducer from '../timesheets/reducer';
 
 const rootReducer = combineReducers({
   employees: empolyeesReducer,

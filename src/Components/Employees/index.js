@@ -4,9 +4,12 @@ import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { getEmployees } from '../../redux/employees/thunks';
 
 const Employees = () => {
-  const [employees, setEmployees] = useState([]);
+  const employeesList = useSelector((state) => state.employees.list);
+  const dispatch = useDispatch();
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalMessage, setShowModalMessage] = useState(false);
   const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
@@ -22,25 +25,17 @@ const Employees = () => {
     setShowModalConfirm(true);
   };
 
+  useEffect(() => {
+    dispatch(getEmployees());
+  }, []);
+
   let delParams = {
     id: itemId,
     path: 'employees',
-    list: employees,
-    setList: setEmployees,
+    list: employeesList,
     setModalContent,
     setShowModalMessage
   };
-
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      setEmployees(data.data);
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET employees! ${error.message}` });
-      setShowModalMessage(true);
-    }
-  }, []);
 
   return (
     <>
@@ -63,7 +58,7 @@ const Employees = () => {
           <h2>employees</h2>
         </div>
         <Table
-          data={employees}
+          data={employeesList}
           headers={['First name', 'Last name', 'Phone', 'Email']}
           dataValues={['name', 'lastName', 'phone', 'email']}
           location={location}
