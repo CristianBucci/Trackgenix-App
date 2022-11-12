@@ -8,4 +8,4 @@ const configureStore = () => {
   return createStore(rootReducer, enhancer);
 };
 
-export const store = configureStore();
+export default configureStore();
