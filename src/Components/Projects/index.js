@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
-import getProjects from '../../redux/projects/actions';
+import getProjects from '../../redux/projects/thunks';
 import styles from './projects.module.css';
 
 const Projects = () => {

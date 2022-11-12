@@ -20,18 +20,4 @@ const getProjectsError = (error) => {
   };
 };
 
-const getProjects = () => {
-  return (dispatch) => {
-    dispatch(getProjectsPending());
-    fetch(`${process.env.REACT_APP_API_URL}/projecats`)
-      .then((response) => response.json())
-      .then((response) => {
-        dispatch(getProjectsSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(getProjectsError(error.toString()));
-      });
-  };
-};
-
-export default getProjects;
+export { getProjectsPending, getProjectsSuccess, getProjectsError };
