@@ -13,6 +13,7 @@ const Projects = () => {
   //const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
+
   const {
     list: projectsList,
     isPending,

@@ -1,4 +1,9 @@
-import { GET_PROJECTS_PENDING, GET_PROJECTS_SUCCESS, GET_PROJECTS_ERROR } from './constants';
+import {
+  GET_PROJECTS_PENDING,
+  GET_PROJECTS_SUCCESS,
+  GET_PROJECTS_ERROR,
+  CLOSE_MESSAGE_MODAL
+} from './constants';
 
 const getProjectsPending = () => {
   return {
@@ -20,4 +25,11 @@ const getProjectsError = (error) => {
   };
 };
 
+const messageModalClose = () => {
+  return {
+    type: CLOSE_MESSAGE_MODAL
+  };
+};
+
 export { getProjectsPending, getProjectsSuccess, getProjectsError };
+export default messageModalClose;

@@ -1,4 +1,9 @@
-import { GET_PROJECTS_PENDING, GET_PROJECTS_SUCCESS, GET_PROJECTS_ERROR } from './constants';
+import {
+  GET_PROJECTS_PENDING,
+  GET_PROJECTS_SUCCESS,
+  GET_PROJECTS_ERROR,
+  CLOSE_MESSAGE_MODAL
+} from './constants';
 
 const INITIAL_STATE = {
   list: [],
@@ -27,6 +32,12 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
         isPending: false,
         modalContent: { title: 'ERROR!', content: `Could not GET projects!\n${action.payload}` },
         showModalMessage: true
+      };
+    case CLOSE_MESSAGE_MODAL:
+      return {
+        ...state,
+        modalContent: { title: '', content: '' },
+        showModalMessage: false
       };
     default:
       return state;
