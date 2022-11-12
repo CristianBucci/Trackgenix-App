@@ -94,7 +94,6 @@ const Projects = () => {
       />
       <ModalMessage
         show={showModalMessage}
-        //closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
       />
