@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './tasks.module.css';
+import { getTasks } from '../../redux/tasks/thunks';
+
 
 const Tasks = () => {
   const [tasksList, setTasksList] = useState([]);
@@ -12,6 +15,7 @@ const Tasks = () => {
   const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const modalWrapper = (id) => {
     setItemId(id);
@@ -31,15 +35,8 @@ const Tasks = () => {
     setShowModalMessage
   };
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-      const data = await response.json();
-      setTasksList(data.data);
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET Tasks! ${error.message}` });
-      setShowModalMessage(true);
-    }
+  useEffect(() => {
+    dispatch(getTasks());
   }, []);
 
   return (
