@@ -4,9 +4,12 @@ import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './admins.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAdmins } from '../../redux/admins/thunks';
 
 const Admins = () => {
-  const [admins, setAdmins] = useState([]);
+  const adminsList = useSelector((state) => state.admins.list);
+  const dispatch = useDispatch();
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalMessage, setShowModalMessage] = useState(false);
   const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
@@ -25,21 +28,13 @@ const Admins = () => {
   let delParams = {
     id: itemId,
     path: 'Admin',
-    list: admins,
-    setList: setAdmins,
+    setList: adminsList,
     setModalContent,
     setShowModalMessage
   };
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`);
-      const data = await response.json();
-      setAdmins(data.data);
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET admins! ${error.message}` });
-      setShowModalMessage(true);
-    }
+  useEffect(() => {
+    dispatch(getAdmins());
   }, []);
 
   return (
@@ -63,7 +58,7 @@ const Admins = () => {
           <h2>admins</h2>
         </div>
         <Table
-          data={admins}
+          data={adminsList}
           headers={['First name', 'Last name', 'Email']}
           dataValues={['name', 'lastName', 'email']}
           location={location}
