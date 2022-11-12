@@ -6,22 +6,25 @@ import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getEmployees } from '../../redux/employees/thunks';
+import { closeMessageModal } from '../../redux/employees/actions';
 
 const Employees = () => {
-  const employeesList = useSelector((state) => state.employees.list);
+  const {
+    list: employeesList,
+    showModalMessage,
+    modalContent
+  } = useSelector((state) => state.employees);
   const dispatch = useDispatch();
   const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [showModalMessage, setShowModalMessage] = useState(false);
-  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
   const modalWrapper = (id) => {
     setItemId(id);
-    setModalContent({
-      title: 'CONFIRM',
-      content: `Are you sure you want to delete the employee with id ${id}?`
-    });
+    // setModalContent({
+    //   title: 'CONFIRM',
+    //   content: `Are you sure you want to delete the employee with id ${id}?`
+    // });
     setShowModalConfirm(true);
   };
 
@@ -32,10 +35,10 @@ const Employees = () => {
   let delParams = {
     id: itemId,
     path: 'employees',
-    list: employeesList,
-    setModalContent,
-    setShowModalMessage
+    list: employeesList
   };
+
+  const onClick = () => dispatch(closeMessageModal());
 
   return (
     <>
@@ -49,9 +52,9 @@ const Employees = () => {
       />
       <ModalMessage
         show={showModalMessage}
-        closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
+        closeModal={onClick}
       />
       <div className={styles.container}>
         <div className={styles.title}>

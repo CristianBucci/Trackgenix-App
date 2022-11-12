@@ -1,9 +1,16 @@
-import { GET_EMPLOYEES_ERROR, GET_EMPLOYEES_PENDING, GET_EMPLOYEES_SUCCESS } from './constants';
+import {
+  GET_EMPLOYEES_ERROR,
+  GET_EMPLOYEES_PENDING,
+  GET_EMPLOYEES_SUCCESS,
+  CLOSE_MESSAGE_MODAL
+} from './constants';
 
 const INITIAL_STATE = {
-  isloading: false,
+  isLoading: false,
   error: '',
-  list: []
+  list: [],
+  showModalMessage: false,
+  modalContent: { title: '', content: '' }
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -11,20 +18,29 @@ const reducer = (state = INITIAL_STATE, action) => {
     case GET_EMPLOYEES_PENDING:
       return {
         ...state,
-        isloading: true
+        isLoading: true
       };
     case GET_EMPLOYEES_SUCCESS:
       return {
         ...state,
-        isloading: false,
+        isLoading: false,
         error: '',
         list: action.payload
       };
     case GET_EMPLOYEES_ERROR:
       return {
         ...state,
-        isloading: false,
+        isLoading: false,
         error: action.payload,
+        modalContent: { title: 'ERROR!', content: `Could not GET Employees! ${action.payload}` },
+        showModalMessage: true,
+        list: []
+      };
+    case CLOSE_MESSAGE_MODAL:
+      return {
+        ...state,
+        modalContent: { title: '', content: '' },
+        showModalMessage: false,
         list: []
       };
     default:
