@@ -38,12 +38,7 @@ const Employees = () => {
     path: 'employees',
     list: employeesList
   };
-
-  return isLoading ? (
-    <div className={styles.spinnerContainer}>
-      <img src="/assets/images/spinner.gif" alt="spinner" />
-    </div>
-  ) : (
+  return (
     <>
       <ModalConfirm
         show={showModalConfirm}
@@ -62,13 +57,19 @@ const Employees = () => {
         <div className={styles.title}>
           <h2>employees</h2>
         </div>
-        <Table
-          data={employeesList}
-          headers={['First name', 'Last name', 'Phone', 'Email']}
-          dataValues={['name', 'lastName', 'phone', 'email']}
-          location={location}
-          setShowModal={modalWrapper}
-        />
+        {isLoading ? (
+          <div className={styles.spinnerContainer}>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
+          </div>
+        ) : (
+          <Table
+            data={employeesList}
+            headers={['First name', 'Last name', 'Phone', 'Email']}
+            dataValues={['name', 'lastName', 'phone', 'email']}
+            location={location}
+            setShowModal={modalWrapper}
+          />
+        )}
       </div>
     </>
   );
