@@ -7,7 +7,6 @@ const getProjects = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
       const data = await response.json();
       dispatch(getProjectsSuccess(data.data));
-      return data.data;
     } catch (error) {
       dispatch(getProjectsError(error.toString()));
     }

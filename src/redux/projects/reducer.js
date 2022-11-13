@@ -7,7 +7,7 @@ import {
 
 const INITIAL_STATE = {
   list: [],
-  isPending: false,
+  isLoading: false,
   modalContent: { title: '', content: '' },
   showModalMessage: false
 };
@@ -17,19 +17,19 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
     case GET_PROJECTS_PENDING:
       return {
         ...state,
-        isPending: true
+        isLoading: true
       };
     case GET_PROJECTS_SUCCESS:
       return {
         ...state,
         list: action.payload,
-        isPending: false
+        isLoading: false
       };
     case GET_PROJECTS_ERROR:
       return {
         ...state,
         list: [],
-        isPending: false,
+        isLoading: false,
         modalContent: { title: 'ERROR!', content: `Could not GET projects!\n${action.payload}` },
         showModalMessage: true
       };

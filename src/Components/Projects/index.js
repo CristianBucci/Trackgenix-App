@@ -16,7 +16,7 @@ const Projects = () => {
 
   const {
     list: projectsList,
-    isPending,
+    isLoading,
     modalContent,
     showModalMessage
   } = useSelector((state) => state.projects);
@@ -71,7 +71,7 @@ const Projects = () => {
     }
   }
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <div className={styles.container}>
         <div className={styles.title}>
