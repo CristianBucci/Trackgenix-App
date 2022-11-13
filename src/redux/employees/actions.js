@@ -25,7 +25,7 @@ export const getEmployeesError = (error) => {
   };
 };
 
-export const closeMessageModal = () => {
+export const messageModalClose = () => {
   return {
     type: CLOSE_MESSAGE_MODAL
   };

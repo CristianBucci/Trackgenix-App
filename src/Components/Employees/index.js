@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getEmployees } from '../../redux/employees/thunks';
-import { closeMessageModal } from '../../redux/employees/actions';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
 
 const Employees = () => {
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [itemId, setItemId] = useState(null);
+  const location = useLocation();
   const {
     isPending,
     list: employeesList,
@@ -16,9 +18,6 @@ const Employees = () => {
     showModalMessage
   } = useSelector((state) => state.employees);
   const dispatch = useDispatch();
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [itemId, setItemId] = useState(null);
-  const location = useLocation();
 
   //Commented so it doesn't break until the delete is done
   const modalWrapper = (id) => {
@@ -40,8 +39,6 @@ const Employees = () => {
     list: employeesList
   };
 
-  const onClick = () => dispatch(closeMessageModal());
-
   return isPending ? (
     <div className={styles.spinnerContainer}>
       <img src="/assets/images/spinner.gif" alt="spinner" />
@@ -60,7 +57,6 @@ const Employees = () => {
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        closeModal={onClick}
       />
       <div className={styles.container}>
         <div className={styles.title}>
