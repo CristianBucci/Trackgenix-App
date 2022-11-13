@@ -1,6 +1,6 @@
 import { getTasksPending, getTasksSuccess, getTasksError } from './actions';
 
-const getTasks = () => {
+ export const getTasks = () => {
     return async (dispatch) => {
       dispatch(getTasksPending());
       try {
@@ -13,5 +13,3 @@ const getTasks = () => {
       }
     };
   };
-
-  export default getTasks;
