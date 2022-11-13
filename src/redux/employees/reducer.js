@@ -1,35 +1,35 @@
 import {
   GET_EMPLOYEES_ERROR,
-  GET_EMPLOYEES_PENDING,
+  GET_EMPLOYEES_LOADING,
   GET_EMPLOYEES_SUCCESS,
   CLOSE_MESSAGE_MODAL
 } from './constants';
 
 const INITIAL_STATE = {
-  isPending: false,
+  isLoading: false,
   list: [],
   error: '',
   modalContent: { title: '', content: '' },
   showModalMessage: false
 };
 
-const employeeReducer = (state = INITIAL_STATE, action) => {
+const employeesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_EMPLOYEES_PENDING:
+    case GET_EMPLOYEES_LOADING:
       return {
         ...state,
-        isPending: true
+        isLoading: true
       };
     case GET_EMPLOYEES_SUCCESS:
       return {
         ...state,
-        isPending: false,
+        isLoading: false,
         list: action.payload
       };
     case GET_EMPLOYEES_ERROR:
       return {
         ...state,
-        isPending: false,
+        isLoading: false,
         error: action.payload,
         modalContent: { title: 'ERROR!', content: `Could not GET Employees! ${action.payload}` },
         showModalMessage: true
@@ -44,4 +44,4 @@ const employeeReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default employeeReducer;
+export default employeesReducer;

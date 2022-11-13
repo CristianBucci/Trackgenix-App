@@ -1,13 +1,13 @@
 import {
-  GET_EMPLOYEES_PENDING,
+  GET_EMPLOYEES_LOADING,
   GET_EMPLOYEES_SUCCESS,
   GET_EMPLOYEES_ERROR,
   CLOSE_MESSAGE_MODAL
 } from './constants';
 
-export const getEmployeesPending = () => {
+export const getEmployeesLoading = () => {
   return {
-    type: GET_EMPLOYEES_PENDING
+    type: GET_EMPLOYEES_LOADING
   };
 };
 

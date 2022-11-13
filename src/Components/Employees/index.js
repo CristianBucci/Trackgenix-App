@@ -12,7 +12,7 @@ const Employees = () => {
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
   const {
-    isPending,
+    isLoading,
     list: employeesList,
     modalContent,
     showModalMessage
@@ -39,7 +39,7 @@ const Employees = () => {
     list: employeesList
   };
 
-  return isPending ? (
+  return isLoading ? (
     <div className={styles.spinnerContainer}>
       <img src="/assets/images/spinner.gif" alt="spinner" />
     </div>
