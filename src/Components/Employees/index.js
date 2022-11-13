@@ -1,24 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getEmployees } from '../../redux/employees/thunks';
+import { closeMessageModal } from '../../redux/employees/actions';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { getEmployees } from '../../redux/employees/thunks';
-import { closeMessageModal } from '../../redux/employees/actions';
 
 const Employees = () => {
   const {
+    isPending,
     list: employeesList,
-    showModalMessage,
-    modalContent
+    modalContent,
+    showModalMessage
   } = useSelector((state) => state.employees);
   const dispatch = useDispatch();
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
+  //Commented so it doesn't break until the delete is done
   const modalWrapper = (id) => {
     setItemId(id);
     // setModalContent({
@@ -40,7 +42,11 @@ const Employees = () => {
 
   const onClick = () => dispatch(closeMessageModal());
 
-  return (
+  return isPending ? (
+    <div className={styles.spinnerContainer}>
+      <img src="/assets/images/spinner.gif" alt="spinner" />
+    </div>
+  ) : (
     <>
       <ModalConfirm
         show={showModalConfirm}

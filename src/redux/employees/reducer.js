@@ -6,46 +6,42 @@ import {
 } from './constants';
 
 const INITIAL_STATE = {
-  isLoading: false,
-  error: '',
+  isPending: false,
   list: [],
-  showModalMessage: false,
-  modalContent: { title: '', content: '' }
+  error: '',
+  modalContent: { title: '', content: '' },
+  showModalMessage: false
 };
 
-const reducer = (state = INITIAL_STATE, action) => {
+const employeeReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_EMPLOYEES_PENDING:
       return {
         ...state,
-        isLoading: true
+        isPending: true
       };
     case GET_EMPLOYEES_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        error: '',
+        isPending: false,
         list: action.payload
       };
     case GET_EMPLOYEES_ERROR:
       return {
         ...state,
-        isLoading: false,
+        isPending: false,
         error: action.payload,
         modalContent: { title: 'ERROR!', content: `Could not GET Employees! ${action.payload}` },
-        showModalMessage: true,
-        list: []
+        showModalMessage: true
       };
     case CLOSE_MESSAGE_MODAL:
       return {
         ...state,
-        modalContent: { title: '', content: '' },
-        showModalMessage: false,
-        list: []
+        showModalMessage: false
       };
     default:
       return state;
   }
 };
 
-export default reducer;
+export default employeeReducer;
