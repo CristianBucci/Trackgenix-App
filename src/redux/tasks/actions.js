@@ -5,31 +5,28 @@ import {
     CLOSE_MESSAGE_MODAL
 } from './constants';
 
-const getTasksPending = () => {
+export const getTasksPending = () => {
     return {
       type: GET_TASKS_PENDING
     };
 };
 
-const getTasksSuccess = (data) => {
+export const getTasksSuccess = (data) => {
     return {
       type: GET_TASKS_SUCCESS,
       payload: data
     };
 };
 
-const getTasksError = (error) => {
+export const getTasksError = (error) => {
     return {
       type: GET_TASKS_ERROR,
       payload: error
     };
 };
 
-const messageModalClose = () => {
+export const messageModalClose = () => {
     return {
       type: CLOSE_MESSAGE_MODAL
     };
 };
-
-export { getTasksPending, getTasksSuccess, getTasksError };
-export default messageModalClose;
