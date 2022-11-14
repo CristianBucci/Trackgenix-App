@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   showModalMessage: false
 };
 
-const reducer = (state = INITIAL_STATE, action) => {
+const adminsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_ADMINS_PENDING:
       return {
@@ -24,7 +24,6 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        error: '',
         list: action.payload
       };
     case GET_ADMINS_ERROR:
@@ -44,4 +43,4 @@ const reducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default reducer;
+export default adminsReducer;
