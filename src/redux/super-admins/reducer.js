@@ -29,7 +29,6 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
     case GET_SUPER_ADMIN_ERROR:
       return {
         ...state,
-        list: [],
         isLoading: false,
         error: action.payload,
         modalContent: { title: 'ERROR', content: `Could not GET Super Admin! ${action.payload}` },
