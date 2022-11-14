@@ -2,7 +2,11 @@ import {
   GET_TIMESHEETS_PENDING,
   GET_TIMESHEETS_SUCCESS,
   GET_TIMESHEETS_ERROR,
-  TOGGLE_MESSAGE_MODAL
+  POST_TIMESHEETS_PENDING,
+  POST_TIMESHEETS_SUCCES,
+  POST_TIMESHEETS_ERROR,
+  CLOSE_MESSAGE_MODAL,
+  OPEN_CONFIRM_MODAL
 } from './constants';
 
 const INITIAL_STATE = {
@@ -10,7 +14,8 @@ const INITIAL_STATE = {
   list: [],
   error: '',
   modalContent: { title: '', content: '' },
-  showModalMessage: false
+  showModalMessage: false,
+  showConfirmModal: false
 };
 
 const timesheetsReducer = (state = INITIAL_STATE, action) => {
@@ -34,10 +39,46 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
         showModalMessage: true,
         isLoading: false
       };
-    case TOGGLE_MESSAGE_MODAL:
+    case POST_TIMESHEETS_PENDING:
       return {
         ...state,
-        showModalMessage: !state.showModalMessage
+        isLoading: true
+      };
+    case POST_TIMESHEETS_SUCCES:
+      return {
+        ...state,
+        list: [...state.list, action.payload],
+        isLoading: false,
+        modalContent: {
+          title: 'SUCCESS!',
+          content: action.reqMessage
+        },
+        showModalMessage: true
+      };
+    case POST_TIMESHEETS_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        modalContent: {
+          title: 'ERROR!',
+          content: `Could not add new TimeSheet! ${action.payload}`
+        },
+        showModalMessage: true,
+        isLoading: false
+      };
+    case CLOSE_MESSAGE_MODAL:
+      return {
+        ...state,
+        showModalMessage: false
+      };
+    case OPEN_CONFIRM_MODAL:
+      return {
+        ...state,
+        modalContent: {
+          title: 'Confirm:',
+          content: action.payload
+        },
+        showConfirmModal: true
       };
     default:
       return state;
