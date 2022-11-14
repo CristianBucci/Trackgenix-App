@@ -3,6 +3,9 @@ import {
   GET_PROJECTS_SUCCESS,
   GET_PROJECTS_ERROR,
   CLOSE_MESSAGE_MODAL,
+  POST_PROJECTS_PENDING,
+  POST_PROJECTS_SUCCESS,
+  POST_PROJECTS_ERROR,
   DELETE_PROJECTS_PENDING,
   DELETE_PROJECTS_SUCCESS,
   DELETE_PROJECTS_ERROR
@@ -67,6 +70,31 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
           title: 'ERROR',
           content: `Could not DELETE project`
         }
+      };
+    case POST_PROJECTS_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case POST_PROJECTS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        list: [...state.list, action.payload],
+        modalContent: {
+          title: 'SUCCESS',
+          content: `Project created successfully`
+        }
+      };
+    case POST_PROJECTS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        modalContent: {
+          title: 'ERROR',
+          content: action.payload
+        },
+        showModalMessage: true
       };
     default:
       return state;

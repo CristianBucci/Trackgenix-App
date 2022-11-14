@@ -5,7 +5,10 @@ import {
   CLOSE_MESSAGE_MODAL,
   DELETE_PROJECTS_ERROR,
   DELETE_PROJECTS_PENDING,
-  DELETE_PROJECTS_SUCCESS
+  DELETE_PROJECTS_SUCCESS,
+  POST_PROJECTS_ERROR,
+  POST_PROJECTS_PENDING,
+  POST_PROJECTS_SUCCESS
 } from './constants';
 
 export const getProjectsPending = () => {
@@ -50,5 +53,24 @@ export const deleteProjectSuccess = (payload) => {
 export const deleteProjectError = () => {
   return {
     type: DELETE_PROJECTS_ERROR
+  };
+};
+export const createProjectPending = () => {
+  return {
+    type: POST_PROJECTS_PENDING
+  };
+};
+
+export const createProjectSuccess = (data) => {
+  return {
+    type: POST_PROJECTS_SUCCESS,
+    payload: data
+  };
+};
+
+export const createProjectError = (error) => {
+  return {
+    type: POST_PROJECTS_ERROR,
+    payload: error
   };
 };

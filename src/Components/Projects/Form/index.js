@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployees } from '../../../redux/employees/thunks';
 import ModalConfirm from '../../Shared/Modal/ModalConfirm';
 import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
@@ -7,8 +9,11 @@ import Datepicker from '../../Shared/Datepicker';
 import Select from '../../Shared/Select/index';
 import Buttons from '../../Shared/Button/index';
 import styles from './form.module.css';
+import createProject from '../../../redux/projects/thunks';
 
 const AddProject = (props) => {
+  const dispatch = useDispatch();
+  const employeesList = useSelector((state) => state.employees.list);
   const [projectInput, setProjectInput] = useState({
     name: '',
     description: '',
@@ -17,7 +22,6 @@ const AddProject = (props) => {
     clientName: ''
   });
   const [formText, setFormText] = useState('Add Project');
-  const [employees, setEmployees] = useState();
   const [employeesProject, setEmployeesProject] = useState([]);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalMessage, setShowModalMessage] = useState(false);
@@ -70,62 +74,24 @@ const AddProject = (props) => {
     }
   }, []);
 
-  useEffect(async () => {
-    try {
-      const employees = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
-      const jsonEmployees = await employees.json();
-      setEmployees(jsonEmployees.data);
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET employees! ${error.message}` });
-      setShowModalMessage(true);
-    }
-  }, []);
-
   const fixDate = (date) => {
     let dateFormated = date.substr(0, 10);
     return dateFormated;
   };
 
-  const createProject = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: projectInput.name,
-          description: projectInput.description,
-          startDate: projectInput.startDate,
-          endDate: projectInput.endDate,
-          clientName: projectInput.clientName,
-          employees: employeesProject
-        })
-      });
-      if (response.status === 201) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not create new Project! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({
-        title: 'ERROR!',
-        content: `Could not create new Project! ${error.message}`
-      });
-      setShowModalMessage(true);
-    }
-  };
+  const project = JSON.stringify({
+    name: projectInput.name,
+    description: projectInput.description,
+    startDate: projectInput.startDate,
+    endDate: projectInput.endDate,
+    clientName: projectInput.clientName,
+    employees: employeesProject
+  });
+
+  useEffect(() => {
+    dispatch(createProject(project));
+    dispatch(getEmployees());
+  }, []);
 
   const updateProject = async () => {
     try {
@@ -246,7 +212,7 @@ const AddProject = (props) => {
                     <label>Employee</label>
                     <Select
                       value={option.employeeId}
-                      options={employees}
+                      options={employeesList}
                       keyMap={'_id'}
                       title={'Employee'}
                       fieldToShow={'name'}

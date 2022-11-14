@@ -2,6 +2,9 @@ import {
   getProjectsPending,
   getProjectsSuccess,
   getProjectsError,
+  createProjectPending,
+  createProjectSuccess,
+  createProjectError,
   deleteProjectError,
   deleteProjectSuccess,
   deleteProjectPending
@@ -37,4 +40,23 @@ export const deleteProject = (id) => {
   };
 };
 
+export const createProject = async (project) => {
+  return async (dispatch) => {
+    dispatch(createProjectPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(project)
+      });
+      const data = await response.json();
+      dispatch(createProjectSuccess(data.data));
+    } catch (error) {
+      dispatch(createProjectError(error.toString()));
+    }
+  };
+};
 export default getProjects;
