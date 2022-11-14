@@ -28,7 +28,6 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
     case GET_PROJECTS_ERROR:
       return {
         ...state,
-        list: [],
         isLoading: false,
         modalContent: { title: 'ERROR!', content: `Could not GET projects!\n${action.payload}` },
         showModalMessage: true
