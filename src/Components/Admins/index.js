@@ -17,6 +17,7 @@ const Admins = () => {
     modalContent,
     showModalMessage
   } = useSelector((state) => state.admins);
+
   const dispatch = useDispatch();
 
   //Commented so it doesn't break until the delete is done
@@ -38,10 +39,6 @@ const Admins = () => {
     path: 'Admin',
     setList: adminsList
   };
-
-  useEffect(() => {
-    dispatch(getAdmins());
-  }, []);
 
   return (
     <>
