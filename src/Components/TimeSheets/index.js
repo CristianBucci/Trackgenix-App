@@ -12,7 +12,7 @@ const TimeSheets = () => {
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
   const {
-    loading,
+    isLoading,
     list: timeSheets,
     modalContent,
     showModalMessage
@@ -136,7 +136,7 @@ const TimeSheets = () => {
         <div className={styles.title}>
           <h2>timesheets</h2>
         </div>
-        {loading ? (
+        {isLoading ? (
           <div className={styles.spinnerContainer}>
             <img src="/assets/images/spinner.gif" alt="spinner" />
           </div>

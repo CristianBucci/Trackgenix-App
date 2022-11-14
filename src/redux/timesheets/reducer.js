@@ -1,12 +1,12 @@
 import {
-  GET_TIMESHEETS_ERROR,
-  GET_TIMESHEETS_LOADING,
+  GET_TIMESHEETS_PENDING,
   GET_TIMESHEETS_SUCCESS,
+  GET_TIMESHEETS_ERROR,
   TOGGLE_MESSAGE_MODAL
 } from './constants';
 
 const INITIAL_STATE = {
-  loading: false,
+  isLoading: false,
   list: [],
   error: '',
   modalContent: { title: '', content: '' },
@@ -15,16 +15,16 @@ const INITIAL_STATE = {
 
 const timeSheetsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_TIMESHEETS_LOADING:
+    case GET_TIMESHEETS_PENDING:
       return {
         ...state,
-        loading: true
+        isLoading: true
       };
     case GET_TIMESHEETS_SUCCESS:
       return {
         ...state,
         list: action.payload,
-        loading: false
+        isLoading: false
       };
     case GET_TIMESHEETS_ERROR:
       return {
@@ -32,7 +32,7 @@ const timeSheetsReducer = (state = INITIAL_STATE, action) => {
         error: action.payload,
         modalContent: { title: 'ERROR!', content: `Could not GET TimeSheets! ${action.payload}` },
         showModalMessage: true,
-        loading: false
+        isLoading: false
       };
     case TOGGLE_MESSAGE_MODAL:
       return {

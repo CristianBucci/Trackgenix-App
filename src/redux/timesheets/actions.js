@@ -1,5 +1,5 @@
 import {
-  GET_TIMESHEETS_LOADING,
+  GET_TIMESHEETS_PENDING,
   GET_TIMESHEETS_SUCCESS,
   GET_TIMESHEETS_ERROR,
   TOGGLE_MESSAGE_MODAL
@@ -7,7 +7,7 @@ import {
 
 export const getTimeSheetsLoading = () => {
   return {
-    type: GET_TIMESHEETS_LOADING
+    type: GET_TIMESHEETS_PENDING
   };
 };
 
