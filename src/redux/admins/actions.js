@@ -1,4 +1,9 @@
-import { GET_ADMINS_PENDING, GET_ADMINS_SUCCESS, GET_ADMINS_ERROR } from './constants';
+import {
+  GET_ADMINS_PENDING,
+  GET_ADMINS_SUCCESS,
+  GET_ADMINS_ERROR,
+  CLOSE_MESSAGE_MODAL
+} from './constants';
 
 export const getAdminsPending = () => {
   return {
@@ -17,5 +22,11 @@ export const getAdminsError = (error) => {
   return {
     type: GET_ADMINS_ERROR,
     payload: error
+  };
+};
+
+export const messageModalClose = () => {
+  return {
+    type: CLOSE_MESSAGE_MODAL
   };
 };

@@ -1,9 +1,16 @@
-import { GET_ADMINS_ERROR, GET_ADMINS_PENDING, GET_ADMINS_SUCCESS } from './constants';
+import {
+  GET_ADMINS_ERROR,
+  GET_ADMINS_PENDING,
+  GET_ADMINS_SUCCESS,
+  CLOSE_MESSAGE_MODAL
+} from './constants';
 
 const INITIAL_STATE = {
-  isloading: false,
+  isLoading: false,
+  list: [],
   error: '',
-  list: []
+  modalContent: { title: '', content: '' },
+  showModalMessage: false
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -11,21 +18,26 @@ const reducer = (state = INITIAL_STATE, action) => {
     case GET_ADMINS_PENDING:
       return {
         ...state,
-        isloading: true
+        isLoading: true
       };
     case GET_ADMINS_SUCCESS:
       return {
         ...state,
-        isloading: false,
+        isLoading: false,
         error: '',
         list: action.payload
       };
     case GET_ADMINS_ERROR:
       return {
         ...state,
-        isloading: false,
-        error: action.payload,
-        list: []
+        isLoading: false,
+        modalContent: { title: 'ERROR!', content: `Could not GET Admins! ${action.payload}` },
+        showModalMessage: true
+      };
+    case CLOSE_MESSAGE_MODAL:
+      return {
+        ...state,
+        showModalMessage: false
       };
     default:
       return state;
