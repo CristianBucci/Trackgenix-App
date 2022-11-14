@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { messageModalClose } from '../../../../redux/employees/actions';
+import { messageModalClose } from '../../../../redux/projects/actions';
 import styles from './modalMessage.module.css';
 
 const ModalMessage = ({ show, modalFunction, modalTitle, modalContent }) => {
