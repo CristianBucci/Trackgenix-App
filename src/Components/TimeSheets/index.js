@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTimeSheets } from '../../redux/timesheets/thunks';
+import { getTimesheets } from '../../redux/timesheets/getTimesheets';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
@@ -31,7 +31,7 @@ const TimeSheets = () => {
   };
 
   useEffect(() => {
-    dispatch(getTimeSheets());
+    dispatch(getTimesheets());
   }, []);
 
   const timeSheetList = [];

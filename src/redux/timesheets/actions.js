@@ -5,20 +5,20 @@ import {
   TOGGLE_MESSAGE_MODAL
 } from './constants';
 
-export const getTimeSheetsLoading = () => {
+export const getTimesheetsPending = () => {
   return {
     type: GET_TIMESHEETS_PENDING
   };
 };
 
-export const getTimeSheetsSuccess = (data) => {
+export const getTimesheetsSuccess = (data) => {
   return {
     type: GET_TIMESHEETS_SUCCESS,
     payload: data
   };
 };
 
-export const getTimeSheetsError = (error) => {
+export const getTimesheetsError = (error) => {
   return {
     type: GET_TIMESHEETS_ERROR,
     payload: error

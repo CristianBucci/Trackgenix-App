@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   showModalMessage: false
 };
 
-const timeSheetsReducer = (state = INITIAL_STATE, action) => {
+const timesheetsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_TIMESHEETS_PENDING:
       return {
@@ -30,7 +30,7 @@ const timeSheetsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload,
-        modalContent: { title: 'ERROR!', content: `Could not GET TimeSheets! ${action.payload}` },
+        modalContent: { title: 'ERROR!', content: `Could not GET Timesheets! ${action.payload}` },
         showModalMessage: true,
         isLoading: false
       };
@@ -44,4 +44,4 @@ const timeSheetsReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default timeSheetsReducer;
+export default timesheetsReducer;
