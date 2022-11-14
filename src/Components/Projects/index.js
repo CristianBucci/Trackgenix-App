@@ -16,6 +16,7 @@ const Projects = () => {
     list: projectsList,
     isLoading,
     modalContent,
+    modalConfirm,
     showModalMessage
   } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
@@ -67,8 +68,8 @@ const Projects = () => {
       <ModalConfirm
         show={showModalConfirm}
         closeModal={setShowModalConfirm}
-        modalTitle={modalContent.title}
-        modalContent={modalContent.content}
+        modalTitle={modalConfirm.title}
+        modalContent={modalConfirm.content}
         modalFunction={delParams}
         modalId={null}
       />

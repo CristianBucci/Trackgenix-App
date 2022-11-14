@@ -1,9 +1,11 @@
 import React from 'react';
 import Buttons from '../../Button/index';
-import deleteItem from '../../../Utils/Delete/index';
 import styles from './modalConfirm.module.css';
+import { useDispatch } from 'react-redux';
+import { deleteProject } from '../../../../redux/projects/thunks';
 
 const ModalConfirm = ({ show, closeModal, modalFunction, modalTitle, modalContent, modalId }) => {
+  const dispatch = useDispatch();
   return (
     show && (
       <div className={styles.overlay}>
@@ -22,7 +24,9 @@ const ModalConfirm = ({ show, closeModal, modalFunction, modalTitle, modalConten
                 variant="primary"
                 name="Confirm"
                 onClick={() => {
-                  modalFunction.id ? deleteItem(modalFunction) : modalFunction(modalId);
+                  modalFunction.id
+                    ? dispatch(deleteProject(modalFunction.id))
+                    : modalFunction(modalId);
                   closeModal(false);
                 }}
               />
