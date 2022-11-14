@@ -18,7 +18,7 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
     case GET_TASKS_PENDING: {
       return {
         ...state,
-        isLoading: false
+        isLoading: true
       };
     }
     case GET_TASKS_SUCCESS: {
@@ -31,7 +31,6 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
     case GET_TASKS_ERROR: {
       return {
         ...state,
-        list: [],
         error: action.payload,
         isLoading: false
       };

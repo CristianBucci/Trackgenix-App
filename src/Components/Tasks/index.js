@@ -14,7 +14,7 @@ const Tasks = () => {
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
   const dispatch = useDispatch();
-  const tasksList = useSelector((state) => state.tasks.list);
+  const { list: tasksList, isLoading } = useSelector((state) => state.tasks);
 
   const modalWrapper = (id) => {
     setItemId(id);
@@ -55,13 +55,19 @@ const Tasks = () => {
       />
       <section className={styles.container}>
         <h2 className={styles.title}>Tasks</h2>
-        <Table
-          data={tasksList}
-          headers={['ID', 'Description']}
-          dataValues={['_id', 'description']}
-          location={location}
-          setShowModal={modalWrapper}
-        />
+        {isLoading ? (
+          <div className={styles.spinnerContainer}>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
+          </div>
+        ) : (
+          <Table
+            data={tasksList}
+            headers={['ID', 'Description']}
+            dataValues={['_id', 'description']}
+            location={location}
+            setShowModal={modalWrapper}
+          />
+        )}
       </section>
     </>
   );
