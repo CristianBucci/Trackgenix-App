@@ -9,28 +9,25 @@ import { getTasks } from '../../redux/tasks/thunks';
 
 const Tasks = () => {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [showModalMessage, setShowModalMessage] = useState(false);
-  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
   const dispatch = useDispatch();
-  const { list: tasksList, isLoading } = useSelector((state) => state.tasks);
+  const {
+    list: tasksList,
+    isLoading,
+    modalContent,
+    showModalMessage
+  } = useSelector((state) => state.tasks);
 
   const modalWrapper = (id) => {
     setItemId(id);
-    setModalContent({
-      title: 'CONFIRM',
-      content: `Are you sure you want to delete the Task with id ${id}?`
-    });
     setShowModalConfirm(true);
   };
 
   let delParams = {
     id: itemId,
     path: 'Tasks',
-    list: tasksList,
-    setModalContent,
-    setShowModalMessage
+    list: tasksList
   };
 
   useEffect(() => {
@@ -49,7 +46,6 @@ const Tasks = () => {
       />
       <ModalMessage
         show={showModalMessage}
-        closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
       />
