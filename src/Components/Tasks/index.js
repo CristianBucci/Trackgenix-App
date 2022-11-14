@@ -7,15 +7,14 @@ import Table from '../Shared/Table/Table';
 import styles from './tasks.module.css';
 import { getTasks } from '../../redux/tasks/thunks';
 
-
 const Tasks = () => {
-  const [tasksList, setTasksList] = useState([]);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalMessage, setShowModalMessage] = useState(false);
   const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
   const dispatch = useDispatch();
+  const tasksList = useSelector((state) => state.tasks.list);
 
   const modalWrapper = (id) => {
     setItemId(id);
@@ -30,7 +29,6 @@ const Tasks = () => {
     id: itemId,
     path: 'Tasks',
     list: tasksList,
-    setList: setTasksList,
     setModalContent,
     setShowModalMessage
   };
