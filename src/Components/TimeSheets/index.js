@@ -1,45 +1,37 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTimesheets } from '../../redux/timesheets/getTimesheets';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './timeSheets.module.css';
 
 const TimeSheets = () => {
-  const [timeSheets, setTimesheet] = useState([]);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [showModalMessage, setShowModalMessage] = useState(false);
-  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
+  const {
+    isLoading,
+    list: timeSheets,
+    modalContent,
+    showModalMessage
+  } = useSelector((state) => state.timesheets);
+  const dispatch = useDispatch();
 
   const modalWrapper = (id) => {
     setItemId(id);
-    setModalContent({
-      title: 'CONFIRM',
-      content: `Are you sure you want to delete the TimeSheet with id ${id}?`
-    });
     setShowModalConfirm(true);
   };
 
   let delParams = {
     id: itemId,
     path: 'TimeSheets',
-    list: timeSheets,
-    setList: setTimesheet,
-    setModalContent,
-    setShowModalMessage
+    list: timeSheets
   };
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets`);
-      const data = await response.json();
-      setTimesheet(data.data);
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET TimeSheets! ${error.message}` });
-      setShowModalMessage(true);
-    }
+  useEffect(() => {
+    dispatch(getTimesheets());
   }, []);
 
   const timeSheetList = [];
@@ -137,7 +129,6 @@ const TimeSheets = () => {
       />
       <ModalMessage
         show={showModalMessage}
-        closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
       />
@@ -145,13 +136,19 @@ const TimeSheets = () => {
         <div className={styles.title}>
           <h2>timesheets</h2>
         </div>
-        <Table
-          data={timeSheetList}
-          headers={['Description', 'Date', 'Hours', 'Task', 'Employee', 'Project']}
-          dataValues={['description', 'date', 'hours', 'task', 'employee', 'project']}
-          location={location}
-          setShowModal={modalWrapper}
-        />
+        {isLoading ? (
+          <div className={styles.spinnerContainer}>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
+          </div>
+        ) : (
+          <Table
+            data={timeSheetList}
+            headers={['Description', 'Date', 'Hours', 'Task', 'Employee', 'Project']}
+            dataValues={['description', 'date', 'hours', 'task', 'employee', 'project']}
+            location={location}
+            setShowModal={modalWrapper}
+          />
+        )}
       </div>
     </>
   );
