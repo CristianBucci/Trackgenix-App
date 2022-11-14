@@ -9,7 +9,10 @@
   text-transform: uppercase;
 }
 
-.img {
-  height: 50px;
-  margin-left: 20px;
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+}
+.spinnerContainer img {
+  width: 80px;
 }

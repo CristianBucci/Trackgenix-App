@@ -9,8 +9,6 @@ import styles from './projects.module.css';
 
 const Projects = () => {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
-  //const [showModalMessage, setShowModalMessage] = useState(false);
-  //const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
@@ -24,10 +22,6 @@ const Projects = () => {
 
   const modalWrapper = (id) => {
     setItemId(id);
-    // setModalContent({
-    //   title: 'CONFIRM',
-    //   content: `Are you sure you want to delete the project with id ${id}?`
-    // });
     setShowModalConfirm(true);
   };
 
@@ -35,9 +29,6 @@ const Projects = () => {
     id: itemId,
     path: 'projects',
     list: projectsList
-    //setList: setProjects
-    // setModalContent,
-    // setShowModalMessage
   };
 
   useEffect(() => {
@@ -71,17 +62,6 @@ const Projects = () => {
     }
   }
 
-  if (isLoading) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.title}>
-          <h2>projects</h2>
-          <img src="/assets/images/spinner.gif" alt="spinner" className={styles.img} />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <ModalConfirm
@@ -101,20 +81,26 @@ const Projects = () => {
         <div className={styles.title}>
           <h2>projects</h2>
         </div>
-        <Table
-          data={projectList}
-          headers={[
-            'Project Name',
-            'Desription',
-            'Client Name',
-            'Starting Date',
-            'End Date',
-            'Employees'
-          ]}
-          dataValues={['name', 'description', 'clientName', 'startDate', 'endDate', 'employees']}
-          location={location}
-          setShowModal={modalWrapper}
-        />
+        {isLoading ? (
+          <div className={styles.spinnerContainer}>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
+          </div>
+        ) : (
+          <Table
+            data={projectList}
+            headers={[
+              'Project Name',
+              'Desription',
+              'Client Name',
+              'Starting Date',
+              'End Date',
+              'Employees'
+            ]}
+            dataValues={['name', 'description', 'clientName', 'startDate', 'endDate', 'employees']}
+            location={location}
+            setShowModal={modalWrapper}
+          />
+        )}
       </div>
     </>
   );
