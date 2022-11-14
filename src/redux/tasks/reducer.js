@@ -32,6 +32,7 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload,
+        modalContent: { title: 'ERROR!', content: `Could not GET Tasks! ${action.payload}` },
         isLoading: false
       };
     }
