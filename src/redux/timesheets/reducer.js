@@ -3,18 +3,18 @@ import {
   GET_TIMESHEETS_SUCCESS,
   GET_TIMESHEETS_ERROR,
   DELETE_TIMESHEETS_PENDING,
-  DELETE_TIMESHEETS_SUCCES,
+  DELETE_TIMESHEETS_SUCCESS,
   DELETE_TIMESHEETS_ERROR,
   POST_TIMESHEETS_PENDING,
-  POST_TIMESHEETS_SUCCES,
+  POST_TIMESHEETS_SUCCESS,
   POST_TIMESHEETS_ERROR,
+  PUT_TIMESHEETS_PENDING,
+  PUT_TIMESHEETS_SUCCESS,
+  PUT_TIMESHEETS_ERROR,
   MESSAGE_MODAL_OPEN,
   MESSAGE_MODAL_CLOSE,
   CONFIRM_MODAL_OPEN,
-  CONFIRM_MODAL_CLOSE,
-  PUT_TIMESHEETS_PENDING,
-  PUT_TIMESHEETS_SUCCES,
-  PUT_TIMESHEETS_ERROR
+  CONFIRM_MODAL_CLOSE
 } from './constants';
 
 const INITIAL_STATE = {
@@ -52,7 +52,7 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: true
       };
-    case DELETE_TIMESHEETS_SUCCES:
+    case DELETE_TIMESHEETS_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -79,7 +79,7 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: true
       };
-    case POST_TIMESHEETS_SUCCES:
+    case POST_TIMESHEETS_SUCCESS:
       return {
         ...state,
         list: [...state.list, action.payload],
@@ -108,7 +108,7 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: true
       };
-    case PUT_TIMESHEETS_SUCCES:
+    case PUT_TIMESHEETS_SUCCESS:
       return {
         ...state,
         list: [...state.list, action.payload],

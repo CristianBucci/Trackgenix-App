@@ -63,7 +63,11 @@ export const deleteTimeSheet = (id) => {
     dispatch(deleteTimesheetsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
       });
       if (response.status == 204) {
         dispatch(deleteTimesheetsSuccess(id));
@@ -98,14 +102,12 @@ export const updateTimeSheet = (input, id) => {
       });
       if (response.status == 200) {
         const data = await response.json();
-        console.log(data);
         dispatch(putTimesheetsSuccess(data.data, data.message));
       } else {
         const data = await response.json();
         dispatch(putTimesheetsError(data.data));
       }
     } catch (error) {
-      console.log(error);
       dispatch(putTimesheetsError(error.toString()));
     }
   };

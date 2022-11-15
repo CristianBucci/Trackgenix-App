@@ -3,13 +3,13 @@ import {
   GET_TIMESHEETS_SUCCESS,
   GET_TIMESHEETS_ERROR,
   DELETE_TIMESHEETS_PENDING,
-  DELETE_TIMESHEETS_SUCCES,
+  DELETE_TIMESHEETS_SUCCESS,
   DELETE_TIMESHEETS_ERROR,
   POST_TIMESHEETS_PENDING,
-  POST_TIMESHEETS_SUCCES,
+  POST_TIMESHEETS_SUCCESS,
   POST_TIMESHEETS_ERROR,
   PUT_TIMESHEETS_PENDING,
-  PUT_TIMESHEETS_SUCCES,
+  PUT_TIMESHEETS_SUCCESS,
   PUT_TIMESHEETS_ERROR,
   MESSAGE_MODAL_OPEN,
   MESSAGE_MODAL_CLOSE,
@@ -45,7 +45,7 @@ export const deleteTimesheetsPending = () => {
 
 export const deleteTimesheetsSuccess = (id) => {
   return {
-    type: DELETE_TIMESHEETS_SUCCES,
+    type: DELETE_TIMESHEETS_SUCCESS,
     payload: id
   };
 };
@@ -65,7 +65,7 @@ export const postTimesheetsPending = () => {
 
 export const postTimesheetsSuccess = (data, msg) => {
   return {
-    type: POST_TIMESHEETS_SUCCES,
+    type: POST_TIMESHEETS_SUCCESS,
     payload: data,
     reqMessage: msg
   };
@@ -85,7 +85,7 @@ export const putTimesheetsPending = () => {
 
 export const putTimesheetsSuccess = (data, msg) => {
   return {
-    type: PUT_TIMESHEETS_SUCCES,
+    type: PUT_TIMESHEETS_SUCCESS,
     payload: data,
     reqMessage: msg
   };
