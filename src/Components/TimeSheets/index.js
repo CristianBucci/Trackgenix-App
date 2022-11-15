@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTimesheets, deleteTimeSheet } from '../../redux/timesheets/thunks';
-import { confirmModalOpen, confirmModalClose } from '../../redux/timesheets/actions';
+import {
+  confirmModalOpen,
+  confirmModalClose,
+  messageModalClose
+} from '../../redux/timesheets/actions';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './timeSheets.module.css';
 
-const TimeSheets = () => {
+const TimeSheets = (props) => {
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
   const {
@@ -120,6 +124,15 @@ const TimeSheets = () => {
     }
   }
 
+  const redirect = () => {
+    props.history.push('/timesheets');
+  };
+
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    dispatch(messageModalClose());
+  };
+
   return (
     <>
       {' '}
@@ -134,6 +147,7 @@ const TimeSheets = () => {
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
+        modalFunction={modalFunction}
       />
       <div className={styles.container}>
         <div className={styles.title}>
