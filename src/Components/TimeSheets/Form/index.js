@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -13,7 +12,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   confirmModalOpen,
   messageModalOpen,
-  confirmModalClose
+  confirmModalClose,
+  messageModalClose
 } from '../../../redux/timesheets/actions';
 import { addTimeSheet } from '../../../redux/timesheets/thunks';
 import { getEmployees } from '../../../redux/employees/thunks';
@@ -25,13 +25,9 @@ import styles from './form.module.css';
 const Form = (props) => {
   const dispatch = useDispatch();
 
-  const {
-    // isLoading,
-    // list: timeSheets,
-    modalContent,
-    showModalMessage,
-    showConfirmModal
-  } = useSelector((state) => state.timesheets);
+  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
+    (state) => state.timesheets
+  );
 
   const params = useParams();
   const id = params.id ? params.id : '';
@@ -99,6 +95,11 @@ const Form = (props) => {
     props.history.push('/timesheets');
   };
 
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    dispatch(messageModalClose());
+  };
+
   const fixDate = (date) => {
     let dateFormated = date.substr(0, 10);
     return dateFormated;
@@ -158,7 +159,7 @@ const Form = (props) => {
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={redirect}
+        modalFunction={modalFunction}
       />
       <div>
         <form onSubmit={onSubmit}>
