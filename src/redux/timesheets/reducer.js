@@ -5,8 +5,10 @@ import {
   POST_TIMESHEETS_PENDING,
   POST_TIMESHEETS_SUCCES,
   POST_TIMESHEETS_ERROR,
-  CLOSE_MESSAGE_MODAL,
-  OPEN_CONFIRM_MODAL
+  MESSAGE_MODAL_OPEN,
+  MESSAGE_MODAL_CLOSE,
+  CONFIRM_MODAL_OPEN,
+  CONFIRM_MODAL_CLOSE
 } from './constants';
 
 const INITIAL_STATE = {
@@ -49,6 +51,7 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         list: [...state.list, action.payload],
         isLoading: false,
+        showConfirmModal: false,
         modalContent: {
           title: 'SUCCESS!',
           content: action.reqMessage
@@ -59,19 +62,29 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload,
+        isLoading: false,
+        showConfirmModal: false,
         modalContent: {
           title: 'ERROR!',
           content: `Could not add new TimeSheet! ${action.payload}`
         },
-        showModalMessage: true,
-        isLoading: false
+        showModalMessage: true
       };
-    case CLOSE_MESSAGE_MODAL:
+    case MESSAGE_MODAL_OPEN:
+      return {
+        ...state,
+        modalContent: {
+          title: action.payload.title,
+          content: action.payload.content
+        },
+        showModalMessage: true
+      };
+    case MESSAGE_MODAL_CLOSE:
       return {
         ...state,
         showModalMessage: false
       };
-    case OPEN_CONFIRM_MODAL:
+    case CONFIRM_MODAL_OPEN:
       return {
         ...state,
         modalContent: {
@@ -79,6 +92,11 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
           content: action.payload
         },
         showConfirmModal: true
+      };
+    case CONFIRM_MODAL_CLOSE:
+      return {
+        ...state,
+        showConfirmModal: false
       };
     default:
       return state;

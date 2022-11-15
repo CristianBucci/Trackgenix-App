@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getTasks } from '../../../redux/tasks/thunks';
 import getProjects from '../../../redux/projects/thunks';
-import { openConfirmModal } from '../../../redux/timesheets/actions';
+import { confirmModalOpen, messageModalOpen } from '../../../redux/timesheets/actions';
 import ModalConfirm from '../../Shared/Modal/ModalConfirm/index';
 import ModalMessage from '../../Shared/Modal/ModalMessage/index';
 import Input from '../../Shared/Inputs';
@@ -24,12 +24,11 @@ const Form = (props) => {
     employee: '',
     project: ''
   });
-  // const [formText, setFormText] = useState('Add timeSheet');
+  const [formText, setFormText] = useState('Add timeSheet');
   // const [employees, setEmployees] = useState();
   // const [tasks, setTasks] = useState();
   // const [projects, setProjects] = useState();
   // eslint-disable-next-line no-unused-vars
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
   //const [showModalMessage, setShowModalMessage] = useState(false);
   //const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const params = useParams();
@@ -37,7 +36,7 @@ const Form = (props) => {
 
   const {
     // isLoading,
-    //list: timeSheets,
+    // list: timeSheets,
     modalContent,
     showModalMessage,
     showConfirmModal
@@ -52,14 +51,13 @@ const Form = (props) => {
     dispatch(getTasks());
     dispatch(getProjects());
   }, []);
-  console.log({ employees }, { tasks }, { projects });
 
   const onSubmit = (e) => {
     e.preventDefault();
     const content = `Are you sure you want to ${
       id ? 'edit the TimeSheet with id ' + id : 'create a new TimeSheet'
     }?`;
-    dispatch(openConfirmModal(content));
+    dispatch(confirmModalOpen(content));
   };
 
   const modalFunction = () => {
@@ -70,94 +68,34 @@ const Form = (props) => {
     props.history.push('/timesheets');
   };
 
-  // useEffect(async () => {
-  //   try {
-  //     const employees = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-  //     const jsonEmployees = await employees.json();
-  //     setEmployees(jsonEmployees.data);
+  useEffect(async () => {
+    if (id) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`);
+        const json = await response.json();
+        setFormText('Update TimeSheet');
+        setTimeSheetInput({
+          description: json.data.description,
+          date: fixDate(json.data.date),
+          hours: json.data.hours,
+          task: json.data.task === null ? 'Not found in DB' : json.data.task['_id'],
+          employee: json.data.employee === null ? 'Not found in DB' : json.data.employee['_id'],
+          project: json.data.project === null ? 'Not found in DB' : json.data.project['_id']
+        });
+      } catch (error) {
+        dispatch(
+          messageModalOpen({ title: 'ERROR', content: `Could not GET TimeSheets. ${error}` })
+        );
+      }
+    } else {
+      return null;
+    }
+  }, []);
 
-  //     const tasks = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-  //     const jsonTasks = await tasks.json();
-  //     setTasks(jsonTasks.data);
-
-  //     const projects = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
-  //     const jsonProjects = await projects.json();
-  //     setProjects(jsonProjects.data);
-  //   } catch (error) {
-  //     setModalContent({ title: 'ERROR!', content: `Could not GET data! ${error.message}` });
-  //     setShowModalMessage(true);
-  //   }
-  // }, []);
-
-  // useEffect(async () => {
-  //   if (id) {
-  //     try {
-  //       const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
-  //         method: 'GET'
-  //       });
-  //       const json = await response.json();
-  //       setFormText('Update TimeSheet');
-  //       setTimeSheetInput({
-  //         description: json.data.description,
-  //         date: fixDate(json.data.date),
-  //         hours: json.data.hours,
-  //         task: json.data.task === null ? 'Not found in DB' : json.data.task['_id'],
-  //         employee: json.data.employee === null ? 'Not found in DB' : json.data.employee['_id'],
-  //         project: json.data.project === null ? 'Not found in DB' : json.data.project['_id']
-  //       });
-  //     } catch (error) {
-  //       alert('Could not GET TimeSheets.', error);
-  //     }
-  //   } else {
-  //     return null;
-  //   }
-  // }, []);
-
-  // const fixDate = (date) => {
-  //   let dateFormated = date.substr(0, 10);
-  //   return dateFormated;
-  // };
-
-  // const createTimeSheet = async () => {
-  //   try {
-  //     const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets`, {
-  //       method: 'POST',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         description: timeSheetInput.description,
-  //         date: timeSheetInput.date,
-  //         hours: timeSheetInput.hours,
-  //         task: timeSheetInput.task,
-  //         employee: timeSheetInput.employee,
-  //         project: timeSheetInput.project
-  //       })
-  //     });
-  //     if (response.status === 201) {
-  //       const data = await response.json();
-  //       setModalContent({
-  //         title: 'SUCCESS!',
-  //         content: response.message
-  //       });
-  //       setShowModalMessage(true);
-  //     } else {
-  //       response = await response.json();
-  //       setModalContent({
-  //         title: 'ERROR!',
-  //         content: `Could not create new TimeSheet! ${response.message}`
-  //       });
-  //       setShowModalMessage(true);
-  //     }
-  //   } catch (error) {
-  //     setModalContent({
-  //       title: 'ERROR!',
-  //       content: `Could not create new TimeSheet! ${error.message}`
-  //     });
-  //     setShowModalMessage(true);
-  //   }
-  // };
+  const fixDate = (date) => {
+    let dateFormated = date.substr(0, 10);
+    return dateFormated;
+  };
 
   // const updateTimeSheet = async () => {
   //   try {
@@ -204,7 +142,6 @@ const Form = (props) => {
     <>
       <ModalConfirm
         show={showConfirmModal}
-        closeModal={setShowModalConfirm}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
         modalFunction={modalFunction}
@@ -212,7 +149,6 @@ const Form = (props) => {
       />
       <ModalMessage
         show={showModalMessage}
-        // closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
         modalFunction={redirect}
@@ -220,7 +156,7 @@ const Form = (props) => {
       <div>
         <form onSubmit={onSubmit}>
           <div className={styles.card}>
-            {/* <div className={styles.cardTitle}>{formText}</div> */}
+            {<div className={styles.cardTitle}>{formText}</div>}
             <Input
               label={'Description'}
               name="description"

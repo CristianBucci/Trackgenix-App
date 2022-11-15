@@ -9,14 +9,14 @@
     height: 100vh;
     background-color: #000000BF;
   }
-  
+
   .container {
     min-width: 300px;
     width: 40%;
     max-width: 600px;
     background-color: #FFFFFF;
   }
-  
+
   .header, .headerSuccess, .content {
     display: flex;
     align-items: center;
@@ -26,18 +26,17 @@
     padding: 10px;
     font-size: 20px;
   }
-  
+
   .header {
     background-color: #ff0000;
     color: #FFFFFF;
   }
-  
+
   .headerSuccess {
     background-color: #008000;
     color: #FFFFFF;
   }
-  
+
   .modalCloseButton:hover {
     cursor: pointer;
   }
-  

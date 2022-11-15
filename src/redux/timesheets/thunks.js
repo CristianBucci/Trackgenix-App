@@ -44,7 +44,7 @@ export const addTimeSheet = (input) => {
         dispatch(postTimesheetsSuccess(data.data, data.message));
       } else {
         const data = await response.json();
-        dispatch(postTimesheetsError(data.message));
+        dispatch(postTimesheetsError(data.data));
       }
     } catch (error) {
       dispatch(postTimesheetsError(error.toString()));
