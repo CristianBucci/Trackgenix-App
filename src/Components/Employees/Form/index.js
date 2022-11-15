@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  confirmModalOpen,
+  messageModalOpen,
+  confirmModalClose,
+  messageModalClose
+} from '../../../redux/super-admins/actions';
+import { createEmployee, updateEmployee } from '../../../redux/employees/thunks';
 import ModalConfirm from '../../Shared/Modal/ModalConfirm';
 import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
@@ -15,30 +23,13 @@ function Form(props) {
     password: '',
     phone: ''
   });
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [showModalMessage, setShowModalMessage] = useState(false);
-  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
+
+  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
+    (state) => state.superAdmins
+  );
   const params = useParams();
   const id = params.id && params.id;
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setModalContent({
-      title: 'Confirm',
-      content: `Are you sure you want to ${
-        id ? 'edit the employee with id ' + id : 'create a new employee'
-      }?`
-    });
-    setShowModalConfirm(true);
-  };
-
-  const modalFunction = () => {
-    id ? updateEmployee() : createEmployee();
-  };
-
-  const redirect = () => {
-    props.history.push('/employees');
-  };
+  const dispatch = useDispatch();
 
   useEffect(async () => {
     try {
@@ -52,86 +43,49 @@ function Form(props) {
         phone: data.data.phone
       });
     } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET Employee! ${error.message}` });
-      setShowModalMessage(true);
+      dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET employee. ${error}` }));
     }
   }, []);
 
-  const createEmployee = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formValues)
-      });
-      if (response.status === 201) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not create new Employee! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({
-        title: 'ERROR!',
-        content: `Could not create new Employee! ${error.message}`
-      });
-      setShowModalMessage(true);
-    }
+  const onConfirm = () => {
+    id ? dispatch(updateEmployee(formValues, id)) : dispatch(createEmployee(formValues));
   };
 
-  const updateEmployee = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formValues)
-      });
-      if (response.status === 200) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not update Employee! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not update Employee! ${error.message}` });
-      setShowModalMessage(true);
-    }
+  const onCancel = () => {
+    dispatch(confirmModalClose());
+  };
+
+  const redirect = () => {
+    props.history.push('/employees');
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const content = `Are you sure you want to ${
+      id ? 'edit the employee with id ' + id : 'create a new employee'
+    }?`;
+    dispatch(confirmModalOpen(content));
+  };
+
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    dispatch(messageModalClose());
   };
 
   return (
     <>
       <ModalConfirm
-        show={showModalConfirm}
-        closeModal={setShowModalConfirm}
+        show={showConfirmModal}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={modalFunction}
-        modalId={id}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
       <ModalMessage
         show={showModalMessage}
-        closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={redirect}
+        modalFunction={modalFunction}
       />
       <div className={styles.container}>
         <form onSubmit={onSubmit}>
