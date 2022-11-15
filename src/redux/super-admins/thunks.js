@@ -2,6 +2,9 @@ import {
   getSuperAdminPending,
   getSuperAdminSuccess,
   getSuperAdminError,
+  postSuperAdminsPending,
+  postSuperAdminsSuccess,
+  postSuperAdminsError,
   deleteSuperAdminPending,
   deleteSuperAdminSuccess,
   deleteSuperAdminError
@@ -20,6 +23,35 @@ const getSuperAdmin = () => {
       }
     } catch (error) {
       dispatch(getSuperAdminError(error.toString()));
+    }
+  };
+};
+
+export const postSuperAdmins = (name, lastName, email, password) => {
+  return async (dispatch) => {
+    dispatch(postSuperAdminsPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          lastName: lastName,
+          email: email,
+          password: password
+        })
+      });
+      const data = await response.json();
+      if (response.status !== 201) {
+        dispatch(postSuperAdminsError(data.toString()));
+      } else {
+        dispatch(postSuperAdminsSuccess(data.data));
+      }
+    } catch (error) {
+      dispatch(postSuperAdminsError(error.toString()));
     }
   };
 };
