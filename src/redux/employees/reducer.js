@@ -77,7 +77,7 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
     case CONFIRM_MODAL_CLOSE:
       return {
         ...state,
-        showConfirmModal: true
+        showConfirmModal: false
       };
     default:
       return state;

@@ -13,22 +13,21 @@ import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
 
 const Employees = (props) => {
+  const [itemId, setItemId] = useState(null);
+  const location = useLocation();
+
   const {
     isLoading,
     list: employeesList,
     modalContent,
-    showModalMessage
+    showModalMessage,
+    showConfirmModal
   } = useSelector((state) => state.employees);
   const dispatch = useDispatch();
 
-  const [itemId, setItemId] = useState(null);
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const location = useLocation();
-
   const modalWrapper = (id) => {
-    setItemId(id);
     const content = 'Are you sure you want to delete this Employee?';
-    setShowModalConfirm(true);
+    setItemId(id);
     dispatch(confirmModalOpen(content));
   };
 
@@ -39,11 +38,6 @@ const Employees = (props) => {
 
   const onCancel = () => {
     dispatch(confirmModalClose());
-  };
-
-  const removeEmployee = (id) => {
-    dispatch(deleteEmployee(id));
-    modalWrapper(id);
   };
 
   useEffect(() => {
@@ -62,8 +56,7 @@ const Employees = (props) => {
   return (
     <>
       <ModalConfirm
-        show={showModalConfirm}
-        closeModal={setShowModalConfirm}
+        show={showConfirmModal}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
         onConfirm={onConfirm}
@@ -89,7 +82,6 @@ const Employees = (props) => {
             headers={['First name', 'Last name', 'Phone', 'Email']}
             dataValues={['name', 'lastName', 'phone', 'email']}
             location={location}
-            deleteItem={removeEmployee}
             setShowModal={modalWrapper}
           />
         )}
