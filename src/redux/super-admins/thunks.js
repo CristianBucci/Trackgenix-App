@@ -10,13 +10,10 @@ import {
   updateSuperAdminsError,
   deleteSuperAdminsPending,
   deleteSuperAdminsSuccess,
-  deleteSuperAdminsError,
-  getByIdSuperAdminsPending,
-  getByIdSuperAdminsSuccess,
-  getByIdSuperAdminsError
+  deleteSuperAdminsError
 } from './actions';
 
-const getSuperAdmins = () => {
+export const getSuperAdmins = () => {
   return async (dispatch) => {
     dispatch(getSuperAdminsPending());
     try {
@@ -33,28 +30,29 @@ const getSuperAdmins = () => {
   };
 };
 
-export const postSuperAdmins = (name, lastName, email, password) => {
+export const createSuperAdmin = (input) => {
   return async (dispatch) => {
     dispatch(postSuperAdminsPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: name,
-          lastName: lastName,
-          email: email,
-          password: password
+          name: input.name,
+          lastName: input.lastName,
+          email: input.email,
+          password: input.password
         })
       });
-      const data = await response.json();
-      if (response.status !== 201) {
-        dispatch(postSuperAdminsError(data.toString()));
+      if (response.status == 201) {
+        const data = await response.json();
+        dispatch(postSuperAdminsSuccess(data.data, data.message));
       } else {
-        dispatch(postSuperAdminsSuccess(data.data));
+        const data = await response.json();
+        dispatch(postSuperAdminsError(data.data));
       }
     } catch (error) {
       dispatch(postSuperAdminsError(error.toString()));
@@ -62,7 +60,7 @@ export const postSuperAdmins = (name, lastName, email, password) => {
   };
 };
 
-export const updateSuperAdmins = (id, name, lastName, email, password) => {
+export const updateSuperAdmins = (input, id) => {
   return async (dispatch) => {
     dispatch(updateSuperAdminsPending());
     try {
@@ -73,19 +71,22 @@ export const updateSuperAdmins = (id, name, lastName, email, password) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: name,
-          lastName: lastName,
-          email: email,
-          password: password
+          name: input.name,
+          lastName: input.lastName,
+          email: input.email,
+          password: input.password
         })
       });
-      const data = await response.json();
-      if (response.status !== 200) {
-        dispatch(updateSuperAdminsError(data.toString()));
+      if (response.status == 200) {
+        const data = await response.json();
+        console.log(data);
+        dispatch(updateSuperAdminsSuccess(data.data, data.message));
       } else {
-        dispatch(updateSuperAdminsSuccess(data.data));
+        const data = await response.json();
+        dispatch(updateSuperAdminsError(data.data));
       }
     } catch (error) {
+      console.log(error);
       dispatch(updateSuperAdminsError(error.toString()));
     }
   };
@@ -98,33 +99,14 @@ export const deleteSuperAdmin = (id) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
         method: 'DELETE'
       });
-      const json = await response.json();
-      if (response.status !== 204) {
-        dispatch(deleteSuperAdminsError(json.toString()));
+      if (response.status == 204) {
+        dispatch(deleteSuperAdminsSuccess(id));
       } else {
-        dispatch(deleteSuperAdminsSuccess(json.data));
+        const data = await response.json();
+        dispatch(deleteSuperAdminsError(data.data));
       }
     } catch (error) {
       dispatch(deleteSuperAdminsError(error.toString()));
     }
   };
 };
-
-export const getByIdSuperAdmins = (id) => {
-  return async (dispatch) => {
-    dispatch(getByIdSuperAdminsPending());
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`);
-      const data = await response.json();
-      if (response.status !== 200) {
-        dispatch(getByIdSuperAdminsError(data.msg.toString()));
-      } else {
-        dispatch(getByIdSuperAdminsSuccess(data.data));
-      }
-    } catch (error) {
-      dispatch(getByIdSuperAdminsError(error.toString()));
-    }
-  };
-};
-
-export default getSuperAdmins;

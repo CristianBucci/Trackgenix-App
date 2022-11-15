@@ -11,10 +11,10 @@ import {
   DELETE_SUPER_ADMINS_PENDING,
   DELETE_SUPER_ADMINS_SUCCESS,
   DELETE_SUPER_ADMINS_ERROR,
-  GETBYID_SUPER_ADMINS_PENDING,
-  GETBYID_SUPER_ADMINS_SUCCESS,
-  GETBYID_SUPER_ADMINS_ERROR,
-  CLOSE_MESSAGE_MODAL
+  MESSAGE_MODAL_OPEN,
+  MESSAGE_MODAL_CLOSE,
+  CONFIRM_MODAL_OPEN,
+  CONFIRM_MODAL_CLOSE
 } from './constants';
 
 export const getSuperAdminsPending = () => {
@@ -97,28 +97,28 @@ export const deleteSuperAdminsError = (error) => {
   };
 };
 
-export const getByIdSuperAdminsPending = () => {
+export const messageModalOpen = (content) => {
   return {
-    type: GETBYID_SUPER_ADMINS_PENDING
-  };
-};
-
-export const getByIdSuperAdminsSuccess = (data) => {
-  return {
-    type: GETBYID_SUPER_ADMINS_SUCCESS,
-    payload: data
-  };
-};
-
-export const getByIdSuperAdminsError = (error) => {
-  return {
-    type: GETBYID_SUPER_ADMINS_ERROR,
-    payload: error
+    type: MESSAGE_MODAL_OPEN,
+    payload: content
   };
 };
 
 export const messageModalClose = () => {
   return {
-    type: CLOSE_MESSAGE_MODAL
+    type: MESSAGE_MODAL_CLOSE
+  };
+};
+
+export const confirmModalOpen = (content) => {
+  return {
+    type: CONFIRM_MODAL_OPEN,
+    payload: content
+  };
+};
+
+export const confirmModalClose = () => {
+  return {
+    type: CONFIRM_MODAL_CLOSE
   };
 };

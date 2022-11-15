@@ -11,18 +11,19 @@ import {
   DELETE_SUPER_ADMINS_PENDING,
   DELETE_SUPER_ADMINS_SUCCESS,
   DELETE_SUPER_ADMINS_ERROR,
-  GETBYID_SUPER_ADMINS_PENDING,
-  GETBYID_SUPER_ADMINS_SUCCESS,
-  GETBYID_SUPER_ADMINS_ERROR,
-  CLOSE_MESSAGE_MODAL
+  MESSAGE_MODAL_OPEN,
+  MESSAGE_MODAL_CLOSE,
+  CONFIRM_MODAL_OPEN,
+  CONFIRM_MODAL_CLOSE
 } from './constants';
 
 const INITIAL_STATE = {
+  isLoading: false,
   list: [],
   error: '',
-  isPending: false,
   modalContent: { title: '', content: '' },
-  showModalMessage: false
+  showModalMessage: false,
+  showConfirmModal: false
 };
 
 const superAdminsReducer = (state = INITIAL_STATE, action) => {
@@ -30,113 +31,132 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
     case GET_SUPER_ADMINS_PENDING:
       return {
         ...state,
-        isPending: true
+        isLoading: true
       };
     case GET_SUPER_ADMINS_SUCCESS:
       return {
         ...state,
-        isPending: false,
+        isLoading: false,
         list: action.payload
       };
     case GET_SUPER_ADMINS_ERROR:
       return {
         ...state,
-        isPending: false,
+        isLoading: false,
         error: action.payload,
-        modalContent: { title: 'ERROR', content: `Could not GET Super Admin! ${action.payload}` },
+        modalContent: { title: 'ERROR', content: `Could not GET SuperAdmin! ${action.payload}` },
         showModalMessage: true
       };
     case POST_SUPER_ADMINS_PENDING:
       return {
         ...state,
-        isPending: true
+        isLoading: true
       };
     case POST_SUPER_ADMINS_SUCCESS:
       return {
         ...state,
-        isPending: false,
-        list: action.payload
+        list: [...state.list, action.payload],
+        isLoading: false,
+        showConfirmModal: false,
+        modalContent: {
+          title: 'SUCCESS!',
+          content: action.reqMessage
+        },
+        showModalMessage: true
       };
     case POST_SUPER_ADMINS_ERROR:
       return {
-        ...state,
-        isPending: false,
+        isLoading: false,
         error: action.payload,
+        showConfirmModal: false,
         modalContent: {
-          title: 'ERROR',
-          content: `Could not POST Super Admin! ${action.payload}`
+          title: 'ERROR!',
+          content: `Could not POST SuperAdmin! ${action.payload}`
         },
         showModalMessage: true
       };
     case UPDATE_SUPER_ADMINS_PENDING:
       return {
         ...state,
-        isPending: true
+        isLoading: true
       };
     case UPDATE_SUPER_ADMINS_SUCCESS:
       return {
         ...state,
-        isPending: false,
-        list: action.payload
+        list: [...state.list, action.payload],
+        isLoading: false,
+        showConfirmModal: false,
+        modalContent: {
+          title: 'SUCCESS!',
+          content: action.reqMessage
+        },
+        showModalMessage: true
       };
     case UPDATE_SUPER_ADMINS_ERROR:
       return {
         ...state,
-        isPending: false,
+        isLoading: false,
         error: action.payload,
         modalContent: {
           title: 'ERROR',
-          content: `Could not UPDATE Super Admin! ${action.payload}`
+          content: `Could not UPDATE SuperAdmin! ${action.payload}`
         },
         showModalMessage: true
       };
     case DELETE_SUPER_ADMINS_PENDING:
       return {
         ...state,
-        isPending: true
+        isLoading: true
       };
     case DELETE_SUPER_ADMINS_SUCCESS:
       return {
         ...state,
-        isPending: false
+        isLoading: false,
+        list: [...state.list.filter((item) => item._id !== action.payload)],
+        modalContent: {
+          title: 'SUCCESS!',
+          content: `SuperAdmin whit id ${action.payload} successfully deleted`
+        },
+        showModalMessage: true
       };
     case DELETE_SUPER_ADMINS_ERROR:
       return {
         ...state,
-        isPending: false,
+        isLoading: false,
         error: action.payload,
         modalContent: {
-          title: 'ERROR',
-          content: `Could not DELETE Super Admin! ${action.payload}`
+          title: 'ERROR!',
+          content: `Could not DELETE SuperAdmin! ${action.payload}`
         },
         showModalMessage: true
       };
-    case CLOSE_MESSAGE_MODAL:
+    case MESSAGE_MODAL_OPEN:
+      return {
+        ...state,
+        modalContent: {
+          title: action.payload.title,
+          content: action.payload.content
+        },
+        showModalMessage: true
+      };
+    case MESSAGE_MODAL_CLOSE:
       return {
         ...state,
         showModalMessage: false
       };
-    case GETBYID_SUPER_ADMINS_PENDING:
+    case CONFIRM_MODAL_OPEN:
       return {
         ...state,
-        isPending: true
-      };
-    case GETBYID_SUPER_ADMINS_SUCCESS:
-      return {
-        ...state,
-        isPending: false,
-        list: action.payload
-      };
-    case GETBYID_SUPER_ADMINS_ERROR:
-      return {
-        ...state,
-        isPending: false,
-        error: action.payload,
         modalContent: {
-          title: 'ERROR',
-          content: `Could not GET Super Admin! ${action.payload}`
+          title: 'Confirm:',
+          content: action.payload
         },
-        showModalMessage: true
+        showConfirmModal: true
+      };
+    case CONFIRM_MODAL_CLOSE:
+      return {
+        ...state,
+        showConfirmModal: false
       };
     default:
       return state;
