@@ -13,7 +13,7 @@ const SuperAdmins = () => {
   const location = useLocation();
 
   const {
-    isLoading,
+    isPending,
     list: superAdminList,
     modalContent,
     showModalMessage
@@ -54,7 +54,7 @@ const SuperAdmins = () => {
         <div className={styles.title}>
           <h2>superadmins</h2>
         </div>
-        {isLoading ? (
+        {isPending ? (
           <div className={styles.spinnerContainer}>
             <img src="/assets/images/spinner.gif" alt="spinner" />
           </div>

@@ -2,13 +2,16 @@ import {
   GET_SUPER_ADMIN_PENDING,
   GET_SUPER_ADMIN_SUCCESS,
   GET_SUPER_ADMIN_ERROR,
+  DELETE_SUPER_ADMIN_PENDING,
+  DELETE_SUPER_ADMIN_SUCCESS,
+  DELETE_SUPER_ADMIN_ERROR,
   CLOSE_MESSAGE_MODAL
 } from './constants';
 
 const INITIAL_STATE = {
   list: [],
   error: '',
-  isLoading: false,
+  isPending: false,
   modalContent: { title: '', content: '' },
   showModalMessage: false
 };
@@ -18,20 +21,41 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
     case GET_SUPER_ADMIN_PENDING:
       return {
         ...state,
-        isLoading: true
+        isPending: true
       };
     case GET_SUPER_ADMIN_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isPending: false,
         list: action.payload
       };
     case GET_SUPER_ADMIN_ERROR:
       return {
         ...state,
-        isLoading: false,
+        isPending: false,
         error: action.payload,
         modalContent: { title: 'ERROR', content: `Could not GET Super Admin! ${action.payload}` },
+        showModalMessage: true
+      };
+    case DELETE_SUPER_ADMIN_PENDING:
+      return {
+        ...state,
+        isPending: true
+      };
+    case DELETE_SUPER_ADMIN_SUCCESS:
+      return {
+        ...state,
+        isPending: false
+      };
+    case DELETE_SUPER_ADMIN_ERROR:
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload,
+        modalContent: {
+          title: 'ERROR',
+          content: `Could not DELETE Super Admin! ${action.payload}`
+        },
         showModalMessage: true
       };
     case CLOSE_MESSAGE_MODAL:
