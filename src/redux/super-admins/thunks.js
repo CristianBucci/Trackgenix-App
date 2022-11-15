@@ -1,34 +1,34 @@
 import {
-  getSuperAdminPending,
-  getSuperAdminSuccess,
-  getSuperAdminError,
+  getSuperAdminsPending,
+  getSuperAdminsSuccess,
+  getSuperAdminsError,
   postSuperAdminsPending,
   postSuperAdminsSuccess,
   postSuperAdminsError,
   updateSuperAdminsPending,
   updateSuperAdminsSuccess,
   updateSuperAdminsError,
-  deleteSuperAdminPending,
-  deleteSuperAdminSuccess,
-  deleteSuperAdminError,
-  getByIdSuperAdminPending,
-  getByIdSuperAdminSuccess,
-  getByIdSuperAdminError
+  deleteSuperAdminsPending,
+  deleteSuperAdminsSuccess,
+  deleteSuperAdminsError,
+  getByIdSuperAdminsPending,
+  getByIdSuperAdminsSuccess,
+  getByIdSuperAdminsError
 } from './actions';
 
-const getSuperAdmin = () => {
+const getSuperAdmins = () => {
   return async (dispatch) => {
-    dispatch(getSuperAdminPending());
+    dispatch(getSuperAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin`);
       const data = await response.json();
       if (response.status !== 200) {
-        dispatch(getSuperAdminError(data.toString()));
+        dispatch(getSuperAdminsError(data.toString()));
       } else {
-        dispatch(getSuperAdminSuccess(data.data));
+        dispatch(getSuperAdminsSuccess(data.data));
       }
     } catch (error) {
-      dispatch(getSuperAdminError(error.toString()));
+      dispatch(getSuperAdminsError(error.toString()));
     }
   };
 };
@@ -93,38 +93,38 @@ export const updateSuperAdmins = (id, name, lastName, email, password) => {
 
 export const deleteSuperAdmin = (id) => {
   return async (dispatch) => {
-    dispatch(deleteSuperAdminPending());
+    dispatch(deleteSuperAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
         method: 'DELETE'
       });
       const json = await response.json();
       if (response.status !== 204) {
-        dispatch(deleteSuperAdminError(json.toString()));
+        dispatch(deleteSuperAdminsError(json.toString()));
       } else {
-        dispatch(deleteSuperAdminSuccess(json.data));
+        dispatch(deleteSuperAdminsSuccess(json.data));
       }
     } catch (error) {
-      dispatch(deleteSuperAdminError(error.toString()));
+      dispatch(deleteSuperAdminsError(error.toString()));
     }
   };
 };
 
-export const getByIdSuperAdmin = (id) => {
+export const getByIdSuperAdmins = (id) => {
   return async (dispatch) => {
-    dispatch(getByIdSuperAdminPending());
+    dispatch(getByIdSuperAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`);
       const data = await response.json();
       if (response.status !== 200) {
-        dispatch(getByIdSuperAdminError(data.msg.toString()));
+        dispatch(getByIdSuperAdminsError(data.msg.toString()));
       } else {
-        dispatch(getByIdSuperAdminSuccess(data.data));
+        dispatch(getByIdSuperAdminsSuccess(data.data));
       }
     } catch (error) {
-      dispatch(getByIdSuperAdminError(error.toString()));
+      dispatch(getByIdSuperAdminsError(error.toString()));
     }
   };
 };
 
-export default getSuperAdmin;
+export default getSuperAdmins;

@@ -17,20 +17,20 @@ import {
   CLOSE_MESSAGE_MODAL
 } from './constants';
 
-export const getSuperAdminPending = () => {
+export const getSuperAdminsPending = () => {
   return {
     type: GET_SUPER_ADMINS_PENDING
   };
 };
 
-export const getSuperAdminSuccess = (data) => {
+export const getSuperAdminsSuccess = (data) => {
   return {
     type: GET_SUPER_ADMINS_SUCCESS,
     payload: data
   };
 };
 
-export const getSuperAdminError = (error) => {
+export const getSuperAdminsError = (error) => {
   return {
     type: GET_SUPER_ADMINS_ERROR,
     payload: error

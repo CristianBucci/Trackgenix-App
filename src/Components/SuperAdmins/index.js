@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import getSuperAdmin from '../../redux/super-admins/thunks';
+import getSuperAdmins from '../../redux/super-admins/thunks';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
@@ -14,7 +14,7 @@ const SuperAdmins = () => {
 
   const {
     isPending,
-    list: superAdminList,
+    list: superAdminsList,
     modalContent,
     showModalMessage
   } = useSelector((state) => state.superAdmins);
@@ -28,11 +28,11 @@ const SuperAdmins = () => {
   let delParams = {
     id: itemId,
     path: 'SuperAdmin',
-    list: superAdminList
+    list: superAdminsList
   };
 
   useEffect(() => {
-    dispatch(getSuperAdmin());
+    dispatch(getSuperAdmins());
   }, []);
 
   return (
@@ -60,7 +60,7 @@ const SuperAdmins = () => {
           </div>
         ) : (
           <Table
-            data={superAdminList}
+            data={superAdminsList}
             headers={['First name', 'Last name', 'Email']}
             dataValues={['name', 'lastName', 'email']}
             location={location}
