@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   confirmModalOpen,
-  messageModalOpen,
   confirmModalClose,
+  messageModalOpen,
   messageModalClose
-} from '../../../redux/super-admins/actions';
+} from '../../../redux/employees/actions';
 import { createEmployee, updateEmployee } from '../../../redux/employees/thunks';
 import ModalConfirm from '../../Shared/Modal/ModalConfirm';
 import ModalMessage from '../../Shared/Modal/ModalMessage';

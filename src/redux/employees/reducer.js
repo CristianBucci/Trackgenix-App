@@ -11,9 +11,10 @@ import {
   PUT_EMPLOYEES_PENDING,
   PUT_EMPLOYEES_SUCCESS,
   PUT_EMPLOYEES_ERROR,
-  CLOSE_MESSAGE_MODAL,
   CONFIRM_MODAL_OPEN,
-  CONFIRM_MODAL_CLOSE
+  CONFIRM_MODAL_CLOSE,
+  MESSAGE_MODAL_OPEN,
+  MESSAGE_MODAL_CLOSE
 } from './constants';
 
 const INITIAL_STATE = {
@@ -109,11 +110,6 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         modalContent: { title: 'ERROR!', content: `Could not UPDATE Employee! ${action.payload}` },
         showModalMessage: true
       };
-    case CLOSE_MESSAGE_MODAL:
-      return {
-        ...state,
-        showModalMessage: false
-      };
     case CONFIRM_MODAL_OPEN:
       return {
         ...state,
@@ -128,6 +124,16 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         showConfirmModal: false
+      };
+    case MESSAGE_MODAL_OPEN:
+      return {
+        ...state,
+        showModalMessage: true
+      };
+    case MESSAGE_MODAL_CLOSE:
+      return {
+        ...state,
+        showModalMessage: false
       };
     default:
       return state;

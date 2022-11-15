@@ -11,9 +11,10 @@ import {
   PUT_EMPLOYEES_PENDING,
   PUT_EMPLOYEES_SUCCESS,
   PUT_EMPLOYEES_ERROR,
-  CLOSE_MESSAGE_MODAL,
   CONFIRM_MODAL_OPEN,
-  CONFIRM_MODAL_CLOSE
+  CONFIRM_MODAL_CLOSE,
+  MESSAGE_MODAL_OPEN,
+  MESSAGE_MODAL_CLOSE
 } from './constants';
 
 export const getEmployeesPending = () => {
@@ -95,12 +96,6 @@ export const putEmployeeError = (error) => {
   };
 };
 
-export const messageModalClose = () => {
-  return {
-    type: CLOSE_MESSAGE_MODAL
-  };
-};
-
 export const confirmModalOpen = (content) => {
   return {
     type: CONFIRM_MODAL_OPEN,
@@ -111,5 +106,18 @@ export const confirmModalOpen = (content) => {
 export const confirmModalClose = () => {
   return {
     type: CONFIRM_MODAL_CLOSE
+  };
+};
+
+export const messageModalOpen = (content) => {
+  return {
+    type: MESSAGE_MODAL_OPEN,
+    payload: content
+  };
+};
+
+export const messageModalClose = () => {
+  return {
+    type: MESSAGE_MODAL_CLOSE
   };
 };
