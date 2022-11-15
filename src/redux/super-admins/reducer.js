@@ -11,6 +11,9 @@ import {
   DELETE_SUPER_ADMINS_PENDING,
   DELETE_SUPER_ADMINS_SUCCESS,
   DELETE_SUPER_ADMINS_ERROR,
+  GETBYID_SUPER_ADMINS_PENDING,
+  GETBYID_SUPER_ADMINS_SUCCESS,
+  GETBYID_SUPER_ADMINS_ERROR,
   CLOSE_MESSAGE_MODAL
 } from './constants';
 
@@ -112,6 +115,28 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         showModalMessage: false
+      };
+    case GETBYID_SUPER_ADMINS_PENDING:
+      return {
+        ...state,
+        isPending: true
+      };
+    case GETBYID_SUPER_ADMINS_SUCCESS:
+      return {
+        ...state,
+        isPending: false,
+        list: action.payload
+      };
+    case GETBYID_SUPER_ADMINS_ERROR:
+      return {
+        ...state,
+        isPending: false,
+        error: action.payload,
+        modalContent: {
+          title: 'ERROR',
+          content: `Could not GET Super Admin! ${action.payload}`
+        },
+        showModalMessage: true
       };
     default:
       return state;

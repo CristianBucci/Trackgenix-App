@@ -11,6 +11,9 @@ import {
   DELETE_SUPER_ADMINS_PENDING,
   DELETE_SUPER_ADMINS_SUCCESS,
   DELETE_SUPER_ADMINS_ERROR,
+  GETBYID_SUPER_ADMINS_PENDING,
+  GETBYID_SUPER_ADMINS_SUCCESS,
+  GETBYID_SUPER_ADMINS_ERROR,
   CLOSE_MESSAGE_MODAL
 } from './constants';
 
@@ -90,6 +93,26 @@ export const deleteSuperAdminsSuccess = (data) => {
 export const deleteSuperAdminsError = (error) => {
   return {
     type: DELETE_SUPER_ADMINS_ERROR,
+    payload: error
+  };
+};
+
+export const getByIdSuperAdminsPending = () => {
+  return {
+    type: GETBYID_SUPER_ADMINS_PENDING
+  };
+};
+
+export const getByIdSuperAdminsSuccess = (data) => {
+  return {
+    type: GETBYID_SUPER_ADMINS_SUCCESS,
+    payload: data
+  };
+};
+
+export const getByIdSuperAdminsError = (error) => {
+  return {
+    type: GETBYID_SUPER_ADMINS_ERROR,
     payload: error
   };
 };
