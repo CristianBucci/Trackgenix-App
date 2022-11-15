@@ -1,5 +1,13 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createTask, updateTask } from '../../../redux/tasks/thunks';
+import {
+  confirmModalClose,
+  createTasksPending,
+  updateTasksPending,
+  getTasksError
+} from '../../../redux/tasks/actions';
 import ModalConfirm from '../../Shared/Modal/ModalConfirm';
 import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
@@ -8,25 +16,23 @@ import Buttons from '../../Shared/Button/index';
 
 const TasksForm = (props) => {
   const [taskInput, setTaskInput] = useState('');
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [showModalMessage, setShowModalMessage] = useState(false);
-  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
   const params = useParams();
   const id = params.id && params.id;
+  const dispatch = useDispatch();
+  const { modalContent, showModalConfirm, showModalMessage } = useSelector((state) => state.tasks);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setModalContent({
-      title: 'Confirm',
-      content: `Are you sure you want to ${
-        id ? 'edit the Task with id ' + id : 'create a new Task'
-      }?`
-    });
-    setShowModalConfirm(true);
+    id ? dispatch(updateTasksPending(id)) : dispatch(createTasksPending());
   };
 
-  const modalFunction = () => {
-    id ? updateTask() : createTask();
+  const onCancel = () => {
+    dispatch(confirmModalClose());
+  };
+
+  const onConfirm = () => {
+    id ? dispatch(updateTask(taskInput, id)) : dispatch(createTask(taskInput));
+    dispatch(confirmModalClose());
   };
 
   const redirect = () => {
@@ -39,90 +45,21 @@ const TasksForm = (props) => {
       const json = await response.json();
       setTaskInput(json.data.description);
     } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET Task! ${error.message}` });
-      setShowModalMessage(true);
+      dispatch(getTasksError(error.toString()));
     }
   }, []);
-
-  const createTask = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
-        method: 'POST',
-        body: JSON.stringify({ description: taskInput }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8'
-        }
-      });
-      if (response.status === 201) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not create new Task! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({
-        title: 'ERROR!',
-        content: `Could not create new Task! ${error.message}`
-      });
-      setShowModalMessage(true);
-    }
-  };
-
-  const updateTask = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({ description: taskInput }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8'
-        }
-      });
-      if (response.status === 200) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not update Task! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({
-        title: 'ERROR!',
-        content: `Could not update Task! ${error.message}`
-      });
-      setShowModalMessage(true);
-    }
-  };
 
   return (
     <>
       <ModalConfirm
         show={showModalConfirm}
-        closeModal={setShowModalConfirm}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={modalFunction}
-        modalId={id}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
       <ModalMessage
         show={showModalMessage}
-        closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
         modalFunction={redirect}
