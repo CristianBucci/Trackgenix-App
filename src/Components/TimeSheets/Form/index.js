@@ -15,7 +15,7 @@ import {
   confirmModalClose,
   messageModalClose
 } from '../../../redux/timesheets/actions';
-import { addTimeSheet } from '../../../redux/timesheets/thunks';
+import { addTimeSheet, updateTimeSheet } from '../../../redux/timesheets/thunks';
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getTasks } from '../../../redux/tasks/thunks';
 import getProjects from '../../../redux/projects/thunks';
@@ -74,21 +74,17 @@ const Form = (props) => {
       return null;
     }
   }, []);
-
-  const onCancel = () => {
-    dispatch(confirmModalClose());
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const content = `Are you sure you want to ${
-      id ? 'edit the TimeSheet with id ' + id : 'create a new TimeSheet'
-    }?`;
-    dispatch(confirmModalOpen(content));
+  const fixDate = (date) => {
+    let dateFormated = date.substr(0, 10);
+    return dateFormated;
   };
 
   const onConfirm = () => {
-    id ? console.log('updateTimeSheet()') : dispatch(addTimeSheet(timeSheetInput));
+    id ? dispatch(updateTimeSheet(timeSheetInput, id)) : dispatch(addTimeSheet(timeSheetInput));
+  };
+
+  const onCancel = () => {
+    dispatch(confirmModalClose());
   };
 
   const redirect = () => {
@@ -100,51 +96,13 @@ const Form = (props) => {
     dispatch(messageModalClose());
   };
 
-  const fixDate = (date) => {
-    let dateFormated = date.substr(0, 10);
-    return dateFormated;
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const content = `Are you sure you want to ${
+      id ? 'edit the TimeSheet with id ' + id : 'create a new TimeSheet'
+    }?`;
+    dispatch(confirmModalOpen(content));
   };
-
-  // const updateTimeSheet = async () => {
-  //   try {
-  //     let response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
-  //       method: 'PUT',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         description: timeSheetInput.description,
-  //         date: timeSheetInput.date,
-  //         hours: timeSheetInput.hours,
-  //         task: timeSheetInput.task,
-  //         employee: timeSheetInput.employee,
-  //         project: timeSheetInput.project
-  //       })
-  //     });
-  //     if (response.status === 200) {
-  //       response = await response.json();
-  //       setModalContent({
-  //         title: 'SUCCESS!',
-  //         content: response.message
-  //       });
-  //       setShowModalMessage(true);
-  //     } else {
-  //       response = await response.json();
-  //       setModalContent({
-  //         title: 'ERROR!',
-  //         content: `Could not update TimeSheet! ${response.message}`
-  //       });
-  //       setShowModalMessage(true);
-  //     }
-  //   } catch (error) {
-  //     setModalContent({
-  //       title: 'ERROR!',
-  //       content: `Could not update TimeSheet! ${error.message}`
-  //     });
-  //     setShowModalMessage(true);
-  //   }
-  // };
 
   return (
     <>

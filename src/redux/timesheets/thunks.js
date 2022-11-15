@@ -7,7 +7,10 @@ import {
   deleteTimesheetsError,
   postTimesheetsPending,
   postTimesheetsSuccess,
-  postTimesheetsError
+  postTimesheetsError,
+  putTimesheetsPending,
+  putTimesheetsSuccess,
+  putTimesheetsError
 } from './actions';
 
 export const getTimesheets = () => {
@@ -70,6 +73,39 @@ export const deleteTimeSheet = (id) => {
       }
     } catch (error) {
       dispatch(deleteTimesheetsError(error.toString()));
+    }
+  };
+};
+
+export const updateTimeSheet = (input, id) => {
+  return async (dispatch) => {
+    dispatch(putTimesheetsPending);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          description: input.description,
+          date: input.date,
+          hours: input.hours,
+          task: input.task,
+          employee: input.employee,
+          project: input.project
+        })
+      });
+      if (response.status == 200) {
+        const data = await response.json();
+        dispatch(putTimesheetsSuccess(data.data, data.message));
+      } else {
+        const data = await response.json();
+        console.log(data);
+        dispatch(putTimesheetsError(data.message));
+      }
+    } catch (error) {
+      dispatch(putTimesheetsError(error.toString()));
     }
   };
 };

@@ -24,23 +24,33 @@ const TimeSheets = (props) => {
   } = useSelector((state) => state.timesheets);
   const dispatch = useDispatch();
 
-  const modalWrapper = (id) => {
-    const content = 'Are you sure you want to delete this TimeSheet';
-    setItemId(id);
-    dispatch(confirmModalOpen(content));
+  useEffect(() => {
+    dispatch(getTimesheets());
+  }, []);
+
+  const onConfirm = () => {
+    dispatch(deleteTimeSheet(itemId));
+    dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
     dispatch(confirmModalClose());
   };
 
-  const onConfirm = () => {
-    dispatch(deleteTimeSheet(itemId));
-    dispatch(confirmModalClose());
+  const redirect = () => {
+    props.history.push('/timesheets');
   };
-  useEffect(() => {
-    dispatch(getTimesheets());
-  }, []);
+
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    dispatch(messageModalClose());
+  };
+
+  const modalWrapper = (id) => {
+    const content = 'Are you sure you want to delete this TimeSheet?';
+    setItemId(id);
+    dispatch(confirmModalOpen(content));
+  };
 
   const timeSheetList = [];
   for (let i = 0; i < timeSheets.length; i++) {
@@ -123,15 +133,6 @@ const TimeSheets = (props) => {
       timeSheetList.push(newTimeSheet);
     }
   }
-
-  const redirect = () => {
-    props.history.push('/timesheets');
-  };
-
-  const modalFunction = () => {
-    modalContent.title.includes('SUCCESS') ? redirect() : null;
-    dispatch(messageModalClose());
-  };
 
   return (
     <>

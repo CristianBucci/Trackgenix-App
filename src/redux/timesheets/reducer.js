@@ -11,7 +11,10 @@ import {
   MESSAGE_MODAL_OPEN,
   MESSAGE_MODAL_CLOSE,
   CONFIRM_MODAL_OPEN,
-  CONFIRM_MODAL_CLOSE
+  CONFIRM_MODAL_CLOSE,
+  PUT_TIMESHEETS_PENDING,
+  PUT_TIMESHEETS_SUCCES,
+  PUT_TIMESHEETS_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -97,6 +100,35 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
         modalContent: {
           title: 'ERROR!',
           content: `Could not add new TimeSheet! ${action.payload}`
+        },
+        showModalMessage: true
+      };
+    case PUT_TIMESHEETS_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case PUT_TIMESHEETS_SUCCES:
+      return {
+        ...state,
+        list: [...state.list, action.payload],
+        isLoading: false,
+        showConfirmModal: false,
+        modalContent: {
+          title: 'SUCCESS!',
+          content: action.reqMessage
+        },
+        showModalMessage: true
+      };
+    case PUT_TIMESHEETS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        showConfirmModal: false,
+        modalContent: {
+          title: 'ERROR!',
+          content: `Could not update new TimeSheet! ${action.payload}`
         },
         showModalMessage: true
       };

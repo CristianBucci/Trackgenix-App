@@ -8,6 +8,9 @@ import {
   POST_TIMESHEETS_PENDING,
   POST_TIMESHEETS_SUCCES,
   POST_TIMESHEETS_ERROR,
+  PUT_TIMESHEETS_PENDING,
+  PUT_TIMESHEETS_SUCCES,
+  PUT_TIMESHEETS_ERROR,
   MESSAGE_MODAL_OPEN,
   MESSAGE_MODAL_CLOSE,
   CONFIRM_MODAL_OPEN,
@@ -71,6 +74,26 @@ export const postTimesheetsSuccess = (data, msg) => {
 export const postTimesheetsError = (error) => {
   return {
     type: POST_TIMESHEETS_ERROR,
+    payload: error
+  };
+};
+export const putTimesheetsPending = () => {
+  return {
+    type: PUT_TIMESHEETS_PENDING
+  };
+};
+
+export const putTimesheetsSuccess = (data, msg) => {
+  return {
+    type: PUT_TIMESHEETS_SUCCES,
+    payload: data,
+    reqMessage: msg
+  };
+};
+
+export const putTimesheetsError = (error) => {
+  return {
+    type: PUT_TIMESHEETS_ERROR,
     payload: error
   };
 };
