@@ -2,6 +2,9 @@ import {
   getTimesheetsPending,
   getTimesheetsSuccess,
   getTimesheetsError,
+  deleteTimesheetsPending,
+  deleteTimesheetsSuccess,
+  deleteTimesheetsError,
   postTimesheetsPending,
   postTimesheetsSuccess,
   postTimesheetsError
@@ -48,6 +51,25 @@ export const addTimeSheet = (input) => {
       }
     } catch (error) {
       dispatch(postTimesheetsError(error.toString()));
+    }
+  };
+};
+
+export const deleteTimeSheet = (id) => {
+  return async (dispatch) => {
+    dispatch(deleteTimesheetsPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
+        method: 'DELETE'
+      });
+      if (response.status == 204) {
+        dispatch(deleteTimesheetsSuccess(id));
+      } else {
+        const data = await response.json();
+        dispatch(deleteTimesheetsError(data.data));
+      }
+    } catch (error) {
+      dispatch(deleteTimesheetsError(error.toString()));
     }
   };
 };

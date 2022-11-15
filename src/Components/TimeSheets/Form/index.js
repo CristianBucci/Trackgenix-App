@@ -1,21 +1,40 @@
 // eslint-disable-next-line no-unused-vars
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { addTimeSheet } from '../../../redux/timesheets/thunks';
-import { useSelector, useDispatch } from 'react-redux';
-import { getEmployees } from '../../../redux/employees/thunks';
-import { getTasks } from '../../../redux/tasks/thunks';
-import getProjects from '../../../redux/projects/thunks';
-import { confirmModalOpen, messageModalOpen } from '../../../redux/timesheets/actions';
+
 import ModalConfirm from '../../Shared/Modal/ModalConfirm/index';
 import ModalMessage from '../../Shared/Modal/ModalMessage/index';
 import Input from '../../Shared/Inputs';
 import Datepicker from '../../Shared/Datepicker';
 import Select from '../../Shared/Select/index';
 import Buttons from '../../Shared/Button/index';
+
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  confirmModalOpen,
+  messageModalOpen,
+  confirmModalClose
+} from '../../../redux/timesheets/actions';
+import { addTimeSheet } from '../../../redux/timesheets/thunks';
+import { getEmployees } from '../../../redux/employees/thunks';
+import { getTasks } from '../../../redux/tasks/thunks';
+import getProjects from '../../../redux/projects/thunks';
+
 import styles from './form.module.css';
 
 const Form = (props) => {
+  const dispatch = useDispatch();
+
+  const {
+    // isLoading,
+    // list: timeSheets,
+    modalContent,
+    showModalMessage,
+    showConfirmModal
+  } = useSelector((state) => state.timesheets);
+
+  const params = useParams();
+  const id = params.id ? params.id : '';
   const [timeSheetInput, setTimeSheetInput] = useState({
     description: '',
     date: '',
@@ -25,48 +44,16 @@ const Form = (props) => {
     project: ''
   });
   const [formText, setFormText] = useState('Add timeSheet');
-  // const [employees, setEmployees] = useState();
-  // const [tasks, setTasks] = useState();
-  // const [projects, setProjects] = useState();
-  // eslint-disable-next-line no-unused-vars
-  //const [showModalMessage, setShowModalMessage] = useState(false);
-  //const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
-  const params = useParams();
-  const id = params.id ? params.id : '';
 
-  const {
-    // isLoading,
-    // list: timeSheets,
-    modalContent,
-    showModalMessage,
-    showConfirmModal
-  } = useSelector((state) => state.timesheets);
   const { list: employees } = useSelector((state) => state.employees);
   const { list: tasks } = useSelector((state) => state.tasks);
   const { list: projects } = useSelector((state) => state.projects);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getEmployees());
     dispatch(getTasks());
     dispatch(getProjects());
   }, []);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const content = `Are you sure you want to ${
-      id ? 'edit the TimeSheet with id ' + id : 'create a new TimeSheet'
-    }?`;
-    dispatch(confirmModalOpen(content));
-  };
-
-  const modalFunction = () => {
-    id ? console.log('updateTimeSheet()') : dispatch(addTimeSheet(timeSheetInput));
-  };
-
-  const redirect = () => {
-    props.history.push('/timesheets');
-  };
 
   useEffect(async () => {
     if (id) {
@@ -91,6 +78,26 @@ const Form = (props) => {
       return null;
     }
   }, []);
+
+  const onCancel = () => {
+    dispatch(confirmModalClose());
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const content = `Are you sure you want to ${
+      id ? 'edit the TimeSheet with id ' + id : 'create a new TimeSheet'
+    }?`;
+    dispatch(confirmModalOpen(content));
+  };
+
+  const onConfirm = () => {
+    id ? console.log('updateTimeSheet()') : dispatch(addTimeSheet(timeSheetInput));
+  };
+
+  const redirect = () => {
+    props.history.push('/timesheets');
+  };
 
   const fixDate = (date) => {
     let dateFormated = date.substr(0, 10);
@@ -144,8 +151,8 @@ const Form = (props) => {
         show={showConfirmModal}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={modalFunction}
-        modalId={id}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
       <ModalMessage
         show={showModalMessage}
