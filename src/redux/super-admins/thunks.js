@@ -5,6 +5,9 @@ import {
   postSuperAdminsPending,
   postSuperAdminsSuccess,
   postSuperAdminsError,
+  updateSuperAdminsPending,
+  updateSuperAdminsSuccess,
+  updateSuperAdminsError,
   deleteSuperAdminPending,
   deleteSuperAdminSuccess,
   deleteSuperAdminError
@@ -52,6 +55,35 @@ export const postSuperAdmins = (name, lastName, email, password) => {
       }
     } catch (error) {
       dispatch(postSuperAdminsError(error.toString()));
+    }
+  };
+};
+
+export const updateSuperAdmins = (id, name, lastName, email, password) => {
+  return async (dispatch) => {
+    dispatch(updateSuperAdminsPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          lastName: lastName,
+          email: email,
+          password: password
+        })
+      });
+      const data = await response.json();
+      if (response.status !== 200) {
+        dispatch(updateSuperAdminsError(data.toString()));
+      } else {
+        dispatch(updateSuperAdminsSuccess(data.data));
+      }
+    } catch (error) {
+      dispatch(updateSuperAdminsError(error.toString()));
     }
   };
 };
