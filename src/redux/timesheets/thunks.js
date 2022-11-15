@@ -98,13 +98,14 @@ export const updateTimeSheet = (input, id) => {
       });
       if (response.status == 200) {
         const data = await response.json();
+        console.log(data);
         dispatch(putTimesheetsSuccess(data.data, data.message));
       } else {
         const data = await response.json();
-        console.log(data);
-        dispatch(putTimesheetsError(data.message));
+        dispatch(putTimesheetsError(data.data));
       }
     } catch (error) {
+      console.log(error);
       dispatch(putTimesheetsError(error.toString()));
     }
   };
