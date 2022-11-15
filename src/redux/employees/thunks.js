@@ -4,7 +4,13 @@ import {
   getEmployeesError,
   deleteEmployeePending,
   deleteEmployeeSuccess,
-  deleteEmployeeError
+  deleteEmployeeError,
+  postEmployeePending,
+  postEmployeeSuccess,
+  postEmployeeError,
+  putEmployeePending,
+  putEmployeeSuccess,
+  putEmployeeError
 } from './actions';
 
 export const getEmployees = () => {
@@ -38,6 +44,58 @@ export const deleteEmployee = (id) => {
       }
     } catch (error) {
       dispatch(deleteEmployeeError(error.toString()));
+    }
+  };
+};
+
+export const createEmployee = (newEmployee) => {
+  return async (dispatch) => {
+    dispatch(postEmployeePending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: JSON.stringify(newEmployee)
+      });
+      if (response.status == 200) {
+        dispatch(postEmployeeSuccess(response));
+      } else {
+        const data = await response.json();
+        dispatch(postEmployeeError(data.data));
+      }
+    } catch (error) {
+      dispatch(postEmployeeError(error.toString()));
+    }
+  };
+};
+
+export const updateEmployee = (data, id) => {
+  return async (dispatch) => {
+    dispatch(putEmployeePending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: JSON.stringify({
+          name: data.name,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+          phone: data.phone
+        })
+      });
+      if (response.status === 200) {
+        dispatch(putEmployeeSuccess(response));
+      } else {
+        const data = await response.json();
+        dispatch(putEmployeeError(data.data));
+      }
+    } catch (error) {
+      dispatch(putEmployeeError(error.toString()));
     }
   };
 };
