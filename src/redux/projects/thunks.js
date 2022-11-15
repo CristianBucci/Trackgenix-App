@@ -5,12 +5,15 @@ import {
   createProjectPending,
   createProjectSuccess,
   createProjectError,
+  updateProjectPending,
+  updateProjectSuccess,
+  updateProjectError,
   deleteProjectError,
   deleteProjectSuccess,
   deleteProjectPending
 } from './actions';
 
-const getProjects = () => {
+export const getProjects = () => {
   return async (dispatch) => {
     dispatch(getProjectsPending());
     try {
@@ -23,24 +26,7 @@ const getProjects = () => {
   };
 };
 
-export const deleteProject = (id) => {
-  return async (dispatch) => {
-    dispatch(deleteProjectPending());
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      dispatch(deleteProjectSuccess(id));
-    } catch (error) {
-      dispatch(deleteProjectError(error.toString()));
-    }
-  };
-};
-
-export const createProject = async (project) => {
+export const createProject = (input, employees) => {
   return async (dispatch) => {
     dispatch(createProjectPending());
     try {
@@ -50,13 +36,76 @@ export const createProject = async (project) => {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(project)
+        body: JSON.stringify({
+          name: input.name,
+          description: input.description,
+          startDate: input.startDate,
+          endDate: input.endDate,
+          clientName: input.clientName,
+          employees
+        })
       });
-      const data = await response.json();
-      dispatch(createProjectSuccess(data.data));
+      if (response.status == 201) {
+        const data = await response.json();
+        dispatch(createProjectSuccess(data.data, data.message));
+      } else {
+        const data = await response.json();
+        dispatch(createProjectError(data.data));
+      }
     } catch (error) {
       dispatch(createProjectError(error.toString()));
     }
   };
 };
-export default getProjects;
+
+export const updateProject = (id, input, employees) => {
+  return async (dispatch) => {
+    dispatch(updateProjectPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: input.name,
+          description: input.description,
+          startDate: input.startDate,
+          endDate: input.endDate,
+          clientName: input.clientName,
+          employees
+        })
+      });
+      if (response.status == 200) {
+        const data = await response.json();
+        dispatch(updateProjectSuccess(data.data, data.message));
+      } else {
+        const data = await response.json();
+        dispatch(updateProjectError(data.data));
+      }
+    } catch (error) {
+      dispatch(updateProjectError(error.toString()));
+    }
+  };
+};
+
+export const deleteProject = (id) => {
+  return async (dispatch) => {
+    dispatch(deleteProjectPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+        method: 'DELETE'
+      });
+      if (response.status == 204) {
+        dispatch(deleteProjectPending(id));
+      } else {
+        const data = await response.json();
+        dispatch(deleteProjectPending(data.data));
+      }
+      dispatch(deleteProjectSuccess(id));
+    } catch (error) {
+      dispatch(deleteProjectError(error.toString()));
+    }
+  };
+};

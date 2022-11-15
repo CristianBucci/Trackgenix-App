@@ -4,11 +4,15 @@ import { useLocation } from 'react-router-dom';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
-import getProjects from '../../redux/projects/thunks';
+import { getProjects, deleteProject } from '../../redux/projects/thunks';
 import styles from './projects.module.css';
+import {
+  confirmModalOpen,
+  confirmModalClose,
+  messageModalClose
+} from '../../redux/projects/actions';
 
-const Projects = () => {
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
+const Projects = (props) => {
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
@@ -16,20 +20,33 @@ const Projects = () => {
     list: projectsList,
     isLoading,
     modalContent,
-    modalConfirm,
-    showModalMessage
+    showModalMessage,
+    showConfirmModal
   } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
 
   const modalWrapper = (id) => {
+    const content = 'Are you sure you want to delete this Project?';
     setItemId(id);
-    setShowModalConfirm(true);
+    dispatch(confirmModalOpen(content));
   };
 
-  let delParams = {
-    id: itemId,
-    path: 'projects',
-    list: projectsList
+  const onConfirm = () => {
+    dispatch(deleteProject(itemId));
+    dispatch(confirmModalClose());
+  };
+
+  const onCancel = () => {
+    dispatch(confirmModalClose());
+  };
+
+  const redirect = () => {
+    props.history.push('/projects');
+  };
+
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    dispatch(messageModalClose());
   };
 
   useEffect(() => {
@@ -66,17 +83,17 @@ const Projects = () => {
   return (
     <>
       <ModalConfirm
-        show={showModalConfirm}
-        closeModal={setShowModalConfirm}
-        modalTitle={modalConfirm.title}
-        modalContent={modalConfirm.content}
-        modalFunction={delParams}
-        modalId={null}
+        show={showConfirmModal}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
       <ModalMessage
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
+        modalFunction={modalFunction}
       />
       <div className={styles.container}>
         <div className={styles.title}>

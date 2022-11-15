@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { createProject, updateProject } from '../../../redux/projects/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  confirmModalOpen,
+  messageModalOpen,
+  confirmModalClose,
+  messageModalClose
+} from '../../../redux/projects/actions';
 import { getEmployees } from '../../../redux/employees/thunks';
+
 import ModalConfirm from '../../Shared/Modal/ModalConfirm';
 import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
@@ -9,11 +18,18 @@ import Datepicker from '../../Shared/Datepicker';
 import Select from '../../Shared/Select/index';
 import Buttons from '../../Shared/Button/index';
 import styles from './form.module.css';
-import createProject from '../../../redux/projects/thunks';
 
 const AddProject = (props) => {
   const dispatch = useDispatch();
-  const employeesList = useSelector((state) => state.employees.list);
+  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
+    (state) => state.projects
+  );
+  const [formText, setFormText] = useState('Add Project');
+  const { list: employees } = useSelector((state) => state.employees);
+  const [employeesProject, setEmployeesProject] = useState([]);
+  const params = useParams();
+  const id = params.id && params.id;
+  const roles = [{ role: 'DEV' }, { role: 'QA' }, { role: 'PM' }, { role: 'TL' }];
   const [projectInput, setProjectInput] = useState({
     name: '',
     description: '',
@@ -21,32 +37,36 @@ const AddProject = (props) => {
     endDate: '',
     clientName: ''
   });
-  const [formText, setFormText] = useState('Add Project');
-  const [employeesProject, setEmployeesProject] = useState([]);
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [showModalMessage, setShowModalMessage] = useState(false);
-  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
-  const params = useParams();
-  const id = params.id && params.id;
-  const roles = [{ role: 'DEV' }, { role: 'QA' }, { role: 'PM' }, { role: 'TL' }];
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setModalContent({
-      title: 'Confirm',
-      content: `Are you sure you want to ${
-        id ? 'edit the project with id ' + id : 'create a new project'
-      }?`
-    });
-    setShowModalConfirm(true);
+    const content = `Are you sure you want to ${
+      id ? 'edit the Project with id ' + id : 'create a new Project'
+    }?`;
+    dispatch(confirmModalOpen(content));
   };
 
-  const modalFunction = () => {
-    id ? updateProject() : createProject();
-  };
+  useEffect(() => {
+    dispatch(getEmployees());
+  }, []);
 
   const redirect = () => {
     props.history.push('/projects');
+  };
+
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    dispatch(messageModalClose());
+  };
+
+  const onCancel = () => {
+    dispatch(confirmModalClose());
+  };
+
+  const onConfirm = () => {
+    id
+      ? dispatch(updateProject(id, projectInput, employeesProject))
+      : dispatch(createProject(projectInput, employeesProject));
   };
 
   useEffect(async () => {
@@ -66,8 +86,7 @@ const AddProject = (props) => {
         });
         setEmployeesProject(json.data.employees);
       } catch (error) {
-        setModalContent({ title: 'ERROR!', content: `Could not GET projects! ${error.message}` });
-        setShowModalMessage(true);
+        dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET Project. ${error}` }));
       }
     } else {
       return null;
@@ -79,74 +98,20 @@ const AddProject = (props) => {
     return dateFormated;
   };
 
-  const project = JSON.stringify({
-    name: projectInput.name,
-    description: projectInput.description,
-    startDate: projectInput.startDate,
-    endDate: projectInput.endDate,
-    clientName: projectInput.clientName,
-    employees: employeesProject
-  });
-
-  useEffect(() => {
-    dispatch(createProject(project));
-    dispatch(getEmployees());
-  }, []);
-
-  const updateProject = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: projectInput.name,
-          description: projectInput.description,
-          startDate: projectInput.startDate,
-          endDate: projectInput.endDate,
-          clientName: projectInput.clientName,
-          employees: employeesProject
-        })
-      });
-      if (response.status === 200) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not update Admin! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not update Admin! ${error.message}` });
-      setShowModalMessage(true);
-    }
-  };
-
   return (
     <>
       <ModalConfirm
-        show={showModalConfirm}
-        closeModal={setShowModalConfirm}
+        show={showConfirmModal}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={modalFunction}
-        modalId={id}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
       <ModalMessage
         show={showModalMessage}
-        closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={redirect}
+        modalFunction={modalFunction}
       />
       <div>
         <form onSubmit={onSubmit}>
@@ -212,7 +177,7 @@ const AddProject = (props) => {
                     <label>Employee</label>
                     <Select
                       value={option.employeeId}
-                      options={employeesList}
+                      options={employees}
                       keyMap={'_id'}
                       title={'Employee'}
                       fieldToShow={'name'}
