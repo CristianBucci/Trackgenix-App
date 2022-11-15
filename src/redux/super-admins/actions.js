@@ -37,60 +37,60 @@ export const getSuperAdminsError = (error) => {
   };
 };
 
-export const postSuperAdminsPending = () => {
+export const postSuperAdminPending = () => {
   return {
     type: POST_SUPER_ADMINS_PENDING
   };
 };
 
-export const postSuperAdminsSuccess = (data) => {
+export const postSuperAdminSuccess = (data) => {
   return {
     type: POST_SUPER_ADMINS_SUCCESS,
     payload: data
   };
 };
 
-export const postSuperAdminsError = (error) => {
+export const postSuperAdminError = (error) => {
   return {
     type: POST_SUPER_ADMINS_ERROR,
     payload: error
   };
 };
 
-export const updateSuperAdminsPending = () => {
+export const updateSuperAdminPending = () => {
   return {
     type: UPDATE_SUPER_ADMINS_PENDING
   };
 };
 
-export const updateSuperAdminsSuccess = (data) => {
+export const updateSuperAdminSuccess = (data) => {
   return {
     type: UPDATE_SUPER_ADMINS_SUCCESS,
     payload: data
   };
 };
 
-export const updateSuperAdminsError = (error) => {
+export const updateSuperAdminError = (error) => {
   return {
     type: UPDATE_SUPER_ADMINS_ERROR,
     payload: error
   };
 };
 
-export const deleteSuperAdminsPending = () => {
+export const deleteSuperAdminPending = () => {
   return {
     type: DELETE_SUPER_ADMINS_PENDING
   };
 };
 
-export const deleteSuperAdminsSuccess = (data) => {
+export const deleteSuperAdminSuccess = (data) => {
   return {
     type: DELETE_SUPER_ADMINS_SUCCESS,
     payload: data
   };
 };
 
-export const deleteSuperAdminsError = (error) => {
+export const deleteSuperAdminError = (error) => {
   return {
     type: DELETE_SUPER_ADMINS_ERROR,
     payload: error

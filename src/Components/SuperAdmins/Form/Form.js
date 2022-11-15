@@ -6,147 +6,99 @@ import Input from '../../Shared/Inputs';
 import Buttons from '../../Shared/Button/index';
 import styles from './Form.module.css';
 
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  confirmModalOpen,
+  messageModalOpen,
+  confirmModalClose,
+  messageModalClose
+} from '../../../redux/super-admins/actions';
+import { createSuperAdmin, updateSuperAdmin } from '../../../redux/super-admins/thunks';
+
 const Form = (props) => {
+  const dispatch = useDispatch();
+
+  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
+    (state) => state.superAdmins
+  );
+
+  const params = useParams();
+  const id = params.id ? params.id : '';
   const [superAdminInput, setSuperAdminInput] = useState({
     name: '',
     lastName: '',
     email: '',
     password: ''
   });
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [showModalMessage, setShowModalMessage] = useState(false);
-  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
-  const params = useParams();
-  const id = params.id && params.id;
+  const [formText, setFormText] = useState('Add SuperAdmin');
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setModalContent({
-      title: 'Confirm',
-      content: `Are you sure you want to ${
-        id ? 'edit the SuperAdmin with id ' + id : 'create a new SuperAdmin'
-      }?`
-    });
-    setShowModalConfirm(true);
+  useEffect(async () => {
+    if (id) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`);
+        const json = await response.json();
+        setFormText('Update SuperAdmin');
+        setSuperAdminInput({
+          name: json.data.name,
+          lastName: json.data.lastName,
+          email: json.data.email,
+          password: json.data.password
+        });
+      } catch (error) {
+        dispatch(
+          messageModalOpen({ title: 'ERROR', content: `Could not GET superAdmin. ${error}` })
+        );
+      }
+    } else {
+      return null;
+    }
+  }, []);
+
+  const onConfirm = () => {
+    id
+      ? dispatch(updateSuperAdmin(superAdminInput, id))
+      : dispatch(createSuperAdmin(superAdminInput));
   };
 
-  const modalFunction = () => {
-    id ? updateSuperAdmin() : createSuperAdmin();
+  const onCancel = () => {
+    dispatch(confirmModalClose());
   };
 
   const redirect = () => {
     props.history.push('/super-admins');
   };
 
-  const currentSuperAdminInput = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`);
-      response = await response.json();
-
-      setSuperAdminInput({
-        name: response.data.name,
-        lastName: response.data.lastName,
-        email: response.data.email,
-        password: response.data.password
-      });
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET SuperAdmin! ${error.message}` });
-      setShowModalMessage(true);
-    }
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    dispatch(messageModalClose());
   };
 
-  useEffect(async () => {
-    if (id) {
-      currentSuperAdminInput();
-    }
-  }, []);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const content = `Are you sure you want to ${
+      id ? 'edit the superAdmin with id ' + id : 'create a new superAdmin'
+    }?`;
+    dispatch(confirmModalOpen(content));
+  };
 
   const onChange = (e) => {
     setSuperAdminInput({ ...superAdminInput, [e.target.name]: e.target.value });
   };
 
-  const createSuperAdmin = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(superAdminInput)
-      });
-      if (response.status === 201) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not create new SuperAdmin! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({
-        title: 'ERROR!',
-        content: `Could not create new SuperAdmin! ${error.message}`
-      });
-      setShowModalMessage(true);
-    }
-  };
-
-  const updateSuperAdmin = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(superAdminInput)
-      });
-      if (response.status === 200) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not update SuperAdmin! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({
-        title: 'ERROR!',
-        content: `Could not update SuperAdmin! ${error.message}`
-      });
-      setShowModalMessage(true);
-    }
-  };
-
   return (
     <>
       <ModalConfirm
-        show={showModalConfirm}
-        closeModal={setShowModalConfirm}
+        show={showConfirmModal}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={modalFunction}
-        modalId={id}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
       <ModalMessage
         show={showModalMessage}
-        closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={redirect}
+        modalFunction={modalFunction}
       />
       <div className={styles.container}>
         <div className={styles.header}>
@@ -155,6 +107,7 @@ const Form = (props) => {
           </div>
         </div>
         <form onSubmit={onSubmit} className={styles.form}>
+          {<div className={styles.cardTitle}>{formText}</div>}
           <Input
             label={'First Name'}
             name="name"
