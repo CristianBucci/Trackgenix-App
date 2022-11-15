@@ -60,7 +60,7 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
         showConfirmModal: false,
         modalContent: {
           title: 'SUCCESS!',
-          content: action.reqMessage
+          content: `SuperAdmin Successfully CREATED`
         },
         showModalMessage: true
       };
@@ -71,7 +71,7 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
         showConfirmModal: false,
         modalContent: {
           title: 'ERROR!',
-          content: `Could not POST SuperAdmin! ${action.payload}`
+          content: `Could not CREATE SuperAdmin`
         },
         showModalMessage: true
       };
@@ -88,7 +88,7 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
         showConfirmModal: false,
         modalContent: {
           title: 'SUCCESS!',
-          content: action.reqMessage
+          content: `SuperAdmin Successfully UPDATED`
         },
         showModalMessage: true
       };
@@ -99,7 +99,7 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
         error: action.payload,
         modalContent: {
           title: 'ERROR',
-          content: `Could not UPDATE SuperAdmin! ${action.payload}`
+          content: `Could not UPDATE SuperAdmin`
         },
         showModalMessage: true
       };
@@ -126,7 +126,7 @@ const superAdminsReducer = (state = INITIAL_STATE, action) => {
         error: action.payload,
         modalContent: {
           title: 'ERROR!',
-          content: `Could not DELETE SuperAdmin! ${action.payload}`
+          content: `Could not DELETE SuperAdmin`
         },
         showModalMessage: true
       };
