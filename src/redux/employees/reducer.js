@@ -113,7 +113,6 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
     case CONFIRM_MODAL_OPEN:
       return {
         ...state,
-        ...state,
         modalContent: {
           title: 'Confirm:',
           content: action.payload

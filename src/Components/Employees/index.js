@@ -49,7 +49,7 @@ const Employees = (props) => {
   };
 
   const modalFunction = () => {
-    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    modalContent.title.includes('SUCCESS') && redirect();
     dispatch(messageModalClose());
   };
 
