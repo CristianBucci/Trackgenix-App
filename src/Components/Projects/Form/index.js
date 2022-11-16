@@ -21,7 +21,7 @@ import styles from './form.module.css';
 
 const AddProject = (props) => {
   const dispatch = useDispatch();
-  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
+  const { modalContent, showModalMessage, showConfirmModal, isLoading } = useSelector(
     (state) => state.projects
   );
   const [formText, setFormText] = useState('Add Project');
@@ -114,168 +114,174 @@ const AddProject = (props) => {
         modalFunction={modalFunction}
       />
       <div>
-        <form onSubmit={onSubmit}>
-          <div className={styles.card}>
-            <div className={styles.cardTitle}>{formText}</div>
-            <Input
-              label={'Project Name'}
-              name="name"
-              required
-              type="text"
-              value={projectInput.name}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, name: e.target.value });
-              }}
-              placeholder={'Project Name'}
-            />
-            <Input
-              label={'Description'}
-              name="description"
-              required
-              type="text"
-              value={projectInput.description}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, description: e.target.value });
-              }}
-              placeholder={'Description'}
-            />
-            <Datepicker
-              label={'Start Date'}
-              required
-              name="start date"
-              type="date"
-              value={projectInput.startDate}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, startDate: e.target.value });
-              }}
-            />
-            <Datepicker
-              label={'End Date'}
-              required
-              name="end date"
-              type="date"
-              value={projectInput.endDate}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, endDate: e.target.value });
-              }}
-            />
-            <Input
-              label={'Client Name'}
-              name="clientName"
-              required
-              type="text"
-              value={projectInput.clientName}
-              onChange={(e) => {
-                setProjectInput({ ...projectInput, clientName: e.target.value });
-              }}
-              placeholder={'Client Name'}
-            />
+        {!isLoading ? (
+          <form onSubmit={onSubmit}>
             <div className={styles.card}>
-              {employeesProject?.map((option, index) => {
-                return (
-                  <div key={option}>
-                    <label>Employee</label>
-                    <Select
-                      value={option.employeeId}
-                      options={employees}
-                      keyMap={'_id'}
-                      title={'Employee'}
-                      fieldToShow={'name'}
-                      second={'lastName'}
-                      isDisabled={false}
-                      onChange={(value) =>
-                        setEmployeesProject([
-                          ...employeesProject.slice(0, index),
-                          {
-                            ...option,
-                            employeeId: value
-                          },
-                          ...employeesProject.slice(index + 1)
-                        ])
-                      }
-                    ></Select>
-                    <Input
-                      label={'Rate'}
-                      name="rate"
-                      required
-                      type="number"
-                      value={option.rate}
-                      onChange={(e) =>
-                        setEmployeesProject([
-                          ...employeesProject.slice(0, index),
-                          {
-                            ...option,
-                            rate: e.target.value
-                          },
-                          ...employeesProject.slice(index + 1)
-                        ])
-                      }
-                      placeholder={'Rate'}
-                    />
-                    <label>Role</label>
-                    <Select
-                      value={option.role}
-                      options={roles}
-                      keyMap={'role'}
-                      title={'Role'}
-                      fieldToShow={'role'}
-                      isDisabled={false}
-                      onChange={(value) =>
-                        setEmployeesProject([
-                          ...employeesProject.slice(0, index),
-                          {
-                            ...option,
-                            role: value
-                          },
-                          ...employeesProject.slice(index + 1)
-                        ])
-                      }
-                    ></Select>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEmployeesProject([
-                          ...employeesProject.slice(0, index),
-                          ...employeesProject.slice(
-                            index + 1 ? index + 1 : index,
-                            employeesProject.length
-                          )
-                        ]);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                );
-              })}
-              <div className={styles.addEmployeeButton}>
-                <button
-                  onClick={() =>
-                    setEmployeesProject([
-                      ...employeesProject,
-                      {
-                        employeeId: '',
-                        rate: 0,
-                        role: ''
-                      }
-                    ])
-                  }
-                  type="button"
-                >
-                  Add Employee
-                </button>
+              <div className={styles.cardTitle}>{formText}</div>
+              <Input
+                label={'Project Name'}
+                name="name"
+                required
+                type="text"
+                value={projectInput.name}
+                onChange={(e) => {
+                  setProjectInput({ ...projectInput, name: e.target.value });
+                }}
+                placeholder={'Project Name'}
+              />
+              <Input
+                label={'Description'}
+                name="description"
+                required
+                type="text"
+                value={projectInput.description}
+                onChange={(e) => {
+                  setProjectInput({ ...projectInput, description: e.target.value });
+                }}
+                placeholder={'Description'}
+              />
+              <Datepicker
+                label={'Start Date'}
+                required
+                name="start date"
+                type="date"
+                value={projectInput.startDate}
+                onChange={(e) => {
+                  setProjectInput({ ...projectInput, startDate: e.target.value });
+                }}
+              />
+              <Datepicker
+                label={'End Date'}
+                required
+                name="end date"
+                type="date"
+                value={projectInput.endDate}
+                onChange={(e) => {
+                  setProjectInput({ ...projectInput, endDate: e.target.value });
+                }}
+              />
+              <Input
+                label={'Client Name'}
+                name="clientName"
+                required
+                type="text"
+                value={projectInput.clientName}
+                onChange={(e) => {
+                  setProjectInput({ ...projectInput, clientName: e.target.value });
+                }}
+                placeholder={'Client Name'}
+              />
+              <div className={styles.card}>
+                {employeesProject?.map((option, index) => {
+                  return (
+                    <div key={option}>
+                      <label>Employee</label>
+                      <Select
+                        value={option.employeeId}
+                        options={employees}
+                        keyMap={'_id'}
+                        title={'Employee'}
+                        fieldToShow={'name'}
+                        second={'lastName'}
+                        isDisabled={false}
+                        onChange={(value) =>
+                          setEmployeesProject([
+                            ...employeesProject.slice(0, index),
+                            {
+                              ...option,
+                              employeeId: value
+                            },
+                            ...employeesProject.slice(index + 1)
+                          ])
+                        }
+                      ></Select>
+                      <Input
+                        label={'Rate'}
+                        name="rate"
+                        required
+                        type="number"
+                        value={option.rate}
+                        onChange={(e) =>
+                          setEmployeesProject([
+                            ...employeesProject.slice(0, index),
+                            {
+                              ...option,
+                              rate: e.target.value
+                            },
+                            ...employeesProject.slice(index + 1)
+                          ])
+                        }
+                        placeholder={'Rate'}
+                      />
+                      <label>Role</label>
+                      <Select
+                        value={option.role}
+                        options={roles}
+                        keyMap={'role'}
+                        title={'Role'}
+                        fieldToShow={'role'}
+                        isDisabled={false}
+                        onChange={(value) =>
+                          setEmployeesProject([
+                            ...employeesProject.slice(0, index),
+                            {
+                              ...option,
+                              role: value
+                            },
+                            ...employeesProject.slice(index + 1)
+                          ])
+                        }
+                      ></Select>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmployeesProject([
+                            ...employeesProject.slice(0, index),
+                            ...employeesProject.slice(
+                              index + 1 ? index + 1 : index,
+                              employeesProject.length
+                            )
+                          ]);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  );
+                })}
+                <div className={styles.addEmployeeButton}>
+                  <button
+                    onClick={() =>
+                      setEmployeesProject([
+                        ...employeesProject,
+                        {
+                          employeeId: '',
+                          rate: 0,
+                          role: ''
+                        }
+                      ])
+                    }
+                    type="button"
+                  >
+                    Add Employee
+                  </button>
+                </div>
               </div>
             </div>
+            <div>
+              <Buttons type="submit" variant="primary" name="Confirm" />
+              <Buttons
+                variant="secondary"
+                name="Cancel"
+                onClick={() => props.history.push('/projects')}
+              />
+            </div>
+          </form>
+        ) : (
+          <div className={styles.spinnerContainer}>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
           </div>
-          <div>
-            <Buttons type="submit" variant="primary" name="Confirm" />
-            <Buttons
-              variant="secondary"
-              name="Cancel"
-              onClick={() => props.history.push('/projects')}
-            />
-          </div>
-        </form>
+        )}
       </div>
     </>
   );
