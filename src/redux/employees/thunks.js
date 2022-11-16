@@ -59,7 +59,7 @@ export const createEmployee = (newEmployee) => {
         },
         body: JSON.stringify(newEmployee)
       });
-      if (response.status == 200) {
+      if (response.status == 201) {
         dispatch(postEmployeeSuccess(response));
       } else {
         const data = await response.json();
