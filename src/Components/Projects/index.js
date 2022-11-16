@@ -12,7 +12,7 @@ import {
   messageModalClose
 } from '../../redux/projects/actions';
 
-const Projects = (props) => {
+const Projects = () => {
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
@@ -40,12 +40,8 @@ const Projects = (props) => {
     dispatch(confirmModalClose());
   };
 
-  const redirect = () => {
-    props.history.push('/projects');
-  };
-
   const modalFunction = () => {
-    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    modalContent.title.includes('SUCCESS');
     dispatch(messageModalClose());
   };
 
