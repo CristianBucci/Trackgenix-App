@@ -1,154 +1,106 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  messageModalOpen,
+  messageModalClose,
+  confirmModalOpen,
+  confirmModalClose
+} from '../../../redux/admins/actions';
+import { createAdmins, updateAdmins } from '../../../redux/admins/thunks';
 import ModalConfirm from '../../Shared/Modal/ModalConfirm';
 import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
 import Buttons from '../../Shared/Button/index';
+import styles from './form.module.css';
 
 const Form = (props) => {
-  const [admin, setAdmin] = useState({
+  const dispatch = useDispatch();
+  const { modalContent, showConfirmModal, showModalMessage } = useSelector((state) => state.admins);
+  const params = useParams();
+  const id = params.Id ? params.Id : '';
+  const [adminsInput, setAdminsInput] = useState({
     name: '',
     lastName: '',
     email: '',
     password: ''
   });
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [showModalMessage, setShowModalMessage] = useState(false);
-  const [modalContent, setModalContent] = useState({ title: 'title', content: 'content' });
-  const params = useParams();
-  const id = params.Id && params.Id;
+  const [formText, setFormText] = useState('Add Admins');
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setModalContent({
-      title: 'Confirm',
-      content: `Are you sure you want to ${
-        id ? 'edit the admin with id ' + id : 'create a new admin'
-      }?`
-    });
-    setShowModalConfirm(true);
+  useEffect(async () => {
+    if (id) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`);
+        const json = await response.json();
+        setFormText('Update Admins');
+        setAdminsInput({
+          name: json.data.name,
+          lastName: json.data.lastName,
+          email: json.data.email,
+          password: json.data.password
+        });
+      } catch (error) {
+        dispatch(messageModalOpen({ title: 'Error', content: `Could not GET Admins ${error}` }));
+      }
+    } else {
+      return null;
+    }
+  }, []);
+
+  const onConfirm = () => {
+    id ? dispatch(updateAdmins(adminsInput, id)) : dispatch(createAdmins(adminsInput));
   };
 
-  const modalFunction = () => {
-    id ? updateAdmin() : createAdmin();
+  const onCancel = () => {
+    dispatch(confirmModalClose());
   };
 
   const redirect = () => {
     props.history.push('/admins');
   };
 
-  const adminForm = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`);
-      response = await response.json();
-      setAdmin({
-        name: response.data.name,
-        lastName: response.data.lastName,
-        email: response.data.email,
-        password: response.data.password
-      });
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not GET Admin! ${error.message}` });
-      setShowModalMessage(true);
-    }
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    dispatch(messageModalClose());
   };
 
-  useEffect(async () => {
-    if (id) {
-      adminForm();
-    }
-  }, []);
-
-  const createAdmin = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/admin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(admin)
-      });
-      if (response.status === 201) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not create new Admin! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not create new Admin! ${error.message}` });
-      setShowModalMessage(true);
-    }
-  };
-
-  const updateAdmin = async () => {
-    try {
-      let response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(admin)
-      });
-      if (response.status === 200) {
-        response = await response.json();
-        setModalContent({
-          title: 'SUCCESS!',
-          content: response.message
-        });
-        setShowModalMessage(true);
-      } else {
-        response = await response.json();
-        setModalContent({
-          title: 'ERROR!',
-          content: `Could not update Admin! ${response.message}`
-        });
-        setShowModalMessage(true);
-      }
-    } catch (error) {
-      setModalContent({ title: 'ERROR!', content: `Could not update Admin! ${error.message}` });
-      setShowModalMessage(true);
-    }
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const content = `Are you sure you want to ${
+      id ? 'edit the Admins with id ' + id : 'create a new Admins'
+    }?`;
+    dispatch(confirmModalOpen(content));
   };
 
   const onChange = (e) => {
-    setAdmin({ ...admin, [e.target.name]: e.target.value });
+    setAdminsInput({ ...adminsInput, [e.target.name]: e.target.value });
   };
 
   return (
     <>
       <ModalConfirm
-        show={showModalConfirm}
-        closeModal={setShowModalConfirm}
+        show={showConfirmModal}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={modalFunction}
-        modalId={id}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
       <ModalMessage
         show={showModalMessage}
-        closeModal={setShowModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={redirect}
+        modalFunction={modalFunction}
       />
       <div>
         <form onSubmit={onSubmit}>
+          {<div className={styles.cardTitle}>{formText}</div>}
           <Input
             label={'Name'}
             type="text"
             name="name"
             required
-            value={admin.name}
+            value={adminsInput.name}
             onChange={onChange}
             placeholder={'Name'}
           />
@@ -157,7 +109,7 @@ const Form = (props) => {
             type="text"
             name="lastName"
             required
-            value={admin.lastName}
+            value={adminsInput.lastName}
             onChange={onChange}
             placeholder={'Last Name'}
           />
@@ -166,7 +118,7 @@ const Form = (props) => {
             type="text"
             name="email"
             required
-            value={admin.email}
+            value={adminsInput.email}
             onChange={onChange}
             placeholder={'Email'}
           />
@@ -175,7 +127,7 @@ const Form = (props) => {
             type="password"
             name="password"
             required
-            value={admin.password}
+            value={adminsInput.password}
             onChange={onChange}
             placeholder={'Password'}
           />
