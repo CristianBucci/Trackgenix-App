@@ -9,6 +9,7 @@ import {
   messageModalClose
 } from '../../../redux/employees/actions';
 import { createEmployee, updateEmployee } from '../../../redux/employees/thunks';
+
 import ModalConfirm from '../../Shared/Modal/ModalConfirm';
 import ModalMessage from '../../Shared/Modal/ModalMessage';
 import Input from '../../Shared/Inputs';
@@ -16,6 +17,12 @@ import Buttons from '../../Shared/Button/index';
 import styles from './form.module.css';
 
 function Form(props) {
+  const dispatch = useDispatch();
+  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
+    (state) => state.employees
+  );
+  const params = useParams();
+  const id = params.id && params.id;
   const [formValues, setFormValues] = useState({
     name: '',
     lastName: '',
@@ -24,26 +31,23 @@ function Form(props) {
     phone: ''
   });
 
-  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
-    (state) => state.superAdmins
-  );
-  const params = useParams();
-  const id = params.id && params.id;
-  const dispatch = useDispatch();
-
   useEffect(async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id ? id : ''}`);
-      const data = await response.json();
-      setFormValues({
-        name: data.data.name,
-        lastName: data.data.lastName,
-        email: data.data.email,
-        password: data.data.password,
-        phone: data.data.phone
-      });
-    } catch (error) {
-      dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET employee. ${error}` }));
+    if (id) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id ? id : ''}`);
+        const data = await response.json();
+        setFormValues({
+          name: data.data.name,
+          lastName: data.data.lastName,
+          email: data.data.email,
+          password: data.data.password,
+          phone: data.data.phone
+        });
+      } catch (error) {
+        dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET employee. ${error}` }));
+      }
+    } else {
+      return null;
     }
   }, []);
 
