@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createTask, updateTask } from '../../../redux/tasks/thunks';
 import {
   confirmModalClose,
+  messageModalClose,
   createTasksPending,
   updateTasksPending,
   getTasksError
@@ -35,6 +36,11 @@ const TasksForm = (props) => {
     dispatch(confirmModalClose());
   };
 
+  const closeMessageModal = () => {
+    modalContent.title.includes('SUCCESS') && redirect();
+    dispatch(messageModalClose());
+  };
+
   const redirect = () => {
     props.history.push('/tasks');
   };
@@ -62,7 +68,7 @@ const TasksForm = (props) => {
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={redirect}
+        modalFunction={closeMessageModal}
       />
       <div className={styles.formContainer}>
         <span>

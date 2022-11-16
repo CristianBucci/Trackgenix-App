@@ -6,7 +6,11 @@ import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './tasks.module.css';
 import { getTasks, deleteTasks } from '../../redux/tasks/thunks';
-import { deleteTasksPending, confirmModalClose } from '../../redux/tasks/actions';
+import {
+  deleteTasksPending,
+  confirmModalClose,
+  messageModalClose
+} from '../../redux/tasks/actions';
 
 const Tasks = () => {
   const [itemId, setItemId] = useState(null);
@@ -34,6 +38,10 @@ const Tasks = () => {
     dispatch(confirmModalClose());
   };
 
+  const closeMessageModal = () => {
+    dispatch(messageModalClose());
+  };
+
   useEffect(() => {
     dispatch(getTasks());
   }, []);
@@ -51,6 +59,7 @@ const Tasks = () => {
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
+        modalFunction={closeMessageModal}
       />
       <section className={styles.container}>
         <h2 className={styles.title}>Tasks</h2>
