@@ -1,32 +1,124 @@
 import {
-  GET_SUPER_ADMIN_PENDING,
-  GET_SUPER_ADMIN_SUCCESS,
-  GET_SUPER_ADMIN_ERROR,
-  CLOSE_MESSAGE_MODAL
+  GET_SUPER_ADMINS_PENDING,
+  GET_SUPER_ADMINS_SUCCESS,
+  GET_SUPER_ADMINS_ERROR,
+  POST_SUPER_ADMINS_ERROR,
+  POST_SUPER_ADMINS_PENDING,
+  POST_SUPER_ADMINS_SUCCESS,
+  UPDATE_SUPER_ADMINS_ERROR,
+  UPDATE_SUPER_ADMINS_PENDING,
+  UPDATE_SUPER_ADMINS_SUCCESS,
+  DELETE_SUPER_ADMINS_PENDING,
+  DELETE_SUPER_ADMINS_SUCCESS,
+  DELETE_SUPER_ADMINS_ERROR,
+  MESSAGE_MODAL_OPEN,
+  MESSAGE_MODAL_CLOSE,
+  CONFIRM_MODAL_OPEN,
+  CONFIRM_MODAL_CLOSE
 } from './constants';
 
-export const getSuperAdminPending = () => {
+export const getSuperAdminsPending = () => {
   return {
-    type: GET_SUPER_ADMIN_PENDING
+    type: GET_SUPER_ADMINS_PENDING
   };
 };
 
-export const getSuperAdminSuccess = (data) => {
+export const getSuperAdminsSuccess = (data) => {
   return {
-    type: GET_SUPER_ADMIN_SUCCESS,
+    type: GET_SUPER_ADMINS_SUCCESS,
     payload: data
   };
 };
 
-export const getSuperAdminError = (error) => {
+export const getSuperAdminsError = (error) => {
   return {
-    type: GET_SUPER_ADMIN_ERROR,
+    type: GET_SUPER_ADMINS_ERROR,
     payload: error
+  };
+};
+
+export const postSuperAdminPending = () => {
+  return {
+    type: POST_SUPER_ADMINS_PENDING
+  };
+};
+
+export const postSuperAdminSuccess = (data) => {
+  return {
+    type: POST_SUPER_ADMINS_SUCCESS,
+    payload: data
+  };
+};
+
+export const postSuperAdminError = (error) => {
+  return {
+    type: POST_SUPER_ADMINS_ERROR,
+    payload: error
+  };
+};
+
+export const updateSuperAdminPending = () => {
+  return {
+    type: UPDATE_SUPER_ADMINS_PENDING
+  };
+};
+
+export const updateSuperAdminSuccess = (data) => {
+  return {
+    type: UPDATE_SUPER_ADMINS_SUCCESS,
+    payload: data
+  };
+};
+
+export const updateSuperAdminError = (error) => {
+  return {
+    type: UPDATE_SUPER_ADMINS_ERROR,
+    payload: error
+  };
+};
+
+export const deleteSuperAdminPending = () => {
+  return {
+    type: DELETE_SUPER_ADMINS_PENDING
+  };
+};
+
+export const deleteSuperAdminSuccess = (data) => {
+  return {
+    type: DELETE_SUPER_ADMINS_SUCCESS,
+    payload: data
+  };
+};
+
+export const deleteSuperAdminError = (error) => {
+  return {
+    type: DELETE_SUPER_ADMINS_ERROR,
+    payload: error
+  };
+};
+
+export const messageModalOpen = (content) => {
+  return {
+    type: MESSAGE_MODAL_OPEN,
+    payload: content
   };
 };
 
 export const messageModalClose = () => {
   return {
-    type: CLOSE_MESSAGE_MODAL
+    type: MESSAGE_MODAL_CLOSE
+  };
+};
+
+export const confirmModalOpen = (content) => {
+  return {
+    type: CONFIRM_MODAL_OPEN,
+    payload: content
+  };
+};
+
+export const confirmModalClose = () => {
+  return {
+    type: CONFIRM_MODAL_CLOSE
   };
 };
