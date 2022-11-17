@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './modalMessage.module.css';
 
 const ModalMessage = ({ show, modalFunction, modalTitle, modalContent }) => {

@@ -1,57 +1,72 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getEmployees } from '../../redux/employees/thunks';
+import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
+import {
+  confirmModalOpen,
+  confirmModalClose,
+  messageModalClose
+} from '../../redux/employees/actions';
 import ModalConfirm from '../Shared/Modal/ModalConfirm';
 import ModalMessage from '../Shared/Modal/ModalMessage';
 import Table from '../Shared/Table/Table';
 import styles from './employees.module.css';
 
-const Employees = () => {
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
+const Employees = (props) => {
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
+
   const {
     isLoading,
     list: employeesList,
     modalContent,
-    showModalMessage
+    showModalMessage,
+    showConfirmModal
   } = useSelector((state) => state.employees);
   const dispatch = useDispatch();
 
-  //Commented so it doesn't break until the delete is done
   const modalWrapper = (id) => {
+    const content = 'Are you sure you want to delete this Employee?';
     setItemId(id);
-    // setModalContent({
-    //   title: 'CONFIRM',
-    //   content: `Are you sure you want to delete the employee with id ${id}?`
-    // });
-    setShowModalConfirm(true);
+    dispatch(confirmModalOpen(content));
+  };
+
+  const onConfirm = () => {
+    dispatch(deleteEmployee(itemId));
+    dispatch(confirmModalClose());
+  };
+
+  const onCancel = () => {
+    dispatch(confirmModalClose());
   };
 
   useEffect(() => {
     dispatch(getEmployees());
   }, []);
 
-  let delParams = {
-    id: itemId,
-    path: 'employees',
-    list: employeesList
+  const redirect = () => {
+    props.history.push('/employees');
   };
+
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS') && redirect();
+    dispatch(messageModalClose());
+  };
+
   return (
     <>
       <ModalConfirm
-        show={showModalConfirm}
-        closeModal={setShowModalConfirm}
+        show={showConfirmModal}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={delParams}
-        modalId={null}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
       <ModalMessage
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
+        modalFunction={modalFunction}
       />
       <div className={styles.container}>
         <div className={styles.title}>
