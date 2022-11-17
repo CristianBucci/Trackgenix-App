@@ -21,5 +21,4 @@ const ModalMessage = ({ show, modalFunction, modalTitle, modalContent }) => {
     )
   );
 };
-
 export default ModalMessage;
