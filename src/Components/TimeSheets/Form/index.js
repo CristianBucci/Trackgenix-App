@@ -30,7 +30,7 @@ const Form = (props) => {
   );
 
   const params = useParams();
-  const id = params.id ? params.id : '';
+  const id = params.id && params.id;
   const [timeSheetInput, setTimeSheetInput] = useState({
     description: '',
     date: '',
@@ -92,7 +92,7 @@ const Form = (props) => {
   };
 
   const modalFunction = () => {
-    modalContent.title.includes('SUCCESS') ? redirect() : null;
+    modalContent.title.includes('SUCCESS') && redirect();
     dispatch(messageModalClose());
   };
 
