@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTimesheets, deleteTimeSheet } from '../../redux/timesheets/thunks';
-import {
-  confirmModalOpen,
-  confirmModalClose,
-  messageModalClose
-} from '../../redux/timesheets/actions';
-import ModalConfirm from '../Shared/Modal/ModalConfirm';
-import ModalMessage from '../Shared/Modal/ModalMessage';
-import Table from '../Shared/Table/Table';
+import { getTimesheets, deleteTimeSheet } from 'redux/timesheets/thunks';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/timesheets/actions';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Table from 'Components/Shared/Table/Table';
 import styles from './timeSheets.module.css';
 
 const TimeSheets = (props) => {

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAdmins, deleteAdmins } from '../../redux/admins/thunks';
-import { messageModalClose, confirmModalOpen, confirmModalClose } from '../../redux/admins/actions';
-import ModalConfirm from '../Shared/Modal/ModalConfirm';
-import ModalMessage from '../Shared/Modal/ModalMessage';
-import Table from '../Shared/Table/Table';
+import { getAdmins, deleteAdmins } from 'redux/admins/thunks';
+import { messageModalClose, confirmModalOpen, confirmModalClose } from 'redux/admins/actions';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Table from 'Components/Shared/Table/Table';
 import styles from './admins.module.css';
 
 const Admins = (props) => {

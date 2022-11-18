@@ -1,19 +1,19 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTask, updateTask } from '../../../redux/tasks/thunks';
+import { createTask, updateTask } from 'redux/tasks/thunks';
 import {
   confirmModalClose,
   messageModalClose,
   createTasksPending,
   updateTasksPending,
   getTasksError
-} from '../../../redux/tasks/actions';
-import ModalConfirm from '../../Shared/Modal/ModalConfirm';
-import ModalMessage from '../../Shared/Modal/ModalMessage';
-import Input from '../../Shared/Inputs';
+} from 'redux/tasks/actions';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Input from 'Components/Shared/Inputs';
 import styles from '../tasks.module.css';
-import Buttons from '../../Shared/Button/index';
+import Buttons from 'Components/Shared/Button/index';
 
 const TasksForm = (props) => {
   const [taskInput, setTaskInput] = useState('');

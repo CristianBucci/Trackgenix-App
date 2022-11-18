@@ -7,13 +7,13 @@ import {
   confirmModalClose,
   messageModalOpen,
   messageModalClose
-} from '../../../redux/employees/actions';
-import { createEmployee, updateEmployee } from '../../../redux/employees/thunks';
+} from 'redux/employees/actions';
+import { createEmployee, updateEmployee } from 'redux/employees/thunks';
 
-import ModalConfirm from '../../Shared/Modal/ModalConfirm';
-import ModalMessage from '../../Shared/Modal/ModalMessage';
-import Input from '../../Shared/Inputs';
-import Buttons from '../../Shared/Button/index';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Input from 'Components/Shared/Inputs';
+import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
 
 function Form(props) {

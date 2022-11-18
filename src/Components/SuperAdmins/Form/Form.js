@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import ModalConfirm from '../../Shared/Modal/ModalConfirm';
-import ModalMessage from '../../Shared/Modal/ModalMessage';
-import Input from '../../Shared/Inputs';
-import Buttons from '../../Shared/Button/index';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Input from 'Components/Shared/Inputs';
+import Buttons from 'Components/Shared/Button/index';
 import styles from './Form.module.css';
 
 import { useSelector, useDispatch } from 'react-redux';
