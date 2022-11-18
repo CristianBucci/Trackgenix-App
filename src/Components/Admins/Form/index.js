@@ -7,12 +7,12 @@ import {
   messageModalClose,
   confirmModalOpen,
   confirmModalClose
-} from '../../../redux/admins/actions';
-import { createAdmins, updateAdmins } from '../../../redux/admins/thunks';
-import ModalConfirm from '../../Shared/Modal/ModalConfirm';
-import ModalMessage from '../../Shared/Modal/ModalMessage';
-import Input from '../../Shared/Inputs';
-import Buttons from '../../Shared/Button/index';
+} from 'redux/admins/actions';
+import { createAdmins, updateAdmins } from 'redux/admins/thunks';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Input from 'Components/Shared/Inputs';
+import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
 
 const Form = (props) => {

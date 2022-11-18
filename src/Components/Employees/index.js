@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
-import {
-  confirmModalOpen,
-  confirmModalClose,
-  messageModalClose
-} from '../../redux/employees/actions';
-import ModalConfirm from '../Shared/Modal/ModalConfirm';
-import ModalMessage from '../Shared/Modal/ModalMessage';
-import Table from '../Shared/Table/Table';
+import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Table from 'Components/Shared/Table/Table';
 import styles from './employees.module.css';
 
 const Employees = (props) => {

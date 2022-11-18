@@ -1,5 +1,5 @@
 import React from 'react';
-import Buttons from '../../Button/index';
+import Buttons from 'Components/Shared/Button/index';
 
 import styles from './modalConfirm.module.css';
 

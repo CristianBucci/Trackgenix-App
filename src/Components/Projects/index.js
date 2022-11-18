@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import ModalConfirm from '../Shared/Modal/ModalConfirm';
-import ModalMessage from '../Shared/Modal/ModalMessage';
-import Table from '../Shared/Table/Table';
-import { getProjects, deleteProject } from '../../redux/projects/thunks';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Table from 'Components/Shared/Table/Table';
+import { getProjects, deleteProject } from 'redux/projects/thunks';
 import styles from './projects.module.css';
-import {
-  confirmModalOpen,
-  confirmModalClose,
-  messageModalClose
-} from '../../redux/projects/actions';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
 
 const Projects = () => {
   const [itemId, setItemId] = useState(null);
