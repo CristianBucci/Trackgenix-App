@@ -1,8 +1,9 @@
 import React from 'react';
 import Buttons from '../../Button/index';
+
 import styles from './modalConfirm.module.css';
 
-const ModalConfirm = ({ show, modalTitle, modalContent, onConfirm, onCancel }) => {
+const ModalConfirm = ({ show, onCancel, onConfirm, modalTitle, modalContent }) => {
   return (
     show && (
       <div className={styles.overlay}>
