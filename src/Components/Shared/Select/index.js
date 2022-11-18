@@ -1,17 +1,31 @@
 import React from 'react';
+import styles from './select.module.css';
 
-const Select = ({ value, options, keyMap, title, fieldToShow, second, onChange, isDisabled }) => {
+const Select = ({
+  options,
+  keyMap,
+  title,
+  fieldToShow,
+  second,
+  isDisabled,
+  register,
+  name,
+  error
+}) => {
   return (
-    <select disabled={isDisabled} value={value} onChange={(event) => onChange(event.target.value)}>
-      <option>--Select {title}--</option>
-      {options?.map((option) => {
-        return (
-          <option key={option[`${keyMap}`]} value={option[`${keyMap}`]}>
-            {option[`${fieldToShow}`]} {second ? option[`${second}`] : null}
-          </option>
-        );
-      })}
-    </select>
+    <div>
+      <select disabled={isDisabled} {...register(name)}>
+        <option>--Select {title}--</option>
+        {options?.map((option) => {
+          return (
+            <option key={option[`${keyMap}`]} value={option[`${keyMap}`]}>
+              {option[`${fieldToShow}`]} {second ? option[`${second}`] : null}
+            </option>
+          );
+        })}
+      </select>
+      {error && <p className={styles.error}> {error} </p>}
+    </div>
   );
 };
 
