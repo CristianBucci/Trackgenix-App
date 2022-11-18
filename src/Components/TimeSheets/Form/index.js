@@ -18,7 +18,7 @@ import {
 import { addTimeSheet, updateTimeSheet } from '../../../redux/timesheets/thunks';
 import { getEmployees } from '../../../redux/employees/thunks';
 import { getTasks } from '../../../redux/tasks/thunks';
-import getProjects from '../../../redux/projects/thunks';
+import { getProjects } from '../../../redux/projects/thunks';
 
 import styles from './form.module.css';
 
