@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
 import { createProject, updateProject } from 'redux/projects/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -14,7 +13,6 @@ import { getEmployees } from 'redux/employees/thunks';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
-import Datepicker from 'Components/Shared/Datepicker';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
@@ -140,7 +138,7 @@ const AddProject = (props) => {
                 }}
                 placeholder={'Description'}
               />
-              <Datepicker
+              <Input
                 label={'Start Date'}
                 required
                 name="start date"
@@ -150,7 +148,7 @@ const AddProject = (props) => {
                   setProjectInput({ ...projectInput, startDate: e.target.value });
                 }}
               />
-              <Datepicker
+              <Input
                 label={'End Date'}
                 required
                 name="end date"

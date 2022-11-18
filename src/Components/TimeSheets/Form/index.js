@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm/index';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage/index';
 import Input from 'Components/Shared/Inputs';
-import Datepicker from 'Components/Shared/Datepicker';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 
@@ -134,7 +133,7 @@ const Form = (props) => {
               }}
               placeholder={'Description'}
             />
-            <Datepicker
+            <Input
               label={'Date'}
               required
               name="date"
