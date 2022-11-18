@@ -39,6 +39,6 @@
   color: #ccc;
 }
 
-p {
-  color: #ff0000;
+.inputError {
+  color:#ff0404
 }

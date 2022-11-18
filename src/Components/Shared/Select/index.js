@@ -24,7 +24,7 @@ const Select = ({
           );
         })}
       </select>
-      {error && <p className={styles.error}> {error} </p>}
+      {error && <p className={styles.selectError}> {error} </p>}
     </div>
   );
 };

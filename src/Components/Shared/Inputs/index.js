@@ -15,7 +15,7 @@ const Input = ({ label, disabled, id, register, name, required, placeholder, typ
         placeholder={placeholder}
         type={type}
       />
-      {error && <p> {error} </p>}
+      {error && <p className={styles.inputError}> {error} </p>}
     </div>
   );
 };
