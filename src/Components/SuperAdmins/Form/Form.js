@@ -7,52 +7,55 @@ import Buttons from 'Components/Shared/Button/index';
 import styles from './Form.module.css';
 
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  confirmModalOpen,
-  messageModalOpen,
-  confirmModalClose,
-  messageModalClose
-} from 'redux/super-admins/actions';
-import { createSuperAdmin, updateSuperAdmin } from 'redux/super-admins/thunks';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/super-admins/actions';
+import { createSuperAdmin, updateSuperAdmin, getByIdSuperAdmins } from 'redux/super-admins/thunks';
+
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { superAdminsValidationSchema } from './validations';
 
 const Form = (props) => {
   const dispatch = useDispatch();
 
-  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
-    (state) => state.superAdmins
-  );
+  const {
+    modalContent,
+    showModalMessage,
+    showConfirmModal,
+    item: superAdmin
+  } = useSelector((state) => state.superAdmins);
 
   const params = useParams();
   const id = params.id ? params.id : '';
+
   const [superAdminInput, setSuperAdminInput] = useState({
     name: '',
     lastName: '',
     email: '',
     password: ''
   });
-  const [formText, setFormText] = useState('Add SuperAdmin');
 
-  useEffect(async () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset
+  } = useForm({ mode: 'onChange', resolver: joiResolver(superAdminsValidationSchema) });
+
+  useEffect(() => {
     if (id) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`);
-        const json = await response.json();
-        setFormText('Update SuperAdmin');
-        setSuperAdminInput({
-          name: json.data.name,
-          lastName: json.data.lastName,
-          email: json.data.email,
-          password: json.data.password
-        });
-      } catch (error) {
-        dispatch(
-          messageModalOpen({ title: 'ERROR', content: `Could not GET superAdmin. ${error}` })
-        );
-      }
-    } else {
-      return null;
+      dispatch(getByIdSuperAdmins(id));
     }
   }, []);
+
+  useEffect(() => {
+    if (superAdmin && id) {
+      setValue('name', superAdmin.name);
+      setValue('lastName', superAdmin.lastName);
+      setValue('email', superAdmin.email);
+      setValue('password', superAdmin.password);
+    }
+  }, [superAdmin]);
 
   const onConfirm = () => {
     id
@@ -74,15 +77,20 @@ const Form = (props) => {
   };
 
   const onSubmit = (e) => {
-    e.preventDefault();
+    setSuperAdminInput({
+      name: e.name,
+      lastName: e.lastName,
+      email: e.email,
+      password: e.password
+    });
     const content = `Are you sure you want to ${
       id ? 'edit the superAdmin with id ' + id : 'create a new superAdmin'
     }?`;
     dispatch(confirmModalOpen(content));
   };
 
-  const onChange = (e) => {
-    setSuperAdminInput({ ...superAdminInput, [e.target.name]: e.target.value });
+  const resetForm = () => {
+    id ? reset(superAdmin) : reset(superAdminInput);
   };
 
   return (
@@ -106,46 +114,47 @@ const Form = (props) => {
             <h2>Super Admins</h2>
           </div>
         </div>
-        <form onSubmit={onSubmit} className={styles.form}>
-          {<div className={styles.cardTitle}>{formText}</div>}
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          {
+            <div className={styles.cardTitle}>
+              {id ? 'Update Super Admin' : 'Add new Super Admin'}
+            </div>
+          }
           <Input
+            register={register}
             label={'First Name'}
             name="name"
-            required
             type="text"
-            value={superAdminInput.name}
-            onChange={onChange}
+            error={errors.name?.message}
             placeholder={'First Name'}
           />
           <Input
+            register={register}
             label={'Last Name'}
             name="lastName"
-            required
             type="text"
-            value={superAdminInput.lastName}
-            onChange={onChange}
+            error={errors.lastName?.message}
             placeholder={'Last Name'}
           />
           <Input
+            register={register}
             label={'Email'}
             name="email"
-            required
             type="text"
-            value={superAdminInput.email}
-            onChange={onChange}
+            error={errors.email?.message}
             placeholder={'Email'}
           />
           <Input
+            register={register}
             label={'Password'}
             name="password"
-            required
             type="password"
-            value={superAdminInput.password}
-            onChange={onChange}
+            error={errors.password?.message}
             placeholder={'Password'}
           />
           <div className={styles.submit}>
             <Buttons type="submit" variant="primary" name="Confirm" />
+            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
             <Link to={'/super-admins'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
