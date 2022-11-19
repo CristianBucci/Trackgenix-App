@@ -18,7 +18,12 @@ const Form = (props) => {
   const params = useParams();
   const id = params.Id ? params.Id : '';
   const [formText, setFormText] = useState('Add Admins');
-  const [adminData, setAdminData] = useState('');
+  const [adminData, setAdminData] = useState({
+    name: '',
+    lastName: '',
+    email: '',
+    password: ''
+  });
 
   const { admin, modalContent, showConfirmModal, showModalMessage } = useSelector(
     (state) => state.admins
@@ -28,6 +33,7 @@ const Form = (props) => {
     handleSubmit,
     register,
     formState: { errors },
+    setValue,
     reset
   } = useForm({
     mode: 'onChange',
@@ -45,7 +51,12 @@ const Form = (props) => {
 
   useEffect(() => {
     if (admin && id) {
-      reset({
+      setValue('name', admin.name);
+      setValue('lastName', admin.lastName);
+      setValue('email', admin.email);
+      setValue('password', admin.password);
+
+      setAdminData({
         name: admin.name,
         lastName: admin.lastName,
         email: admin.email,
@@ -71,16 +82,22 @@ const Form = (props) => {
     dispatch(messageModalClose());
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = (event) => {
+    setAdminData({
+      name: event.name,
+      lastName: event.lastName,
+      email: event.email,
+      password: event.password
+    });
+
     const content = `Are you sure you want to ${
       id ? 'edit the Admins with id ' + id : 'create a new Admins'
     }?`;
     dispatch(confirmModalOpen(content));
-    setAdminData(data);
   };
 
-  const resetinputs = () => {
-    id ? reset(admin) : reset();
+  const resetInputs = () => {
+    reset(adminData);
   };
 
   return (
@@ -134,11 +151,11 @@ const Form = (props) => {
             error={errors.password?.message}
           />
           <div>
-            <Buttons type="submit" variant="primary" name="Confirm" />
             <Link to={'/admins'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
-            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetinputs()} />
+            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetInputs()} />
+            <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
         </form>
       </div>
