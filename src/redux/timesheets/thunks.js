@@ -2,6 +2,9 @@ import {
   getTimesheetsPending,
   getTimesheetsSuccess,
   getTimesheetsError,
+  getByIdTimesheetsPending,
+  getByIdTimesheetsSuccess,
+  getByIdTimesheetsError,
   deleteTimesheetsPending,
   deleteTimesheetsSuccess,
   deleteTimesheetsError,
@@ -22,6 +25,23 @@ export const getTimesheets = () => {
       dispatch(getTimesheetsSuccess(data.data));
     } catch (error) {
       dispatch(getTimesheetsError(error.toString()));
+    }
+  };
+};
+
+export const getByIdTimesheet = (id) => {
+  return async (dispatch) => {
+    dispatch(getByIdTimesheetsPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`);
+      const data = await response.json();
+      if (response.status == 200) {
+        dispatch(getByIdTimesheetsSuccess(data.data));
+      } else {
+        dispatch(getByIdTimesheetsError(data.msg.toString()));
+      }
+    } catch (error) {
+      dispatch(getByIdTimesheetsError(error.toString()));
     }
   };
 };
