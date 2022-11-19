@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { createProject, updateProject } from 'redux/projects/thunks';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { createProject, updateProject, getByIdProjects } from 'redux/projects/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  confirmModalOpen,
-  messageModalOpen,
-  confirmModalClose,
-  messageModalClose
-} from 'redux/projects/actions';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
 import { getEmployees } from 'redux/employees/thunks';
+import { projectsSchema } from './validations';
 
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
@@ -20,10 +17,21 @@ import styles from './form.module.css';
 
 const AddProject = (props) => {
   const dispatch = useDispatch();
-  const { handleSubmit, register } = useForm();
-  const { modalContent, showModalMessage, showConfirmModal, isLoading } = useSelector(
-    (state) => state.projects
-  );
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors }
+  } = useForm({ mode: 'onChange', resolver: joiResolver(projectsSchema) });
+
+  const {
+    modalContent,
+    showModalMessage,
+    showConfirmModal,
+    isLoading,
+    item: project
+  } = useSelector((state) => state.projects);
+
   const { list: employees } = useSelector((state) => state.employees);
   const params = useParams();
   const id = params.id && params.id;
@@ -78,20 +86,37 @@ const AddProject = (props) => {
 
   useEffect(async () => {
     if (id) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-          method: 'GET'
-        });
-        const json = await response.json();
-        setFormText('Update Project');
-        setEmployeesProject(json.data.employees);
-      } catch (error) {
-        dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET Project. ${error}` }));
-      }
-    } else {
-      return null;
+      setFormText('Update Project');
+      dispatch(getByIdProjects(id));
     }
   }, []);
+
+  useEffect(() => {
+    if (project && id) {
+      setProjectInput({
+        name: project.name,
+        description: project.description,
+        startDate: fixDate(project.startDate),
+        endDate: fixDate(project.endDate),
+        clientName: project.clientName
+      });
+      setEmployeesProject([
+        {
+          employeeId: project.employees[0].employeeId,
+          rate: project.employees[0].rate,
+          role: project.employees[0].role
+        }
+      ]);
+      setValue('name', project.name);
+      setValue('description', project.description);
+      setValue('startDate', fixDate(project.startDate));
+      setValue('endDate', fixDate(project.endDate));
+      setValue('clientName', project.clientName);
+      setValue('employeeId', project.employees[0].employeeId);
+      setValue('employeeRate', project.employees[0].rate);
+      setValue('employeeRole', project.employees[0].role);
+    }
+  }, [project]);
 
   const fixDate = (date) => {
     let dateFormated = date.substr(0, 10);
@@ -125,6 +150,7 @@ const AddProject = (props) => {
                 type="text"
                 placeholder={'Project Name'}
                 register={register}
+                error={errors.name?.message}
               />
               <Input
                 label={'Description'}
@@ -133,6 +159,7 @@ const AddProject = (props) => {
                 type="text"
                 placeholder={'Description'}
                 register={register}
+                error={errors.description?.message}
               />
               <Input
                 label={'Start Date'}
@@ -140,8 +167,16 @@ const AddProject = (props) => {
                 name="startDate"
                 type="date"
                 register={register}
+                error={errors.startDate?.message}
               />
-              <Input label={'End Date'} required name="endDate" type="date" register={register} />
+              <Input
+                label={'End Date'}
+                required
+                name="endDate"
+                type="date"
+                register={register}
+                error={errors.endDate?.message}
+              />
               <Input
                 label={'Client Name'}
                 name="clientName"
@@ -149,6 +184,7 @@ const AddProject = (props) => {
                 type="text"
                 placeholder={'Client Name'}
                 register={register}
+                error={errors.clientName?.message}
               />
               <div className={styles.card}>
                 {employeesProject?.map((option, index) => {
@@ -164,6 +200,7 @@ const AddProject = (props) => {
                         isDisabled={false}
                         name="employeeId"
                         register={register}
+                        error={errors.employeeId?.message}
                       ></Select>
                       <Input
                         label={'Rate'}
@@ -172,6 +209,7 @@ const AddProject = (props) => {
                         type="number"
                         placeholder={'Rate'}
                         register={register}
+                        error={errors.employeeRate?.message}
                       />
                       <label>Role</label>
                       <Select
@@ -182,6 +220,7 @@ const AddProject = (props) => {
                         isDisabled={false}
                         name="employeeRole"
                         register={register}
+                        error={errors.employeeRole?.message}
                       ></Select>
                       <button
                         type="button"
