@@ -2,6 +2,9 @@ import {
   GET_SUPER_ADMINS_PENDING,
   GET_SUPER_ADMINS_SUCCESS,
   GET_SUPER_ADMINS_ERROR,
+  GET_BY_ID_SUPER_ADMINS_PENDING,
+  GET_BY_ID_SUPER_ADMINS_SUCCESS,
+  GET_BY_ID_SUPER_ADMINS_ERROR,
   POST_SUPER_ADMINS_ERROR,
   POST_SUPER_ADMINS_PENDING,
   POST_SUPER_ADMINS_SUCCESS,
@@ -33,6 +36,25 @@ export const getSuperAdminsSuccess = (data) => {
 export const getSuperAdminsError = (error) => {
   return {
     type: GET_SUPER_ADMINS_ERROR,
+    payload: error
+  };
+};
+export const getByIdSuperAdminsPending = () => {
+  return {
+    type: GET_BY_ID_SUPER_ADMINS_PENDING
+  };
+};
+
+export const getByIdSuperAdminsSucces = (data) => {
+  return {
+    type: GET_BY_ID_SUPER_ADMINS_SUCCESS,
+    payload: data
+  };
+};
+
+export const getByIdSuperAdminsError = (error) => {
+  return {
+    type: GET_BY_ID_SUPER_ADMINS_ERROR,
     payload: error
   };
 };

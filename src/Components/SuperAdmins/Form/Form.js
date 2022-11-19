@@ -12,8 +12,8 @@ import {
   messageModalOpen,
   confirmModalClose,
   messageModalClose
-} from '../../../redux/super-admins/actions';
-import { createSuperAdmin, updateSuperAdmin } from '../../../redux/super-admins/thunks';
+} from 'redux/super-admins/actions';
+import { createSuperAdmin, updateSuperAdmin } from 'redux/super-admins/thunks';
 
 const Form = (props) => {
   const dispatch = useDispatch();
