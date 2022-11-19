@@ -2,6 +2,9 @@ import {
   getTasksPending,
   getTasksSuccess,
   getTasksError,
+  getByIdTaskPending,
+  getByIdTaskSuccess,
+  getByIdTaskError,
   deleteTasksSuccess,
   deleteTasksError,
   createTasksSuccess,
@@ -19,6 +22,24 @@ export const getTasks = () => {
       dispatch(getTasksSuccess(data.data));
     } catch (error) {
       dispatch(getTasksError(error.toString()));
+    }
+  };
+};
+
+export const getByIdTask = (id) => {
+  return async (dispatch) => {
+    dispatch(getByIdTaskPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`);
+      const data = await response.json();
+      if (response.status == 200) {
+        dispatch(getByIdTaskSuccess(data.data));
+      } else {
+        const data = await response.json();
+        dispatch(getByIdTaskError(data.msg.toString()));
+      }
+    } catch (error) {
+      dispatch(getByIdTaskError(error.toString()));
     }
   };
 };

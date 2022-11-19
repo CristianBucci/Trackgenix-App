@@ -2,6 +2,9 @@ import {
   GET_TASKS_ERROR,
   GET_TASKS_PENDING,
   GET_TASKS_SUCCESS,
+  GETBYID_TASK_ERROR,
+  GETBYID_TASK_PENDING,
+  GETBYID_TASK_SUCCESS,
   DELETE_TASKS_ERROR,
   DELETE_TASKS_PENDING,
   DELETE_TASKS_SUCCESS,
@@ -48,6 +51,24 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
         isLoading: false
       };
     }
+    case GETBYID_TASK_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case GETBYID_TASK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        task: action.payload
+      };
+    case GETBYID_TASK_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        modalContent: { title: 'ERROR!', content: `Could not GET Task! ${action.payload}` },
+        showModalMessage: true
+      };
     case DELETE_TASKS_PENDING: {
       return {
         ...state,
