@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  messageModalOpen,
-  messageModalClose,
-  confirmModalOpen,
-  confirmModalClose
-} from 'redux/admins/actions';
-import { createAdmins, updateAdmins } from 'redux/admins/thunks';
+import { messageModalClose, confirmModalOpen, confirmModalClose } from 'redux/admins/actions';
+import { createAdmins, updateAdmins, getByIdAdmin } from 'redux/admins/thunks';
+import { useForm } from 'react-hook-form';
+import { Schema } from './validatons';
+import { joiResolver } from '@hookform/resolvers/joi';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
@@ -17,39 +15,58 @@ import styles from './form.module.css';
 
 const Form = (props) => {
   const dispatch = useDispatch();
-  const { modalContent, showConfirmModal, showModalMessage } = useSelector((state) => state.admins);
   const params = useParams();
   const id = params.Id ? params.Id : '';
-  const [adminsInput, setAdminsInput] = useState({
+  const [formText, setFormText] = useState('Add Admins');
+  const [adminData, setAdminData] = useState({
     name: '',
     lastName: '',
     email: '',
     password: ''
   });
-  const [formText, setFormText] = useState('Add Admins');
+
+  const { admin, modalContent, showConfirmModal, showModalMessage } = useSelector(
+    (state) => state.admins
+  );
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    setValue,
+    reset
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(Schema)
+  });
 
   useEffect(async () => {
     if (id) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`);
-        const json = await response.json();
-        setFormText('Update Admins');
-        setAdminsInput({
-          name: json.data.name,
-          lastName: json.data.lastName,
-          email: json.data.email,
-          password: json.data.password
-        });
-      } catch (error) {
-        dispatch(messageModalOpen({ title: 'Error', content: `Could not GET Admins ${error}` }));
-      }
+      setFormText('Update Admins');
+      dispatch(getByIdAdmin(id));
     } else {
       return null;
     }
   }, []);
 
+  useEffect(() => {
+    if (admin && id) {
+      setValue('name', admin.name);
+      setValue('lastName', admin.lastName);
+      setValue('email', admin.email);
+      setValue('password', admin.password);
+
+      setAdminData({
+        name: admin.name,
+        lastName: admin.lastName,
+        email: admin.email,
+        password: admin.password
+      });
+    }
+  }, [admin]);
+
   const onConfirm = () => {
-    id ? dispatch(updateAdmins(adminsInput, id)) : dispatch(createAdmins(adminsInput));
+    id ? dispatch(updateAdmins(adminData, id)) : dispatch(createAdmins(adminData));
   };
 
   const onCancel = () => {
@@ -65,16 +82,22 @@ const Form = (props) => {
     dispatch(messageModalClose());
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (event) => {
+    setAdminData({
+      name: event.name,
+      lastName: event.lastName,
+      email: event.email,
+      password: event.password
+    });
+
     const content = `Are you sure you want to ${
       id ? 'edit the Admins with id ' + id : 'create a new Admins'
     }?`;
     dispatch(confirmModalOpen(content));
   };
 
-  const onChange = (e) => {
-    setAdminsInput({ ...adminsInput, [e.target.name]: e.target.value });
+  const resetInputs = () => {
+    reset(adminData);
   };
 
   return (
@@ -93,49 +116,46 @@ const Form = (props) => {
         modalFunction={modalFunction}
       />
       <div>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {<div className={styles.cardTitle}>{formText}</div>}
           <Input
             label={'Name'}
             type="text"
             name="name"
-            required
-            value={adminsInput.name}
-            onChange={onChange}
             placeholder={'Name'}
+            register={register}
+            error={errors.name?.message}
           />
           <Input
             label={'Last Name'}
             type="text"
             name="lastName"
-            required
-            value={adminsInput.lastName}
-            onChange={onChange}
             placeholder={'Last Name'}
+            register={register}
+            error={errors.lastName?.message}
           />
           <Input
             label={'Email'}
             type="text"
             name="email"
-            required
-            value={adminsInput.email}
-            onChange={onChange}
             placeholder={'Email'}
+            register={register}
+            error={errors.email?.message}
           />
           <Input
             label={'Password'}
             type="password"
             name="password"
-            required
-            value={adminsInput.password}
-            onChange={onChange}
             placeholder={'Password'}
+            register={register}
+            error={errors.password?.message}
           />
           <div>
-            <Buttons type="submit" variant="primary" name="Confirm" />
             <Link to={'/admins'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
+            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetInputs()} />
+            <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
         </form>
       </div>

@@ -2,6 +2,9 @@ import {
   getAdminsPending,
   getAdminsSuccess,
   getAdminsError,
+  getByIdAdminsPending,
+  getByIdAdminsSuccess,
+  getByIdAdminsError,
   createAdminsPending,
   createAdminsSuccess,
   createAdminsError,
@@ -22,6 +25,24 @@ export const getAdmins = () => {
       dispatch(getAdminsSuccess(json.data));
     } catch (error) {
       dispatch(getAdminsError(error.toString()));
+    }
+  };
+};
+
+export const getByIdAdmin = (id) => {
+  return async (dispatch) => {
+    dispatch(getByIdAdminsPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`);
+      const data = await response.json();
+      if (response.status == 200) {
+        dispatch(getByIdAdminsSuccess(data.data));
+      } else {
+        const data = await response.json();
+        dispatch(getByIdAdminsError(data.msg.toString()));
+      }
+    } catch (error) {
+      dispatch(getByIdAdminsError(error.toString()));
     }
   };
 };
