@@ -22,8 +22,7 @@ export const employeeSchema = Joi.object({
     .required()
     .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
     .messages({
-      'string.pattern.base':
-        'Must contain has to contain letters and numbers and 8 characters long.'
+      'string.pattern.base': 'Must contain letters, numbers and at least 8 characters long.'
     }),
   phone: Joi.string()
     .required()
