@@ -59,7 +59,7 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        list: action.payload
+        item: action.payload
       };
     case GETBYID_EMPLOYEES_ERROR:
       return {

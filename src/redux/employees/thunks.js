@@ -91,7 +91,7 @@ export const createEmployee = (newEmployee) => {
   };
 };
 
-export const updateEmployee = (data, id) => {
+export const updateEmployee = (id, data) => {
   return async (dispatch) => {
     dispatch(putEmployeePending());
     try {

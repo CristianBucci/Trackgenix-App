@@ -2,13 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  // confirmModalOpen,
-  confirmModalClose,
-  messageModalOpen,
-  messageModalClose
-} from 'redux/employees/actions';
-import { createEmployee, updateEmployee } from 'redux/employees/thunks';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
+import { getByIdEmployee, updateEmployee, createEmployee } from 'redux/employees/thunks';
 
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
@@ -21,12 +16,6 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
 
 function Form(props) {
-  const dispatch = useDispatch();
-  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
-    (state) => state.employees
-  );
-  const params = useParams();
-  const id = params.id && params.id;
   const [formValues, setFormValues] = useState({
     name: '',
     lastName: '',
@@ -35,28 +24,46 @@ function Form(props) {
     phone: ''
   });
 
-  useEffect(async () => {
+  const dispatch = useDispatch();
+  const {
+    item: employee,
+    modalContent,
+    showModalMessage,
+    showConfirmModal
+  } = useSelector((state) => state.employees);
+
+  const params = useParams();
+  const id = params.id && params.id;
+
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors },
+    reset
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(employeeSchema)
+  });
+
+  useEffect(() => {
     if (id) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id ? id : ''}`);
-        const data = await response.json();
-        setFormValues({
-          name: data.data.name,
-          lastName: data.data.lastName,
-          email: data.data.email,
-          password: data.data.password,
-          phone: data.data.phone
-        });
-      } catch (error) {
-        dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET employee. ${error}` }));
-      }
-    } else {
-      return null;
+      dispatch(getByIdEmployee(id));
     }
   }, []);
 
+  useEffect(() => {
+    if (employee && id) {
+      setValue('name', employee.name);
+      setValue('lastName', employee.lastName);
+      setValue('email', employee.email);
+      setValue('password', employee.password);
+      setValue('phone', employee.phone);
+    }
+  }, [employee]);
+
   const onConfirm = () => {
-    id ? dispatch(updateEmployee(formValues, id)) : dispatch(createEmployee(formValues));
+    id ? dispatch(updateEmployee(id, formValues)) : dispatch(createEmployee(formValues));
   };
 
   const onCancel = () => {
@@ -67,32 +74,32 @@ function Form(props) {
     props.history.push('/employees');
   };
 
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   const content = `Are you sure you want to ${
-  //     id ? 'edit the employee with id ' + id : 'create a new employee'
-  //   }?`;
-  //   dispatch(confirmModalOpen(content));
-  // };
+  const onSubmit = (event) => {
+    setFormValues({
+      name: event.name,
+      lastName: event.lastName,
+      email: event.email,
+      password: event.password,
+      phone: event.phone
+    });
+
+    const content = `Are you sure you want to ${
+      id ? 'edit the employee with id ' + id : 'create a new employee'
+    }?`;
+    dispatch(confirmModalOpen(content));
+  };
 
   const modalFunction = () => {
     modalContent.title.includes('SUCCESS') && redirect();
     dispatch(messageModalClose());
   };
 
-  console.log(employeeSchema);
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors }
-  } = useForm({
-    mode: 'onChange',
-    resolver: joiResolver(employeeSchema)
-  });
-
-  const onSubmit = (data) => {
-    console.log(data);
+  const resetForm = () => {
+    if (id) {
+      reset(employee);
+    } else {
+      reset(formValues);
+    }
   };
 
   return (
@@ -154,10 +161,11 @@ function Form(props) {
             placeholder={'Phone'}
           />
           <div>
-            <Buttons type="submit" variant="primary" name="Confirm" />
             <Link to={'/employees'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
+            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+            <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
         </form>
       </div>
