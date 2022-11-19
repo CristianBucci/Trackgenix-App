@@ -14,32 +14,27 @@ import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
+import { useForm } from 'react-hook-form';
+import Joi from 'joi';
+import { joiResolver } from '@hookform/resolvers/joi';
 
 const Form = (props) => {
   const dispatch = useDispatch();
   const { modalContent, showConfirmModal, showModalMessage } = useSelector((state) => state.admins);
   const params = useParams();
   const id = params.Id ? params.Id : '';
-  const [adminsInput, setAdminsInput] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    password: ''
-  });
   const [formText, setFormText] = useState('Add Admins');
 
   useEffect(async () => {
     if (id) {
+      reset({
+        name: 'Cristian'
+      });
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`);
         const json = await response.json();
         setFormText('Update Admins');
-        setAdminsInput({
-          name: json.data.name,
-          lastName: json.data.lastName,
-          email: json.data.email,
-          password: json.data.password
-        });
+        console.log(json);
       } catch (error) {
         dispatch(messageModalOpen({ title: 'Error', content: `Could not GET Admins ${error}` }));
       }
@@ -48,8 +43,33 @@ const Form = (props) => {
     }
   }, []);
 
+  const Schema = Joi.object({
+    name: Joi.string()
+      .pattern(/^[\p{L}]+$/u)
+      .min(3)
+      .required(),
+    lastName: Joi.string()
+      .pattern(/^[\p{L}]+$/u)
+      .min(3)
+      .required(),
+    email: Joi.string().email({ tlds: { allow: false } }),
+    password: Joi.string()
+      .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+      .required()
+  });
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(Schema)
+  });
+
   const onConfirm = () => {
-    id ? dispatch(updateAdmins(adminsInput, id)) : dispatch(createAdmins(adminsInput));
+    id ? dispatch(updateAdmins(id)) : dispatch(createAdmins());
   };
 
   const onCancel = () => {
@@ -65,16 +85,11 @@ const Form = (props) => {
     dispatch(messageModalClose());
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     const content = `Are you sure you want to ${
       id ? 'edit the Admins with id ' + id : 'create a new Admins'
     }?`;
     dispatch(confirmModalOpen(content));
-  };
-
-  const onChange = (e) => {
-    setAdminsInput({ ...adminsInput, [e.target.name]: e.target.value });
   };
 
   return (
@@ -93,43 +108,39 @@ const Form = (props) => {
         modalFunction={modalFunction}
       />
       <div>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {<div className={styles.cardTitle}>{formText}</div>}
           <Input
             label={'Name'}
             type="text"
             name="name"
-            required
-            value={adminsInput.name}
-            onChange={onChange}
             placeholder={'Name'}
+            register={register}
+            error={errors.name?.message}
           />
           <Input
             label={'Last Name'}
             type="text"
             name="lastName"
-            required
-            value={adminsInput.lastName}
-            onChange={onChange}
             placeholder={'Last Name'}
+            register={register}
+            error={errors.lastName?.message}
           />
           <Input
             label={'Email'}
             type="text"
             name="email"
-            required
-            value={adminsInput.email}
-            onChange={onChange}
             placeholder={'Email'}
+            register={register}
+            error={errors.email?.message}
           />
           <Input
             label={'Password'}
             type="password"
             name="password"
-            required
-            value={adminsInput.password}
-            onChange={onChange}
             placeholder={'Password'}
+            register={register}
+            error={errors.password?.message}
           />
           <div>
             <Buttons type="submit" variant="primary" name="Confirm" />
