@@ -59,6 +59,14 @@ function Form(props) {
       setValue('email', employee.email);
       setValue('password', employee.password);
       setValue('phone', employee.phone);
+
+      setFormValues({
+        name: employee.name,
+        lastName: employee.lastName,
+        email: employee.email,
+        password: employee.password,
+        phone: employee.phone
+      });
     }
   }, [employee]);
 
@@ -95,11 +103,7 @@ function Form(props) {
   };
 
   const resetForm = () => {
-    if (id) {
-      reset(employee);
-    } else {
-      reset(formValues);
-    }
+    reset(formValues);
   };
 
   return (
