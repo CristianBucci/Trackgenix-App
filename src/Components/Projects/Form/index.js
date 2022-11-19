@@ -20,6 +20,7 @@ const AddProject = (props) => {
     handleSubmit,
     register,
     setValue,
+    reset,
     formState: { errors }
   } = useForm({ mode: 'onChange', resolver: joiResolver(projectsSchema) });
 
@@ -108,6 +109,10 @@ const AddProject = (props) => {
     return dateFormated;
   };
 
+  const resetForm = () => {
+    reset();
+  };
+
   return (
     <>
       <ModalConfirm
@@ -185,7 +190,7 @@ const AddProject = (props) => {
                         isDisabled={false}
                         name={`employees[${index}].employeeId`}
                         register={register}
-                        error={errors.employeeId?.message}
+                        error={errors.employees && errors.employees[index].employeeId?.message}
                       ></Select>
                       <Input
                         label={'Rate'}
@@ -194,7 +199,7 @@ const AddProject = (props) => {
                         type="number"
                         placeholder={'Rate'}
                         register={register}
-                        error={errors.employeeRate?.message}
+                        error={errors.employees && errors.employees[index].rate?.message}
                       />
                       <label>Role</label>
                       <Select
@@ -205,7 +210,7 @@ const AddProject = (props) => {
                         isDisabled={false}
                         name={`employees[${index}].role`}
                         register={register}
-                        error={errors.employeeRole?.message}
+                        error={errors.employees && errors.employees[index].role?.message}
                       ></Select>
                       <button
                         type="button"
@@ -245,6 +250,7 @@ const AddProject = (props) => {
             </div>
             <div>
               <Buttons type="submit" variant="primary" name="Confirm" />
+              <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
               <Buttons
                 variant="secondary"
                 name="Cancel"
