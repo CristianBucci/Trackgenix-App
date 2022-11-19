@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm/index';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage/index';
 import Input from 'Components/Shared/Inputs';
-// import Select from 'Components/Shared/Select/index';
+import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
 
@@ -40,9 +40,9 @@ const Form = (props) => {
     project: ''
   });
 
-  // const { list: employees } = useSelector((state) => state.employees);
-  // const { list: tasks } = useSelector((state) => state.tasks);
-  // const { list: projects } = useSelector((state) => state.projects);
+  const { list: employees } = useSelector((state) => state.employees);
+  const { list: tasks } = useSelector((state) => state.tasks);
+  const { list: projects } = useSelector((state) => state.projects);
 
   const {
     handleSubmit,
@@ -70,15 +70,21 @@ const Form = (props) => {
   useEffect(() => {
     if (timesheet && id) {
       setValue('description', timesheet.description);
-      setValue('date', timesheet.date);
+      setValue('date', fixDate(timesheet.date));
       setValue('hours', timesheet.hours);
-      setValue('task', timesheet.task);
-      setValue('employee', timesheet.employee);
-      setValue('project', timesheet.project);
+      if (timesheet.task) {
+        setValue('task', timesheet.task._id);
+      }
+      if (timesheet.employee) {
+        setValue('employee', timesheet.employee._id);
+      }
+      if (timesheet.project) {
+        setValue('project', timesheet.project._id);
+      }
 
       setTimeSheetInput({
         description: timesheet.description,
-        date: timesheet.date,
+        date: fixDate(timesheet.date),
         hours: timesheet.hours,
         task: timesheet.task,
         employee: timesheet.employee,
@@ -87,6 +93,11 @@ const Form = (props) => {
     }
     console.log(timesheet);
   }, [timesheet]);
+
+  const fixDate = (date) => {
+    let dateFormated = date.substr(0, 10);
+    return dateFormated;
+  };
 
   const onConfirm = () => {
     id ? dispatch(updateTimeSheet(timeSheetInput, id)) : dispatch(addTimeSheet(timeSheetInput));
@@ -156,7 +167,7 @@ const Form = (props) => {
               label={'Date'}
               name="date"
               type="date"
-              error={errors.description?.message}
+              error={errors.date?.message}
             />
             <Input
               register={register}
@@ -166,7 +177,7 @@ const Form = (props) => {
               error={errors.hours?.message}
               placeholder={'Hours'}
             />
-            {/* <div className={styles.cardField}>
+            <div className={styles.cardField}>
               <label>Task</label>
               <Select
                 register={register}
@@ -174,11 +185,12 @@ const Form = (props) => {
                 options={tasks}
                 keyMap={'_id'}
                 title={'Task'}
+                name={'task'}
                 fieldToShow={'description'}
-                error={errors.task?.message}
+                error={errors.tasks?.message}
               />
-            </div> */}
-            {/* <div className={styles.cardField}>
+            </div>
+            <div className={styles.cardField}>
               <label>Employee</label>
               <Select
                 register={register}
@@ -188,8 +200,9 @@ const Form = (props) => {
                 title={'Employee'}
                 fieldToShow={'name'}
                 second={'lastName'}
-                error={errors.employee?.message}
-              ></Select>
+                name={'employee'}
+                error={errors.employees?.message}
+              />
             </div>
             <div className={styles.cardField}>
               <label>Project</label>
@@ -200,9 +213,10 @@ const Form = (props) => {
                 keyMap={'_id'}
                 title={'Project'}
                 fieldToShow={'name'}
-                error={errors.project?.message}
-              ></Select>
-            </div> */}
+                name={'project'}
+                error={errors.projects?.message}
+              />
+            </div>
             <div className={styles.cardButton}>
               <Buttons
                 variant="secondary"
