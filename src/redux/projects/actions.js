@@ -14,7 +14,10 @@ import {
   MESSAGE_MODAL_OPEN,
   MESSAGE_MODAL_CLOSE,
   CONFIRM_MODAL_OPEN,
-  CONFIRM_MODAL_CLOSE
+  CONFIRM_MODAL_CLOSE,
+  GET_BY_ID_PROJECT_PENDING,
+  GET_BY_ID_PROJECT_SUCCESS,
+  GET_BY_ID_PROJECT_ERROR
 } from './constants';
 
 export const getProjectsPending = () => {
@@ -33,6 +36,26 @@ export const getProjectsSuccess = (data) => {
 export const getProjectsError = (error) => {
   return {
     type: GET_PROJECTS_ERROR,
+    payload: error
+  };
+};
+
+export const getByIdProjectsPending = () => {
+  return {
+    type: GET_BY_ID_PROJECT_PENDING
+  };
+};
+
+export const getByIdProjectsSuccess = (data) => {
+  return {
+    type: GET_BY_ID_PROJECT_SUCCESS,
+    payload: data
+  };
+};
+
+export const getByIdProjectsError = (error) => {
+  return {
+    type: GET_BY_ID_PROJECT_ERROR,
     payload: error
   };
 };

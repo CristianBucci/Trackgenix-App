@@ -14,7 +14,10 @@ import {
   MESSAGE_MODAL_OPEN,
   MESSAGE_MODAL_CLOSE,
   CONFIRM_MODAL_OPEN,
-  CONFIRM_MODAL_CLOSE
+  CONFIRM_MODAL_CLOSE,
+  GET_BY_ID_PROJECT_PENDING,
+  GET_BY_ID_PROJECT_SUCCESS,
+  GET_BY_ID_PROJECT_ERROR
 } from './constants';
 
 const INITIAL_STATE = {
@@ -44,6 +47,24 @@ const projectsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         modalContent: { title: 'ERROR!', content: `Could not GET projects!\n${action.payload}` },
+        showModalMessage: true
+      };
+    case GET_BY_ID_PROJECT_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case GET_BY_ID_PROJECT_SUCCESS:
+      return {
+        ...state,
+        item: action.payload,
+        isLoading: false
+      };
+    case GET_BY_ID_PROJECT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        modalContent: { title: 'ERROR!', content: `Could not GET project!\n${action.payload}` },
         showModalMessage: true
       };
     case CREATE_PROJECT_PENDING:
