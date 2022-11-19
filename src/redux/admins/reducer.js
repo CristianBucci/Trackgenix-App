@@ -2,6 +2,9 @@ import {
   GET_ADMINS_ERROR,
   GET_ADMINS_PENDING,
   GET_ADMINS_SUCCESS,
+  GETBYID_ADMINS_ERROR,
+  GETBYID_ADMINS_PENDING,
+  GETBYID_ADMINS_SUCCESS,
   POST_ADMINS_PENDING,
   POST_ADMINS_SUCCESS,
   POST_ADMINS_ERROR,
@@ -44,6 +47,24 @@ const adminsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         modalContent: { title: 'ERROR!', content: `Could not GET Admins! ${action.payload}` },
+        showModalMessage: true
+      };
+    case GETBYID_ADMINS_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case GETBYID_ADMINS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        admin: action.payload
+      };
+    case GETBYID_ADMINS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        modalContent: { title: 'ERROR!', content: `Could not GET Admin! ${action.payload}` },
         showModalMessage: true
       };
     case POST_ADMINS_PENDING:

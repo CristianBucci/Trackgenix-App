@@ -2,6 +2,9 @@ import {
   GET_ADMINS_PENDING,
   GET_ADMINS_SUCCESS,
   GET_ADMINS_ERROR,
+  GETBYID_ADMINS_PENDING,
+  GETBYID_ADMINS_SUCCESS,
+  GETBYID_ADMINS_ERROR,
   POST_ADMINS_PENDING,
   POST_ADMINS_SUCCESS,
   POST_ADMINS_ERROR,
@@ -33,6 +36,25 @@ export const getAdminsSuccess = (data) => {
 export const getAdminsError = (error) => {
   return {
     type: GET_ADMINS_ERROR,
+    payload: error
+  };
+};
+export const getByIdAdminsPending = () => {
+  return {
+    type: GETBYID_ADMINS_PENDING
+  };
+};
+
+export const getByIdAdminsSuccess = (data) => {
+  return {
+    type: GETBYID_ADMINS_SUCCESS,
+    payload: data
+  };
+};
+
+export const getByIdAdminsError = (error) => {
+  return {
+    type: GETBYID_ADMINS_ERROR,
     payload: error
   };
 };
