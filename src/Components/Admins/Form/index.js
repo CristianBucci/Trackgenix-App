@@ -18,7 +18,7 @@ const Form = (props) => {
   const params = useParams();
   const id = params.Id ? params.Id : '';
   const [formText, setFormText] = useState('Add Admins');
-  const [adminData, setAdminData] = useState('Add Admins');
+  const [adminData, setAdminData] = useState('');
 
   const { admin, modalContent, showConfirmModal, showModalMessage } = useSelector(
     (state) => state.admins
@@ -79,6 +79,10 @@ const Form = (props) => {
     setAdminData(data);
   };
 
+  const resetinputs = () => {
+    id ? reset(admin) : reset();
+  };
+
   return (
     <>
       <ModalConfirm
@@ -134,6 +138,7 @@ const Form = (props) => {
             <Link to={'/admins'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
+            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetinputs()} />
           </div>
         </form>
       </div>
