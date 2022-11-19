@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
 import { getEmployees } from 'redux/employees/thunks';
 import { projectsSchema } from './validations';
-
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
@@ -44,17 +43,11 @@ const AddProject = (props) => {
     setProjectInput({
       name: data.name,
       description: data.description,
-      startDate: fixDate(data.startDate),
-      endDate: fixDate(data.endDate),
+      startDate: data.startDate,
+      endDate: data.endDate,
       clientName: data.clientName
     });
-    setEmployeesProject([
-      {
-        employeeId: data.employeeId,
-        rate: data.employeeRate,
-        role: data.employeeRole
-      }
-    ]);
+    setEmployeesProject(data.employees);
     const content = `Are you sure you want to ${
       id ? 'edit the Project with id ' + id : 'create a new Project'
     }?`;
@@ -100,21 +93,13 @@ const AddProject = (props) => {
         endDate: fixDate(project.endDate),
         clientName: project.clientName
       });
-      setEmployeesProject([
-        {
-          employeeId: project.employees[0].employeeId,
-          rate: project.employees[0].rate,
-          role: project.employees[0].role
-        }
-      ]);
+      setEmployeesProject(project.employees);
       setValue('name', project.name);
       setValue('description', project.description);
       setValue('startDate', fixDate(project.startDate));
       setValue('endDate', fixDate(project.endDate));
       setValue('clientName', project.clientName);
-      setValue('employeeId', project.employees[0].employeeId);
-      setValue('employeeRate', project.employees[0].rate);
-      setValue('employeeRole', project.employees[0].role);
+      setValue('employees', project.employees);
     }
   }, [project]);
 
@@ -189,7 +174,7 @@ const AddProject = (props) => {
               <div className={styles.card}>
                 {employeesProject?.map((option, index) => {
                   return (
-                    <div key={option}>
+                    <div key={index}>
                       <label>Employee</label>
                       <Select
                         options={employees}
@@ -198,13 +183,13 @@ const AddProject = (props) => {
                         fieldToShow={'name'}
                         second={'lastName'}
                         isDisabled={false}
-                        name="employeeId"
+                        name={`employees[${index}].employeeId`}
                         register={register}
                         error={errors.employeeId?.message}
                       ></Select>
                       <Input
                         label={'Rate'}
-                        name="employeeRate"
+                        name={`employees[${index}].rate`}
                         required
                         type="number"
                         placeholder={'Rate'}
@@ -218,7 +203,7 @@ const AddProject = (props) => {
                         title={'Role'}
                         fieldToShow={'role'}
                         isDisabled={false}
-                        name="employeeRole"
+                        name={`employees[${index}].role`}
                         register={register}
                         error={errors.employeeRole?.message}
                       ></Select>
