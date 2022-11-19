@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { createProject, updateProject } from 'redux/projects/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -19,25 +20,33 @@ import styles from './form.module.css';
 
 const AddProject = (props) => {
   const dispatch = useDispatch();
+  const { handleSubmit, register } = useForm();
   const { modalContent, showModalMessage, showConfirmModal, isLoading } = useSelector(
     (state) => state.projects
   );
-  const [formText, setFormText] = useState('Add Project');
   const { list: employees } = useSelector((state) => state.employees);
-  const [employeesProject, setEmployeesProject] = useState([]);
   const params = useParams();
   const id = params.id && params.id;
   const roles = [{ role: 'DEV' }, { role: 'QA' }, { role: 'PM' }, { role: 'TL' }];
-  const [projectInput, setProjectInput] = useState({
-    name: '',
-    description: '',
-    startDate: '',
-    endDate: '',
-    clientName: ''
-  });
+  const [formText, setFormText] = useState('Add Project');
+  const [employeesProject, setEmployeesProject] = useState([]);
+  const [projectInput, setProjectInput] = useState({});
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
+    setProjectInput({
+      name: data.name,
+      description: data.description,
+      startDate: fixDate(data.startDate),
+      endDate: fixDate(data.endDate),
+      clientName: data.clientName
+    });
+    setEmployeesProject([
+      {
+        employeeId: data.employeeId,
+        rate: data.employeeRate,
+        role: data.employeeRole
+      }
+    ]);
     const content = `Are you sure you want to ${
       id ? 'edit the Project with id ' + id : 'create a new Project'
     }?`;
@@ -75,13 +84,6 @@ const AddProject = (props) => {
         });
         const json = await response.json();
         setFormText('Update Project');
-        setProjectInput({
-          name: json.data.name,
-          description: json.data.description,
-          startDate: fixDate(json.data.startDate),
-          endDate: fixDate(json.data.endDate),
-          clientName: json.data.clientName
-        });
         setEmployeesProject(json.data.employees);
       } catch (error) {
         dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET Project. ${error}` }));
@@ -113,7 +115,7 @@ const AddProject = (props) => {
       />
       <div>
         {!isLoading ? (
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.card}>
               <div className={styles.cardTitle}>{formText}</div>
               <Input
@@ -121,53 +123,32 @@ const AddProject = (props) => {
                 name="name"
                 required
                 type="text"
-                value={projectInput.name}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, name: e.target.value });
-                }}
                 placeholder={'Project Name'}
+                register={register}
               />
               <Input
                 label={'Description'}
                 name="description"
                 required
                 type="text"
-                value={projectInput.description}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, description: e.target.value });
-                }}
                 placeholder={'Description'}
+                register={register}
               />
               <Input
                 label={'Start Date'}
                 required
-                name="start date"
+                name="startDate"
                 type="date"
-                value={projectInput.startDate}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, startDate: e.target.value });
-                }}
+                register={register}
               />
-              <Input
-                label={'End Date'}
-                required
-                name="end date"
-                type="date"
-                value={projectInput.endDate}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, endDate: e.target.value });
-                }}
-              />
+              <Input label={'End Date'} required name="endDate" type="date" register={register} />
               <Input
                 label={'Client Name'}
                 name="clientName"
                 required
                 type="text"
-                value={projectInput.clientName}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, clientName: e.target.value });
-                }}
                 placeholder={'Client Name'}
+                register={register}
               />
               <div className={styles.card}>
                 {employeesProject?.map((option, index) => {
@@ -175,60 +156,32 @@ const AddProject = (props) => {
                     <div key={option}>
                       <label>Employee</label>
                       <Select
-                        value={option.employeeId}
                         options={employees}
                         keyMap={'_id'}
                         title={'Employee'}
                         fieldToShow={'name'}
                         second={'lastName'}
                         isDisabled={false}
-                        onChange={(value) =>
-                          setEmployeesProject([
-                            ...employeesProject.slice(0, index),
-                            {
-                              ...option,
-                              employeeId: value
-                            },
-                            ...employeesProject.slice(index + 1)
-                          ])
-                        }
+                        name="employeeId"
+                        register={register}
                       ></Select>
                       <Input
                         label={'Rate'}
-                        name="rate"
+                        name="employeeRate"
                         required
                         type="number"
-                        value={option.rate}
-                        onChange={(e) =>
-                          setEmployeesProject([
-                            ...employeesProject.slice(0, index),
-                            {
-                              ...option,
-                              rate: e.target.value
-                            },
-                            ...employeesProject.slice(index + 1)
-                          ])
-                        }
                         placeholder={'Rate'}
+                        register={register}
                       />
                       <label>Role</label>
                       <Select
-                        value={option.role}
                         options={roles}
                         keyMap={'role'}
                         title={'Role'}
                         fieldToShow={'role'}
                         isDisabled={false}
-                        onChange={(value) =>
-                          setEmployeesProject([
-                            ...employeesProject.slice(0, index),
-                            {
-                              ...option,
-                              role: value
-                            },
-                            ...employeesProject.slice(index + 1)
-                          ])
-                        }
+                        name="employeeRole"
+                        register={register}
                       ></Select>
                       <button
                         type="button"
