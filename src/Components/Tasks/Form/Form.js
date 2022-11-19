@@ -14,6 +14,9 @@ import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import styles from '../tasks.module.css';
 import Buttons from 'Components/Shared/Button/index';
+import { useForm } from 'react-hook-form';
+import Joi from 'joi';
+import { joiResolver } from '@hookform/resolvers/joi';
 
 const TasksForm = (props) => {
   const [taskInput, setTaskInput] = useState('');
@@ -21,6 +24,19 @@ const TasksForm = (props) => {
   const id = params.id && params.id;
   const dispatch = useDispatch();
   const { modalContent, showModalConfirm, showModalMessage } = useSelector((state) => state.tasks);
+
+  const Schema = Joi.object({
+    taskType: Joi.string().valid('BE', 'FE').required()
+  });
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(Schema)
+  });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +48,7 @@ const TasksForm = (props) => {
   };
 
   const onConfirm = () => {
-    id ? dispatch(updateTask(taskInput, id)) : dispatch(createTask(taskInput));
+    id ? dispatch(updateTask(id)) : dispatch(createTask());
     dispatch(confirmModalClose());
   };
 
@@ -49,6 +65,7 @@ const TasksForm = (props) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id ? id : ''}`);
       const json = await response.json();
+      console.log(json);
       setTaskInput(json.data.description);
     } catch (error) {
       dispatch(getTasksError(error.toString()));
@@ -86,15 +103,14 @@ const TasksForm = (props) => {
           <p>Create new task</p>
         )}
         <p>Only BE or FE values are accepted</p>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Input
               label={'Task Type'}
               name="taskType"
-              required
+              register={register}
               type="text"
-              value={taskInput}
-              onChange={(e) => setTaskInput(e.target.value)}
+              error={errors.name?.message}
               placeholder={'Task Type'}
             />
           </div>
