@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  confirmModalOpen,
+  // confirmModalOpen,
   confirmModalClose,
   messageModalOpen,
   messageModalClose
@@ -15,6 +15,10 @@ import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
+
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { employeeSchema } from './validations';
 
 function Form(props) {
   const dispatch = useDispatch();
@@ -63,17 +67,32 @@ function Form(props) {
     props.history.push('/employees');
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const content = `Are you sure you want to ${
-      id ? 'edit the employee with id ' + id : 'create a new employee'
-    }?`;
-    dispatch(confirmModalOpen(content));
-  };
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   const content = `Are you sure you want to ${
+  //     id ? 'edit the employee with id ' + id : 'create a new employee'
+  //   }?`;
+  //   dispatch(confirmModalOpen(content));
+  // };
 
   const modalFunction = () => {
     modalContent.title.includes('SUCCESS') && redirect();
     dispatch(messageModalClose());
+  };
+
+  console.log(employeeSchema);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(employeeSchema)
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
@@ -92,81 +111,46 @@ function Form(props) {
         modalFunction={modalFunction}
       />
       <div className={styles.container}>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <h2>{id ? 'Edit Employee' : 'Create Employee'}</h2>
           <Input
+            register={register}
             label={'Name'}
-            id="input-name"
             name="name"
-            required
             type="text"
-            value={formValues.name}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                name: e.target.value
-              });
-            }}
+            error={errors.name?.message}
             placeholder={'Name'}
           />
           <Input
+            register={register}
             label={'Last Name'}
-            id="input-lastName"
             name="lastName"
-            required
             type="text"
-            value={formValues.lastName}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                lastName: e.target.value
-              });
-            }}
+            error={errors.lastName?.message}
             placeholder={'Last Name'}
           />
           <Input
+            register={register}
             label={'Email'}
-            id="input-email"
             name="email"
-            required
             type="text"
-            value={formValues.email}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                email: e.target.value
-              });
-            }}
+            error={errors.email?.message}
             placeholder={'Email'}
           />
           <Input
+            register={register}
             label={'Password'}
-            id="input-password"
             name="password"
-            required
             type="password"
-            value={formValues.password}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                password: e.target.value
-              });
-            }}
+            error={errors.password?.message}
             placeholder={'Password'}
           />
           <Input
+            register={register}
             label={'Phone'}
-            id="input-phone"
             name="phone"
-            required
-            type="number"
-            value={formValues.phone}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                phone: e.target.value
-              });
-            }}
+            type="text"
+            error={errors.phone?.message}
             placeholder={'Phone'}
           />
           <div>

@@ -2,6 +2,9 @@ import {
   getEmployeesPending,
   getEmployeesSuccess,
   getEmployeesError,
+  getByIdEmployeePending,
+  getByIdEmployeeSuccess,
+  getByIdEmployeeError,
   deleteEmployeePending,
   deleteEmployeeSuccess,
   deleteEmployeeError,
@@ -22,6 +25,23 @@ export const getEmployees = () => {
       dispatch(getEmployeesSuccess(data.data));
     } catch (error) {
       dispatch(getEmployeesError(error.toString()));
+    }
+  };
+};
+
+export const getByIdEmployee = (id) => {
+  return async (dispatch) => {
+    dispatch(getByIdEmployeePending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
+      const json = await response.json();
+      if (response.status !== 200) {
+        dispatch(getByIdEmployeeError(json.msg.toString()));
+      } else {
+        dispatch(getByIdEmployeeSuccess(json.data));
+      }
+    } catch (error) {
+      dispatch(getByIdEmployeeError(error.toString()));
     }
   };
 };

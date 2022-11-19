@@ -2,6 +2,9 @@ import {
   GET_EMPLOYEES_PENDING,
   GET_EMPLOYEES_SUCCESS,
   GET_EMPLOYEES_ERROR,
+  GETBYID_EMPLOYEES_PENDING,
+  GETBYID_EMPLOYEES_SUCCESS,
+  GETBYID_EMPLOYEES_ERROR,
   DELETE_EMPLOYEES_PENDING,
   DELETE_EMPLOYEES_SUCCESS,
   DELETE_EMPLOYEES_ERROR,
@@ -45,6 +48,25 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         error: action.payload,
         modalContent: { title: 'ERROR!', content: `Could not GET Employees! ${action.payload}` },
+        showModalMessage: true
+      };
+    case GETBYID_EMPLOYEES_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case GETBYID_EMPLOYEES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        list: action.payload
+      };
+    case GETBYID_EMPLOYEES_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        modalContent: { title: 'ERROR!', content: `Could not GET Employee! ${action.payload}` },
         showModalMessage: true
       };
     case DELETE_EMPLOYEES_PENDING:
