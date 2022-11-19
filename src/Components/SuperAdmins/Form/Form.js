@@ -54,6 +54,13 @@ const Form = (props) => {
       setValue('lastName', superAdmin.lastName);
       setValue('email', superAdmin.email);
       setValue('password', superAdmin.password);
+
+      setSuperAdminInput({
+        name: superAdmin.name,
+        lastName: superAdmin.lastName,
+        email: superAdmin.email,
+        password: superAdmin.password
+      });
     }
   }, [superAdmin]);
 
@@ -90,7 +97,7 @@ const Form = (props) => {
   };
 
   const resetForm = () => {
-    id ? reset(superAdmin) : reset(superAdminInput);
+    reset(superAdminInput);
   };
 
   return (
@@ -153,11 +160,11 @@ const Form = (props) => {
             placeholder={'Password'}
           />
           <div className={styles.submit}>
-            <Buttons type="submit" variant="primary" name="Confirm" />
-            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
             <Link to={'/super-admins'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
+            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+            <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
         </form>
       </div>
