@@ -9,6 +9,7 @@ import {
   deleteTasksPending,
   deleteTasksError,
   createTasksSuccess,
+  createTasksPending,
   createTasksError,
   updateTasksSuccess,
   updateTasksError
@@ -66,6 +67,7 @@ export const deleteTasks = (id) => {
 
 export const createTask = (newTask) => {
   return async (dispatch) => {
+    dispatch(createTasksPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'POST',
@@ -75,7 +77,8 @@ export const createTask = (newTask) => {
         }
       });
       if (response.status === 201) {
-        dispatch(createTasksSuccess());
+        const data = await response.json();
+        dispatch(createTasksSuccess(data.data));
       } else {
         const data = await response.json();
         dispatch(createTasksError(data.data));

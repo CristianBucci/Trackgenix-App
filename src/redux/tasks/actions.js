@@ -65,9 +65,10 @@ export const createTasksPending = () => {
   };
 };
 
-export const createTasksSuccess = () => {
+export const createTasksSuccess = (data) => {
   return {
-    type: CREATE_TASKS_SUCCESS
+    type: CREATE_TASKS_SUCCESS,
+    payload: data
   };
 };
 
