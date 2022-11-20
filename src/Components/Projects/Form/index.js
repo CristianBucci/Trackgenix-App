@@ -19,7 +19,6 @@ const AddProject = (props) => {
   const {
     handleSubmit,
     register,
-    setValue,
     reset,
     formState: { errors }
   } = useForm({ mode: 'onChange', resolver: joiResolver(projectsSchema) });
@@ -96,12 +95,7 @@ const AddProject = (props) => {
         clientName: project.clientName
       });
       setEmployeesProject(project.employees);
-      setValue('name', project.name);
-      setValue('description', project.description);
-      setValue('startDate', fixDate(project.startDate));
-      setValue('endDate', fixDate(project.endDate));
-      setValue('clientName', project.clientName);
-      setValue('employees', project.employees);
+      setFormValues();
     }
   }, [project]);
 
@@ -110,8 +104,21 @@ const AddProject = (props) => {
     return dateFormated;
   };
 
+  const setFormValues = () => {
+    const { name, description, startDate, endDate, clientName, employees } = project;
+    const formData = {
+      name,
+      description,
+      startDate: fixDate(startDate),
+      endDate: fixDate(endDate),
+      clientName,
+      employees
+    };
+    reset(formData);
+  };
+
   const resetForm = () => {
-    id ? reset(project) : reset();
+    id ? setFormValues() : reset();
   };
 
   return (
