@@ -69,7 +69,6 @@ const Form = (props) => {
 
   useEffect(() => {
     if (timesheet && id) {
-      console.log(timesheet);
       setValue('description', timesheet.description);
       setValue('date', fixDate(timesheet.date));
       setValue('hours', timesheet.hours);
@@ -131,11 +130,22 @@ const Form = (props) => {
     dispatch(confirmModalOpen(content));
   };
 
-  const resetForm = () => {
-    reset(timeSheetInput);
+  const setFormValues = () => {
+    const { description, date, hours, task, employee, project } = timesheet;
+    const formData = {
+      description,
+      date: fixDate(date),
+      hours,
+      task: task._id,
+      employee: employee._id,
+      project: project._id
+    };
+    reset(formData);
   };
 
-  console.log(timeSheetInput);
+  const resetForm = () => {
+    id ? setFormValues() : reset();
+  };
 
   return (
     <>
