@@ -18,6 +18,7 @@ const AddProject = (props) => {
   const dispatch = useDispatch();
   const {
     handleSubmit,
+    unregister,
     register,
     reset,
     formState: { errors }
@@ -40,7 +41,6 @@ const AddProject = (props) => {
   const [projectInput, setProjectInput] = useState({});
 
   const onSubmit = (data) => {
-    console.log(data);
     setProjectInput({
       name: data.name,
       description: data.description,
@@ -231,6 +231,7 @@ const AddProject = (props) => {
                               employeesProject.length
                             )
                           ]);
+                          unregister('employees');
                         }}
                       >
                         Delete
