@@ -6,8 +6,10 @@ import {
   getByIdTaskSuccess,
   getByIdTaskError,
   deleteTasksSuccess,
+  deleteTasksPending,
   deleteTasksError,
   createTasksSuccess,
+  createTasksPending,
   createTasksError,
   updateTasksSuccess,
   updateTasksError
@@ -46,6 +48,7 @@ export const getByIdTask = (id) => {
 
 export const deleteTasks = (id) => {
   return async (dispatch) => {
+    dispatch(deleteTasksPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'DELETE'
@@ -64,6 +67,7 @@ export const deleteTasks = (id) => {
 
 export const createTask = (newTask) => {
   return async (dispatch) => {
+    dispatch(createTasksPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'POST',
@@ -73,7 +77,8 @@ export const createTask = (newTask) => {
         }
       });
       if (response.status === 201) {
-        dispatch(createTasksSuccess());
+        const data = await response.json();
+        dispatch(createTasksSuccess(data.data));
       } else {
         const data = await response.json();
         dispatch(createTasksError(data.data));
@@ -89,7 +94,7 @@ export const updateTask = (data, id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ description: data }),
+        body: JSON.stringify(data),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }

@@ -65,9 +65,10 @@ export const createTasksPending = () => {
   };
 };
 
-export const createTasksSuccess = () => {
+export const createTasksSuccess = (data) => {
   return {
-    type: CREATE_TASKS_SUCCESS
+    type: CREATE_TASKS_SUCCESS,
+    payload: data
   };
 };
 
@@ -98,10 +99,9 @@ export const updateTasksError = (error) => {
   };
 };
 
-export const deleteTasksPending = (id) => {
+export const deleteTasksPending = () => {
   return {
-    type: DELETE_TASKS_PENDING,
-    payload: id
+    type: DELETE_TASKS_PENDING
   };
 };
 
