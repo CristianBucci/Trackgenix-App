@@ -47,7 +47,7 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         error: action.payload,
-        modalContent: { title: 'ERROR!', content: `Could not GET Employees! ${action.payload}` },
+        modalContent: { title: 'ERROR!', content: `Could not GET Tasks! ${action.payload}` },
         showModalMessage: true
       };
     case GETBYID_TASK_PENDING:
@@ -78,7 +78,12 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        list: [...state.list.filter((task) => task._id !== action.payload)]
+        list: [...state.list.filter((task) => task._id !== action.payload)],
+        modalContent: {
+          title: 'SUCCESS',
+          content: `Task with id ${action.payload} successfully deleted`
+        },
+        showModalMessage: true
       };
     case DELETE_TASKS_ERROR:
       return {
@@ -97,7 +102,7 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        showConfirmModal: false,
+        showModalConfirm: false,
         modalContent: { title: 'SUCCESS!', content: `Task Successfully CREATED` },
         showModalMessage: true,
         list: [...state.list, action.payload]
@@ -119,7 +124,7 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        showConfirmModal: false,
+        showModalConfirm: false,
         modalContent: { title: 'SUCCESS!', content: `Task Successfully UPDATED` },
         showModalMessage: true,
         list: [...state.list, action.payload]
@@ -139,12 +144,12 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
           title: 'Confirm:',
           content: action.payload
         },
-        showConfirmModal: true
+        showModalConfirm: true
       };
     case CONFIRM_MODAL_CLOSE:
       return {
         ...state,
-        showConfirmModal: false
+        showModalConfirm: false
       };
     case MESSAGE_MODAL_OPEN:
       return {

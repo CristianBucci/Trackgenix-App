@@ -6,6 +6,7 @@ import {
   getByIdTaskSuccess,
   getByIdTaskError,
   deleteTasksSuccess,
+  deleteTasksPending,
   deleteTasksError,
   createTasksSuccess,
   createTasksError,
@@ -46,6 +47,7 @@ export const getByIdTask = (id) => {
 
 export const deleteTasks = (id) => {
   return async (dispatch) => {
+    dispatch(deleteTasksPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'DELETE'
@@ -89,7 +91,7 @@ export const updateTask = (data, id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ description: data }),
+        body: JSON.stringify(data),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }

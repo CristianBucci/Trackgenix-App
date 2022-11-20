@@ -98,10 +98,9 @@ export const updateTasksError = (error) => {
   };
 };
 
-export const deleteTasksPending = (id) => {
+export const deleteTasksPending = () => {
   return {
-    type: DELETE_TASKS_PENDING,
-    payload: id
+    type: DELETE_TASKS_PENDING
   };
 };
 

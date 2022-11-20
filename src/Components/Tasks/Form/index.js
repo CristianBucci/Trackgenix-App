@@ -14,17 +14,17 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { taskSchema } from './validations';
 
 const TasksForm = (props) => {
+  const dispatch = useDispatch();
   const [taskInput, setTaskInput] = useState({
     description: ''
   });
 
-  const dispatch = useDispatch();
   const {
     item: task,
     modalContent,
     showModalMessage,
-    showConfirmModal
-  } = useSelector((state) => state.task);
+    showModalConfirm
+  } = useSelector((state) => state.tasks);
 
   const params = useParams();
   const id = params.id && params.id;
@@ -49,7 +49,6 @@ const TasksForm = (props) => {
   useEffect(() => {
     if (task && id) {
       setValue('description', task.description);
-
       setTaskInput({
         description: task.description
       });
@@ -69,7 +68,6 @@ const TasksForm = (props) => {
   };
 
   const onSubmit = (event) => {
-    console.log('entre');
     setTaskInput({
       description: event.description
     });
@@ -91,7 +89,7 @@ const TasksForm = (props) => {
   return (
     <>
       <ModalConfirm
-        show={showConfirmModal}
+        show={showModalConfirm}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
         onConfirm={onConfirm}
