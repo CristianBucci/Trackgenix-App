@@ -2,6 +2,9 @@ import {
   getSuperAdminsPending,
   getSuperAdminsSuccess,
   getSuperAdminsError,
+  getByIdSuperAdminsPending,
+  getByIdSuperAdminsSucces,
+  getByIdSuperAdminsError,
   postSuperAdminPending,
   postSuperAdminSuccess,
   postSuperAdminError,
@@ -26,6 +29,23 @@ export const getSuperAdmins = () => {
       }
     } catch (error) {
       dispatch(getSuperAdminsError(error.toString()));
+    }
+  };
+};
+
+export const getByIdSuperAdmins = (id) => {
+  return async (dispatch) => {
+    dispatch(getByIdSuperAdminsPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/superAdmin/${id}`);
+      const data = await response.json();
+      if (response.status !== 200) {
+        dispatch(getByIdSuperAdminsError(data.msg.toString()));
+      } else {
+        dispatch(getByIdSuperAdminsSucces(data.data));
+      }
+    } catch (error) {
+      dispatch(getByIdSuperAdminsError(error.toString()));
     }
   };
 };
