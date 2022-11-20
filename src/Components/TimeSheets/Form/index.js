@@ -69,6 +69,7 @@ const Form = (props) => {
 
   useEffect(() => {
     if (timesheet && id) {
+      console.log(timesheet);
       setValue('description', timesheet.description);
       setValue('date', fixDate(timesheet.date));
       setValue('hours', timesheet.hours);
@@ -91,7 +92,6 @@ const Form = (props) => {
         project: timesheet.project
       });
     }
-    console.log(timesheet);
   }, [timesheet]);
 
   const fixDate = (date) => {
@@ -132,8 +132,10 @@ const Form = (props) => {
   };
 
   const resetForm = () => {
-    id ? reset(timesheet) : reset(timeSheetInput);
+    reset(timeSheetInput);
   };
+
+  console.log(timeSheetInput);
 
   return (
     <>
@@ -181,40 +183,37 @@ const Form = (props) => {
               <label>Task</label>
               <Select
                 register={register}
-                value={timeSheetInput.task}
                 options={tasks}
                 keyMap={'_id'}
                 title={'Task'}
                 name={'task'}
                 fieldToShow={'description'}
-                error={errors.tasks?.message}
+                error={errors.task?.message}
               />
             </div>
             <div className={styles.cardField}>
               <label>Employee</label>
               <Select
                 register={register}
-                value={timeSheetInput.employee}
                 options={employees}
                 keyMap={'_id'}
                 title={'Employee'}
                 fieldToShow={'name'}
                 second={'lastName'}
                 name={'employee'}
-                error={errors.employees?.message}
+                error={errors.employee?.message}
               />
             </div>
             <div className={styles.cardField}>
               <label>Project</label>
               <Select
                 register={register}
-                value={timeSheetInput.project}
                 options={projects}
                 keyMap={'_id'}
                 title={'Project'}
                 fieldToShow={'name'}
                 name={'project'}
-                error={errors.projects?.message}
+                error={errors.project?.message}
               />
             </div>
             <div className={styles.cardButton}>
@@ -223,7 +222,6 @@ const Form = (props) => {
                 name="Cancel"
                 onClick={() => props.history.push('/timesheets')}
               />
-
               <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
               <Buttons type="submit" variant="primary" name="Confirm" />
             </div>
