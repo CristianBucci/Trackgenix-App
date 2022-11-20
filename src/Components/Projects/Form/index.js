@@ -114,6 +114,7 @@ const AddProject = (props) => {
       clientName,
       employees
     };
+    setEmployeesProject(employees);
     reset(formData);
   };
 
