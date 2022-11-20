@@ -2,13 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  confirmModalOpen,
-  confirmModalClose,
-  messageModalOpen,
-  messageModalClose
-} from 'redux/employees/actions';
-import { createEmployee, updateEmployee } from 'redux/employees/thunks';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
+import { getByIdEmployee, updateEmployee, createEmployee } from 'redux/employees/thunks';
 
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
@@ -16,13 +11,11 @@ import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
 
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { employeeSchema } from './validations';
+
 function Form(props) {
-  const dispatch = useDispatch();
-  const { modalContent, showModalMessage, showConfirmModal } = useSelector(
-    (state) => state.employees
-  );
-  const params = useParams();
-  const id = params.id && params.id;
   const [formValues, setFormValues] = useState({
     name: '',
     lastName: '',
@@ -31,28 +24,54 @@ function Form(props) {
     phone: ''
   });
 
-  useEffect(async () => {
+  const dispatch = useDispatch();
+  const {
+    item: employee,
+    modalContent,
+    showModalMessage,
+    showConfirmModal
+  } = useSelector((state) => state.employees);
+
+  const params = useParams();
+  const id = params.id && params.id;
+
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors },
+    reset
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(employeeSchema)
+  });
+
+  useEffect(() => {
     if (id) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id ? id : ''}`);
-        const data = await response.json();
-        setFormValues({
-          name: data.data.name,
-          lastName: data.data.lastName,
-          email: data.data.email,
-          password: data.data.password,
-          phone: data.data.phone
-        });
-      } catch (error) {
-        dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET employee. ${error}` }));
-      }
-    } else {
-      return null;
+      dispatch(getByIdEmployee(id));
     }
   }, []);
 
+  useEffect(() => {
+    if (employee && id) {
+      setValue('name', employee.name);
+      setValue('lastName', employee.lastName);
+      setValue('email', employee.email);
+      setValue('password', employee.password);
+      setValue('phone', employee.phone);
+
+      setFormValues({
+        name: employee.name,
+        lastName: employee.lastName,
+        email: employee.email,
+        password: employee.password,
+        phone: employee.phone
+      });
+    }
+  }, [employee]);
+
   const onConfirm = () => {
-    id ? dispatch(updateEmployee(formValues, id)) : dispatch(createEmployee(formValues));
+    id ? dispatch(updateEmployee(id, formValues)) : dispatch(createEmployee(formValues));
   };
 
   const onCancel = () => {
@@ -63,8 +82,15 @@ function Form(props) {
     props.history.push('/employees');
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (event) => {
+    setFormValues({
+      name: event.name,
+      lastName: event.lastName,
+      email: event.email,
+      password: event.password,
+      phone: event.phone
+    });
+
     const content = `Are you sure you want to ${
       id ? 'edit the employee with id ' + id : 'create a new employee'
     }?`;
@@ -74,6 +100,10 @@ function Form(props) {
   const modalFunction = () => {
     modalContent.title.includes('SUCCESS') && redirect();
     dispatch(messageModalClose());
+  };
+
+  const resetForm = () => {
+    reset(formValues);
   };
 
   return (
@@ -92,88 +122,54 @@ function Form(props) {
         modalFunction={modalFunction}
       />
       <div className={styles.container}>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <h2>{id ? 'Edit Employee' : 'Create Employee'}</h2>
           <Input
+            register={register}
             label={'Name'}
-            id="input-name"
             name="name"
-            required
             type="text"
-            value={formValues.name}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                name: e.target.value
-              });
-            }}
+            error={errors.name?.message}
             placeholder={'Name'}
           />
           <Input
+            register={register}
             label={'Last Name'}
-            id="input-lastName"
             name="lastName"
-            required
             type="text"
-            value={formValues.lastName}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                lastName: e.target.value
-              });
-            }}
+            error={errors.lastName?.message}
             placeholder={'Last Name'}
           />
           <Input
+            register={register}
             label={'Email'}
-            id="input-email"
             name="email"
-            required
             type="text"
-            value={formValues.email}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                email: e.target.value
-              });
-            }}
+            error={errors.email?.message}
             placeholder={'Email'}
           />
           <Input
+            register={register}
             label={'Password'}
-            id="input-password"
             name="password"
-            required
             type="password"
-            value={formValues.password}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                password: e.target.value
-              });
-            }}
+            error={errors.password?.message}
             placeholder={'Password'}
           />
           <Input
+            register={register}
             label={'Phone'}
-            id="input-phone"
             name="phone"
-            required
-            type="number"
-            value={formValues.phone}
-            onChange={(e) => {
-              setFormValues({
-                ...formValues,
-                phone: e.target.value
-              });
-            }}
+            type="text"
+            error={errors.phone?.message}
             placeholder={'Phone'}
           />
           <div>
-            <Buttons type="submit" variant="primary" name="Confirm" />
             <Link to={'/employees'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
+            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+            <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
         </form>
       </div>
