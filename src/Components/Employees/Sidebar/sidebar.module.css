@@ -1,0 +1,34 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  min-height: 100px;
+  background-color: red;
+}
+
+.navbar ul {
+    flex-direction: column;
+    justify-content: start;
+}
+
+.appName {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.rutes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  list-style-type: none;
+}
+
+.rutes > li > a {
+  margin-left: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: black;
+}
