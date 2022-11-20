@@ -1,21 +1,23 @@
 import {
-  GET_TASKS_ERROR,
   GET_TASKS_PENDING,
   GET_TASKS_SUCCESS,
-  GETBYID_TASK_ERROR,
+  GET_TASKS_ERROR,
   GETBYID_TASK_PENDING,
   GETBYID_TASK_SUCCESS,
-  DELETE_TASKS_ERROR,
-  DELETE_TASKS_PENDING,
-  DELETE_TASKS_SUCCESS,
-  CREATE_TASKS_ERROR,
+  GETBYID_TASK_ERROR,
   CREATE_TASKS_PENDING,
   CREATE_TASKS_SUCCESS,
-  UPDATE_TASKS_ERROR,
+  CREATE_TASKS_ERROR,
   UPDATE_TASKS_PENDING,
   UPDATE_TASKS_SUCCESS,
-  CLOSE_MESSAGE_MODAL,
-  CLOSE_CONFIRM_MODAL
+  UPDATE_TASKS_ERROR,
+  DELETE_TASKS_PENDING,
+  DELETE_TASKS_SUCCESS,
+  DELETE_TASKS_ERROR,
+  CONFIRM_MODAL_OPEN,
+  CONFIRM_MODAL_CLOSE,
+  MESSAGE_MODAL_OPEN,
+  MESSAGE_MODAL_CLOSE
 } from './constants';
 
 const INITIAL_STATE = {
@@ -29,28 +31,25 @@ const INITIAL_STATE = {
 
 const tasksReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_TASKS_PENDING: {
+    case GET_TASKS_PENDING:
       return {
         ...state,
         isLoading: true
       };
-    }
-    case GET_TASKS_SUCCESS: {
+    case GET_TASKS_SUCCESS:
       return {
         ...state,
-        list: action.payload,
-        isLoading: false
+        isLoading: false,
+        list: action.payload
       };
-    }
-    case GET_TASKS_ERROR: {
+    case GET_TASKS_ERROR:
       return {
         ...state,
+        isLoading: false,
         error: action.payload,
-        modalContent: { title: 'ERROR!', content: `Could not GET Tasks! ${action.payload}` },
-        showModalMessage: true,
-        isLoading: false
+        modalContent: { title: 'ERROR!', content: `Could not GET Employees! ${action.payload}` },
+        showModalMessage: true
       };
-    }
     case GETBYID_TASK_PENDING:
       return {
         ...state,
@@ -60,115 +59,103 @@ const tasksReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        task: action.payload
+        item: action.payload
       };
     case GETBYID_TASK_ERROR:
       return {
         ...state,
         isLoading: false,
+        error: action.payload,
         modalContent: { title: 'ERROR!', content: `Could not GET Task! ${action.payload}` },
         showModalMessage: true
       };
-    case DELETE_TASKS_PENDING: {
+    case DELETE_TASKS_PENDING:
       return {
         ...state,
-        modalContent: {
-          title: 'CONFIRM',
-          content: `Are you sure you want to delete the task with id ${action.payload}`
-        },
-        showModalConfirm: true
+        isLoading: true
       };
-    }
-    case DELETE_TASKS_SUCCESS: {
+    case DELETE_TASKS_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((item) => item._id !== action.payload),
-        modalContent: {
-          title: 'SUCCESS!',
-          content: `Task whit id ${action.payload} successfully deleted`
-        },
-        showModalMessage: true
+        isLoading: false,
+        list: [...state.list.filter((task) => task._id !== action.payload)]
       };
-    }
-    case DELETE_TASKS_ERROR: {
+    case DELETE_TASKS_ERROR:
       return {
         ...state,
+        isLoading: false,
         error: action.payload,
-        modalContent: { title: 'ERROR!', content: `Task could not be removed. ${action.payload}` },
+        modalContent: { title: 'ERROR!', content: `Could not DELETE Task! ${action.payload}` },
         showModalMessage: true
       };
-    }
-    case CREATE_TASKS_PENDING: {
+    case CREATE_TASKS_PENDING:
       return {
         ...state,
-        modalContent: {
-          title: 'CONFIRM',
-          content: `Are you sure you want to create a new Task`
-        },
-        showModalConfirm: true
+        isLoading: true
       };
-    }
-    case CREATE_TASKS_SUCCESS: {
+    case CREATE_TASKS_SUCCESS:
       return {
         ...state,
-        modalContent: {
-          title: 'SUCCESS!',
-          content: `New task created successfully.`
-        },
-        showModalMessage: true
+        isLoading: false,
+        showConfirmModal: false,
+        modalContent: { title: 'SUCCESS!', content: `Task Successfully CREATED` },
+        showModalMessage: true,
+        list: [...state.list, action.payload]
       };
-    }
-    case CREATE_TASKS_ERROR: {
+    case CREATE_TASKS_ERROR:
       return {
         ...state,
+        isLoading: false,
         error: action.payload,
-        modalContent: {
-          title: 'ERROR!',
-          content: `Could not create a new task. ${action.payload}`
-        },
+        modalContent: { title: 'ERROR!', content: `Could not CREATE Task! ${action.payload}` },
         showModalMessage: true
       };
-    }
-    case UPDATE_TASKS_PENDING: {
+    case UPDATE_TASKS_PENDING:
       return {
         ...state,
-        modalContent: {
-          title: 'CONFIRM',
-          content: `Are you sure you want to update the task with id ${action.payload}`
-        },
-        showModalConfirm: true
+        isLoading: true
       };
-    }
-    case UPDATE_TASKS_SUCCESS: {
+    case UPDATE_TASKS_SUCCESS:
       return {
         ...state,
-        modalContent: {
-          title: 'SUCCESS!',
-          content: `Task ${action.payload[0]} whit id ${action.payload[1]} successfully updated`
-        },
-        showModalMessage: true
+        isLoading: false,
+        showConfirmModal: false,
+        modalContent: { title: 'SUCCESS!', content: `Task Successfully UPDATED` },
+        showModalMessage: true,
+        list: [...state.list, action.payload]
       };
-    }
-    case UPDATE_TASKS_ERROR: {
+    case UPDATE_TASKS_ERROR:
       return {
         ...state,
+        isLoading: false,
         error: action.payload,
-        modalContent: { title: 'ERROR!', content: `Task could not be updated. ${action.payload}` },
+        modalContent: { title: 'ERROR!', content: `Could not UPDATE Task! ${action.payload}` },
         showModalMessage: true
       };
-    }
-    case CLOSE_MESSAGE_MODAL: {
+    case CONFIRM_MODAL_OPEN:
+      return {
+        ...state,
+        modalContent: {
+          title: 'Confirm:',
+          content: action.payload
+        },
+        showConfirmModal: true
+      };
+    case CONFIRM_MODAL_CLOSE:
+      return {
+        ...state,
+        showConfirmModal: false
+      };
+    case MESSAGE_MODAL_OPEN:
+      return {
+        ...state,
+        showModalMessage: true
+      };
+    case MESSAGE_MODAL_CLOSE:
       return {
         ...state,
         showModalMessage: false
       };
-    }
-    case CLOSE_CONFIRM_MODAL: {
-      return {
-        ...state,
-        showModalConfirm: false
-      };
-    }
     default:
       return state;
   }

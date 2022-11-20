@@ -53,7 +53,8 @@ export const deleteTasks = (id) => {
       if (response.status === 204) {
         dispatch(deleteTasksSuccess(id));
       } else {
-        dispatch(deleteTasksError(`\n${response.statusText} ${response.status}`));
+        const data = await response.json();
+        dispatch(deleteTasksError(data.data));
       }
     } catch (error) {
       dispatch(deleteTasksError(error.toString()));
@@ -61,12 +62,12 @@ export const deleteTasks = (id) => {
   };
 };
 
-export const createTask = (data) => {
+export const createTask = (newTask) => {
   return async (dispatch) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'POST',
-        body: JSON.stringify({ description: data }),
+        body: JSON.stringify(newTask),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }
@@ -74,7 +75,8 @@ export const createTask = (data) => {
       if (response.status === 201) {
         dispatch(createTasksSuccess());
       } else {
-        dispatch(createTasksError(`\n${response.statusText} ${response.status}`));
+        const data = await response.json();
+        dispatch(createTasksError(data.data));
       }
     } catch (error) {
       dispatch(createTasksError(error.toString()));
@@ -95,7 +97,8 @@ export const updateTask = (data, id) => {
       if (response.status === 200) {
         dispatch(updateTasksSuccess(data, id));
       } else {
-        dispatch(updateTasksError(`\n${response.statusText} ${response.status}`));
+        const data = await response.json();
+        dispatch(updateTasksError(data.data));
       }
     } catch (error) {
       dispatch(updateTasksError(error.toString()));
