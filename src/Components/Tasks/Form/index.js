@@ -74,7 +74,7 @@ const TasksForm = (props) => {
       description: event.description
     });
     const content = `Are you sure you want to ${
-      id ? 'edit the task with id ' + id : 'create a new task'
+      id ? `edit the task with id ${id}` : 'create a new task'
     }?`;
     dispatch(confirmModalOpen(content));
   };
