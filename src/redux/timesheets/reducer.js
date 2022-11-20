@@ -2,6 +2,9 @@ import {
   GET_TIMESHEETS_PENDING,
   GET_TIMESHEETS_SUCCESS,
   GET_TIMESHEETS_ERROR,
+  GET_BY_ID_TIMESHEETS_PENDING,
+  GET_BY_ID_TIMESHEETS_SUCCESS,
+  GET_BY_ID_TIMESHEETS_ERROR,
   DELETE_TIMESHEETS_PENDING,
   DELETE_TIMESHEETS_SUCCESS,
   DELETE_TIMESHEETS_ERROR,
@@ -40,6 +43,25 @@ const timesheetsReducer = (state = INITIAL_STATE, action) => {
         list: action.payload
       };
     case GET_TIMESHEETS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        modalContent: { title: 'ERROR!', content: `Could not GET Timesheets! ${action.payload}` },
+        showModalMessage: true
+      };
+    case GET_BY_ID_TIMESHEETS_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case GET_BY_ID_TIMESHEETS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        item: action.payload
+      };
+    case GET_BY_ID_TIMESHEETS_ERROR:
       return {
         ...state,
         isLoading: false,

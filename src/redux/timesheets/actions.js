@@ -2,6 +2,9 @@ import {
   GET_TIMESHEETS_PENDING,
   GET_TIMESHEETS_SUCCESS,
   GET_TIMESHEETS_ERROR,
+  GET_BY_ID_TIMESHEETS_PENDING,
+  GET_BY_ID_TIMESHEETS_SUCCESS,
+  GET_BY_ID_TIMESHEETS_ERROR,
   DELETE_TIMESHEETS_PENDING,
   DELETE_TIMESHEETS_SUCCESS,
   DELETE_TIMESHEETS_ERROR,
@@ -33,6 +36,26 @@ export const getTimesheetsSuccess = (data) => {
 export const getTimesheetsError = (error) => {
   return {
     type: GET_TIMESHEETS_ERROR,
+    payload: error
+  };
+};
+
+export const getByIdTimesheetsPending = () => {
+  return {
+    type: GET_BY_ID_TIMESHEETS_PENDING
+  };
+};
+
+export const getByIdTimesheetsSuccess = (data) => {
+  return {
+    type: GET_BY_ID_TIMESHEETS_SUCCESS,
+    payload: data
+  };
+};
+
+export const getByIdTimesheetsError = (error) => {
+  return {
+    type: GET_BY_ID_TIMESHEETS_ERROR,
     payload: error
   };
 };
