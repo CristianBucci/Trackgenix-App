@@ -41,6 +41,7 @@ const AddProject = (props) => {
   const [projectInput, setProjectInput] = useState({});
 
   const onSubmit = (data) => {
+    console.log(data);
     setProjectInput({
       name: data.name,
       description: data.description,
@@ -110,7 +111,7 @@ const AddProject = (props) => {
   };
 
   const resetForm = () => {
-    reset();
+    id ? reset(project) : reset();
   };
 
   return (
