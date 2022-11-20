@@ -6,22 +6,31 @@ export const superAdminsValidationSchema = Joi.object({
     .pattern(/^[\p{L}]+$/u)
     .required()
     .messages({
-      'string.pattern.base': 'Must contain only letters'
+      'string.pattern.base': 'Must contain only letters',
+      'string.min': 'Must have at least 3 characters',
+      'any.required': 'This field is required'
     }),
   lastName: Joi.string()
     .min(3)
     .pattern(/^[\p{L}]+$/u)
     .required()
     .messages({
-      'string.pattern.base': 'Must contain only letters'
+      'string.pattern.base': 'Must contain only letters',
+      'string.min': 'Must have at least 3 characters',
+      'any.required': 'This field is required'
     }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
-    .required(),
+    .required()
+    .messages({
+      'any.required': 'This field is required'
+    }),
   password: Joi.string()
     .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
     .required()
     .messages({
-      'string.pattern.base': 'Must contain letter and numbers. Needs to be atl least 8 charactertes'
+      'string.pattern.base':
+        'Must contain letter and numbers. Needs to have at least 8 charactertes',
+      'any.required': 'This field is required'
     })
 });
