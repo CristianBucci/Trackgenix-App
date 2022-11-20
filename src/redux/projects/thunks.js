@@ -10,7 +10,10 @@ import {
   updateProjectError,
   deleteProjectError,
   deleteProjectSuccess,
-  deleteProjectPending
+  deleteProjectPending,
+  getByIdProjectsPending,
+  getByIdProjectsSuccess,
+  getByIdProjectsError
 } from './actions';
 
 export const getProjects = () => {
@@ -22,6 +25,23 @@ export const getProjects = () => {
       dispatch(getProjectsSuccess(data.data));
     } catch (error) {
       dispatch(getProjectsError(error.toString()));
+    }
+  };
+};
+
+export const getByIdProjects = (id) => {
+  return async (dispatch) => {
+    dispatch(getByIdProjectsPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`);
+      const data = await response.json();
+      if (response.status == 200) {
+        dispatch(getByIdProjectsSuccess(data.data));
+      } else {
+        dispatch(getByIdProjectsError(data.msg.toString()));
+      }
+    } catch (error) {
+      dispatch(getByIdProjectsError(error.toString()));
     }
   };
 };

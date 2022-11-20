@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { createProject, updateProject } from 'redux/projects/thunks';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { createProject, updateProject, getByIdProjects } from 'redux/projects/thunks';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  confirmModalOpen,
-  messageModalOpen,
-  confirmModalClose,
-  messageModalClose
-} from 'redux/projects/actions';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
 import { getEmployees } from 'redux/employees/thunks';
-
+import { projectsSchema } from './validations';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
@@ -19,25 +16,39 @@ import styles from './form.module.css';
 
 const AddProject = (props) => {
   const dispatch = useDispatch();
-  const { modalContent, showModalMessage, showConfirmModal, isLoading } = useSelector(
-    (state) => state.projects
-  );
-  const [formText, setFormText] = useState('Add Project');
+  const {
+    handleSubmit,
+    unregister,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm({ mode: 'onChange', resolver: joiResolver(projectsSchema) });
+
+  const {
+    modalContent,
+    showModalMessage,
+    showConfirmModal,
+    isLoading,
+    item: project
+  } = useSelector((state) => state.projects);
+
   const { list: employees } = useSelector((state) => state.employees);
-  const [employeesProject, setEmployeesProject] = useState([]);
   const params = useParams();
   const id = params.id && params.id;
   const roles = [{ role: 'DEV' }, { role: 'QA' }, { role: 'PM' }, { role: 'TL' }];
-  const [projectInput, setProjectInput] = useState({
-    name: '',
-    description: '',
-    startDate: '',
-    endDate: '',
-    clientName: ''
-  });
+  const [formText, setFormText] = useState('Add Project');
+  const [employeesProject, setEmployeesProject] = useState([]);
+  const [projectInput, setProjectInput] = useState({});
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
+    setProjectInput({
+      name: data.name,
+      description: data.description,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      clientName: data.clientName
+    });
+    setEmployeesProject(data.employees);
     const content = `Are you sure you want to ${
       id ? 'edit the Project with id ' + id : 'create a new Project'
     }?`;
@@ -69,31 +80,46 @@ const AddProject = (props) => {
 
   useEffect(async () => {
     if (id) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-          method: 'GET'
-        });
-        const json = await response.json();
-        setFormText('Update Project');
-        setProjectInput({
-          name: json.data.name,
-          description: json.data.description,
-          startDate: fixDate(json.data.startDate),
-          endDate: fixDate(json.data.endDate),
-          clientName: json.data.clientName
-        });
-        setEmployeesProject(json.data.employees);
-      } catch (error) {
-        dispatch(messageModalOpen({ title: 'ERROR', content: `Could not GET Project. ${error}` }));
-      }
-    } else {
-      return null;
+      setFormText('Update Project');
+      dispatch(getByIdProjects(id));
     }
   }, []);
+
+  useEffect(() => {
+    if (project && id) {
+      setProjectInput({
+        name: project.name,
+        description: project.description,
+        startDate: fixDate(project.startDate),
+        endDate: fixDate(project.endDate),
+        clientName: project.clientName
+      });
+      setEmployeesProject(project.employees);
+      setFormValues();
+    }
+  }, [project]);
 
   const fixDate = (date) => {
     let dateFormated = date.substr(0, 10);
     return dateFormated;
+  };
+
+  const setFormValues = () => {
+    const { name, description, startDate, endDate, clientName, employees } = project;
+    const formData = {
+      name,
+      description,
+      startDate: fixDate(startDate),
+      endDate: fixDate(endDate),
+      clientName,
+      employees
+    };
+    setEmployeesProject(employees);
+    reset(formData);
+  };
+
+  const resetForm = () => {
+    id ? setFormValues() : reset();
   };
 
   return (
@@ -113,122 +139,81 @@ const AddProject = (props) => {
       />
       <div>
         {!isLoading ? (
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.card}>
               <div className={styles.cardTitle}>{formText}</div>
               <Input
                 label={'Project Name'}
                 name="name"
-                required
                 type="text"
-                value={projectInput.name}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, name: e.target.value });
-                }}
                 placeholder={'Project Name'}
+                register={register}
+                error={errors.name?.message}
               />
               <Input
                 label={'Description'}
                 name="description"
-                required
                 type="text"
-                value={projectInput.description}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, description: e.target.value });
-                }}
                 placeholder={'Description'}
+                register={register}
+                error={errors.description?.message}
               />
               <Input
                 label={'Start Date'}
-                required
-                name="start date"
+                name="startDate"
                 type="date"
-                value={projectInput.startDate}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, startDate: e.target.value });
-                }}
+                register={register}
+                error={errors.startDate?.message}
               />
               <Input
                 label={'End Date'}
-                required
-                name="end date"
+                name="endDate"
                 type="date"
-                value={projectInput.endDate}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, endDate: e.target.value });
-                }}
+                register={register}
+                error={errors.endDate?.message}
               />
               <Input
                 label={'Client Name'}
                 name="clientName"
-                required
                 type="text"
-                value={projectInput.clientName}
-                onChange={(e) => {
-                  setProjectInput({ ...projectInput, clientName: e.target.value });
-                }}
                 placeholder={'Client Name'}
+                register={register}
+                error={errors.clientName?.message}
               />
               <div className={styles.card}>
                 {employeesProject?.map((option, index) => {
                   return (
-                    <div key={option}>
+                    <div key={index}>
                       <label>Employee</label>
                       <Select
-                        value={option.employeeId}
                         options={employees}
                         keyMap={'_id'}
                         title={'Employee'}
                         fieldToShow={'name'}
                         second={'lastName'}
                         isDisabled={false}
-                        onChange={(value) =>
-                          setEmployeesProject([
-                            ...employeesProject.slice(0, index),
-                            {
-                              ...option,
-                              employeeId: value
-                            },
-                            ...employeesProject.slice(index + 1)
-                          ])
-                        }
+                        name={`employees[${index}].employeeId`}
+                        register={register}
+                        error={errors.employees && errors.employees[index].employeeId?.message}
                       ></Select>
                       <Input
                         label={'Rate'}
-                        name="rate"
-                        required
+                        name={`employees[${index}].rate`}
                         type="number"
-                        value={option.rate}
-                        onChange={(e) =>
-                          setEmployeesProject([
-                            ...employeesProject.slice(0, index),
-                            {
-                              ...option,
-                              rate: e.target.value
-                            },
-                            ...employeesProject.slice(index + 1)
-                          ])
-                        }
                         placeholder={'Rate'}
+                        register={register}
+                        error={errors.employees && errors.employees[index].rate?.message}
                       />
                       <label>Role</label>
                       <Select
-                        value={option.role}
                         options={roles}
                         keyMap={'role'}
                         title={'Role'}
                         fieldToShow={'role'}
                         isDisabled={false}
-                        onChange={(value) =>
-                          setEmployeesProject([
-                            ...employeesProject.slice(0, index),
-                            {
-                              ...option,
-                              role: value
-                            },
-                            ...employeesProject.slice(index + 1)
-                          ])
-                        }
+                        name={`employees[${index}].role`}
+                        register={register}
+                        error={errors.employees && errors.employees[index].role?.message}
                       ></Select>
                       <button
                         type="button"
@@ -240,6 +225,7 @@ const AddProject = (props) => {
                               employeesProject.length
                             )
                           ]);
+                          unregister('employees');
                         }}
                       >
                         Delete
@@ -268,6 +254,7 @@ const AddProject = (props) => {
             </div>
             <div>
               <Buttons type="submit" variant="primary" name="Confirm" />
+              <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
               <Buttons
                 variant="secondary"
                 name="Cancel"
