@@ -15,7 +15,7 @@ import ProjectsForm from 'Components/Projects/Form';
 import TimeSheets from 'Components/TimeSheets/index';
 import TimeSheetsForm from 'Components/TimeSheets/Form';
 import Tasks from 'Components/Tasks/index';
-import TasksForm from 'Components/Tasks/Form/Form';
+import TasksForm from 'Components/Tasks/Form';
 
 function Layout() {
   return (

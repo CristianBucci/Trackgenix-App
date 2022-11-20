@@ -6,7 +6,7 @@ import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Table from 'Components/Shared/Table/Table';
 import styles from './tasks.module.css';
 import { getTasks, deleteTasks } from 'redux/tasks/thunks';
-import { deleteTasksPending, confirmModalClose, messageModalClose } from 'redux/tasks/actions';
+import { confirmModalClose, messageModalClose, confirmModalOpen } from 'redux/tasks/actions';
 
 const Tasks = () => {
   const [itemId, setItemId] = useState(null);
@@ -21,8 +21,9 @@ const Tasks = () => {
   } = useSelector((state) => state.tasks);
 
   const modalWrapper = (id) => {
+    const content = 'Are you sure you want to delete this Task?';
     setItemId(id);
-    dispatch(deleteTasksPending(id));
+    dispatch(confirmModalOpen(content));
   };
 
   const onCancel = () => {
@@ -34,7 +35,8 @@ const Tasks = () => {
     dispatch(confirmModalClose());
   };
 
-  const closeMessageModal = () => {
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS');
     dispatch(messageModalClose());
   };
 
@@ -55,7 +57,7 @@ const Tasks = () => {
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={closeMessageModal}
+        modalFunction={modalFunction}
       />
       <section className={styles.container}>
         <h2 className={styles.title}>Tasks</h2>

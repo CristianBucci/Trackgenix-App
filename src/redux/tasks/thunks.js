@@ -2,9 +2,14 @@ import {
   getTasksPending,
   getTasksSuccess,
   getTasksError,
+  getByIdTaskPending,
+  getByIdTaskSuccess,
+  getByIdTaskError,
   deleteTasksSuccess,
+  deleteTasksPending,
   deleteTasksError,
   createTasksSuccess,
+  createTasksPending,
   createTasksError,
   updateTasksSuccess,
   updateTasksError
@@ -23,8 +28,27 @@ export const getTasks = () => {
   };
 };
 
+export const getByIdTask = (id) => {
+  return async (dispatch) => {
+    dispatch(getByIdTaskPending());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`);
+      const data = await response.json();
+      if (response.status == 200) {
+        dispatch(getByIdTaskSuccess(data.data));
+      } else {
+        const data = await response.json();
+        dispatch(getByIdTaskError(data.msg.toString()));
+      }
+    } catch (error) {
+      dispatch(getByIdTaskError(error.toString()));
+    }
+  };
+};
+
 export const deleteTasks = (id) => {
   return async (dispatch) => {
+    dispatch(deleteTasksPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'DELETE'
@@ -32,7 +56,8 @@ export const deleteTasks = (id) => {
       if (response.status === 204) {
         dispatch(deleteTasksSuccess(id));
       } else {
-        dispatch(deleteTasksError(`\n${response.statusText} ${response.status}`));
+        const data = await response.json();
+        dispatch(deleteTasksError(data.data));
       }
     } catch (error) {
       dispatch(deleteTasksError(error.toString()));
@@ -40,20 +65,23 @@ export const deleteTasks = (id) => {
   };
 };
 
-export const createTask = (data) => {
+export const createTask = (newTask) => {
   return async (dispatch) => {
+    dispatch(createTasksPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
         method: 'POST',
-        body: JSON.stringify({ description: data }),
+        body: JSON.stringify(newTask),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }
       });
       if (response.status === 201) {
-        dispatch(createTasksSuccess());
+        const data = await response.json();
+        dispatch(createTasksSuccess(data.data));
       } else {
-        dispatch(createTasksError(`\n${response.statusText} ${response.status}`));
+        const data = await response.json();
+        dispatch(createTasksError(data.data));
       }
     } catch (error) {
       dispatch(createTasksError(error.toString()));
@@ -66,7 +94,7 @@ export const updateTask = (data, id) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ description: data }),
+        body: JSON.stringify(data),
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }
@@ -74,7 +102,8 @@ export const updateTask = (data, id) => {
       if (response.status === 200) {
         dispatch(updateTasksSuccess(data, id));
       } else {
-        dispatch(updateTasksError(`\n${response.statusText} ${response.status}`));
+        const data = await response.json();
+        dispatch(updateTasksError(data.data));
       }
     } catch (error) {
       dispatch(updateTasksError(error.toString()));

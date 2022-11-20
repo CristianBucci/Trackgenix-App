@@ -2,6 +2,9 @@ import {
   GET_TASKS_PENDING,
   GET_TASKS_SUCCESS,
   GET_TASKS_ERROR,
+  GETBYID_TASK_PENDING,
+  GETBYID_TASK_SUCCESS,
+  GETBYID_TASK_ERROR,
   CREATE_TASKS_PENDING,
   CREATE_TASKS_SUCCESS,
   CREATE_TASKS_ERROR,
@@ -11,8 +14,10 @@ import {
   DELETE_TASKS_PENDING,
   DELETE_TASKS_SUCCESS,
   DELETE_TASKS_ERROR,
-  CLOSE_MESSAGE_MODAL,
-  CLOSE_CONFIRM_MODAL
+  CONFIRM_MODAL_OPEN,
+  CONFIRM_MODAL_CLOSE,
+  MESSAGE_MODAL_OPEN,
+  MESSAGE_MODAL_CLOSE
 } from './constants';
 
 export const getTasksPending = () => {
@@ -35,15 +40,35 @@ export const getTasksError = (error) => {
   };
 };
 
+export const getByIdTaskPending = () => {
+  return {
+    type: GETBYID_TASK_PENDING
+  };
+};
+
+export const getByIdTaskSuccess = (data) => {
+  return {
+    type: GETBYID_TASK_SUCCESS,
+    payload: data
+  };
+};
+
+export const getByIdTaskError = (error) => {
+  return {
+    type: GETBYID_TASK_ERROR,
+    payload: error
+  };
+};
 export const createTasksPending = () => {
   return {
     type: CREATE_TASKS_PENDING
   };
 };
 
-export const createTasksSuccess = () => {
+export const createTasksSuccess = (data) => {
   return {
-    type: CREATE_TASKS_SUCCESS
+    type: CREATE_TASKS_SUCCESS,
+    payload: data
   };
 };
 
@@ -54,17 +79,16 @@ export const createTasksError = (error) => {
   };
 };
 
-export const updateTasksPending = (id) => {
+export const updateTasksPending = () => {
   return {
-    type: UPDATE_TASKS_PENDING,
-    payload: id
+    type: UPDATE_TASKS_PENDING
   };
 };
 
-export const updateTasksSuccess = (data, id) => {
+export const updateTasksSuccess = (data) => {
   return {
     type: UPDATE_TASKS_SUCCESS,
-    payload: [data, id]
+    payload: data
   };
 };
 
@@ -75,10 +99,9 @@ export const updateTasksError = (error) => {
   };
 };
 
-export const deleteTasksPending = (id) => {
+export const deleteTasksPending = () => {
   return {
-    type: DELETE_TASKS_PENDING,
-    payload: id
+    type: DELETE_TASKS_PENDING
   };
 };
 
@@ -96,14 +119,28 @@ export const deleteTasksError = (error) => {
   };
 };
 
-export const messageModalClose = () => {
+export const confirmModalOpen = (content) => {
   return {
-    type: CLOSE_MESSAGE_MODAL
+    type: CONFIRM_MODAL_OPEN,
+    payload: content
   };
 };
 
 export const confirmModalClose = () => {
   return {
-    type: CLOSE_CONFIRM_MODAL
+    type: CONFIRM_MODAL_CLOSE
+  };
+};
+
+export const messageModalOpen = (content) => {
+  return {
+    type: MESSAGE_MODAL_OPEN,
+    payload: content
+  };
+};
+
+export const messageModalClose = () => {
+  return {
+    type: MESSAGE_MODAL_CLOSE
   };
 };
