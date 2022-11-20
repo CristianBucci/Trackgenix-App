@@ -145,7 +145,6 @@ const AddProject = (props) => {
               <Input
                 label={'Project Name'}
                 name="name"
-                required
                 type="text"
                 placeholder={'Project Name'}
                 register={register}
@@ -154,7 +153,6 @@ const AddProject = (props) => {
               <Input
                 label={'Description'}
                 name="description"
-                required
                 type="text"
                 placeholder={'Description'}
                 register={register}
@@ -162,7 +160,6 @@ const AddProject = (props) => {
               />
               <Input
                 label={'Start Date'}
-                required
                 name="startDate"
                 type="date"
                 register={register}
@@ -170,7 +167,6 @@ const AddProject = (props) => {
               />
               <Input
                 label={'End Date'}
-                required
                 name="endDate"
                 type="date"
                 register={register}
@@ -179,7 +175,6 @@ const AddProject = (props) => {
               <Input
                 label={'Client Name'}
                 name="clientName"
-                required
                 type="text"
                 placeholder={'Client Name'}
                 register={register}
@@ -204,7 +199,6 @@ const AddProject = (props) => {
                       <Input
                         label={'Rate'}
                         name={`employees[${index}].rate`}
-                        required
                         type="number"
                         placeholder={'Rate'}
                         register={register}
