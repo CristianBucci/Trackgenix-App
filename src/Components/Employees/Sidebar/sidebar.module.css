@@ -1,32 +1,29 @@
-.navbar {
+.sidebar {
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5%;
-  min-height: 100px;
-  background-color: red;
+  width: 170px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #EA3354;
 }
 
-.navbar ul {
+.sidebar ul {
+    display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
+    height: 100%;
+    list-style-type: none;
 }
 
-.appName {
-  font-size: 2rem;
-  font-weight: bold;
-}
+.sidebar li {
+    margin-bottom: 25px;
+  }
 
-.rutes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: start;
-  list-style-type: none;
-}
-
-.rutes > li > a {
-  margin-left: 15px;
-  font-size: 1rem;
+.sidebar li > a {
+  font-size: 1.3rem;
   font-weight: 600;
   text-decoration: none;
   text-transform: capitalize;

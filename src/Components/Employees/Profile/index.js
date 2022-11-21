@@ -1,7 +1,14 @@
 import React from 'react';
+import Sidebar from 'Components/Employees/Sidebar';
+import styles from './profile.module.css';
 
-const EmployeeProfile = () => {
-  return <div>Employee profile</div>;
+const EmployeesProfile = () => {
+  return (
+    <div className={styles.profileWrapper}>
+      <Sidebar />
+      <h1> Profile </h1>
+    </div>
+  );
 };
 
-export default EmployeeProfile;
+export default EmployeesProfile;

@@ -12,7 +12,7 @@ import SuperAdminsListForm from 'Components/SuperAdmins/Form/Form';
 import Employees from 'Components/Employees/index';
 import EmployeesForm from 'Components/Employees/Form';
 import EmployeesHome from 'Components/Employees/Home';
-import EmployeeTimeSheets from 'Components/Employees/TimeSheets';
+import EmployeeTimeSheets from 'Components/Employees/Timesheets';
 import EmployeeProfile from 'Components/Employees/Profile';
 
 import Projects from 'Components/Projects';
@@ -36,9 +36,9 @@ function Layout() {
         <Route path="/super-admins/:id" component={SuperAdminsListForm} />
         <Route exact path="/employees" component={Employees} />
         <Route path="/employees/form" component={EmployeesForm} />
-        <Route path="/employees/employee/home" component={EmployeesHome} />
-        <Route path="/employees/employee/timeSheets" component={EmployeeTimeSheets} />
-        <Route path="/employees/employee/profile" component={EmployeeProfile} />
+        <Route path="/employees/home" component={EmployeesHome} />
+        <Route path="/employees/timeSheets" component={EmployeeTimeSheets} />
+        <Route path="/employees/profile" component={EmployeeProfile} />
         <Route path="/employees/:id" component={EmployeesForm} />
         <Route exact path="/projects" component={Projects} />
         <Route path="/projects/form" component={ProjectsForm} />

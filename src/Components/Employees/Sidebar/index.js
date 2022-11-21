@@ -4,19 +4,19 @@ import styles from './sidebar.module.css';
 
 const Sidebar = () => {
   return (
-    <nav className={styles.navbar}>
-      <ul className={styles.rutes}>
+    <aside className={styles.sidebar}>
+      <ul>
         <li>
-          <Link to="/home">Projects</Link>
+          <Link to="/employees/home">Projects</Link>
         </li>
         <li>
-          <Link to="/timeSheets">TimeSheets</Link>
+          <Link to="/employees/timeSheets">TimeSheets</Link>
         </li>
         <li>
-          <Link to="/profile">Profile</Link>
+          <Link to="/employees/profile">Profile</Link>
         </li>
       </ul>
-    </nav>
+    </aside>
   );
 };
 

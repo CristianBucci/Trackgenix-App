@@ -4,9 +4,9 @@ import styles from './timeSheets.module.css';
 
 const EmployeeTimesheet = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.timesheetsWrapper}>
       <Sidebar />
-      <div>Employee Timesheet</div>
+      <h1> Timesheets </h1>
     </div>
   );
 };

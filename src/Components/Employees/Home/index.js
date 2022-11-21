@@ -4,9 +4,9 @@ import styles from './home.module.css';
 
 const HomeEmployees = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.projectsWrapper}>
       <Sidebar />
-      <div>HomeEmployees</div>
+      <h1>Projects table </h1>
     </div>
   );
 };
