@@ -72,6 +72,7 @@ function Form(props) {
 
   const onConfirm = () => {
     id ? dispatch(updateEmployee(id, formValues)) : dispatch(createEmployee(formValues));
+    dispatch(confirmModalClose());
   };
 
   const onCancel = () => {

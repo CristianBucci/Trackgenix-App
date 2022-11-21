@@ -100,6 +100,7 @@ const Form = (props) => {
 
   const onConfirm = () => {
     id ? dispatch(updateTimeSheet(timeSheetInput, id)) : dispatch(addTimeSheet(timeSheetInput));
+    dispatch(confirmModalClose());
   };
 
   const onCancel = () => {

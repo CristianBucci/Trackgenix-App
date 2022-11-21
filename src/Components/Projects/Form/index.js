@@ -76,6 +76,7 @@ const AddProject = (props) => {
     id
       ? dispatch(updateProject(id, projectInput, employeesProject))
       : dispatch(createProject(projectInput, employeesProject));
+    dispatch(confirmModalClose());
   };
 
   useEffect(async () => {

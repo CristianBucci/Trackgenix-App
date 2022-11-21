@@ -67,6 +67,7 @@ const Form = (props) => {
 
   const onConfirm = () => {
     id ? dispatch(updateAdmins(adminData, id)) : dispatch(createAdmins(adminData));
+    dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
