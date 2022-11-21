@@ -25,6 +25,14 @@
   background-color: #F0F4F9;
 }
 
+.navbar a {
+  text-decoration: none;
+}
+
+.navbar a:visited {
+  color: black;
+}
+
 .appName {
   font-size: 2rem;
   font-weight: bold;

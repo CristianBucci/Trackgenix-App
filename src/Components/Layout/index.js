@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import styles from './layout.module.css';
 import Header from 'Components/Header/index';
 import Footer from 'Components/Footer/index';
@@ -8,8 +8,13 @@ import Admins from 'Components/Admins/index';
 import AdminsForm from 'Components/Admins/Form';
 import SuperAdminsList from 'Components/SuperAdmins/index';
 import SuperAdminsListForm from 'Components/SuperAdmins/Form/Form';
+
 import Employees from 'Components/Employees/index';
 import EmployeesForm from 'Components/Employees/Form';
+import EmployeesHome from 'Components/Employees/Home';
+import EmployeeTimeSheets from 'Components/Employees/TimeSheets';
+import EmployeeProfile from 'Components/Employees/Profile';
+
 import Projects from 'Components/Projects';
 import ProjectsForm from 'Components/Projects/Form';
 import TimeSheets from 'Components/TimeSheets/index';
@@ -22,7 +27,16 @@ function Layout() {
     <div className={styles.container}>
       <Header />
       <Switch>
-        <Route exact path="/home" component={Home} />
+        <Route
+          exact
+          path="/home"
+          render={() => (
+            <>
+              <Link to="/employees/home"> Go to employees Home</Link>
+              <Home />
+            </>
+          )}
+        />
         <Route exact path="/admins" component={Admins} />
         <Route path="/admins/form" component={AdminsForm} />
         <Route path="/admins/:Id" component={AdminsForm} />
@@ -31,6 +45,9 @@ function Layout() {
         <Route path="/super-admins/:id" component={SuperAdminsListForm} />
         <Route exact path="/employees" component={Employees} />
         <Route path="/employees/form" component={EmployeesForm} />
+        <Route path="/employees/home" component={EmployeesHome} />
+        <Route path="/employees/timesheets" component={EmployeeTimeSheets} />
+        <Route path="/employees/profile" component={EmployeeProfile} />
         <Route path="/employees/:id" component={EmployeesForm} />
         <Route exact path="/projects" component={Projects} />
         <Route path="/projects/form" component={ProjectsForm} />
