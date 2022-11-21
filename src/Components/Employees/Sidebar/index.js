@@ -15,6 +15,7 @@ const Sidebar = () => {
         <li>
           <Link to="/employees/profile">Profile</Link>
         </li>
+        <Link to="/home">Back to general Home</Link>
       </ul>
     </aside>
   );

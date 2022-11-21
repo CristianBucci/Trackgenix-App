@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import styles from './layout.module.css';
 import Header from 'Components/Header/index';
 import Footer from 'Components/Footer/index';
@@ -25,9 +25,19 @@ import TasksForm from 'Components/Tasks/Form';
 function Layout() {
   return (
     <div className={styles.container}>
-      <Header />
       <Switch>
-        <Route exact path="/home" component={Home} />
+        <Route
+          exact
+          path="/home"
+          render={() => (
+            <>
+              <Header />
+              <Link to="/employees/home"> Go to employees Home</Link>
+              <Home />
+              <Footer />
+            </>
+          )}
+        />
         <Route exact path="/admins" component={Admins} />
         <Route path="/admins/form" component={AdminsForm} />
         <Route path="/admins/:Id" component={AdminsForm} />
@@ -53,7 +63,6 @@ function Layout() {
           <Redirect to="/home" />
         </Route>
       </Switch>
-      <Footer />
     </div>
   );
 }
