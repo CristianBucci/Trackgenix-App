@@ -68,6 +68,7 @@ const Form = (props) => {
     id
       ? dispatch(updateSuperAdmin(superAdminInput, id))
       : dispatch(createSuperAdmin(superAdminInput));
+    dispatch(confirmModalClose());
   };
 
   const onCancel = () => {

@@ -57,6 +57,7 @@ const TasksForm = (props) => {
 
   const onConfirm = () => {
     id ? dispatch(updateTask(taskInput, id)) : dispatch(createTask(taskInput));
+    dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
