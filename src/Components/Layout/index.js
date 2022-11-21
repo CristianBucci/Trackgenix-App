@@ -12,7 +12,7 @@ import SuperAdminsListForm from 'Components/SuperAdmins/Form/Form';
 import Employees from 'Components/Employees/index';
 import EmployeesForm from 'Components/Employees/Form';
 import EmployeesHome from 'Components/Employees/Home';
-import EmployeeTimeSheets from 'Components/Employees/Timesheets';
+import EmployeeTimeSheets from 'Components/Employees/TimeSheets';
 import EmployeeProfile from 'Components/Employees/Profile';
 
 import Projects from 'Components/Projects';
@@ -25,16 +25,15 @@ import TasksForm from 'Components/Tasks/Form';
 function Layout() {
   return (
     <div className={styles.container}>
+      <Header />
       <Switch>
         <Route
           exact
           path="/home"
           render={() => (
             <>
-              <Header />
               <Link to="/employees/home"> Go to employees Home</Link>
               <Home />
-              <Footer />
             </>
           )}
         />
@@ -63,6 +62,7 @@ function Layout() {
           <Redirect to="/home" />
         </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }
