@@ -1,3 +1,14 @@
-.profileWrapper h1 {
-    text-align: center;
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.container button {
+    width: 250px;
+    margin: auto;
+}
+
+.container a {
+    width: 250px;
+    margin: auto;
 }
