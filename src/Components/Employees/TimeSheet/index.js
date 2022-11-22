@@ -55,6 +55,9 @@ const EmployeeTimeSheet = () => {
     if (project.employees.length > 0) {
       for (let i = 0; i < project.employees.length; i++) {
         result = project.employees[i].employeeId?._id === employeeID_Mocked;
+        if (result === true) {
+          break;
+        }
       }
     }
     return result;
