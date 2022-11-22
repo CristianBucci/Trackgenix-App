@@ -1,3 +1,11 @@
 .projectsWrapper h1 {
   text-align: center;
 }
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+}
+.spinnerContainer img {
+  width: 80px;
+}
