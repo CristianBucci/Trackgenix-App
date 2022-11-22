@@ -46,6 +46,7 @@ function Layout() {
         <Route exact path="/employees" component={Employees} />
         <Route path="/employees/form" component={EmployeesForm} />
         <Route path="/employees/home" component={EmployeesHome} />
+        <Route path="/employees/timesheets/:id" component={EmployeeTimeSheets} />
         <Route path="/employees/timesheets" component={EmployeeTimeSheets} />
         <Route path="/employees/profile" component={EmployeeProfile} />
         <Route path="/employees/:id" component={EmployeesForm} />

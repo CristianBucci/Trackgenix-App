@@ -16,8 +16,9 @@ import { getProjects } from 'redux/projects/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { timesheetsValidationSchema } from 'Components/Employees/TimeSheet/validations';
+import { useParams } from 'react-router-dom';
 
-const EmployeeTimeSheet = () => {
+const EmployeeTimeSheet = (props) => {
   const dispatch = useDispatch();
 
   const { modalContent, showModalMessage, showConfirmModal } = useSelector(
@@ -25,7 +26,8 @@ const EmployeeTimeSheet = () => {
   );
 
   const employeeID_Mocked = '63718325a007c768469fefad';
-  const projectID_Mocked = '6374295ce670db4dabdf163e'; //to change for url prop later
+  const params = useParams();
+  const projectID = params.id && params.id;
 
   const [timeSheetInput, setTimeSheetInput] = useState({
     description: '',
@@ -33,7 +35,7 @@ const EmployeeTimeSheet = () => {
     hours: '',
     task: '',
     employee: employeeID_Mocked,
-    project: projectID_Mocked
+    project: ''
   });
 
   const { list: tasks } = useSelector((state) => state.tasks);
@@ -66,7 +68,8 @@ const EmployeeTimeSheet = () => {
   useEffect(() => {
     dispatch(getTasks());
     dispatch(getProjects());
-    projectID_Mocked ? setValue('project', projectID_Mocked) : null;
+    projectID ? setValue('project', projectID) : null;
+    projectID ? setTimeSheetInput({ project: projectID }) : null;
   }, []);
 
   const onConfirm = () => {
@@ -79,12 +82,11 @@ const EmployeeTimeSheet = () => {
   };
 
   const modalFunction = () => {
-    modalContent.title.includes('SUCCESS');
+    modalContent.title.includes('SUCCESS') && redirect();
     dispatch(messageModalClose());
   };
 
   const onSubmit = (e) => {
-    console.log(timeSheetInput);
     setTimeSheetInput({
       description: e.description,
       date: e.date,
@@ -95,11 +97,14 @@ const EmployeeTimeSheet = () => {
     });
     const content = `Are you sure you want to create a new Timesheet'`;
     dispatch(confirmModalOpen(content));
-    console.log(timeSheetInput);
   };
 
   const resetForm = () => {
-    reset();
+    reset(timeSheetInput);
+  };
+
+  const redirect = () => {
+    props.history.push('/employees/home');
   };
 
   return (
