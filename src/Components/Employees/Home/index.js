@@ -14,6 +14,10 @@ const EmployeesHome = () => {
 
   const { list: projectsList, isLoading } = useSelector((state) => state.projects);
 
+  useEffect(() => {
+    setFilteredList(parseFilteredProjects());
+  }, [projectsList]);
+
   // eslint-disable-next-line no-unused-vars
   const [filteredList, setFilteredList] = useState([]);
 
@@ -21,6 +25,21 @@ const EmployeesHome = () => {
 
   // eslint-disable-next-line no-unused-vars
   const id = '637b848509e8dffba1304058';
+
+  const parseFilteredProjects = () => {
+    let listData = [];
+    projectsById.forEach((element) => {
+      listData.push({
+        name: element.name,
+        description: element.description,
+        clientName: element.clientName,
+        startDate: element.startDate,
+        endDate: element.endDate,
+        role: element.employees.filter((employee) => employee.employeeId._id === id)[0].role
+      });
+    });
+    return listData;
+  };
 
   const projectsById = projectsList.filter((projects) => {
     let result;
@@ -32,8 +51,6 @@ const EmployeesHome = () => {
     return result;
   });
 
-  console.log('PROJECT FILTER', projectsById);
-
   return (
     <div className={styles.projectsWrapper}>
       <Sidebar />
@@ -43,27 +60,20 @@ const EmployeesHome = () => {
         </div>
       ) : (
         <>
-          {projectsById.length > 0 ? (
+          {filteredList.length > 0 ? (
             <>
               <h1>Projects table </h1>
               <Table
-                data={[]}
+                data={filteredList}
                 headers={[
                   'Project Name',
                   'Desription',
                   'Client Name',
                   'Starting Date',
                   'End Date',
-                  'Employees'
+                  'Role'
                 ]}
-                dataValues={[
-                  'name',
-                  'description',
-                  'clientName',
-                  'startDate',
-                  'endDate',
-                  'employees'
-                ]}
+                dataValues={['name', 'description', 'clientName', 'startDate', 'endDate', 'role']}
                 location={location}
                 // setShowModal={modalWrapper}
               />
