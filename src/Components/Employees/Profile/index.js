@@ -108,7 +108,7 @@ const EmployeesProfile = () => {
       />
       <div className={styles.container}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <h2>My profle</h2>
+          <h2>My profile</h2>
           <img
             src="https://img.freepik.com/vector-premium/avatar-elegante-hombre-negocios_24877-18075.jpg"
             alt="profile picture"
