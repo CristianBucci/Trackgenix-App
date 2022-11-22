@@ -25,6 +25,7 @@ const EmployeeTimeSheet = () => {
   );
 
   const employeeID_Mocked = '63718325a007c768469fefad';
+  const projectID_Mocked = '6374295ce670db4dabdf163e'; //to change for url prop later
 
   const [timeSheetInput, setTimeSheetInput] = useState({
     description: '',
@@ -32,7 +33,7 @@ const EmployeeTimeSheet = () => {
     hours: '',
     task: '',
     employee: employeeID_Mocked,
-    project: ''
+    project: projectID_Mocked
   });
 
   const { list: tasks } = useSelector((state) => state.tasks);
@@ -41,6 +42,7 @@ const EmployeeTimeSheet = () => {
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
     reset
   } = useForm({
@@ -61,6 +63,7 @@ const EmployeeTimeSheet = () => {
   useEffect(() => {
     dispatch(getTasks());
     dispatch(getProjects());
+    projectID_Mocked ? setValue('project', projectID_Mocked) : null;
   }, []);
 
   const onConfirm = () => {
