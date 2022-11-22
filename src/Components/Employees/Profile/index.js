@@ -1,31 +1,23 @@
 import React from 'react';
+import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Input from 'Components/Shared/Inputs';
+import Buttons from 'Components/Shared/Button/index';
 import Sidebar from 'Components/Employees/Sidebar';
 import styles from './profile.module.css';
+
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
 import { getByIdEmployee, updateEmployee } from 'redux/employees/thunks';
-
-import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
-import ModalMessage from 'Components/Shared/Modal/ModalMessage';
-import Input from 'Components/Shared/Inputs';
-import Buttons from 'Components/Shared/Button/index';
-
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
 
-const EmployeesProfile = (props) => {
-  const [displayInput, setDisplayInput] = useState(false);
-  const [formValues, setFormValues] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    password: '',
-    phone: ''
-  });
-
+const EmployeesProfile = () => {
+  const id = '637b848509e8dffba1304058';
+  const [formValues, setFormValues] = useState('');
   const dispatch = useDispatch();
   const {
     item: employee,
@@ -33,8 +25,6 @@ const EmployeesProfile = (props) => {
     showModalMessage,
     showConfirmModal
   } = useSelector((state) => state.employees);
-
-  const id = '637b848509e8dffba1304058';
 
   const {
     handleSubmit,
@@ -48,26 +38,16 @@ const EmployeesProfile = (props) => {
   });
 
   useEffect(() => {
-    if (id) {
-      dispatch(getByIdEmployee(id));
-    }
+    dispatch(getByIdEmployee(id));
   }, []);
 
   useEffect(() => {
-    if (employee && id) {
+    if (employee) {
       setValue('name', employee.name);
       setValue('lastName', employee.lastName);
       setValue('email', employee.email);
       setValue('password', employee.password);
       setValue('phone', employee.phone);
-
-      setFormValues({
-        name: employee.name,
-        lastName: employee.lastName,
-        email: employee.email,
-        password: employee.password,
-        phone: employee.phone
-      });
     }
   }, [employee]);
 
@@ -80,36 +60,26 @@ const EmployeesProfile = (props) => {
     dispatch(confirmModalClose());
   };
 
-  const redirect = () => {
-    props.history.push('/employees/home');
-  };
-
-  const onSubmit = (event) => {
+  const onSubmit = (data) => {
     setFormValues({
-      name: event.name,
-      lastName: event.lastName,
-      email: event.email,
-      password: event.password,
-      phone: event.phone
+      name: data.name,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+      phone: data.phone
     });
 
-    const content = `Are you sure you want to ${
-      id ? 'edit the employee with id ' + id : 'create a new employee'
-    }?`;
+    const content = `Are you sure you want to edit your Profile?`;
     dispatch(confirmModalOpen(content));
   };
 
   const modalFunction = () => {
-    modalContent.title.includes('SUCCESS') && redirect();
+    modalContent.title.includes('SUCCESS');
     dispatch(messageModalClose());
   };
 
   const resetForm = () => {
     reset(formValues);
-  };
-
-  const displayPassword = () => {
-    setDisplayInput(!displayInput);
   };
 
   return (
@@ -163,25 +133,17 @@ const EmployeesProfile = (props) => {
             error={errors.phone?.message}
             placeholder={'Phone'}
           />
-          {displayInput && (
-            <Input
-              className={styles.passwordInput}
-              register={register}
-              label={'Password'}
-              name="password"
-              type="password"
-              disable
-              error={errors.password?.message}
-              placeholder={'Password'}
-            />
-          )}
+          <Input
+            className={styles.passwordInput}
+            register={register}
+            label={'Password'}
+            name="password"
+            type="password"
+            error={errors.password?.message}
+            placeholder={'Password'}
+          />
           <div>
-            <Buttons
-              type="button"
-              variant="primary"
-              name="Change password"
-              onClick={() => displayPassword()}
-            />
+            <Buttons type="button" variant="primary" name="Change password" />
           </div>
           <div>
             <Buttons type="submit" variant="primary" name="Save channges" />
