@@ -99,35 +99,28 @@ const EmployeesProfile = () => {
         modalFunction={modalFunction}
       />
       <div className={styles.container}>
-        <div className={styles.secondary}>
-          <Link to={'/home'}>
-            <Buttons variant="secondary" name="Log Out" />
-          </Link>
-        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h2>My profile</h2>
           <img
             src="https://img.freepik.com/vector-premium/avatar-elegante-hombre-negocios_24877-18075.jpg"
             alt="profile picture"
           ></img>
-          <div className={styles.input}>
-            <Input
-              register={register}
-              label={'Name'}
-              name="name"
-              type="text"
-              error={errors.name?.message}
-              placeholder={'Name'}
-            />
-            <Input
-              register={register}
-              label={'Last Name'}
-              name="lastName"
-              type="text"
-              error={errors.lastName?.message}
-              placeholder={'Last Name'}
-            />
-          </div>
+          <Input
+            register={register}
+            label={'Name'}
+            name="name"
+            type="text"
+            error={errors.name?.message}
+            placeholder={'Name'}
+          />
+          <Input
+            register={register}
+            label={'Last Name'}
+            name="lastName"
+            type="text"
+            error={errors.lastName?.message}
+            placeholder={'Last Name'}
+          />
           <Input
             register={register}
             label={'Email'}
@@ -136,25 +129,23 @@ const EmployeesProfile = () => {
             error={errors.email?.message}
             placeholder={'Email'}
           />
-          <div className={styles.input}>
-            <Input
-              register={register}
-              label={'Phone'}
-              name="phone"
-              type="text"
-              error={errors.phone?.message}
-              placeholder={'Phone'}
-            />
-            <Input
-              className={styles.passwordInput}
-              register={register}
-              label={'Password'}
-              name="password"
-              type="password"
-              error={errors.password?.message}
-              placeholder={'Password'}
-            />
-          </div>
+          <Input
+            register={register}
+            label={'Phone'}
+            name="phone"
+            type="text"
+            error={errors.phone?.message}
+            placeholder={'Phone'}
+          />
+          <Input
+            className={styles.passwordInput}
+            register={register}
+            label={'Password'}
+            name="password"
+            type="password"
+            error={errors.password?.message}
+            placeholder={'Password'}
+          />
           <div>
             <Buttons type="button" variant="primary" name="Change password" />
           </div>
@@ -163,6 +154,11 @@ const EmployeesProfile = () => {
           </div>
           <div>
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+          </div>
+          <div>
+            <Link to={'/home'}>
+              <Buttons variant="secondary" name="Log Out" />
+            </Link>
           </div>
           <div>
             <Buttons type="button" variant="primary" name="Delete account" />
