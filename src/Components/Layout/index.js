@@ -12,7 +12,7 @@ import SuperAdminsListForm from 'Components/SuperAdmins/Form/Form';
 import Employees from 'Components/Employees/index';
 import EmployeesForm from 'Components/Employees/Form';
 import EmployeesHome from 'Components/Employees/Home';
-import EmployeeTimeSheets from 'Components/Employees/TimeSheets';
+import EmployeeTimeSheets from 'Components/Employees/TimeSheet';
 import EmployeeProfile from 'Components/Employees/Profile';
 
 import Projects from 'Components/Projects';
