@@ -48,6 +48,14 @@ const EmployeesProfile = () => {
       setValue('email', employee.email);
       setValue('password', employee.password);
       setValue('phone', employee.phone);
+
+      setFormValues({
+        name: employee.name,
+        lastName: employee.lastName,
+        email: employee.email,
+        password: employee.password,
+        phone: employee.phone
+      });
     }
   }, [employee]);
 
@@ -136,15 +144,6 @@ const EmployeesProfile = () => {
             type="text"
             error={errors.phone?.message}
             placeholder={'Phone'}
-          />
-          <Input
-            className={styles.passwordInput}
-            register={register}
-            label={'Password'}
-            name="password"
-            type="password"
-            error={errors.password?.message}
-            placeholder={'Password'}
           />
           <div>
             <Buttons type="button" variant="primary" name="Change password" />
