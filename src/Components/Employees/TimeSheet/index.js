@@ -48,6 +48,16 @@ const EmployeeTimeSheet = () => {
     resolver: joiResolver(timesheetsValidationSchema)
   });
 
+  const projectsById = projects.filter((project) => {
+    let result;
+    if (project.employees.length > 0) {
+      for (let i = 0; i < project.employees.length; i++) {
+        result = project.employees[i].employeeId?._id === employeeID_Mocked;
+      }
+    }
+    return result;
+  });
+
   useEffect(() => {
     dispatch(getTasks());
     dispatch(getProjects());
@@ -145,7 +155,7 @@ const EmployeeTimeSheet = () => {
               <label>Project</label>
               <Select
                 register={register}
-                options={projects}
+                options={projectsById}
                 keyMap={'_id'}
                 title={'Project'}
                 fieldToShow={'name'}
