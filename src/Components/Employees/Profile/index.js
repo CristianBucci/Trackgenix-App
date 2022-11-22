@@ -149,7 +149,7 @@ const EmployeesProfile = () => {
             <Buttons type="button" variant="primary" name="Change password" />
           </div>
           <div>
-            <Buttons type="submit" variant="primary" name="Save channges" />
+            <Buttons type="submit" variant="primary" name="Save changes" />
           </div>
           <div>
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
