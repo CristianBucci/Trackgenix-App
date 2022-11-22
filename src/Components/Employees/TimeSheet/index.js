@@ -15,7 +15,7 @@ import { getProjects } from 'redux/projects/thunks';
 
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { timesheetsValidationSchema } from 'Components/TimeSheets/Form/validations';
+import { timesheetsValidationSchema } from 'Components/Employees/TimeSheet/validations';
 
 const EmployeeTimeSheet = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const EmployeeTimeSheet = () => {
     (state) => state.timesheets
   );
 
-  const employeeID_Mocked = '6374295ce670db4dabdf163e';
+  const employeeID_Mocked = '63718325a007c768469fefad';
 
   const [timeSheetInput, setTimeSheetInput] = useState({
     description: '',
@@ -52,11 +52,6 @@ const EmployeeTimeSheet = () => {
     dispatch(getTasks());
     dispatch(getProjects());
   }, []);
-
-  // const fixDate = (date) => {
-  //   let dateFormated = date.substr(0, 10);
-  //   return dateFormated;
-  // };
 
   const onConfirm = () => {
     dispatch(addTimeSheet(timeSheetInput));
