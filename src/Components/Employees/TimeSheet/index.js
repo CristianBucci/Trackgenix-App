@@ -4,7 +4,7 @@ import ModalMessage from 'Components/Shared/Modal/ModalMessage/index';
 import Input from 'Components/Shared/Inputs';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
-import styles from './timeSheets.module.css';
+import styles from './timeSheet.module.css';
 import Sidebar from 'Components/Employees/Sidebar';
 
 import { useSelector, useDispatch } from 'react-redux';
