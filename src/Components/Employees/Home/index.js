@@ -2,8 +2,8 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
+import { Link } from 'react-router-dom';
 
-import Table from 'Components/Shared/Table/Table';
 import Sidebar from 'Components/Employees/Sidebar';
 import styles from './home.module.css';
 
@@ -18,23 +18,27 @@ const EmployeesHome = () => {
     setFilteredList(parseFilteredProjects());
   }, [projectsList]);
 
-  // eslint-disable-next-line no-unused-vars
   const [filteredList, setFilteredList] = useState([]);
 
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line no-unused-vars
   const id = '637b848509e8dffba1304058';
+
+  const fixDate = (date) => {
+    let dateFormated = date.substr(0, 10);
+    return dateFormated;
+  };
 
   const parseFilteredProjects = () => {
     let listData = [];
     projectsById.forEach((element) => {
       listData.push({
+        id: element._id,
         name: element.name,
         description: element.description,
         clientName: element.clientName,
-        startDate: element.startDate,
-        endDate: element.endDate,
+        startDate: fixDate(element.startDate),
+        endDate: fixDate(element.endDate),
         role: element.employees.filter((employee) => employee.employeeId._id === id)[0].role
       });
     });
@@ -51,6 +55,16 @@ const EmployeesHome = () => {
     return result;
   });
 
+  const headers = [
+    'Project Name',
+    'Desription',
+    'Client Name',
+    'Starting Date',
+    'End Date',
+    'Role'
+  ];
+  const dataValues = ['name', 'description', 'clientName', 'startDate', 'endDate', 'role'];
+
   return (
     <div className={styles.projectsWrapper}>
       <Sidebar />
@@ -60,26 +74,45 @@ const EmployeesHome = () => {
         </div>
       ) : (
         <>
-          {filteredList.length > 0 ? (
-            <>
-              <h1>Projects table </h1>
-              <Table
-                data={filteredList}
-                headers={[
-                  'Project Name',
-                  'Desription',
-                  'Client Name',
-                  'Starting Date',
-                  'End Date',
-                  'Role'
-                ]}
-                dataValues={['name', 'description', 'clientName', 'startDate', 'endDate', 'role']}
-                location={location}
-                // setShowModal={modalWrapper}
-              />
-            </>
+          {filteredList.length == 0 ? (
+            <h1 className={styles.h1}>You are not assigned to any projects.</h1>
           ) : (
-            <h1>Not projects found!</h1>
+            <table className={styles.table}>
+              <thead className={styles.header}>
+                <tr>
+                  {headers.map((header, index) => {
+                    return <th key={index}>{header}</th>;
+                  })}
+                  <th key={headers.length - 1}>Add hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredList.map((item) => {
+                  return (
+                    <>
+                      <tr key={item.id} className={styles.row}>
+                        {dataValues.map((value, index) => {
+                          return (
+                            <>
+                              <td key={index}>{item[value]}</td>
+                            </>
+                          );
+                        })}
+                        <td key={item.id}>
+                          <div className={styles.btnContainer}>
+                            <Link to={`timesheets/${item.id}`}>
+                              <button className={styles.button}>
+                                <img src="/assets/images/add.svg" alt="add" />
+                              </button>
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+              </tbody>
+            </table>
           )}
         </>
       )}
