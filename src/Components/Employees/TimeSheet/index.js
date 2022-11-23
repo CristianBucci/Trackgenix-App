@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from 'Components/Employees/Sidebar';
-import styles from './timeSheets.module.css';
+import styles from './timeSheet.module.css';
 
 const EmployeeTimesheet = () => {
   return (
