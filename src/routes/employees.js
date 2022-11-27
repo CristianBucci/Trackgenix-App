@@ -6,7 +6,7 @@ const Employees = lazy(() => import('Components/Employees/index'));
 const EmployeesHome = lazy(() => import('Components/Employees/Home'));
 const EmployeesForm = lazy(() => import('Components/Employees/Form'));
 const EmployeeProfile = lazy(() => import('Components/Employees/Profile'));
-const EmployeeTimeSheet = lazy(() => import('Components/Employee/Timesheet'));
+const EmployeeTimeSheet = lazy(() => import('Components/Employees/TimeSheet'));
 
 const routes = [
   { name: 'home', path: '/employees/home' },

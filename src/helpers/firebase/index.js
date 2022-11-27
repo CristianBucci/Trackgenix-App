@@ -1,17 +1,16 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth, onIdTokenChanged } from "firebase/auth";
-import store from "redux/store";
+import { initializeApp } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
+import { getAuth, onIdTokenChanged } from 'firebase/auth';
+// import store from 'redux/store';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 //!!! Moked user credentials !!!
 export const mokedUser = {
-  email: "maxig.dev@gmail.com",
-  password: "prueba1234"
-}
-
+  email: 'maxig.dev@gmail.com',
+  password: 'prueba1234'
+};
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -34,21 +33,21 @@ const auth = getAuth(app);
 
 const tokenListener = () => {
   onIdTokenChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const {
-            token
-            // claims: { role, email }
-          } = await user.getIdTokenResult();
-          if (token) {
-            // store.dispatch(setLoggedIn({ role, email }));
-          }
-        } catch (error) {
-          throw new Error(error.toString());
+    if (user) {
+      try {
+        const {
+          token
+          // claims: { role, email }
+        } = await user.getIdTokenResult();
+        if (token) {
+          // store.dispatch(setLoggedIn({ role, email }));
         }
-      } else {
-        // store.dispatch(setLoggedOut());
-      };
+      } catch (error) {
+        throw new Error(error.toString());
+      }
+    } else {
+      // store.dispatch(setLoggedOut());
+    }
   });
 };
 

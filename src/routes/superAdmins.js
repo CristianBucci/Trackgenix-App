@@ -4,7 +4,7 @@ import { useRouteMatch, Route, Switch } from 'react-router-dom';
 const SuperAdmins = lazy(() => import('Components/SuperAdmins/index'));
 const SuperAdminsEmployees = lazy(() => import('Components/SuperAdmins/Employees'));
 const SuperAdminsForm = lazy(() => import('Components/SuperAdmins/Form'));
-const SuperAdminsProfile = lazy(() => import('Components/SuperAdmins/Form'));
+const SuperAdminsProfile = lazy(() => import('Components/SuperAdmins/Profile'));
 
 const routes = [
   {

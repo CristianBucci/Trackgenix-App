@@ -1,7 +1,6 @@
 import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import { Route, Switch } from 'react-router-dom/cjs/react-router-dom';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
 const Projects = lazy(() => import('Components/Projects/index'));
 const ProjectsForm = lazy(() => import('Components/Projects/Form/index'));
 
