@@ -7,9 +7,19 @@ import { getAuth, onIdTokenChanged } from 'firebase/auth';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 //!!! Moked user credentials !!!
-export const mokedUser = {
-  email: 'maxig.dev@gmail.com',
-  password: 'prueba1234'
+export const mokedUsers = {
+  employee: {
+    email: "employeeTest@radiumrocket.com",
+    password: "Dou123456"
+  },
+  admin: {
+    email: "AdminTest@gmail.com",
+    password: "dbd123456"
+  },
+  superAdmin: {
+    email: 'superAdmintest@radiumrocket.com',
+    password: 'abelito2345678'
+  }
 };
 
 // Your web app's Firebase configuration
