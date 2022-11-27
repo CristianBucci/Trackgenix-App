@@ -8,7 +8,7 @@ import Home from 'Components/Home/index';
 
 const EmployeeRoutes = lazy(() => import('./employees'));
 const AdminRoutes = lazy(() => import('./admins'));
-const superAdminRoutes = lazy(() => import('./superAdmins'));
+const SuperAdminRoutes = lazy(() => import('./superAdmins'));
 const ProjectsRoutes = lazy(() => import('./projects'));
 const TasksRoutes = lazy(() => import('./tasks'));
 const TimeSheetsRoutes = lazy(() => import('./timeSheets'));
@@ -39,7 +39,7 @@ function Layout() {
             exact
             path="/super-admins"
             role="SUPER_ADMIN"
-            component={superAdminRoutes}
+            component={SuperAdminRoutes}
           />
           <Route exact path="/projects" component={ProjectsRoutes} />
           <Route exact path="/timesheets" component={TimeSheetsRoutes} />
