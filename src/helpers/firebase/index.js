@@ -6,6 +6,13 @@ import store from "redux/store";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+//!!! Moked user credentials !!!
+export const mokedUser = {
+  email: "maxig.dev@gmail.com",
+  password: "prueba1234"
+}
+
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
