@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect, Switch, Route, Link } from 'react-router-dom';
-import styles from './layout.module.css';
 import Header from 'Components/Header/index';
 import Footer from 'Components/Footer/index';
 import Home from 'Components/Home/index';
@@ -24,7 +23,7 @@ import TasksForm from 'Components/Tasks/Form';
 
 function Layout() {
   return (
-    <div className={styles.container}>
+    <div>
       <Header />
       <Switch>
         <Route
