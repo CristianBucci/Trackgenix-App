@@ -1,7 +1,8 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import styles from './routes.module.css';
 
+import { tokenListener } from 'helpers/firebase';
 import Header from 'Components/Header/index';
 import Footer from 'Components/Footer/index';
 import Home from 'Components/Home/index';
@@ -11,6 +12,7 @@ import SuperAdminsList from 'Components/SuperAdmins/index';
 import SuperAdminsListForm from 'Components/SuperAdmins/Form/Form';
 
 const Employee = lazy(() => import('./employees'));
+const AuthRoutes = lazy(() => import('./auth'));
 
 import Projects from 'Components/Projects';
 import ProjectsForm from 'Components/Projects/Form';
@@ -20,6 +22,10 @@ import Tasks from 'Components/Tasks/index';
 import TasksForm from 'Components/Tasks/Form';
 
 function Layout() {
+  useEffect(() => {
+    tokenListener();
+  }, []);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className={styles.container}>
@@ -35,8 +41,8 @@ function Layout() {
               </>
             )}
           />
+          <Route path="/auth" component={AuthRoutes} />
           <Route path="/employees" component={Employee} />
-
           <Route exact path="/admins" component={Admins} />
           <Route path="/admins/form" component={AdminsForm} />
           <Route path="/admins/:Id" component={AdminsForm} />
