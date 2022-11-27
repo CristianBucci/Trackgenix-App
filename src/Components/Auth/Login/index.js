@@ -1,39 +1,34 @@
 import Buttons from 'Components/Shared/Button';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from 'helpers/firebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from 'redux/auth/thunks';
 import { mokedUsers } from 'helpers/firebase';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const { role, email, isLoading } = useSelector((state) => state.auth);
   const { employee, admin, superAdmin } = mokedUsers;
-  const loginEmployee = () => login(employee);
 
-  const loginAdmin = () => login(admin);
+  const loginEmployee = () => dispatch(login(employee));
 
-  const loginSuperAdmin = () => login(superAdmin);
+  const loginAdmin = () => dispatch(login(admin));
 
-  const login = (role) => {
-    signInWithEmailAndPassword(auth, role.email, role.password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        alert(`User ${user.email} login successful`);
-        console.log('User access token:', user.accessToken);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
-        console.log(errorCode, errorMessage);
-      });
-  };
+  const loginSuperAdmin = () => dispatch(login(superAdmin));
+
+  const logoutUser = () => dispatch(logout());
 
   return (
     <div>
       <h1>Login</h1>
-      <a></a>
       <Buttons variant="primary" name="Login Employee" onClick={loginEmployee} />
       <Buttons variant="secondary" name="Login Admin" onClick={loginAdmin} />
       <Buttons variant="primary" name="Login Super Admin" onClick={loginSuperAdmin} />
+      {
+        (role && email) &&
+        <>
+          <h1> Bienvenido {role} {email} </h1>
+          <Buttons variant="primary" name="Logout" onClick={logoutUser} />
+        </>
+      }
     </div>
   );
 };

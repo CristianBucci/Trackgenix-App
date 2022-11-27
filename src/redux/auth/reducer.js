@@ -61,8 +61,8 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        role: action.payload.role,
-        email: action.payload.email
+        role: '',
+        email: ''
       };
     case FIREBASE_LOGOUT_ERROR:
       return {

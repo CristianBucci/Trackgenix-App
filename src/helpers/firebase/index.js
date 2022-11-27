@@ -9,16 +9,19 @@ import { getAuth, onIdTokenChanged } from 'firebase/auth';
 //!!! Moked user credentials !!!
 export const mokedUsers = {
   employee: {
-    email: "employeeTest@radiumrocket.com",
-    password: "Dou123456"
+    email: 'employeeTest@radiumrocket.com',
+    password: 'Dou123456',
+    role: 'employee'
   },
   admin: {
-    email: "AdminTest@gmail.com",
-    password: "dbd123456"
+    email: 'AdminTest@gmail.com',
+    password: 'dbd123456',
+    role: 'admin'
   },
   superAdmin: {
     email: 'superAdmintest@radiumrocket.com',
-    password: 'abelito2345678'
+    password: 'abelito2345678',
+    role: 'superAdmin'
   }
 };
 
