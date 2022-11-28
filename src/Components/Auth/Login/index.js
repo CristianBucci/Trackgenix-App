@@ -22,13 +22,22 @@ const Login = () => {
       <Buttons variant="primary" name="Login Employee" onClick={loginEmployee} />
       <Buttons variant="secondary" name="Login Admin" onClick={loginAdmin} />
       <Buttons variant="primary" name="Login Super Admin" onClick={loginSuperAdmin} />
-      {
-        (role && email) &&
-        <>
-          <h1> Bienvenido {role} {email} </h1>
-          <Buttons variant="primary" name="Logout" onClick={logoutUser} />
-        </>
-      }
+      {isLoading ? (
+        <div>
+          <img src="/assets/images/spinner.gif" alt="spinner" />
+        </div>
+      ) : (
+        role &&
+        email && (
+          <>
+            <h1>
+              {' '}
+              Bienvenido {role} {email}{' '}
+            </h1>
+            <Buttons variant="primary" name="Logout" onClick={logoutUser} />
+          </>
+        )
+      )}
     </div>
   );
 };
