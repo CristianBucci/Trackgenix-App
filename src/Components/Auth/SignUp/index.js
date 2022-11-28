@@ -18,13 +18,11 @@ const SignUp = () => {
         // Signed in
         const user = userCredential.user;
         alert(`User ${user.email} register successful`);
-        console.log('User access token:', user.accessToken);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage);
-        console.log(errorCode, errorMessage);
       });
   };
 

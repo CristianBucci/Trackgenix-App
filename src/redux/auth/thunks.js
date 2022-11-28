@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from 'helpers/firebase';
 import {
   firebaseLoginPending,
@@ -16,23 +16,15 @@ export const login = (role) => {
   return async (dispatch) => {
     dispatch(firebaseLoginPending());
     try {
-      signInWithEmailAndPassword(auth, role.email, role.password)
-        .then((userCredential) => {
-          // Signed in
-          console.log(role);
-          const user = userCredential.user;
-          alert(`User ${user.email} login successful`);
-          console.log('User access token:', user.accessToken);
-          dispatch(firebaseLoginSuccess(role));
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert(errorMessage);
-          console.log(errorCode, errorMessage);
-          dispatch(firebaseLoginError());
-        });
+      const response = await signInWithEmailAndPassword(auth, role.email, role.password)
+      const user = response.user;
+      alert(`User ${user.email} login successful`);
+      // console.log for QA
+      console.log('User access token:', user.accessToken);
+      dispatch(firebaseLoginSuccess(role));
     } catch (error) {
+      const errorMessage = error.message;
+      alert(errorMessage);
       dispatch(firebaseLoginError());
     }
   };
@@ -53,8 +45,11 @@ export const logout = () => {
   return async (dispatch) => {
     dispatch(firebaseLogoutPending());
     try {
+      await signOut(auth)
+      alert('logout successful');
       dispatch(firebaseLogoutSuccess());
     } catch (error) {
+      console.error(error);
       dispatch(firebaseLogoutError());
     }
   };
