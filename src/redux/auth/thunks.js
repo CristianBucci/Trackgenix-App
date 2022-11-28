@@ -16,7 +16,7 @@ export const login = (role) => {
   return async (dispatch) => {
     dispatch(firebaseLoginPending());
     try {
-      const response = await signInWithEmailAndPassword(auth, role.email, role.password)
+      const response = await signInWithEmailAndPassword(auth, role.email, role.password);
       const user = response.user;
       alert(`User ${user.email} login successful`);
       // console.log for QA
@@ -45,7 +45,7 @@ export const logout = () => {
   return async (dispatch) => {
     dispatch(firebaseLogoutPending());
     try {
-      await signOut(auth)
+      await signOut(auth);
       alert('logout successful');
       dispatch(firebaseLogoutSuccess());
     } catch (error) {

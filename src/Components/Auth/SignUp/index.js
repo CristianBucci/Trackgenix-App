@@ -20,7 +20,6 @@ const SignUp = () => {
         alert(`User ${user.email} register successful`);
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage);
       });
