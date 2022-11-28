@@ -17,21 +17,21 @@ export const login = (role) => {
     dispatch(firebaseLoginPending());
     try {
       signInWithEmailAndPassword(auth, role.email, role.password)
-      .then((userCredential) => {
-        // Signed in
-        console.log(role);
-        const user = userCredential.user;
-        alert(`User ${user.email} login successful`);
-        console.log('User access token:', user.accessToken);
-        dispatch(firebaseLoginSuccess(role));
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
-        console.log(errorCode, errorMessage);
-        dispatch(firebaseLoginError());
-      });
+        .then((userCredential) => {
+          // Signed in
+          console.log(role);
+          const user = userCredential.user;
+          alert(`User ${user.email} login successful`);
+          console.log('User access token:', user.accessToken);
+          dispatch(firebaseLoginSuccess(role));
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert(errorMessage);
+          console.log(errorCode, errorMessage);
+          dispatch(firebaseLoginError());
+        });
     } catch (error) {
       dispatch(firebaseLoginError());
     }
