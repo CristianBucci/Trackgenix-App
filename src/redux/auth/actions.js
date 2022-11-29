@@ -11,10 +11,9 @@ import {
   FIREBASE_SET_AUTH
 } from './constants';
 
-export const firebaseLoginPending = (data) => {
+export const firebaseLoginPending = () => {
   return {
-    type: FIREBASE_LOGIN_PENDING,
-    payload: data
+    type: FIREBASE_LOGIN_PENDING
   };
 };
 
@@ -32,10 +31,9 @@ export const firebaseLoginError = (data) => {
   };
 };
 
-export const firebaseSignUpPending = (data) => {
+export const firebaseSignUpPending = () => {
   return {
-    type: FIREBASE_SIGN_UP_PENDING,
-    payload: data
+    type: FIREBASE_SIGN_UP_PENDING
   };
 };
 
@@ -53,10 +51,9 @@ export const firebaseSignUpError = (data) => {
   };
 };
 
-export const firebaseLogoutPending = (data) => {
+export const firebaseLogoutPending = () => {
   return {
-    type: FIREBASE_LOGOUT_PENDING,
-    payload: data
+    type: FIREBASE_LOGOUT_PENDING
   };
 };
 
