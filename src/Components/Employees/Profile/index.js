@@ -15,10 +15,9 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
 import { logout } from 'redux/auth/thunks';
 
-const token = sessionStorage.getItem('token');
-const id = sessionStorage.getItem('id');
-
 const EmployeesProfile = () => {
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
   const [formValues, setFormValues] = useState('');
   const dispatch = useDispatch();
   const {

@@ -5,6 +5,7 @@ import { Schema } from './validations';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { messageModalClose, messageModalOpen } from 'redux/auth/actions';
+import { useState } from 'react';
 
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
@@ -14,13 +15,14 @@ import styles from './login.module.css';
 const Login = () => {
   const { isLoading, showModalMessage, modalContent } = useSelector((state) => state.auth);
   const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const {
     handleSubmit,
     register,
     formState: { errors }
   } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
     resolver: joiResolver(Schema)
   });
 
@@ -50,6 +52,10 @@ const Login = () => {
     }
   };
 
+  const passwordShow = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
       <ModalMessage
@@ -70,14 +76,27 @@ const Login = () => {
               register={register}
               error={errors.email?.message}
             />
-            <Input
-              label={'Password'}
-              type="password"
-              name="password"
-              placeholder={'Password'}
-              register={register}
-              error={errors.password?.message}
-            />
+            <div className={styles.inputPassword}>
+              <div className={styles.password}>
+                <Input
+                  label={'Password'}
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder={'Password'}
+                  register={register}
+                  error={errors.password?.message}
+                />
+              </div>
+              <img
+                src={
+                  showPassword
+                    ? '/assets/images/eye-icon-png-13.jpg'
+                    : '/assets/images/eyes-closed-eyes.png'
+                }
+                alt="show icon"
+                onClick={passwordShow}
+              ></img>
+            </div>
             <div>
               <Buttons type="submit" variant="primary" name="Confirm" />
             </div>

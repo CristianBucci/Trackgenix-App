@@ -19,10 +19,9 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { timesheetsValidationSchema } from 'Components/Employees/TimeSheet/validations';
 import { useParams } from 'react-router-dom';
 
-const token = sessionStorage.getItem('token');
-const id = sessionStorage.getItem('id');
-
 const EmployeeTimeSheet = (props) => {
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
   const dispatch = useDispatch();
 
   const { modalContent, showModalMessage, showConfirmModal } = useSelector(

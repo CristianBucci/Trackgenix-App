@@ -33,6 +33,7 @@ input {
     padding: 8px;
     border-radius: 10px;
     background-color: var(--header-table);
+    width: 100%
 }
 
 label {
@@ -62,4 +63,21 @@ label {
 .container img {
     width: 80px;
     height: 80px;
+}
+
+.inputPassword{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 300px;
+}
+
+.inputPassword img{
+    width:30px;
+    height: 30px;
+}
+
+.password {
+    width: 100%;
+    height: 150px;
 }
