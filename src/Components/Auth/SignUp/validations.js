@@ -23,7 +23,7 @@ export const employeeSchema = Joi.object({
     }),
   email: Joi.string()
     .required()
-    .email({ tlds: { allow: false } })
+    .email({ minDomainSegments: 2, tlds: { allow: false } })
     .messages({
       'string.empty': 'Email is required.',
       'any.required': 'Email is required.',
@@ -31,7 +31,7 @@ export const employeeSchema = Joi.object({
     }),
   password: Joi.string()
     .required()
-    .pattern(/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/)
+    .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
     .messages({
       'string.empty': 'Password is required.',
       'any.required': 'Password is required.',
@@ -46,7 +46,6 @@ export const employeeSchema = Joi.object({
     .required()
     .pattern(/^[0-9]+$/)
     .min(9)
-    .max(15)
     .messages({
       'string.empty': 'Phone is required.',
       'any.required': 'Phone is required.',
