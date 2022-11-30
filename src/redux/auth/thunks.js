@@ -23,9 +23,7 @@ export const login = (inputData) => {
       sessionStorage.setItem('token', token);
       return role;
     } catch (error) {
-      const errorMessage = error.message;
-      alert(errorMessage);
-      dispatch(firebaseLoginError());
+      dispatch(firebaseLoginError(error.message));
     }
   };
 };

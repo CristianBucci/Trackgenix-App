@@ -4,13 +4,15 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { Schema } from './validations';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+import { messageModalClose, messageModalOpen } from 'redux/auth/actions';
 
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button';
 import styles from './login.module.css';
 
 const Login = () => {
-  const { isLoading } = useSelector((state) => state.auth);
+  const { isLoading, showModalMessage, modalContent } = useSelector((state) => state.auth);
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -21,6 +23,11 @@ const Login = () => {
     mode: 'onChange',
     resolver: joiResolver(Schema)
   });
+
+  const modalFunction = () => {
+    modalContent.title.includes('ERROR');
+    dispatch(messageModalClose());
+  };
 
   const onSubmit = async (data) => {
     const role = await dispatch(login(data));
@@ -38,48 +45,58 @@ const Login = () => {
         default:
           history.push('/');
       }
+    } else {
+      dispatch(messageModalOpen());
     }
   };
 
   return (
-    <div className={styles.container}>
-      {!isLoading ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {<h1>Login</h1>}
-          <Input
-            label={'Email'}
-            type="text"
-            name="email"
-            placeholder={'Email'}
-            register={register}
-            error={errors.email?.message}
-          />
-          <Input
-            label={'Password'}
-            type="password"
-            name="password"
-            placeholder={'Password'}
-            register={register}
-            error={errors.password?.message}
-          />
-          <div>
-            <Buttons type="submit" variant="primary" name="Confirm" />
-          </div>
-          <div>
-            <Buttons
-              type="button"
-              variant="secondary"
-              name="Sign Up"
-              onClick={() => history.push('/auth/sign-up')}
+    <>
+      <ModalMessage
+        show={showModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={modalFunction}
+      />
+      <div className={styles.container}>
+        {!isLoading ? (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {<h1>Login</h1>}
+            <Input
+              label={'Email'}
+              type="text"
+              name="email"
+              placeholder={'Email'}
+              register={register}
+              error={errors.email?.message}
             />
+            <Input
+              label={'Password'}
+              type="password"
+              name="password"
+              placeholder={'Password'}
+              register={register}
+              error={errors.password?.message}
+            />
+            <div>
+              <Buttons type="submit" variant="primary" name="Confirm" />
+            </div>
+            <div>
+              <Buttons
+                type="button"
+                variant="secondary"
+                name="Sign Up"
+                onClick={() => history.push('/auth/sign-up')}
+              />
+            </div>
+          </form>
+        ) : (
+          <div>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
           </div>
-        </form>
-      ) : (
-        <div>
-          <img src="/assets/images/spinner.gif" alt="spinner" />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
