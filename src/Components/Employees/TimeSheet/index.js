@@ -12,6 +12,7 @@ import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/ti
 import { addTimeSheet } from 'redux/timesheets/thunks';
 import { getTasks } from 'redux/tasks/thunks';
 import { getProjects } from 'redux/projects/thunks';
+import { logout } from 'redux/auth/thunks';
 
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -75,8 +76,10 @@ const EmployeeTimeSheet = (props) => {
   }, []);
 
   const onConfirm = () => {
-    dispatch(addTimeSheet(timeSheetInput, token));
-    dispatch(confirmModalClose());
+    !modalContent.content.includes('logout')
+      ? (dispatch(addTimeSheet(timeSheetInput, token)), dispatch(confirmModalClose()))
+      : dispatch(logout()),
+      dispatch(confirmModalClose());
   };
 
   const onCancel = () => {

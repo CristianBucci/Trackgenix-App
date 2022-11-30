@@ -7,13 +7,13 @@ import Sidebar from 'Components/Employees/Sidebar';
 import styles from './profile.module.css';
 
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
 import { getByIdEmployee, updateEmployee } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
+import { logout } from 'redux/auth/thunks';
 
 const token = sessionStorage.getItem('token');
 const id = sessionStorage.getItem('id');
@@ -62,8 +62,10 @@ const EmployeesProfile = () => {
   }, [employee]);
 
   const onConfirm = () => {
-    dispatch(updateEmployee(id, formValues, token));
-    dispatch(confirmModalClose());
+    !modalContent.content.includes('logout')
+      ? (dispatch(updateEmployee(id, formValues, token)), dispatch(confirmModalClose()))
+      : dispatch(logout()),
+      dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
@@ -155,11 +157,6 @@ const EmployeesProfile = () => {
           </div>
           <div>
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
-          </div>
-          <div>
-            <Link to={'/home'}>
-              <Buttons variant="secondary" name="Log Out" />
-            </Link>
           </div>
           <div>
             <Buttons type="button" variant="primary" name="Delete account" />

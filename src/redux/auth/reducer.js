@@ -9,7 +9,9 @@ import {
   FIREBASE_LOGOUT_SUCCESS,
   FIREBASE_LOGOUT_ERROR,
   MESSAGE_MODAL_OPEN,
-  MESSAGE_MODAL_CLOSE
+  MESSAGE_MODAL_CLOSE,
+  CONFIRM_MODAL_OPEN,
+  CONFIRM_MODAL_CLOSE
 } from './constants';
 
 const INITIAL_STATE = {
@@ -17,7 +19,8 @@ const INITIAL_STATE = {
   email: '',
   isLoading: false,
   modalContent: { title: '', content: '' },
-  showModalMessage: false
+  showModalMessage: false,
+  showConfirmModal: false
 };
 
 const authReducer = (state = INITIAL_STATE, action) => {
@@ -88,6 +91,20 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         showModalMessage: false
+      };
+    case CONFIRM_MODAL_OPEN:
+      return {
+        ...state,
+        modalContent: {
+          title: 'Confirm:',
+          content: action.payload
+        },
+        showConfirmModal: true
+      };
+    case CONFIRM_MODAL_CLOSE:
+      return {
+        ...state,
+        showConfirmModal: false
       };
     default:
       return state;

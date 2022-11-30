@@ -10,7 +10,9 @@ import {
   FIREBASE_LOGOUT_ERROR,
   FIREBASE_SET_AUTH,
   MESSAGE_MODAL_OPEN,
-  MESSAGE_MODAL_CLOSE
+  MESSAGE_MODAL_CLOSE,
+  CONFIRM_MODAL_OPEN,
+  CONFIRM_MODAL_CLOSE
 } from './constants';
 
 export const firebaseLoginPending = () => {
@@ -90,5 +92,18 @@ export const messageModalOpen = (content) => {
 export const messageModalClose = () => {
   return {
     type: MESSAGE_MODAL_CLOSE
+  };
+};
+
+export const confirmModalOpen = (content) => {
+  return {
+    type: CONFIRM_MODAL_OPEN,
+    payload: content
+  };
+};
+
+export const confirmModalClose = () => {
+  return {
+    type: CONFIRM_MODAL_CLOSE
   };
 };
