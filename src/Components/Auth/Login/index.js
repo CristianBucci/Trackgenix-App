@@ -1,11 +1,13 @@
-import Buttons from 'Components/Shared/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from 'redux/auth/thunks';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { Schema } from './validations';
 import { useForm } from 'react-hook-form';
-import Input from 'Components/Shared/Inputs';
 import { useHistory } from 'react-router-dom';
+
+import Input from 'Components/Shared/Inputs';
+import Buttons from 'Components/Shared/Button';
+import styles from './login.module.css';
 
 const Login = () => {
   const { isLoading } = useSelector((state) => state.auth);
@@ -23,7 +25,6 @@ const Login = () => {
   const onSubmit = async (data) => {
     const role = await dispatch(login(data));
     if (role) {
-      console.log(role);
       switch (role) {
         case 'SUPER_ADMIN':
           history.push('/super-admins');
@@ -41,10 +42,10 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       {!isLoading ? (
         <form onSubmit={handleSubmit(onSubmit)}>
-          {<div>Login</div>}
+          {<h1>Login</h1>}
           <Input
             label={'Email'}
             type="text"
