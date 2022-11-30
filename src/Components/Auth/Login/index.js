@@ -65,6 +65,14 @@ const Login = () => {
           <div>
             <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
+          <div>
+            <Buttons
+              type="button"
+              variant="secondary"
+              name="Sign Up"
+              onClick={() => history.push('/auth/sign-up')}
+            />
+          </div>
         </form>
       ) : (
         <div>
