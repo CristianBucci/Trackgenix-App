@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './sidebar.module.css';
+import { logout } from 'redux/auth/thunks';
+import { useDispatch } from 'react-redux';
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const logoutUser = () => dispatch(logout());
   return (
     <aside className={styles.sidebar}>
       <ul>
@@ -15,7 +19,9 @@ const Sidebar = () => {
         <li>
           <Link to="/employees/profile">Profile</Link>
         </li>
-        <Link to="/home">Back to general Home</Link>
+        <li>
+          <Link onClick={logoutUser}>Logout</Link>
+        </li>
       </ul>
     </aside>
   );

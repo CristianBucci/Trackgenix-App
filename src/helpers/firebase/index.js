@@ -1,32 +1,9 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getAuth, onIdTokenChanged } from 'firebase/auth';
-// import store from 'redux/store';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import store from 'redux/store';
+import { firebaseLoginSuccess } from 'redux/auth/actions';
 
-//!!! Moked user credentials !!!
-export const mokedUsers = {
-  employee: {
-    email: 'employeeTest@radiumrocket.com',
-    password: 'Dou123456',
-    role: 'employee'
-  },
-  admin: {
-    email: 'AdminTest@gmail.com',
-    password: 'dbd123456',
-    role: 'admin'
-  },
-  superAdmin: {
-    email: 'superAdmintest@radiumrocket.com',
-    password: 'abelito2345678',
-    role: 'superAdmin'
-  }
-};
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -36,7 +13,6 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 // eslint-disable-next-line
@@ -49,17 +25,23 @@ const tokenListener = () => {
     if (user) {
       try {
         const {
-          token
-          // claims: { role, email }
+          token,
+          claims: { role, email }
         } = await user.getIdTokenResult();
         if (token) {
-          // store.dispatch(setLoggedIn({ role, email }));
+          const mongoUser = await fetch(
+            `${process.env.REACT_APP_API_URL}/employees/?email=${email}`,
+            { headers: { token } }
+          );
+          const data = await mongoUser.json();
+          const mongoId = data.data[0]._id;
+          store.dispatch(firebaseLoginSuccess({ role, email }));
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('id', mongoId);
         }
       } catch (error) {
         throw new Error(error.toString());
       }
-    } else {
-      // store.dispatch(setLoggedOut());
     }
   });
 };

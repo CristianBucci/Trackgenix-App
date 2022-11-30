@@ -16,11 +16,13 @@ import {
   getByIdProjectsError
 } from './actions';
 
-export const getProjects = () => {
+export const getProjects = (token) => {
   return async (dispatch) => {
     dispatch(getProjectsPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
+        headers: { token }
+      });
       const data = await response.json();
       dispatch(getProjectsSuccess(data.data));
     } catch (error) {
@@ -29,11 +31,13 @@ export const getProjects = () => {
   };
 };
 
-export const getByIdProjects = (id) => {
+export const getByIdProjects = (id, token) => {
   return async (dispatch) => {
     dispatch(getByIdProjectsPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+        headers: token
+      });
       const data = await response.json();
       if (response.status == 200) {
         dispatch(getByIdProjectsSuccess(data.data));

@@ -2,7 +2,6 @@ import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from 'helpers/firebase';
 import {
   firebaseLoginPending,
-  firebaseLoginSuccess,
   firebaseLoginError,
   firebaseSignUpPending,
   firebaseSignUpSuccess,
@@ -12,16 +11,17 @@ import {
   firebaseLogoutError
 } from './actions';
 
-export const login = (role) => {
+export const login = (inputData) => {
   return async (dispatch) => {
     dispatch(firebaseLoginPending());
     try {
-      const response = await signInWithEmailAndPassword(auth, role.email, role.password);
-      const user = response.user;
-      alert(`User ${user.email} login successful`);
-      // console.log for QA
-      console.log('User access token:', user.accessToken);
-      dispatch(firebaseLoginSuccess(role));
+      const response = await signInWithEmailAndPassword(auth, inputData.email, inputData.password);
+      const {
+        token,
+        claims: { role }
+      } = await response.user.getIdTokenResult();
+      sessionStorage.setItem('token', token);
+      return role;
     } catch (error) {
       const errorMessage = error.message;
       alert(errorMessage);
@@ -46,10 +46,8 @@ export const logout = () => {
     dispatch(firebaseLogoutPending());
     try {
       await signOut(auth);
-      alert('logout successful');
       dispatch(firebaseLogoutSuccess());
     } catch (error) {
-      console.error(error);
       dispatch(firebaseLogoutError());
     }
   };

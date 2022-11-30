@@ -18,6 +18,9 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { timesheetsValidationSchema } from 'Components/Employees/TimeSheet/validations';
 import { useParams } from 'react-router-dom';
 
+const token = sessionStorage.getItem('token');
+const id = sessionStorage.getItem('id');
+
 const EmployeeTimeSheet = (props) => {
   const dispatch = useDispatch();
 
@@ -25,7 +28,6 @@ const EmployeeTimeSheet = (props) => {
     (state) => state.timesheets
   );
 
-  const employeeID_Mocked = '63718325a007c768469fefad';
   const params = useParams();
   const projectID = params.id && params.id;
 
@@ -34,7 +36,7 @@ const EmployeeTimeSheet = (props) => {
     date: '',
     hours: '',
     task: '',
-    employee: employeeID_Mocked,
+    employee: id,
     project: ''
   });
 
@@ -56,7 +58,7 @@ const EmployeeTimeSheet = (props) => {
     let result;
     if (project.employees.length > 0) {
       for (let i = 0; i < project.employees.length; i++) {
-        result = project.employees[i].employeeId?._id === employeeID_Mocked;
+        result = project.employees[i].employeeId?._id === id;
         if (result === true) {
           break;
         }
@@ -66,14 +68,14 @@ const EmployeeTimeSheet = (props) => {
   });
 
   useEffect(() => {
-    dispatch(getTasks());
-    dispatch(getProjects());
+    dispatch(getTasks(token));
+    dispatch(getProjects(token));
     projectID ? setValue('project', projectID) : null;
     projectID ? setTimeSheetInput({ project: projectID }) : null;
   }, []);
 
   const onConfirm = () => {
-    dispatch(addTimeSheet(timeSheetInput));
+    dispatch(addTimeSheet(timeSheetInput, token));
     dispatch(confirmModalClose());
   };
 
@@ -92,7 +94,7 @@ const EmployeeTimeSheet = (props) => {
       date: e.date,
       hours: e.hours,
       task: e.task,
-      employee: employeeID_Mocked,
+      employee: id,
       project: e.project
     });
     const content = `Are you sure you want to create a new Timesheet'`;

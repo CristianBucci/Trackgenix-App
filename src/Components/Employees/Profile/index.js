@@ -15,8 +15,10 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
 
+const token = sessionStorage.getItem('token');
+const id = sessionStorage.getItem('id');
+
 const EmployeesProfile = () => {
-  const id = '637b848509e8dffba1304058';
   const [formValues, setFormValues] = useState('');
   const dispatch = useDispatch();
   const {
@@ -38,7 +40,7 @@ const EmployeesProfile = () => {
   });
 
   useEffect(() => {
-    dispatch(getByIdEmployee(id));
+    dispatch(getByIdEmployee(id, token));
   }, []);
 
   useEffect(() => {
@@ -60,7 +62,7 @@ const EmployeesProfile = () => {
   }, [employee]);
 
   const onConfirm = () => {
-    dispatch(updateEmployee(id, formValues));
+    dispatch(updateEmployee(id, formValues, token));
     dispatch(confirmModalClose());
   };
 

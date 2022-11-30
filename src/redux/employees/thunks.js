@@ -29,11 +29,13 @@ export const getEmployees = () => {
   };
 };
 
-export const getByIdEmployee = (id) => {
+export const getByIdEmployee = (id, token) => {
   return async (dispatch) => {
     dispatch(getByIdEmployeePending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
+        headers: { token }
+      });
       const json = await response.json();
       if (response.status !== 200) {
         dispatch(getByIdEmployeeError(json.msg.toString()));
@@ -91,13 +93,14 @@ export const createEmployee = (newEmployee) => {
   };
 };
 
-export const updateEmployee = (id, data) => {
+export const updateEmployee = (id, data, token) => {
   return async (dispatch) => {
     dispatch(putEmployeePending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: {
+          token,
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify({
