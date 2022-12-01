@@ -1,44 +1,121 @@
-import Buttons from 'Components/Shared/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, logout } from 'redux/auth/thunks';
-import { mokedUsers } from 'helpers/firebase';
+import { login } from 'redux/auth/thunks';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { Schema } from './validations';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { messageModalClose, messageModalOpen } from 'redux/auth/actions';
+import { useState } from 'react';
+
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import Input from 'Components/Shared/Inputs';
+import Buttons from 'Components/Shared/Button';
+import styles from './login.module.css';
 
 const Login = () => {
+  const { isLoading, showModalMessage, modalContent } = useSelector((state) => state.auth);
+  const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const { role, email, isLoading } = useSelector((state) => state.auth);
-  const { employee, admin, superAdmin } = mokedUsers;
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm({
+    mode: 'onBlur',
+    resolver: joiResolver(Schema)
+  });
 
-  const loginEmployee = () => dispatch(login(employee));
+  const modalFunction = () => {
+    modalContent.title.includes('ERROR');
+    dispatch(messageModalClose());
+  };
 
-  const loginAdmin = () => dispatch(login(admin));
+  const onSubmit = async (data) => {
+    const role = await dispatch(login(data));
+    if (role) {
+      switch (role) {
+        case 'SUPER_ADMIN':
+          history.push('/super-admins');
+          break;
+        case 'ADMIN':
+          history.push('/admins');
+          break;
+        case 'EMPLOYEE':
+          history.push('/employees/home');
+          break;
+        default:
+          history.push('/');
+      }
+    } else {
+      dispatch(messageModalOpen());
+    }
+  };
 
-  const loginSuperAdmin = () => dispatch(login(superAdmin));
-
-  const logoutUser = () => dispatch(logout());
+  const passwordShow = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <Buttons variant="primary" name="Login Employee" onClick={loginEmployee} />
-      <Buttons variant="secondary" name="Login Admin" onClick={loginAdmin} />
-      <Buttons variant="primary" name="Login Super Admin" onClick={loginSuperAdmin} />
-      {isLoading ? (
-        <div>
-          <img src="/assets/images/spinner.gif" alt="spinner" />
-        </div>
-      ) : (
-        role &&
-        email && (
-          <>
-            <h1>
-              {' '}
-              Bienvenido {role} {email}{' '}
-            </h1>
-            <Buttons variant="primary" name="Logout" onClick={logoutUser} />
-          </>
-        )
-      )}
-    </div>
+    <>
+      <ModalMessage
+        show={showModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={modalFunction}
+      />
+      <div className={styles.container}>
+        {!isLoading ? (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {<h1>Login</h1>}
+            <Input
+              label={'Email'}
+              type="text"
+              name="email"
+              placeholder={'Email'}
+              register={register}
+              error={errors.email?.message}
+            />
+            <div className={styles.inputPassword}>
+              <div className={styles.password}>
+                <Input
+                  label={'Password'}
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder={'Password'}
+                  register={register}
+                  error={errors.password?.message}
+                />
+              </div>
+              <img
+                src={
+                  showPassword
+                    ? '/assets/images/eye-icon-png-13.jpg'
+                    : '/assets/images/eyes-closed-eyes.png'
+                }
+                alt="show icon"
+                onClick={passwordShow}
+              ></img>
+            </div>
+            <div>
+              <Buttons type="submit" variant="primary" name="Confirm" />
+            </div>
+            <div>
+              <Buttons
+                type="button"
+                variant="secondary"
+                name="Sign Up"
+                onClick={() => history.push('/auth/sign-up')}
+              />
+            </div>
+          </form>
+        ) : (
+          <div>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

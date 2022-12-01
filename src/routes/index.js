@@ -1,10 +1,8 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { Redirect, Switch, Route, Link } from 'react-router-dom';
+import { Redirect, Switch, Route } from 'react-router-dom';
 import styles from './routes.module.css';
 import PrivateRoute from './PrivateRoute';
 import { tokenListener } from 'helpers/firebase';
-
-import Home from 'Components/Home/index';
 
 const EmployeeRoutes = lazy(() => import('./employees'));
 const AdminRoutes = lazy(() => import('./admins'));
@@ -14,26 +12,22 @@ const TasksRoutes = lazy(() => import('./tasks'));
 const TimeSheetsRoutes = lazy(() => import('./timeSheets'));
 const AuthRoutes = lazy(() => import('./auth'));
 
-function Layout() {
+const Layout = () => {
   useEffect(() => {
     tokenListener();
   }, []);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div>
+          <img src="/assets/images/spinner.gif" alt="spinner" />
+        </div>
+      }
+    >
       <div className={styles.container}>
         <Switch>
-          <Route
-            exact
-            path="/home"
-            render={() => (
-              <>
-                <Link to="/employees/home"> Go to employees Home</Link>
-                <Home />
-              </>
-            )}
-          />
-          <PrivateRoute path="/employees" role="EMPLOYEE" component={EmployeeRoutes} />
+          <PrivateRoute path="/employees/" role="EMPLOYEE" component={EmployeeRoutes} />
           <PrivateRoute exact path="/admins" role="ADMIN" component={AdminRoutes} />
           <PrivateRoute
             exact
@@ -53,5 +47,6 @@ function Layout() {
       </div>
     </Suspense>
   );
-}
+};
+
 export default Layout;

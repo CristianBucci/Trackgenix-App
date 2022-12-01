@@ -7,16 +7,17 @@ import Sidebar from 'Components/Employees/Sidebar';
 import styles from './profile.module.css';
 
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
 import { getByIdEmployee, updateEmployee } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
+import { logout } from 'redux/auth/thunks';
 
 const EmployeesProfile = () => {
-  const id = '637b848509e8dffba1304058';
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
   const [formValues, setFormValues] = useState('');
   const dispatch = useDispatch();
   const {
@@ -38,7 +39,7 @@ const EmployeesProfile = () => {
   });
 
   useEffect(() => {
-    dispatch(getByIdEmployee(id));
+    dispatch(getByIdEmployee(id, token));
   }, []);
 
   useEffect(() => {
@@ -60,8 +61,10 @@ const EmployeesProfile = () => {
   }, [employee]);
 
   const onConfirm = () => {
-    dispatch(updateEmployee(id, formValues));
-    dispatch(confirmModalClose());
+    !modalContent.content.includes('logout')
+      ? (dispatch(updateEmployee(id, formValues, token)), dispatch(confirmModalClose()))
+      : dispatch(logout()),
+      dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
@@ -153,11 +156,6 @@ const EmployeesProfile = () => {
           </div>
           <div>
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
-          </div>
-          <div>
-            <Link to={'/home'}>
-              <Buttons variant="secondary" name="Log Out" />
-            </Link>
           </div>
           <div>
             <Buttons type="button" variant="primary" name="Delete account" />
