@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 import Sidebar from 'Components/Employees/Sidebar';
 import styles from './home.module.css';
 
+const token = sessionStorage.getItem('token');
 const EmployeesHome = () => {
   useEffect(() => {
-    dispatch(getProjects());
+    dispatch(getProjects(token));
   }, []);
 
   const { list: projectsList, isLoading } = useSelector((state) => state.projects);
@@ -22,7 +23,7 @@ const EmployeesHome = () => {
 
   const dispatch = useDispatch();
 
-  const mockedId = '637b848509e8dffba1304058';
+  const id = sessionStorage.getItem('id');
 
   const fixDate = (date) => {
     let dateFormated = date.substr(0, 10);
@@ -39,7 +40,7 @@ const EmployeesHome = () => {
         clientName: element.clientName,
         startDate: fixDate(element.startDate),
         endDate: fixDate(element.endDate),
-        role: element.employees.filter((employee) => employee.employeeId._id === mockedId)[0].role
+        role: element.employees.filter((employee) => employee.employeeId._id === id)[0].role
       });
     });
     return listData;
@@ -49,7 +50,7 @@ const EmployeesHome = () => {
     let result;
     if (projects.employees.length > 0) {
       for (let i = 0; i < projects.employees.length; i++) {
-        result = projects.employees[i].employeeId?._id === mockedId;
+        result = projects.employees[i].employeeId?._id === id;
         if (result === true) {
           break;
         }
