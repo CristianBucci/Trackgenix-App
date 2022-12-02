@@ -23,6 +23,14 @@ function SignUp(props) {
     repeatPassword: '',
     phone: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const passwordShow = () => {
+    setShowPassword(!showPassword);
+  };
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const repeatPasswordShow = () => {
+    setShowRepeatPassword(!showRepeatPassword);
+  };
 
   const dispatch = useDispatch();
   const { isLoading, modalContent, showModalMessage, showConfirmModal } = useSelector(
@@ -126,23 +134,27 @@ function SignUp(props) {
                 register={register}
                 label={'Password'}
                 name="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 error={errors.password?.message}
                 placeholder={'Password'}
+                show={passwordShow}
+                showState={showPassword}
               />
               <Input
                 register={register}
                 label={'Repeat Password'}
                 name="repeatPassword"
-                type="password"
+                type={showRepeatPassword ? 'text' : 'password'}
                 error={errors.repeatPassword?.message}
                 placeholder={'Repeat Password'}
+                show={repeatPasswordShow}
+                showState={showRepeatPassword}
               />
               <Input
                 register={register}
                 label={'Phone'}
                 name="phone"
-                type="text"
+                type="password"
                 error={errors.phone?.message}
                 placeholder={'Phone'}
               />
