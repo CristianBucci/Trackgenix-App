@@ -63,11 +63,3 @@
 .cardButton button {
     margin: 10px;
 }
-
-button.cancel{
-    background: #ff6666;
-}
-
-button.confirm{
-    background: #71da71;
-}
