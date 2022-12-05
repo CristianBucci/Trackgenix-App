@@ -5,17 +5,17 @@ import { Schema } from './validations';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { messageModalClose, messageModalOpen } from 'redux/auth/actions';
-import { useState } from 'react';
 
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button';
 import styles from './login.module.css';
+import { useState } from 'react';
 
 const Login = () => {
   const { isLoading, showModalMessage, modalContent } = useSelector((state) => state.auth);
-  const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
+  const history = useHistory();
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -79,23 +79,16 @@ const Login = () => {
             <div className={styles.inputPassword}>
               <div className={styles.password}>
                 <Input
-                  label={'Password'}
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  placeholder={'Password'}
                   register={register}
+                  label={'Password'}
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
                   error={errors.password?.message}
+                  placeholder={'Password'}
+                  show={passwordShow}
+                  showState={showPassword}
                 />
               </div>
-              <img
-                src={
-                  showPassword
-                    ? '/assets/images/eye-icon-png-13.jpg'
-                    : '/assets/images/eyes-closed-eyes.png'
-                }
-                alt="show icon"
-                onClick={passwordShow}
-              ></img>
             </div>
             <div className={styles.buttonContainer}>
               <Buttons type="submit" variant="primary" name="Confirm" />
@@ -111,7 +104,7 @@ const Login = () => {
           </form>
         ) : (
           <div>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
+            <img className={styles.spinner} src="/assets/images/spinner.gif" alt="spinner" />
           </div>
         )}
       </div>

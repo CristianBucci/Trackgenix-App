@@ -37,7 +37,7 @@
     height: 100%;
 }
 
-.container img {
+.spinner {
     width: 80px;
     height: 80px;
 }
@@ -47,11 +47,6 @@
     flex-direction: row;
     align-items: center;
     height: 300px;
-}
-
-.inputPassword img{
-    width:30px;
-    height: 30px;
 }
 
 .password {
