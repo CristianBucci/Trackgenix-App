@@ -1,4 +1,4 @@
-form {
+.form {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -8,47 +8,24 @@ form {
     box-shadow: 1px -1px 15px 2px rgba(0,0,0,0.10);
 }
 
-form h1 {
+.form h1 {
     text-align: center;
 }
 
-form h2 {
+.form h2 {
     width: 100%;
     margin-bottom: 30px;
 }
 
-form div {
+.buttonContainer {
     display: flex;
     flex-direction: column;
     gap: 3px;
 }
 
-form button {
+.form button {
     width: 200px;
     margin: auto;
-}
-
-input {
-    border: 1px solid transparent;
-    padding: 8px;
-    border-radius: 10px;
-    background-color: var(--header-table);
-    width: 100%
-}
-
-label {
-    margin-top: 3px;
-}
-
-button {
-    padding: 12px 30px;
-    border: none;
-    font-weight: 600;
-}
-
-label {
-    color: var(--main-color);
-    font-weight: 500;
 }
 
 .container {

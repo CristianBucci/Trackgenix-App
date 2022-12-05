@@ -66,7 +66,7 @@ const Login = () => {
       />
       <div className={styles.container}>
         {!isLoading ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             {<h1>Login</h1>}
             <Input
               label={'Email'}
@@ -76,20 +76,31 @@ const Login = () => {
               register={register}
               error={errors.email?.message}
             />
-            <Input
-              label={'Password'}
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder={'Password'}
-              register={register}
-              error={errors.password?.message}
-              show={passwordShow}
-              showState={showPassword}
-            />
-            <div>
+            <div className={styles.inputPassword}>
+              <div className={styles.password}>
+                <Input
+                  label={'Password'}
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder={'Password'}
+                  register={register}
+                  error={errors.password?.message}
+                />
+              </div>
+              <img
+                src={
+                  showPassword
+                    ? '/assets/images/eye-icon-png-13.jpg'
+                    : '/assets/images/eyes-closed-eyes.png'
+                }
+                alt="show icon"
+                onClick={passwordShow}
+              ></img>
+            </div>
+            <div className={styles.buttonContainer}>
               <Buttons type="submit" variant="primary" name="Confirm" />
             </div>
-            <div>
+            <div className={styles.buttonContainer}>
               <Buttons
                 type="button"
                 variant="secondary"
