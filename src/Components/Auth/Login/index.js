@@ -66,7 +66,7 @@ const Login = () => {
       />
       <div className={styles.container}>
         {!isLoading ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             {<h1>Login</h1>}
             <Input
               label={'Email'}
@@ -97,10 +97,10 @@ const Login = () => {
                 onClick={passwordShow}
               ></img>
             </div>
-            <div>
+            <div className={styles.buttonContainer}>
               <Buttons type="submit" variant="primary" name="Confirm" />
             </div>
-            <div>
+            <div className={styles.buttonContainer}>
               <Buttons
                 type="button"
                 variant="secondary"

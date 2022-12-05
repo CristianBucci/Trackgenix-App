@@ -90,7 +90,7 @@ function SignUp(props) {
         modalFunction={modalFunction}
       />
       <div className={styles.container}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <h2>Create Employee</h2>
           {isLoading ? (
             <div className={styles.spinnerContainer}>
