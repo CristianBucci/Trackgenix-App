@@ -79,23 +79,16 @@ const Login = () => {
             <div className={styles.inputPassword}>
               <div className={styles.password}>
                 <Input
-                  label={'Password'}
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  placeholder={'Password'}
                   register={register}
+                  label={'Password'}
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
                   error={errors.password?.message}
+                  placeholder={'Password'}
+                  show={passwordShow}
+                  showState={showPassword}
                 />
               </div>
-              <img
-                src={
-                  showPassword
-                    ? '/assets/images/eye-icon-png-13.jpg'
-                    : '/assets/images/eyes-closed-eyes.png'
-                }
-                alt="show icon"
-                onClick={passwordShow}
-              ></img>
             </div>
             <div className={styles.buttonContainer}>
               <Buttons type="submit" variant="primary" name="Confirm" />
