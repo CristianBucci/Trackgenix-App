@@ -28,7 +28,28 @@ const tokenListener = () => {
           token,
           claims: { role, email }
         } = await user.getIdTokenResult();
-        if (token) {
+        if (token && role === 'SUPER_ADMIN') {
+          const mongoUser = await fetch(
+            `${process.env.REACT_APP_API_URL}/superAdmin/?email=${email}`,
+            { headers: { token } }
+          );
+          const data = await mongoUser.json();
+          const mongoId = data.data[0]._id;
+          store.dispatch(firebaseLoginSuccess({ role, email }));
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('id', mongoId);
+        }
+        if (token && role === 'ADMIN') {
+          const mongoUser = await fetch(`${process.env.REACT_APP_API_URL}/admin/?email=${email}`, {
+            headers: { token }
+          });
+          const data = await mongoUser.json();
+          const mongoId = data.data[0]._id;
+          store.dispatch(firebaseLoginSuccess({ role, email }));
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('id', mongoId);
+        }
+        if (token && role === 'EMPLOYEE') {
           const mongoUser = await fetch(
             `${process.env.REACT_APP_API_URL}/employees/?email=${email}`,
             { headers: { token } }

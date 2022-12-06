@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom';
 import Sidebar from 'Components/Employees/Sidebar';
 import styles from './home.module.css';
 
-const token = sessionStorage.getItem('token');
 const EmployeesHome = () => {
+  const token = sessionStorage.getItem('token');
+
   useEffect(() => {
     dispatch(getProjects(token));
   }, []);

@@ -1,16 +1,14 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import styles from './routes.module.css';
 import PrivateRoute from './PrivateRoute';
 import { tokenListener } from 'helpers/firebase';
+import Footer from 'Components/Footer';
 
-const EmployeeRoutes = lazy(() => import('./employees'));
-const AdminRoutes = lazy(() => import('./admins'));
-const SuperAdminRoutes = lazy(() => import('./superAdmins'));
-const ProjectsRoutes = lazy(() => import('./projects'));
-const TasksRoutes = lazy(() => import('./tasks'));
-const TimeSheetsRoutes = lazy(() => import('./timeSheets'));
 const AuthRoutes = lazy(() => import('./auth'));
+const SuperAdminRoutes = lazy(() => import('./superAdmins'));
+const AdminRoutes = lazy(() => import('./admins'));
+const EmployeeRoutes = lazy(() => import('./employees'));
 
 const Layout = () => {
   useEffect(() => {
@@ -27,23 +25,13 @@ const Layout = () => {
     >
       <div className={styles.container}>
         <Switch>
-          <PrivateRoute path="/employees/" role="EMPLOYEE" component={EmployeeRoutes} />
-          <PrivateRoute exact path="/admins" role="ADMIN" component={AdminRoutes} />
-          <PrivateRoute
-            exact
-            path="/super-admins"
-            role="SUPER_ADMIN"
-            component={SuperAdminRoutes}
-          />
-          <Route exact path="/projects" component={ProjectsRoutes} />
-          <Route exact path="/timesheets" component={TimeSheetsRoutes} />
-          <Route exact path="/tasks" component={TasksRoutes} />
           <Route path="/auth" component={AuthRoutes} />
+          <PrivateRoute exact path="/admins" role="ADMIN" component={AdminRoutes} />
+          <PrivateRoute path="/super-admins" role="SUPER_ADMIN" component={SuperAdminRoutes} />
+          <PrivateRoute path="/employees" role="EMPLOYEE" component={EmployeeRoutes} />
           <Redirect to="/auth" />
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
         </Switch>
+        <Footer />
       </div>
     </Suspense>
   );
