@@ -1,4 +1,4 @@
-const superAdminHome = () => {
+const SuperAdminsHome = () => {
   return (
     <>
       <div>SuperAdmins HOME</div>
@@ -6,4 +6,4 @@ const superAdminHome = () => {
   );
 };
 
-export default superAdminHome;
+export default SuperAdminsHome;

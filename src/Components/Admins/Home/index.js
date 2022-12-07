@@ -1,4 +1,4 @@
-const adminHome = () => {
+const AdminsHome = () => {
   return (
     <>
       <div>Admins HOME</div>
@@ -6,4 +6,4 @@ const adminHome = () => {
   );
 };
 
-export default adminHome;
+export default AdminsHome;

@@ -2,8 +2,9 @@ import React, { lazy } from 'react';
 import { Suspense } from 'react';
 import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
 
-const superAdminHome = lazy(() => import('Components/SuperAdmins/Home'));
-const SuperAdminsProfile = lazy(() => import('Components/SuperAdmins/Profile'));
+const SuperAdminsHome = lazy(() => import('Components/SuperAdmins/Home'));
+const AdminForm = lazy(() => import('Components/SuperAdmins/Admins'));
+const SuperAdminProfile = lazy(() => import('Components/SuperAdmins/Profile'));
 
 const SuperAdminRoutes = () => {
   const { url } = useRouteMatch();
@@ -17,8 +18,10 @@ const SuperAdminRoutes = () => {
         }
       >
         <Switch>
-          <Route exact path={`${url}/`} component={superAdminHome} />
-          <Route path={`${url}/profile`} component={SuperAdminsProfile} />
+          <Route exact path={`${url}/`} component={SuperAdminsHome} />
+          <Route exact path={`${url}/admins`} component={AdminForm} />
+          <Route path={`${url}/admins/:id`} component={AdminForm} />
+          <Route path={`${url}/profile`} component={SuperAdminProfile} />
         </Switch>
       </Suspense>
     </BrowserRouter>
