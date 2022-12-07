@@ -1,32 +1,31 @@
-import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
-import { useRouteMatch, Route, Switch } from 'react-router-dom';
-const SuperAdmins = lazy(() => import('Components/SuperAdmins/index'));
-const SuperAdminsEmployees = lazy(() => import('Components/SuperAdmins/Employees'));
-const SuperAdminsForm = lazy(() => import('Components/SuperAdmins/Form'));
-const SuperAdminsProfile = lazy(() => import('Components/SuperAdmins/Profile'));
+import { Suspense } from 'react';
+import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
 
-const routes = [
-  {
-    name: 'home',
-    path: '/superAdmins'
-  }
-];
+const SuperAdminsHome = lazy(() => import('Components/SuperAdmins/Home'));
+const AdminForm = lazy(() => import('Components/SuperAdmins/Admins'));
+const SuperAdminProfile = lazy(() => import('Components/SuperAdmins/Profile'));
 
-const superAdmin = () => {
+const SuperAdminRoutes = () => {
   const { url } = useRouteMatch();
   return (
-    <Layout routes={routes}>
-      <Switch>
-        <Route exact path={`${url}/`} component={SuperAdmins} />
-        <Route path={`${url}/employees`} component={SuperAdminsEmployees} />
-        <Route path={`${url}/employees/:id`} component={SuperAdminsEmployees} />
-        <Route path={`${url}/profile`} component={SuperAdminsProfile} />
-        <Route path={`${url}/form`} component={SuperAdminsForm} />
-        <Route path={`${url}/form/:id`} component={SuperAdminsForm} />
-      </Switch>
-    </Layout>
+    <BrowserRouter>
+      <Suspense
+        fallback={
+          <div>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
+          </div>
+        }
+      >
+        <Switch>
+          <Route exact path={`${url}/`} component={SuperAdminsHome} />
+          <Route exact path={`${url}/admins`} component={AdminForm} />
+          <Route path={`${url}/admins/:id`} component={AdminForm} />
+          <Route path={`${url}/profile`} component={SuperAdminProfile} />
+        </Switch>
+      </Suspense>
+    </BrowserRouter>
   );
 };
 
-export default superAdmin;
+export default SuperAdminRoutes;

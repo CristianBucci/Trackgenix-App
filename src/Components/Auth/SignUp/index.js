@@ -69,7 +69,7 @@ function SignUp(props) {
       phone: event.phone
     });
 
-    const content = `Are you sure you want to create a new employee?`;
+    const content = `Are you sure you want to create a new user?`;
     dispatch(confirmModalOpen(content));
   };
 
@@ -99,7 +99,7 @@ function SignUp(props) {
       />
       <div className={styles.container}>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <h2>Create Employee</h2>
+          <h2>Create new user</h2>
           {isLoading ? (
             <div className={styles.spinnerContainer}>
               <img src="/assets/images/spinner.gif" alt="spinner" />

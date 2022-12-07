@@ -1,25 +1,34 @@
-import Layout from 'Components/Layout';
 import React, { lazy } from 'react';
-import { useRouteMatch, Route, Switch } from 'react-router-dom';
-const Admins = lazy(() => import('Components/Admins/index'));
-const AdminForm = lazy(() => import('Components/Admins/Form'));
+import { Suspense } from 'react';
+import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
 
-const routes = [
-  {
-    name: 'home',
-    path: '/admins'
-  }
-];
+const AdminsHome = lazy(() => import('Components/Admins/Home'));
+const ProjectsForm = lazy(() => import('Components/Admins/Projects'));
+const EmployeesList = lazy(() => import('Components/Admins/Employees'));
+const EmployeesForm = lazy(() => import('Components/Admins/Employees/Form'));
+const AdminProfile = lazy(() => import('Components/Admins/Profile'));
+
 const AdminsRouter = () => {
   const { url } = useRouteMatch();
   return (
-    <Layout routes={routes}>
-      <Switch>
-        <Route exact path={`${url}/`} component={Admins} />
-        <Route exact path={`${url}/form`} component={AdminForm} />
-        <Route path={`${url}/form/:id`} component={AdminForm} />
-      </Switch>
-    </Layout>
+    <BrowserRouter>
+      <Suspense
+        fallback={
+          <div>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
+          </div>
+        }
+      >
+        <Switch>
+          <Route exact path={`${url}/`} component={AdminsHome} />
+          <Route exact path={`${url}/projects`} component={ProjectsForm} />
+          <Route path={`${url}/projects/:id`} component={ProjectsForm} />
+          <Route exact path={`${url}/employees`} component={EmployeesList} />
+          <Route path={`${url}/employees/form/:id`} component={EmployeesForm} />
+          <Route path={`${url}/profile`} component={AdminProfile} />
+        </Switch>
+      </Suspense>
+    </BrowserRouter>
   );
 };
 
