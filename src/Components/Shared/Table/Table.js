@@ -1,15 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Table.module.css';
 import { Link } from 'react-router-dom';
 
 const Table = ({ data, headers, dataValues, setShowModal, location }) => {
+  const [search, setSearch] = useState('');
+
+  const results = !search
+    ? data
+    : data.filter(
+        (dato) =>
+          dato.name?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          dato.lastName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          dato.email?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          dato.phone?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          dato.clientName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          dato.startDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          dato.endDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          dato.employees?.toLowerCase().includes(search.toLocaleLowerCase())
+      );
+
   return (
     <>
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.searchBox}>
             <img src="/assets/images/lens.svg" alt="update" />
-            <input type="text" placeholder="Search"></input>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            ></input>
           </div>
           <Link to={`.${location.pathname}/form`}>
             <button className={styles.createBtn}>+</button>
@@ -25,7 +47,7 @@ const Table = ({ data, headers, dataValues, setShowModal, location }) => {
             </tr>
           </thead>
           <tbody className={styles.body}>
-            {data.map((item) => {
+            {results.map((item) => {
               const openModal = () => {
                 setShowModal(item._id);
               };
