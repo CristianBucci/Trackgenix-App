@@ -3,7 +3,7 @@ import Joi from 'joi';
 export const superAdminsValidationSchema = Joi.object({
   name: Joi.string()
     .min(3)
-    .pattern(/^[\p{L}]+$/u)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)
     .required()
     .messages({
       'string.pattern.base': 'Must contain only letters',
@@ -12,7 +12,7 @@ export const superAdminsValidationSchema = Joi.object({
     }),
   lastName: Joi.string()
     .min(3)
-    .pattern(/^[\p{L}]+$/u)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)
     .required()
     .messages({
       'string.pattern.base': 'Must contain only letters',

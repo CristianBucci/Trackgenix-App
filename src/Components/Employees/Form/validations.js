@@ -3,7 +3,7 @@ import Joi from 'joi';
 export const employeeSchema = Joi.object({
   name: Joi.string()
     .required()
-    .pattern(/^[\p{L}]+$/u)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)
     .min(3)
     .messages({
       'string.empty': 'Name is required.',
@@ -13,7 +13,7 @@ export const employeeSchema = Joi.object({
     }),
   lastName: Joi.string()
     .required()
-    .pattern(/^[\p{L}]+$/u)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)
     .min(3)
     .messages({
       'string.empty': 'Last Name is required.',
