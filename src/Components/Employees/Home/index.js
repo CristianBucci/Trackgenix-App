@@ -104,7 +104,7 @@ const EmployeesHome = () => {
                   <img src="/assets/images/lens.svg" alt="update" />
                   <input
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search.."
                     className="search"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
