@@ -44,6 +44,7 @@ export const logout = () => {
     dispatch(firebaseLogoutPending());
     try {
       await signOut(auth);
+      sessionStorage.clear();
       dispatch(firebaseLogoutSuccess());
     } catch (error) {
       dispatch(firebaseLogoutError());

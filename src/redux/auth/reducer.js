@@ -17,6 +17,7 @@ import {
 const INITIAL_STATE = {
   role: '',
   email: '',
+  isAuthenticated: sessionStorage.getItem('token') ? true : false,
   isLoading: false,
   modalContent: { title: '', content: '' },
   showModalMessage: false,
@@ -71,7 +72,8 @@ const authReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         role: '',
-        email: ''
+        email: '',
+        isAuthenticated: sessionStorage.getItem('token') ? true : false
       };
     case FIREBASE_LOGOUT_ERROR:
       return {
