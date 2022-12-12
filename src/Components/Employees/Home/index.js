@@ -75,15 +75,16 @@ const EmployeesHome = () => {
   const results = !search
     ? filteredList
     : filteredList.filter(
-        (dato) =>
-          dato.name?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.lastName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.email?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.phone?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.clientName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.startDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.endDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.employees?.toLowerCase().includes(search.toLocaleLowerCase())
+        (value) =>
+          value.name?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.lastName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.email?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.description?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.phone?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.clientName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.startDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.endDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.employees?.toLowerCase().includes(search.toLocaleLowerCase())
       );
 
   return (
@@ -103,7 +104,7 @@ const EmployeesHome = () => {
                 <div className={styles.searchBox}>
                   <img src="/assets/images/lens.svg" alt="update" />
                   <input
-                    type="text"
+                    type="search"
                     placeholder="Search.."
                     className="search"
                     value={search}
