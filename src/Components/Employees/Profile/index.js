@@ -74,7 +74,7 @@ const EmployeesProfile = () => {
   };
 
   const onCancel = () => {
-    isDelete === true ? setIsDelete(false) : null;
+    isDelete && setIsDelete(false);
     dispatch(confirmModalClose());
   };
 
@@ -93,7 +93,7 @@ const EmployeesProfile = () => {
 
   const modalFunction = () => {
     modalContent.title.includes('SUCCESS');
-    isDelete === true ? dispatch(logout()) : null;
+    isDelete && dispatch(logout());
     dispatch(messageModalClose());
   };
 
