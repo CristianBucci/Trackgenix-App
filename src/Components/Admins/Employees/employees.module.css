@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+}
+.spinnerContainer img {
+  width: 80px;
+  height: 80px;
+}
