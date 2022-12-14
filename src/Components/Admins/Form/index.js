@@ -1,81 +1,67 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { messageModalClose, confirmModalOpen, confirmModalClose } from 'redux/admins/actions';
-import { createAdmins, updateAdmins, getByIdAdmin } from 'redux/admins/thunks';
 import { useForm } from 'react-hook-form';
-import { Schema } from './validatons';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { createProject, updateProject, getByIdProjects } from 'redux/projects/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
+import { getEmployees } from 'redux/employees/thunks';
+import { projectsSchema } from './validations';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
+import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
+import Sidebar from '../Sidebar';
 
-const Form = (props) => {
+const AddProject = (props) => {
   const dispatch = useDispatch();
-  const params = useParams();
-  const id = params.Id ? params.Id : '';
-  const [formText, setFormText] = useState('Add Admins');
-  const [adminData, setAdminData] = useState({
-    name: '',
-    lastName: '',
-    email: '',
-    password: ''
-  });
-
-  const { admin, modalContent, showConfirmModal, showModalMessage } = useSelector(
-    (state) => state.admins
-  );
-
   const {
     handleSubmit,
+    unregister,
     register,
-    formState: { errors },
-    setValue,
-    reset
-  } = useForm({
-    mode: 'onChange',
-    resolver: joiResolver(Schema)
-  });
+    reset,
+    formState: { errors }
+  } = useForm({ mode: 'onChange', resolver: joiResolver(projectsSchema) });
 
-  useEffect(async () => {
-    if (id) {
-      setFormText('Update Admins');
-      dispatch(getByIdAdmin(id));
-    } else {
-      return null;
-    }
-  }, []);
+  const {
+    modalContent,
+    showModalMessage,
+    showConfirmModal,
+    isLoading,
+    item: project
+  } = useSelector((state) => state.projects);
+
+  const { list: employees } = useSelector((state) => state.employees);
+  const params = useParams();
+  const id = params.id && params.id;
+  const roles = [{ role: 'DEV' }, { role: 'QA' }, { role: 'PM' }, { role: 'TL' }];
+  const [formText, setFormText] = useState('Add Project');
+  const [employeesProject, setEmployeesProject] = useState([]);
+  const [projectInput, setProjectInput] = useState({});
+
+  const onSubmit = (data) => {
+    setProjectInput({
+      name: data.name,
+      description: data.description,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      clientName: data.clientName
+    });
+    setEmployeesProject(data.employees);
+    const content = `Are you sure you want to ${
+      id ? 'edit the Project with id ' + id : 'create a new Project'
+    }?`;
+    dispatch(confirmModalOpen(content));
+  };
 
   useEffect(() => {
-    if (admin && id) {
-      setValue('name', admin.name);
-      setValue('lastName', admin.lastName);
-      setValue('email', admin.email);
-      setValue('password', admin.password);
-
-      setAdminData({
-        name: admin.name,
-        lastName: admin.lastName,
-        email: admin.email,
-        password: admin.password
-      });
-    }
-  }, [admin]);
-
-  const onConfirm = () => {
-    id ? dispatch(updateAdmins(adminData, id)) : dispatch(createAdmins(adminData));
-    dispatch(confirmModalClose());
-  };
-
-  const onCancel = () => {
-    dispatch(confirmModalClose());
-  };
+    dispatch(getEmployees());
+  }, []);
 
   const redirect = () => {
-    props.history.push('/admins');
+    props.history.push('/projects');
   };
 
   const modalFunction = () => {
@@ -83,22 +69,59 @@ const Form = (props) => {
     dispatch(messageModalClose());
   };
 
-  const onSubmit = (event) => {
-    setAdminData({
-      name: event.name,
-      lastName: event.lastName,
-      email: event.email,
-      password: event.password
-    });
-
-    const content = `Are you sure you want to ${
-      id ? 'edit the Admins with id ' + id : 'create a new Admins'
-    }?`;
-    dispatch(confirmModalOpen(content));
+  const onCancel = () => {
+    dispatch(confirmModalClose());
   };
 
-  const resetInputs = () => {
-    reset(adminData);
+  const onConfirm = () => {
+    id
+      ? dispatch(updateProject(id, projectInput, employeesProject))
+      : dispatch(createProject(projectInput, employeesProject));
+    dispatch(confirmModalClose());
+  };
+
+  useEffect(async () => {
+    if (id) {
+      setFormText('Update Project');
+      dispatch(getByIdProjects(id));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (project && id) {
+      setProjectInput({
+        name: project.name,
+        description: project.description,
+        startDate: fixDate(project.startDate),
+        endDate: fixDate(project.endDate),
+        clientName: project.clientName
+      });
+      setEmployeesProject(project.employees);
+      setFormValues();
+    }
+  }, [project]);
+
+  const fixDate = (date) => {
+    let dateFormated = date.substr(0, 10);
+    return dateFormated;
+  };
+
+  const setFormValues = () => {
+    const { name, description, startDate, endDate, clientName, employees } = project;
+    const formData = {
+      name,
+      description,
+      startDate: fixDate(startDate),
+      endDate: fixDate(endDate),
+      clientName,
+      employees
+    };
+    setEmployeesProject(employees);
+    reset(formData);
+  };
+
+  const resetForm = () => {
+    id ? setFormValues() : reset();
   };
 
   return (
@@ -116,52 +139,140 @@ const Form = (props) => {
         modalContent={modalContent.content}
         modalFunction={modalFunction}
       />
+      <Sidebar />
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {<div className={styles.cardTitle}>{formText}</div>}
-          <Input
-            label={'Name'}
-            type="text"
-            name="name"
-            placeholder={'Name'}
-            register={register}
-            error={errors.name?.message}
-          />
-          <Input
-            label={'Last Name'}
-            type="text"
-            name="lastName"
-            placeholder={'Last Name'}
-            register={register}
-            error={errors.lastName?.message}
-          />
-          <Input
-            label={'Email'}
-            type="text"
-            name="email"
-            placeholder={'Email'}
-            register={register}
-            error={errors.email?.message}
-          />
-          <Input
-            label={'Password'}
-            type="password"
-            name="password"
-            placeholder={'Password'}
-            register={register}
-            error={errors.password?.message}
-          />
-          <div>
-            <Link to={'/admins'}>
-              <Buttons variant="secondary" name="Cancel" />
-            </Link>
-            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetInputs()} />
-            <Buttons type="submit" variant="primary" name="Confirm" />
+        {!isLoading ? (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.card}>
+              <div className={styles.cardTitle}>{formText}</div>
+              <Input
+                label={'Project Name'}
+                name="name"
+                type="text"
+                placeholder={'Project Name'}
+                register={register}
+                error={errors.name?.message}
+              />
+              <Input
+                label={'Description'}
+                name="description"
+                type="text"
+                placeholder={'Description'}
+                register={register}
+                error={errors.description?.message}
+              />
+              <Input
+                label={'Start Date'}
+                name="startDate"
+                type="date"
+                register={register}
+                error={errors.startDate?.message}
+              />
+              <Input
+                label={'End Date'}
+                name="endDate"
+                type="date"
+                register={register}
+                error={errors.endDate?.message}
+              />
+              <Input
+                label={'Client Name'}
+                name="clientName"
+                type="text"
+                placeholder={'Client Name'}
+                register={register}
+                error={errors.clientName?.message}
+              />
+              <div className={styles.card}>
+                {employeesProject?.map((option, index) => {
+                  return (
+                    <div key={index}>
+                      <label>Employee</label>
+                      <Select
+                        options={employees}
+                        keyMap={'_id'}
+                        title={'Employee'}
+                        fieldToShow={'name'}
+                        second={'lastName'}
+                        isDisabled={false}
+                        name={`employees[${index}].employeeId`}
+                        register={register}
+                        error={errors.employees && errors.employees[index].employeeId?.message}
+                      ></Select>
+                      <Input
+                        label={'Rate'}
+                        name={`employees[${index}].rate`}
+                        type="number"
+                        placeholder={'Rate'}
+                        register={register}
+                        error={errors.employees && errors.employees[index].rate?.message}
+                      />
+                      <label>Role</label>
+                      <Select
+                        options={roles}
+                        keyMap={'role'}
+                        title={'Role'}
+                        fieldToShow={'role'}
+                        isDisabled={false}
+                        name={`employees[${index}].role`}
+                        register={register}
+                        error={errors.employees && errors.employees[index].role?.message}
+                      ></Select>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmployeesProject([
+                            ...employeesProject.slice(0, index),
+                            ...employeesProject.slice(
+                              index + 1 ? index + 1 : index,
+                              employeesProject.length
+                            )
+                          ]);
+                          unregister('employees');
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  );
+                })}
+                <div className={styles.addEmployeeButton}>
+                  <button
+                    onClick={() =>
+                      setEmployeesProject([
+                        ...employeesProject,
+                        {
+                          employeeId: '',
+                          rate: 0,
+                          role: ''
+                        }
+                      ])
+                    }
+                    type="button"
+                  >
+                    Add Employee
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className={styles.buttons}>
+              <Buttons
+                variant="secondary"
+                name="Cancel"
+                onClick={() => props.history.push('/admins')}
+              />
+              <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+              <Buttons type="submit" variant="primary" name="Confirm" />
+            </div>
+          </form>
+        ) : (
+          <div className={styles.spinnerContainer}>
+            <img src="/assets/images/spinner.gif" alt="spinner" />
           </div>
-        </form>
+        )}
       </div>
     </>
   );
 };
 
-export default Form;
+export default AddProject;
