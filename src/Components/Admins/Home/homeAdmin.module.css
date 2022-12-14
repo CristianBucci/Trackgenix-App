@@ -1,0 +1,55 @@
+.projectsWrapper h1 {
+    text-align: center;
+  }
+
+  .spinnerContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .spinnerContainer img {
+    width: 80px;
+  }
+
+  .h1 {
+    margin-left: 170px;
+  }
+
+  .title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .table caption, td, th {
+    padding: 0.5em 1em;
+  }
+
+  .table th, td {
+    border-bottom: 1px solid #999;
+  }
+
+  .header {
+     text-align: left;
+     font-size: large;
+     color: #FC6225;
+  }
+
+  .header tr th:last-child {
+     text-align: center;
+  }
+
+  .row {
+     white-space: pre-line;
+  }
+
+  .btnContainer {
+     display: flex;
+     justify-content: space-around;
+  }
+
+  .button {
+     background-color: #ffffff00;
+     border: none;
+  }
