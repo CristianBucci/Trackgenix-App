@@ -9,7 +9,7 @@ import styles from './profile.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
-import { getByIdEmployee, updateEmployee } from 'redux/employees/thunks';
+import { getByIdEmployee, updateEmployee, deleteEmployee } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
@@ -19,6 +19,7 @@ const EmployeesProfile = () => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   const [formValues, setFormValues] = useState('');
+  const [isDelete, setIsDelete] = useState(false);
   const dispatch = useDispatch();
   const {
     item: employee,
@@ -61,13 +62,19 @@ const EmployeesProfile = () => {
   }, [employee]);
 
   const onConfirm = () => {
-    !modalContent.content.includes('logout')
-      ? (dispatch(updateEmployee(id, formValues, token)), dispatch(confirmModalClose()))
-      : dispatch(logout()),
+    if (isDelete === false) {
+      !modalContent.content.includes('logout')
+        ? (dispatch(updateEmployee(id, formValues, token)), dispatch(confirmModalClose()))
+        : dispatch(logout()),
+        dispatch(confirmModalClose());
+    } else {
+      dispatch(deleteEmployee(id, token));
       dispatch(confirmModalClose());
+    }
   };
 
   const onCancel = () => {
+    isDelete === true ? setIsDelete(false) : null;
     dispatch(confirmModalClose());
   };
 
@@ -86,11 +93,18 @@ const EmployeesProfile = () => {
 
   const modalFunction = () => {
     modalContent.title.includes('SUCCESS');
+    isDelete === true ? dispatch(logout()) : null;
     dispatch(messageModalClose());
   };
 
   const resetForm = () => {
     reset(formValues);
+  };
+
+  const deleteAccount = () => {
+    setIsDelete(true);
+    const content = `Are you sure you want to delete your Account?`;
+    dispatch(confirmModalOpen(content));
   };
 
   return (
@@ -158,7 +172,12 @@ const EmployeesProfile = () => {
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
           </div>
           <div>
-            <Buttons type="button" variant="primary" name="Delete account" />
+            <Buttons
+              type="button"
+              variant="primary"
+              name="Delete account"
+              onClick={() => deleteAccount()}
+            />
           </div>
         </form>
       </div>
