@@ -70,6 +70,23 @@ const EmployeesHome = () => {
   ];
   const dataValues = ['name', 'description', 'clientName', 'startDate', 'endDate', 'role'];
 
+  const [search, setSearch] = useState('');
+
+  const results = !search
+    ? filteredList
+    : filteredList.filter(
+        (value) =>
+          value.name?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.lastName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.email?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.description?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.phone?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.clientName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.startDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.endDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.employees?.toLowerCase().includes(search.toLocaleLowerCase())
+      );
+
   return (
     <div className={styles.projectsWrapper}>
       <Sidebar />
@@ -82,42 +99,56 @@ const EmployeesHome = () => {
           {filteredList.length == 0 ? (
             <h1 className={styles.h1}>You are not assigned to any projects.</h1>
           ) : (
-            <table className={styles.table}>
-              <thead className={styles.header}>
-                <tr>
-                  {headers.map((header, index) => {
-                    return <th key={index}>{header}</th>;
+            <div className={styles.container}>
+              <div className={styles.top}>
+                <div className={styles.searchBox}>
+                  <img src="/assets/images/lens.svg" alt="update" />
+                  <input
+                    type="search"
+                    placeholder="Search.."
+                    className="search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  ></input>
+                </div>
+              </div>
+              <table className={styles.table}>
+                <thead className={styles.header}>
+                  <tr>
+                    {headers.map((header, index) => {
+                      return <th key={index}>{header}</th>;
+                    })}
+                    <th key={headers.length - 1}>Add hours</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map((item) => {
+                    return (
+                      <>
+                        <tr key={item.id} className={styles.row}>
+                          {dataValues.map((value, index) => {
+                            return (
+                              <>
+                                <td key={index}>{item[value]}</td>
+                              </>
+                            );
+                          })}
+                          <td key={item.id}>
+                            <div className={styles.btnContainer}>
+                              <Link to={`timesheets/${item.id}`}>
+                                <button className={styles.button}>
+                                  <img src="/assets/images/add.svg" alt="add" />
+                                </button>
+                              </Link>
+                            </div>
+                          </td>
+                        </tr>
+                      </>
+                    );
                   })}
-                  <th key={headers.length - 1}>Add hours</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredList.map((item) => {
-                  return (
-                    <>
-                      <tr key={item.id} className={styles.row}>
-                        {dataValues.map((value, index) => {
-                          return (
-                            <>
-                              <td key={index}>{item[value]}</td>
-                            </>
-                          );
-                        })}
-                        <td key={item.id}>
-                          <div className={styles.btnContainer}>
-                            <Link to={`timesheets/${item.id}`}>
-                              <button className={styles.button}>
-                                <img src="/assets/images/add.svg" alt="add" />
-                              </button>
-                            </Link>
-                          </div>
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}
