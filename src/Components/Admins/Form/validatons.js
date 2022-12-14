@@ -2,12 +2,12 @@ import Joi from 'joi';
 
 export const Schema = Joi.object({
   name: Joi.string()
-    .pattern(/^[\p{L}]+$/u)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)
     .min(3)
     .required()
     .messages({ 'string.pattern.base': 'Must contain only letters' }),
   lastName: Joi.string()
-    .pattern(/^[\p{L}]+$/u)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)
     .min(3)
     .required()
     .messages({ 'string.pattern.base': 'Must contain only letters' }),

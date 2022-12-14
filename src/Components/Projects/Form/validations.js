@@ -18,11 +18,15 @@ const employeeSchema = Joi.object({
 });
 
 export const projectsSchema = Joi.object({
-  name: Joi.string().min(3).required().messages({
-    'string.required': 'Project name is required.',
-    'string.min': 'Project name must have at least 3 characters.',
-    'string.empty': 'Project name is not allowed to be empty.'
-  }),
+  name: Joi.string()
+    .min(3)
+    .required()
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)
+    .messages({
+      'string.required': 'Project name is required.',
+      'string.min': 'Project name must have at least 3 characters.',
+      'string.empty': 'Project name is not allowed to be empty.'
+    }),
   description: Joi.string().min(3).required().messages({
     'string.required': 'Project description is required.',
     'string.min': 'Project description must have at least 3 characters.',
@@ -38,7 +42,7 @@ export const projectsSchema = Joi.object({
     'date.empty': 'End date is not allowed to be empty.'
   }),
   clientName: Joi.string()
-    .pattern(/^[\p{L}]+$/u)
+    .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)
     .min(3)
     .required()
     .messages({
