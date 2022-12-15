@@ -79,7 +79,7 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         list: [...state.list.filter((employee) => employee._id !== action.payload)],
-        modalContent: { title: 'SUCCESS!', content: `Account Successfully DELETED` },
+        modalContent: { title: 'SUCCESS!', content: 'Account Successfully DELETED' },
         showModalMessage: true
       };
     case DELETE_EMPLOYEES_ERROR:
@@ -100,7 +100,7 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         showConfirmModal: false,
-        modalContent: { title: 'SUCCESS!', content: `Employee Successfully CREATED` },
+        modalContent: { title: 'SUCCESS!', content: 'Employee Successfully CREATED' },
         showModalMessage: true,
         list: [...state.list, action.payload]
       };
@@ -122,7 +122,7 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         showConfirmModal: false,
-        modalContent: { title: 'SUCCESS!', content: `Employee Successfully UPDATED` },
+        modalContent: { title: 'SUCCESS!', content: 'Employee Successfully UPDATED' },
         showModalMessage: true,
         list: [...state.list, action.payload]
       };

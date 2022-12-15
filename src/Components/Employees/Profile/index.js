@@ -103,7 +103,7 @@ const EmployeesProfile = () => {
 
   const deleteAccount = () => {
     setIsDelete(true);
-    const content = `Are you sure you want to delete your Account?`;
+    const content = 'Are you sure you want to delete your Account?';
     dispatch(confirmModalOpen(content));
   };
 
