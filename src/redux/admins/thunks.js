@@ -16,11 +16,13 @@ import {
   deleteAdminsError
 } from './actions';
 
-export const getAdmins = () => {
+export const getAdmins = (token) => {
   return async (dispatch) => {
     dispatch(getAdminsPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`, {
+        headers: { token }
+      });
       const json = await response.json();
       dispatch(getAdminsSuccess(json.data));
     } catch (error) {
