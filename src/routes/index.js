@@ -4,6 +4,7 @@ import styles from './routes.module.css';
 import PrivateRoute from './PrivateRoute';
 import { tokenListener } from 'helpers/firebase';
 import Footer from 'Components/Footer';
+import Header from 'Components/Header';
 
 const AuthRoutes = lazy(() => import('./auth'));
 const SuperAdminRoutes = lazy(() => import('./superAdmins'));
@@ -24,6 +25,7 @@ const Layout = () => {
       }
     >
       <div className={styles.container}>
+        <Header />
         <Switch>
           <Route path="/auth" component={AuthRoutes} />
           <PrivateRoute exact path="/admins" role="ADMIN" component={AdminRoutes} />
