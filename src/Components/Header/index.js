@@ -35,7 +35,7 @@ const Header = () => {
       />
       <header className={styles.header}>
         <Link style={{ textDecoration: 'none' }} to="/home">
-          <h1 className={styles.hover}>TRACKGENIX</h1>
+          <h2 className={styles.hover}>TRACKGENIX</h2>
         </Link>
         <div className={styles.buttonContainer}>
           {isAuthenticated ? (
