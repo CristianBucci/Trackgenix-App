@@ -11,6 +11,7 @@ import { confirmModalClose, messageModalClose } from 'redux/super-admins/actions
 import { getByIdSuperAdmins, updateSuperAdmin } from 'redux/super-admins/thunks';
 import { superAdminSchema } from './validations';
 import styles from './profile.module.css';
+import { confirmModalOpen } from 'redux/auth/actions';
 
 const SuperAdminProfile = () => {
   const id = sessionStorage.getItem('id');
@@ -59,7 +60,7 @@ const SuperAdminProfile = () => {
 
   const onConfirm = () => {
     !modalContent.content.includes('logout')
-      ? (dispatch(updateSuperAdmin(id, formValues, token)), dispatch(confirmModalClose()))
+      ? (dispatch(updateSuperAdmin(formValues, id)), dispatch(confirmModalClose()))
       : dispatch(logout()),
       dispatch(confirmModalClose());
   };
@@ -81,7 +82,7 @@ const SuperAdminProfile = () => {
     });
 
     const content = `Are you sure you want to edit your Profile?`;
-    dispatch(confirmModalClose(content));
+    dispatch(confirmModalOpen(content));
   };
 
   const resetForm = () => {
