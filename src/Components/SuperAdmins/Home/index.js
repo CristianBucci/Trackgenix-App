@@ -86,7 +86,7 @@ const SuperAdminsHome = () => {
                     ></input>
                   </div>
                   <div>
-                    <Link to={`super-admins/admins`}>
+                    <Link to={`admins`}>
                       <button className={styles.button}>
                         <img src="/assets/images/add.svg" alt="add" />
                       </button>
