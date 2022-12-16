@@ -1,33 +1,40 @@
 @import url('https://fonts.cdnfonts.com/css/anurati');
 
 .footer {
+  position: relative;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color:#00021c ;
+  width: 100%;
   height: 120px;
+  background-color:#00021c ;
+  z-index: 1;
 }
 
 .footer h2 {
-  right: 0;
 	padding: 10px;
 	font-size: 30px;
   font-weight: 700;
   font-family: 'anurati';
 }
 
+.link {
+  text-decoration: none;
+}
+
 .hover {
   --s: 0.1em;
   --c: #1095c1;
-  color: rgba(2, 137, 255, 0.34);
   padding-bottom: var(--s);
+  color: rgba(2, 137, 255, 0.34);
   background:
-    linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
-    linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
+  linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
+  linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
   -webkit-background-clip: text,padding-box;
-          background-clip: text,padding-box;
+  background-clip: text,padding-box;
   transition: 0.5s;
 }
+
 .hover:hover {
   --_p: 100%
 }
@@ -37,22 +44,17 @@
   margin:0;
   padding:0;
   margin-bottom: 15px;
-
 }
 
 .iconWrapper ul li {
   display: flex;
   justify-content: center;
   align-items: center;
-  list-style:none;
   margin: 30px;
+  list-style:none;
 }
 
 .iconWrapper ul li a span {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: #262626;
   letter-spacing: 2px;
   font-size: 10px;
@@ -64,17 +66,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-decoration: none;
-  width:100px;
+  width:80px;
   height:40px;
   background: #fff;
-  text-align:left;
+  box-shadow: -20px 20px 10px rgba(0,0,0,.5);
+  text-decoration: none;
   transform: rotate(-30deg) skew(25deg) translate(0,0);
   transition:.5s;
-  box-shadow: -20px 20px 10px rgba(0,0,0,.5);
 }
+
 .iconWrapper ul li a:before {
-  content: '';
   position: absolute;
   top:10px;
   left:-20px;
@@ -83,10 +84,10 @@
   background: #b1b1b1;
   transform: .5s;
   transform: rotate(0deg) skewY(-45deg);
+  content: '';
 }
 
 .iconWrapper ul li a:after {
-  content: '';
   position: absolute;
   bottom:-20px;
   left:-10px;
@@ -95,6 +96,7 @@
   background: #b1b1b1;
   transform: .5s;
   transform: rotate(0deg) skewX(-45deg);
+  content: '';
 }
 
 .iconWrapper ul li a:hover {
@@ -113,9 +115,11 @@
 .iconWrapper ul li:hover:nth-child(1) a{
   background: #3b5998;
 }
+
 .iconWrapper ul li:hover:nth-child(1) a:before{
   background: #365492;
 }
+
 .iconWrapper ul li:hover:nth-child(1) a:after{
   background: #4a69ad;
 }
@@ -123,9 +127,11 @@
 .iconWrapper ul li:hover:nth-child(2) a{
   background: #00aced;
 }
+
 .iconWrapper ul li:hover:nth-child(2) a:before{
   background: #097aa5;
 }
+
 .iconWrapper ul li:hover:nth-child(2) a:after{
   background: #53b9e0;
 }
@@ -133,9 +139,11 @@
 .iconWrapper ul li:hover:nth-child(3) a{
   background: #dd4b39;
 }
+
 .iconWrapper ul li:hover:nth-child(3) a:before{
   background: #b33a2b;
 }
+
 .iconWrapper ul li:hover:nth-child(3) a:after{
   background: #e66a5a;
 }
@@ -143,14 +151,22 @@
 .iconWrapper ul li:hover:nth-child(4) a{
   background: #e4405f;
 }
+
 .iconWrapper ul li:hover:nth-child(4) a:before{
   background: #d81c3f;
 }
+
 .iconWrapper ul li:hover:nth-child(4) a:after{
   background: #e46880;
 }
 
-.copyright {
-  font-size: 20px;
+.copyright p {
   color: #b1b1b1;
+  font-size: 15px;
+}
+
+.email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

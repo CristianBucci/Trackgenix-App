@@ -31,8 +31,8 @@ const Layout = () => {
           <PrivateRoute path="/employees" role="EMPLOYEE" component={EmployeeRoutes} />
           <Redirect to="/auth" />
         </Switch>
-        <Footer />
       </div>
+      <Footer />
     </Suspense>
   );
 };
