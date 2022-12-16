@@ -119,7 +119,7 @@ const SuperAdminsHome = () => {
                             })}
                             <td key={item._id}>
                               <div className={styles.btnContainer}>
-                                <Link to={`super-admins/admins/${item._id}`}>
+                                <Link to={`admins/${item._id}`}>
                                   <button className={styles.button}>
                                     <img src="/assets/images/edit.svg" alt="edit" />
                                   </button>
