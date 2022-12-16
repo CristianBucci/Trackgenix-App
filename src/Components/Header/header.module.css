@@ -11,6 +11,10 @@
   z-index: 1;
 }
 
+.link {
+  text-decoration: none;
+}
+
 .header h2 {
   margin: 15px;
   font-size: 35px;

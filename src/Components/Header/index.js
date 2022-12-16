@@ -16,7 +16,7 @@ const Header = () => {
   };
 
   const onSubmit = () => {
-    const content = `Are you sure you want to logout?`;
+    const content = 'Are you sure you want to logout?';
     dispatch(confirmModalOpen(content));
   };
 
@@ -34,7 +34,7 @@ const Header = () => {
         onCancel={onCancel}
       />
       <header className={styles.header}>
-        <Link style={{ textDecoration: 'none' }} to="/home">
+        <Link className={styles.link} to="/home">
           <h2 className={styles.hover}>TRACKGENIX</h2>
         </Link>
         <div className={styles.buttonContainer}>
@@ -44,7 +44,7 @@ const Header = () => {
             </button>
           ) : (
             <>
-              <Link style={{ textDecoration: 'none' }} to="/auth/login">
+              <Link className={styles.link} to="/auth/login">
                 <button className={styles.headerButton}>LOGIN</button>
               </Link>
               <Link style={{ textDecoration: 'none' }} to="/auth/sign-up">
