@@ -116,7 +116,7 @@ export const updateEmployee = (id, data, token) => {
         dispatch(putEmployeeSuccess(response));
       } else {
         const data = await response.json();
-        dispatch(putEmployeeError(data.data));
+        dispatch(putEmployeeError(data));
       }
     } catch (error) {
       dispatch(putEmployeeError(error.toString()));

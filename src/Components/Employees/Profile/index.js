@@ -8,12 +8,18 @@ import styles from './profile.module.css';
 
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
-import { getByIdEmployee, updateEmployee, deleteEmployee } from 'redux/employees/thunks';
+import {
+  confirmModalOpen,
+  confirmModalClose,
+  messageModalClose,
+  passwordModalOpen,
+  passwordModalClose
+} from 'redux/employees/actions';import { getByIdEmployee, updateEmployee, deleteEmployee } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
 import { logout } from 'redux/auth/thunks';
+import ModalPassword from 'Components/Shared/Modal/ModalPassword';
 
 const EmployeesProfile = () => {
   const token = sessionStorage.getItem('token');
@@ -25,7 +31,8 @@ const EmployeesProfile = () => {
     item: employee,
     modalContent,
     showModalMessage,
-    showConfirmModal
+    showConfirmModal,
+    showPasswordModal
   } = useSelector((state) => state.employees);
 
   const {
@@ -73,7 +80,7 @@ const EmployeesProfile = () => {
     }
   };
 
-  const onCancel = () => {
+  const closeConfirmModal = () => {
     isDelete && setIsDelete(false);
     dispatch(confirmModalClose());
   };
@@ -87,14 +94,20 @@ const EmployeesProfile = () => {
       phone: data.phone
     });
 
-    const content = `Are you sure you want to edit your Profile?`;
+    const content = 'Are you sure you want to edit your Profile?';
     dispatch(confirmModalOpen(content));
   };
 
-  const modalFunction = () => {
+  const closeMessageModal = () => {
     modalContent.title.includes('SUCCESS');
     isDelete && dispatch(logout());
     dispatch(messageModalClose());
+  };
+  const openPasswordModal = () => {
+    dispatch(passwordModalOpen());
+  };
+  const closePasswordModal = () => {
+    dispatch(passwordModalClose());
   };
 
   const resetForm = () => {
@@ -115,13 +128,19 @@ const EmployeesProfile = () => {
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
         onConfirm={onConfirm}
-        onCancel={onCancel}
+        onCancel={closeConfirmModal}
       />
       <ModalMessage
         show={showModalMessage}
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
-        modalFunction={modalFunction}
+        modalFunction={closeMessageModal}
+      />
+      <ModalPassword
+        show={showPasswordModal}
+        userData={employee}
+        onCancel={closePasswordModal}
+        setData={setFormValues}
       />
       <div className={styles.container}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -163,7 +182,12 @@ const EmployeesProfile = () => {
             placeholder={'Phone'}
           />
           <div>
-            <Buttons type="button" variant="primary" name="Change password" />
+            <Buttons
+              type="button"
+              variant="primary"
+              name="Change password"
+              onClick={openPasswordModal}
+            />
           </div>
           <div>
             <Buttons type="submit" variant="primary" name="Save changes" />
