@@ -19,6 +19,7 @@ const Form = (props) => {
   const params = useParams();
   const id = params.id ? params.id : '';
   const [formText, setFormText] = useState('Add Admins');
+  const [showPassword, setShowPassword] = useState(false);
   const [adminData, setAdminData] = useState({
     name: '',
     lastName: '',
@@ -100,6 +101,10 @@ const Form = (props) => {
     reset(adminData);
   };
 
+  const passwordShow = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
       <ModalConfirm
@@ -144,11 +149,13 @@ const Form = (props) => {
           />
           <Input
             label={'Password'}
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder={'Password'}
             register={register}
             error={errors.password?.message}
+            show={passwordShow}
+            showState={showPassword}
           />
           <div>
             <Link to={'/super-admins'}>
