@@ -15,7 +15,7 @@ import {
   passwordModalOpen,
   passwordModalClose
 } from 'redux/employees/actions';
-import { getByIdEmployee, updateEmployee } from 'redux/employees/thunks';
+import { getByIdEmployee, updateEmployee, deleteEmployee } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
@@ -26,6 +26,7 @@ const EmployeesProfile = () => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   const [formValues, setFormValues] = useState('');
+  const [isDelete, setIsDelete] = useState(false);
   const dispatch = useDispatch();
   const {
     item: employee,
@@ -69,13 +70,19 @@ const EmployeesProfile = () => {
   }, [employee]);
 
   const onConfirm = () => {
-    !modalContent.content.includes('logout')
-      ? (dispatch(updateEmployee(id, formValues, token)), dispatch(confirmModalClose()))
-      : dispatch(logout()),
+    if (isDelete === false) {
+      !modalContent.content.includes('logout')
+        ? (dispatch(updateEmployee(id, formValues, token)), dispatch(confirmModalClose()))
+        : dispatch(logout()),
+        dispatch(confirmModalClose());
+    } else {
+      dispatch(deleteEmployee(id, token));
       dispatch(confirmModalClose());
+    }
   };
 
   const closeConfirmModal = () => {
+    isDelete && setIsDelete(false);
     dispatch(confirmModalClose());
   };
 
@@ -94,6 +101,7 @@ const EmployeesProfile = () => {
 
   const closeMessageModal = () => {
     modalContent.title.includes('SUCCESS');
+    isDelete && dispatch(logout());
     dispatch(messageModalClose());
   };
   const openPasswordModal = () => {
@@ -105,6 +113,12 @@ const EmployeesProfile = () => {
 
   const resetForm = () => {
     reset(formValues);
+  };
+
+  const deleteAccount = () => {
+    setIsDelete(true);
+    const content = 'Are you sure you want to delete your Account?';
+    dispatch(confirmModalOpen(content));
   };
 
   return (
@@ -183,7 +197,12 @@ const EmployeesProfile = () => {
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
           </div>
           <div>
-            <Buttons type="button" variant="primary" name="Delete account" />
+            <Buttons
+              type="button"
+              variant="primary"
+              name="Delete account"
+              onClick={() => deleteAccount()}
+            />
           </div>
         </form>
       </div>
