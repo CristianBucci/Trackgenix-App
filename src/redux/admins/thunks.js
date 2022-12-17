@@ -29,11 +29,13 @@ export const getAdmins = () => {
   };
 };
 
-export const getByIdAdmin = (id) => {
+export const getByIdAdmin = (id, token) => {
   return async (dispatch) => {
     dispatch(getByIdAdminsPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
+        headers: { token }
+      });
       const data = await response.json();
       if (response.status == 200) {
         dispatch(getByIdAdminsSuccess(data.data));
@@ -47,13 +49,14 @@ export const getByIdAdmin = (id) => {
   };
 };
 
-export const createAdmins = (input) => {
+export const createAdmins = (input, token) => {
   return async (dispatch) => {
     dispatch(createAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`, {
         method: 'POST',
         headers: {
+          token,
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
@@ -77,13 +80,14 @@ export const createAdmins = (input) => {
   };
 };
 
-export const updateAdmins = (input, id) => {
+export const updateAdmins = (input, id, token) => {
   return async (dispatch) => {
     dispatch(updateAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
         method: 'PUT',
         headers: {
+          token,
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
