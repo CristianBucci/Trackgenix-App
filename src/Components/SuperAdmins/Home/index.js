@@ -8,6 +8,8 @@ import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import { confirmModalClose, confirmModalOpen } from 'redux/admins/actions';
 import NavBar from '../NavBar';
 import { logout } from 'redux/auth/thunks';
+import ModalMessage from 'Components/Shared/Modal/ModalMessage';
+import { messageModalClose } from 'redux/super-admins/actions';
 
 const SuperAdminsHome = () => {
   const token = sessionStorage.getItem('token');
@@ -17,7 +19,8 @@ const SuperAdminsHome = () => {
     list: adminsList,
     isLoading,
     showConfirmModal,
-    modalContent
+    modalContent,
+    showModalMessage
   } = useSelector((state) => state.admins);
   const [search, setSearch] = useState('');
   const [isDelete, setIsDelete] = useState(false);
@@ -60,6 +63,11 @@ const SuperAdminsHome = () => {
     dispatch(getAdmins(token));
   }, []);
 
+  const modalFunction = () => {
+    modalContent.title.includes('SUCCESS');
+    dispatch(messageModalClose());
+  };
+
   return (
     <>
       <ModalConfirm
@@ -68,6 +76,12 @@ const SuperAdminsHome = () => {
         modalContent={modalContent.content}
         onConfirm={onConfirm}
         onCancel={onCancel}
+      />
+      <ModalMessage
+        show={showModalMessage}
+        modalTitle={modalContent.title}
+        modalContent={modalContent.content}
+        modalFunction={modalFunction}
       />
       <div className={styles.projectsWrapper}>
         {isLoading ? (
