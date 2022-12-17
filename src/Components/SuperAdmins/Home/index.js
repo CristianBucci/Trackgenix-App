@@ -47,15 +47,8 @@ const SuperAdminsHome = () => {
     if (modalContent.content.includes('logout')) {
       dispatch(logout());
     } else {
-      setValues({
-        name: admin.name,
-        lastName: admin.lastName,
-        email: admin.email,
-        password: admin.password,
-        firebaseUid: admin.firebaseUid,
-        isDeleted: true
-      });
-      dispatch(updateAdmins(values, itemId, token));
+      console.log(itemId);
+      dispatch(deleteAdmins(itemId, token));
     }
     dispatch(confirmModalClose());
   };
@@ -119,8 +112,7 @@ const SuperAdminsHome = () => {
                     {results.map((item) => {
                       const id = item._id;
                       const openModal = () => {
-                        const admin = adminsList.filter((admin) => admin._id === id)[0];
-                        setAdmin(admin);
+                        setItemId(id);
                         const content = 'Are you sure you want to delete this Admin?';
                         dispatch(confirmModalOpen(content));
                       };
