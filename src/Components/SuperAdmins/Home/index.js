@@ -2,13 +2,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './home.module.css';
-import { deleteAdmins, getAdmins } from 'redux/admins/thunks';
+import { deleteAdmins, getAdmins, getByIdAdmin, updateAdmins } from 'redux/admins/thunks';
 import { Link } from 'react-router-dom';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
-import { confirmModalClose, confirmModalOpen } from 'redux/auth/actions';
+import { confirmModalClose, confirmModalOpen } from 'redux/admins/actions';
+import NavBar from '../NavBar';
+import { logout } from 'redux/auth/thunks';
 
 const SuperAdminsHome = () => {
   const token = sessionStorage.getItem('token');
+
   const dispatch = useDispatch();
   const {
     list: adminsList,
@@ -17,6 +20,10 @@ const SuperAdminsHome = () => {
     modalContent
   } = useSelector((state) => state.admins);
   const [search, setSearch] = useState('');
+  const [isDelete, setIsDelete] = useState(false);
+  const [values, setValues] = useState('');
+  const [admin, setAdmin] = useState(null);
+  const [itemId, setItemId] = useState(null);
 
   const headers = ['Name', 'Last Name', 'Email'];
   const dataValues = ['name', 'lastName', 'email'];
@@ -36,14 +43,20 @@ const SuperAdminsHome = () => {
           value.employees?.toLowerCase().includes(search.toLocaleLowerCase())
       );
 
-  const [itemId, setItemId] = useState(null);
-  const modalWrapper = (id) => {
-    const content = 'Are you sure you want to delete this Admin?';
-    setItemId(id);
-    dispatch(confirmModalOpen(content));
-  };
   const onConfirm = () => {
-    dispatch(deleteAdmins(itemId));
+    if (modalContent.content.includes('logout')) {
+      dispatch(logout());
+    } else {
+      setValues({
+        name: admin.name,
+        lastName: admin.lastName,
+        email: admin.email,
+        password: admin.password,
+        firebaseUid: admin.firebaseUid,
+        isDeleted: true
+      });
+      dispatch(updateAdmins(values, itemId, token));
+    }
     dispatch(confirmModalClose());
   };
   const onCancel = () => {
@@ -76,7 +89,7 @@ const SuperAdminsHome = () => {
               <div className={styles.container}>
                 <div className={styles.top}>
                   <div className={styles.searchBox}>
-                    <img src="/assets/images/lens.svg" alt="update" />
+                    <img src="/assets/images/lens.svg" alt="lens" />
                     <input
                       type="search"
                       placeholder="Search.."
@@ -86,7 +99,7 @@ const SuperAdminsHome = () => {
                     ></input>
                   </div>
                   <div>
-                    <Link to={`admins`}>
+                    <Link to={`/super-admins/admins`}>
                       <button className={styles.button}>
                         <img src="/assets/images/add.svg" alt="add" />
                       </button>
@@ -104,12 +117,16 @@ const SuperAdminsHome = () => {
                   </thead>
                   <tbody>
                     {results.map((item) => {
+                      const id = item._id;
                       const openModal = () => {
-                        modalWrapper(item._id);
+                        const admin = adminsList.filter((admin) => admin._id === id)[0];
+                        setAdmin(admin);
+                        const content = 'Are you sure you want to delete this Admin?';
+                        dispatch(confirmModalOpen(content));
                       };
                       return (
                         <>
-                          <tr key={item._id} className={styles.row}>
+                          <tr key={id} className={styles.row}>
                             {dataValues.map((value, index) => {
                               return (
                                 <>
@@ -117,9 +134,9 @@ const SuperAdminsHome = () => {
                                 </>
                               );
                             })}
-                            <td key={item._id}>
+                            <td key={id}>
                               <div className={styles.btnContainer}>
-                                <Link to={`admins/${item._id}`}>
+                                <Link to={`/super-admins/admins/${id}`}>
                                   <button className={styles.button}>
                                     <img src="/assets/images/edit.svg" alt="edit" />
                                   </button>
