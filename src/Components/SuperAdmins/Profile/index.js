@@ -7,11 +7,17 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from 'redux/auth/thunks';
-import { confirmModalClose, messageModalClose } from 'redux/super-admins/actions';
+import {
+  confirmModalClose,
+  confirmModalOpen,
+  messageModalClose,
+  passwordModalClose,
+  passwordModalOpen
+} from 'redux/super-admins/actions';
 import { getByIdSuperAdmins, updateSuperAdmin } from 'redux/super-admins/thunks';
 import { superAdminSchema } from './validations';
 import styles from './profile.module.css';
-import { confirmModalOpen } from 'redux/auth/actions';
+import ModalPassword from 'Components/Shared/Modal/ModalPassword';
 
 const SuperAdminProfile = () => {
   const id = sessionStorage.getItem('id');
@@ -21,7 +27,8 @@ const SuperAdminProfile = () => {
     item: superAdmin,
     modalContent,
     showModalMessage,
-    showConfirmModal
+    showConfirmModal,
+    showPasswordModal
   } = useSelector((state) => state.superAdmins);
   const [formValues, setFormValues] = useState('');
 
@@ -81,8 +88,15 @@ const SuperAdminProfile = () => {
       password: data.password
     });
 
-    const content = `Are you sure you want to edit your Profile?`;
+    const content = 'Are you sure you want to edit your Profile?';
     dispatch(confirmModalOpen(content));
+  };
+
+  const closePasswordModal = () => {
+    dispatch(passwordModalClose());
+  };
+  const openPasswordModal = () => {
+    dispatch(passwordModalOpen());
   };
 
   const resetForm = () => {
@@ -103,6 +117,12 @@ const SuperAdminProfile = () => {
         modalTitle={modalContent.title}
         modalContent={modalContent.content}
         modalFunction={modalFunction}
+      />
+      <ModalPassword
+        show={showPasswordModal}
+        userData={superAdmin}
+        onCancel={closePasswordModal}
+        setData={setFormValues}
       />
       <div className={styles.container}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -136,7 +156,12 @@ const SuperAdminProfile = () => {
             placeholder={'Email'}
           />
           <div>
-            <Buttons type="button" variant="primary" name="Change password" />
+            <Buttons
+              type="button"
+              variant="primary"
+              name="Change password"
+              onClick={openPasswordModal}
+            />
           </div>
           <div>
             <Buttons type="submit" variant="primary" name="Save changes" />

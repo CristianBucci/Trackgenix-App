@@ -40,7 +40,7 @@ const NavBar = () => {
             <Link to="/super-admins/profile">Profile</Link>
           </li>
           <li>
-            <Link onClick={onSubmit}>Logout</Link>
+            <button onClick={onSubmit}>Logout</button>
           </li>
         </ul>
       </div>
