@@ -14,7 +14,8 @@ import {
   messageModalClose,
   passwordModalOpen,
   passwordModalClose
-} from 'redux/employees/actions';import { getByIdEmployee, updateEmployee, deleteEmployee } from 'redux/employees/thunks';
+} from 'redux/employees/actions';
+import { getByIdEmployee, updateEmployee, deleteEmployee } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
