@@ -92,9 +92,7 @@ const Form = (props) => {
       password: event.password
     });
 
-    const content = `Are you sure you want to ${
-      id ? 'edit the Admins with id ' + id : 'create a new Admins'
-    }?`;
+    const content = `Are you sure you want to ${id ? 'edit this Admin' : 'create a new Admin'}?`;
     dispatch(confirmModalOpen(content));
   };
 
