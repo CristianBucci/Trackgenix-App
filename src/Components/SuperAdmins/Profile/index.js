@@ -31,6 +31,10 @@ const SuperAdminProfile = () => {
     showPasswordModal
   } = useSelector((state) => state.superAdmins);
   const [formValues, setFormValues] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const passwordShow = () => {
+    setShowPassword(!showPassword);
+  };
 
   const dispatch = useDispatch();
 
@@ -154,6 +158,16 @@ const SuperAdminProfile = () => {
             type="text"
             error={errors.email?.message}
             placeholder={'Email'}
+          />
+          <Input
+            register={register}
+            label={'Password'}
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            error={errors.password?.message}
+            placeholder={'Password'}
+            show={passwordShow}
+            showState={showPassword}
           />
           <div>
             <Buttons
