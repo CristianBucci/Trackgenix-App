@@ -56,14 +56,12 @@ const EmployeesProfile = () => {
       setValue('name', employee.name);
       setValue('lastName', employee.lastName);
       setValue('email', employee.email);
-      setValue('password', employee.password);
       setValue('phone', employee.phone);
 
       setFormValues({
         name: employee.name,
         lastName: employee.lastName,
         email: employee.email,
-        password: employee.password,
         phone: employee.phone
       });
     }

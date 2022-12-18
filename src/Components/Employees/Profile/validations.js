@@ -30,7 +30,6 @@ export const employeeSchema = Joi.object({
       'string.pattern.base': 'Insert a valid email.'
     }),
   password: Joi.string()
-    .required()
     .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
     .messages({
       'string.empty': 'Password is required.',
@@ -38,7 +37,6 @@ export const employeeSchema = Joi.object({
       'string.pattern.base': 'Must contain letters, numbers and at least 8 characters long.'
     }),
   phone: Joi.string()
-    .required()
     .pattern(/^[0-9]+$/)
     .min(9)
     .max(15)
