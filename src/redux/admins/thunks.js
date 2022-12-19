@@ -51,13 +51,14 @@ export const getByIdAdmin = (id, token) => {
   };
 };
 
-export const createAdmins = (input) => {
+export const createAdmins = (input, token) => {
   return async (dispatch) => {
     dispatch(createAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`, {
         method: 'POST',
         headers: {
+          token,
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
@@ -89,6 +90,7 @@ export const updateAdmins = (input, id, token) => {
         method: 'PUT',
         headers: {
           token,
+          Accept: 'application/json',
           'Content-type': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify({

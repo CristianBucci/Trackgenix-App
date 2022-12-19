@@ -22,6 +22,12 @@ const NavBar = () => {
             <Link to="/super-admins/profile">Profile</Link>
           </li>
           <li>
+            <Link to="/super-admins/admins">Form</Link>
+          </li>
+          <li>
+            <Link to="/super-admins/admins/638695b4fbc9a295dc6b5f7e">Form</Link>
+          </li>
+          <li>
             <Link onClick={onSubmit}>Logout</Link>
           </li>
         </ul>
