@@ -68,10 +68,15 @@
 
 .btnContainer {
    display: flex;
+   flex-direction: row;
    justify-content: space-around;
 }
 
 .button {
    background-color: #ffffff00;
    border: none;
+}
+
+.button img {
+  width: 24px;
 }
