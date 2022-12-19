@@ -11,7 +11,7 @@ import { getByIdProjects, updateProject } from 'redux/projects/thunks';
 import { confirmModalClose, confirmModalOpen, messageModalClose } from 'redux/super-admins/actions';
 import { projectsSchema } from './validations';
 import styles from './projects.module.css';
-import Select from 'Components/Shared/Select';
+import Sidebar from '../Sidebar';
 
 const ProjectsForm = (props) => {
   const token = sessionStorage.getItem('token');
@@ -20,7 +20,6 @@ const ProjectsForm = (props) => {
   const dispatch = useDispatch();
   const [projectInput, setProjectInput] = useState({});
   const [employeesProject, setEmployeesProject] = useState([]);
-  const { list: employees } = useSelector((state) => state.employees);
   const {
     modalContent,
     showModalMessage,
@@ -86,7 +85,6 @@ const ProjectsForm = (props) => {
 
   const {
     handleSubmit,
-    unregister,
     register,
     reset,
     formState: { errors }
@@ -109,8 +107,6 @@ const ProjectsForm = (props) => {
     id ? setFormValues() : reset();
   };
 
-  const roles = [{ role: 'DEV' }, { role: 'QA' }, { role: 'PM' }, { role: 'TL' }];
-
   return (
     <>
       <ModalConfirm
@@ -127,6 +123,7 @@ const ProjectsForm = (props) => {
         modalFunction={modalFunction}
       />
       <div>
+        <Sidebar />
         {!isLoading ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.card}>
@@ -169,79 +166,8 @@ const ProjectsForm = (props) => {
                 register={register}
                 error={errors.clientName?.message}
               />
-              <div className={styles.card}>
-                {employeesProject?.map((option, index) => {
-                  return (
-                    <div key={index}>
-                      <label>Employee</label>
-                      <Select
-                        options={employees}
-                        keyMap={'_id'}
-                        title={'Employee'}
-                        fieldToShow={'name'}
-                        second={'lastName'}
-                        isDisabled={false}
-                        name={`employees[${index}].employeeId`}
-                        register={register}
-                        error={errors.employees && errors.employees[index].employeeId?.message}
-                      ></Select>
-                      <Input
-                        label={'Rate'}
-                        name={`employees[${index}].rate`}
-                        type="number"
-                        placeholder={'Rate'}
-                        register={register}
-                        error={errors.employees && errors.employees[index].rate?.message}
-                      />
-                      <label>Role</label>
-                      <Select
-                        options={roles}
-                        keyMap={'role'}
-                        title={'Role'}
-                        fieldToShow={'role'}
-                        isDisabled={false}
-                        name={`employees[${index}].role`}
-                        register={register}
-                        error={errors.employees && errors.employees[index].role?.message}
-                      ></Select>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setEmployeesProject([
-                            ...employeesProject.slice(0, index),
-                            ...employeesProject.slice(
-                              index + 1 ? index + 1 : index,
-                              employeesProject.length
-                            )
-                          ]);
-                          unregister('employees');
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  );
-                })}
-                <div className={styles.addEmployeeButton}>
-                  <button
-                    onClick={() =>
-                      setEmployeesProject([
-                        ...employeesProject,
-                        {
-                          employeeId: '',
-                          rate: 0,
-                          role: ''
-                        }
-                      ])
-                    }
-                    type="button"
-                  >
-                    Add Employee
-                  </button>
-                </div>
-              </div>
             </div>
-            <div>
+            <div className={styles.card}>
               <Buttons type="submit" variant="primary" name="Confirm" />
               <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
               <Buttons
