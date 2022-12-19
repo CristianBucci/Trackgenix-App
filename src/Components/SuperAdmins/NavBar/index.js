@@ -14,7 +14,7 @@ const NavBar = () => {
   };
 
   const onSubmit = () => {
-    const content = `Are you sure you want to logout?`;
+    const content = 'Are you sure you want to logout?';
     dispatch(confirmModalOpen(content));
   };
 
