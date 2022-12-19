@@ -16,11 +16,13 @@ import {
   deleteAdminsError
 } from './actions';
 
-export const getAdmins = () => {
+export const getAdmins = (token) => {
   return async (dispatch) => {
     dispatch(getAdminsPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin`, {
+        headers: { token }
+      });
       const json = await response.json();
       dispatch(getAdminsSuccess(json.data));
     } catch (error) {
@@ -29,11 +31,13 @@ export const getAdmins = () => {
   };
 };
 
-export const getByIdAdmin = (id) => {
+export const getByIdAdmin = (id, token) => {
   return async (dispatch) => {
     dispatch(getByIdAdminsPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
+        headers: { token }
+      });
       const data = await response.json();
       if (response.status == 200) {
         dispatch(getByIdAdminsSuccess(data.data));
@@ -77,15 +81,15 @@ export const createAdmins = (input) => {
   };
 };
 
-export const updateAdmins = (input, id) => {
+export const updateAdmins = (input, id, token) => {
   return async (dispatch) => {
     dispatch(updateAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
         method: 'PUT',
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
+          token,
+          'Content-type': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify({
           name: input.name,
@@ -107,12 +111,16 @@ export const updateAdmins = (input, id) => {
   };
 };
 
-export const deleteAdmins = (id) => {
+export const deleteAdmins = (id, token) => {
   return async (dispatch) => {
     dispatch(deleteAdminsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          token,
+          'Content-type': 'application/json; charset=UTF-8'
+        }
       });
       if (response.status == 204) {
         dispatch(deleteAdminsSuccess(id));

@@ -1,3 +1,4 @@
+import NavBar from 'Components/SuperAdmins/NavBar';
 import React, { lazy } from 'react';
 import { Suspense } from 'react';
 import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
@@ -17,6 +18,7 @@ const SuperAdminRoutes = () => {
           </div>
         }
       >
+        <NavBar />
         <Switch>
           <Route exact path={`${url}/`} component={SuperAdminsHome} />
           <Route exact path={`${url}/admins`} component={AdminForm} />
