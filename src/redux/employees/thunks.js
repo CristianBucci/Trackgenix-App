@@ -48,13 +48,14 @@ export const getByIdEmployee = (id, token) => {
   };
 };
 
-export const deleteEmployee = (id) => {
+export const deleteEmployee = (id, token) => {
   return async (dispatch) => {
     dispatch(deleteEmployeePending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'DELETE',
         headers: {
+          token,
           'Content-type': 'application/json; charset=UTF-8'
         }
       });
@@ -115,7 +116,7 @@ export const updateEmployee = (id, data, token) => {
         dispatch(putEmployeeSuccess(response));
       } else {
         const data = await response.json();
-        dispatch(putEmployeeError(data.data));
+        dispatch(putEmployeeError(data));
       }
     } catch (error) {
       dispatch(putEmployeeError(error.toString()));

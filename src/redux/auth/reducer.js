@@ -35,6 +35,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
+        isAuthenticated: sessionStorage.getItem('token') ? true : false,
         role: action.payload.role,
         email: action.payload.email
       };
