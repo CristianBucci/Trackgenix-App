@@ -7,7 +7,7 @@ import { passwords } from './validations';
 import styles from './modalPassword.module.css';
 import Buttons from 'Components/Shared/Button';
 import { useDispatch } from 'react-redux';
-import { confirmModalOpen, passwordModalClose } from 'redux/super-admins/actions';
+import { confirmModalOpen, passwordModalClose } from 'redux/employees/actions';
 
 const ModalPassword = ({ show, onCancel, setData, userData }) => {
   const {
