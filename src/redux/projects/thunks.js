@@ -36,7 +36,7 @@ export const getByIdProjects = (id, token) => {
     dispatch(getByIdProjectsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-        headers: token
+        headers: { token }
       });
       const data = await response.json();
       if (response.status == 200) {

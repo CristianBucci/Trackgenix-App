@@ -37,7 +37,7 @@ const Sidebar = () => {
       <aside className={styles.sidebar}>
         <ul>
           <li>
-            <Link to="/employees/home">Projects</Link>
+            <Link to="/employees/">Projects</Link>
           </li>
           <li>
             <Link to="/employees/timesheets">Timesheets</Link>

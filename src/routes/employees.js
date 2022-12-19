@@ -4,6 +4,7 @@ import { useRouteMatch, Switch, Route, Redirect, BrowserRouter } from 'react-rou
 const EmployeesHome = lazy(() => import('Components/Employees/Home'));
 const EmployeeProfile = lazy(() => import('Components/Employees/Profile'));
 const EmployeeTimeSheet = lazy(() => import('Components/Employees/TimeSheet'));
+const ProjectsForm = lazy(() => import('Components/Employees/Projects'));
 
 const Employee = () => {
   const { url } = useRouteMatch();
@@ -20,6 +21,7 @@ const Employee = () => {
           <Route exact path={`${url}/`} component={EmployeesHome} />
           <Route exact path={`${url}/timesheets`} component={EmployeeTimeSheet} />
           <Route path={`${url}/timesheets/:id`} component={EmployeeTimeSheet} />
+          <Route path={`${url}/projects/form/:id`} component={ProjectsForm} />
           <Route path={`${url}/profile`} component={EmployeeProfile} />
           <Redirect to={`${url}/`} />
         </Switch>

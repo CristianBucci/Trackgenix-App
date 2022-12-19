@@ -147,9 +147,11 @@ const EmployeesHome = () => {
                             {item.role === 'PM' && (
                               <>
                                 <div className={styles.btnContainer}>
-                                  <button className={styles.button}>
-                                    <img src="/assets/images/edit.svg" alt="edit" />
-                                  </button>
+                                  <Link to={`projects/form/${item.id}`}>
+                                    <button className={styles.button}>
+                                      <img src="/assets/images/edit.svg" alt="edit" />
+                                    </button>
+                                  </Link>
                                   <button className={styles.button}>
                                     <img src="/assets/images/clock.png" alt="clock" />
                                   </button>
