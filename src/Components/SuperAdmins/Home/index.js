@@ -50,7 +50,6 @@ const SuperAdminsHome = () => {
     if (modalContent.content.includes('logout')) {
       dispatch(logout());
     } else {
-      console.log(itemId);
       dispatch(deleteAdmins(itemId, token));
     }
     dispatch(confirmModalClose());
