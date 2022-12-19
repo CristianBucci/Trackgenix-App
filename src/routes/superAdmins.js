@@ -1,4 +1,3 @@
-import NavBar from 'Components/SuperAdmins/NavBar';
 import React, { lazy } from 'react';
 import { Suspense } from 'react';
 import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
@@ -6,6 +5,7 @@ import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
 const SuperAdminsHome = lazy(() => import('Components/SuperAdmins/Home'));
 const AdminForm = lazy(() => import('Components/SuperAdmins/Admins'));
 const SuperAdminProfile = lazy(() => import('Components/SuperAdmins/Profile'));
+const NavBar = lazy(() => import('Components/SuperAdmins/NavBar'));
 
 const SuperAdminRoutes = () => {
   const { url } = useRouteMatch();
