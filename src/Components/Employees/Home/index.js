@@ -152,9 +152,11 @@ const EmployeesHome = () => {
                                       <img src="/assets/images/edit.svg" alt="edit" />
                                     </button>
                                   </Link>
-                                  <button className={styles.button}>
-                                    <img src="/assets/images/clock.png" alt="clock" />
-                                  </button>
+                                  <Link to={`project/timesheets/${item.id}`}>
+                                    <button className={styles.button}>
+                                      <img src="/assets/images/clock.png" alt="clock" />
+                                    </button>
+                                  </Link>
                                 </div>
                               </>
                             )}
