@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
 import { getEmployees } from 'redux/employees/thunks';
 import { projectsSchema } from './validations';
+
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
@@ -40,7 +41,6 @@ const ProjectsForm = (props) => {
   const [formText, setFormText] = useState('Add Project');
   const [employeesProject, setEmployeesProject] = useState([]);
   const [projectInput, setProjectInput] = useState({});
-  console.log(id);
 
   const onSubmit = (data) => {
     setProjectInput({
