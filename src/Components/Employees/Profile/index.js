@@ -3,7 +3,7 @@ import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
-import Sidebar from 'Components/Employees/Sidebar';
+import Sidebar from 'Components/Shared/Sidebar';
 import styles from './profile.module.css';
 
 import { useEffect, useState } from 'react';

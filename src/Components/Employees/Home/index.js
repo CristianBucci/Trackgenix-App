@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
 import { Link } from 'react-router-dom';
 
-import Sidebar from 'Components/Employees/Sidebar';
+import Sidebar from 'Components/Shared/Sidebar';
 import styles from './home.module.css';
 
 const EmployeesHome = () => {
