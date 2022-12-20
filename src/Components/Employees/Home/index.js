@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import Sidebar from 'Components/Shared/Sidebar';
 import styles from './home.module.css';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const EmployeesHome = () => {
   const token = sessionStorage.getItem('token');
@@ -91,9 +92,7 @@ const EmployeesHome = () => {
     <div className={styles.projectsWrapper}>
       <Sidebar />
       {isLoading ? (
-        <div className={styles.spinnerContainer}>
-          <img src="/assets/images/spinner.gif" alt="spinner" />
-        </div>
+        <Spinner />
       ) : (
         <>
           {filteredList.length == 0 ? (

@@ -10,6 +10,7 @@ import NavBar from '../NavBar';
 import { logout } from 'redux/auth/thunks';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import { messageModalClose } from 'redux/super-admins/actions';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const SuperAdminsHome = () => {
   const token = sessionStorage.getItem('token');
@@ -84,9 +85,7 @@ const SuperAdminsHome = () => {
       />
       <div className={styles.projectsWrapper}>
         {isLoading ? (
-          <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
+          <Spinner />
         ) : (
           <>
             {adminsList.length == 0 ? (

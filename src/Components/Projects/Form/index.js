@@ -13,6 +13,7 @@ import Input from 'Components/Shared/Inputs';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const AddProject = (props) => {
   const dispatch = useDispatch();
@@ -264,9 +265,7 @@ const AddProject = (props) => {
             </div>
           </form>
         ) : (
-          <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
+          <Spinner />
         )}
       </div>
     </>

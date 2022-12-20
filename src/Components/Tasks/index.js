@@ -7,6 +7,7 @@ import Table from 'Components/Shared/Table/Table';
 import styles from './tasks.module.css';
 import { getTasks, deleteTasks } from 'redux/tasks/thunks';
 import { confirmModalClose, messageModalClose, confirmModalOpen } from 'redux/tasks/actions';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const Tasks = () => {
   const [itemId, setItemId] = useState(null);
@@ -62,9 +63,7 @@ const Tasks = () => {
       <section className={styles.container}>
         <h2 className={styles.title}>Tasks</h2>
         {isLoading ? (
-          <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
+          <Spinner />
         ) : (
           <Table
             data={tasksList}

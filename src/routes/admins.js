@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setRoutes } from 'redux/routes/thunks';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const AdminsHome = lazy(() => import('Components/Admins/Home'));
 const ProjectsForm = lazy(() => import('Components/Admins/Projects'));
@@ -21,13 +22,7 @@ const AdminsRouter = () => {
   dispatch(setRoutes(routes));
   return (
     <BrowserRouter>
-      <Suspense
-        fallback={
-          <div>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
-        }
-      >
+      <Suspense fallback={<Spinner />}>
         <Switch>
           <Route exact path={`${url}/`} component={AdminsHome} />
           <Route exact path={`${url}/projects`} component={ProjectsForm} />
