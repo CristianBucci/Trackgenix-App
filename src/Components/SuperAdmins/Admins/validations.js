@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const superAdminsValidationSchema = Joi.object({
+export const Schema = Joi.object({
   name: Joi.string()
     .min(3)
     .pattern(/^([A-Za-z]+ )+[A-Za-z]+$|^[A-Za-z]+$/u)

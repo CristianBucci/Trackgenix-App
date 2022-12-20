@@ -102,7 +102,7 @@ export const updateSuperAdmin = (input, id) => {
         dispatch(updateSuperAdminSuccess(data.data, data.message));
       } else {
         const data = await response.json();
-        dispatch(updateSuperAdminError(data.data));
+        dispatch(updateSuperAdminError(data));
       }
     } catch (error) {
       dispatch(updateSuperAdminError(error.toString()));

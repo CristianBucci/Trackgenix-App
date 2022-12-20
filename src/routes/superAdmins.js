@@ -5,6 +5,7 @@ import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
 const SuperAdminsHome = lazy(() => import('Components/SuperAdmins/Home'));
 const AdminForm = lazy(() => import('Components/SuperAdmins/Admins'));
 const SuperAdminProfile = lazy(() => import('Components/SuperAdmins/Profile'));
+const NavBar = lazy(() => import('Components/SuperAdmins/NavBar'));
 
 const SuperAdminRoutes = () => {
   const { url } = useRouteMatch();
@@ -17,6 +18,7 @@ const SuperAdminRoutes = () => {
           </div>
         }
       >
+        <NavBar />
         <Switch>
           <Route exact path={`${url}/`} component={SuperAdminsHome} />
           <Route exact path={`${url}/admins`} component={AdminForm} />

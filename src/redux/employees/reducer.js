@@ -17,7 +17,9 @@ import {
   CONFIRM_MODAL_OPEN,
   CONFIRM_MODAL_CLOSE,
   MESSAGE_MODAL_OPEN,
-  MESSAGE_MODAL_CLOSE
+  MESSAGE_MODAL_CLOSE,
+  PASSWORD_MODAL_OPEN,
+  PASSWORD_MODAL_CLOSE
 } from './constants';
 
 const INITIAL_STATE = {
@@ -26,7 +28,8 @@ const INITIAL_STATE = {
   error: '',
   modalContent: { title: '', content: '' },
   showModalMessage: false,
-  showConfirmModal: false
+  showConfirmModal: false,
+  showPasswordModal: false
 };
 
 const employeesReducer = (state = INITIAL_STATE, action) => {
@@ -79,11 +82,8 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         list: [...state.list.filter((employee) => employee._id !== action.payload)],
-        showModalMessage: true,
-        modalContent: {
-          title: 'SUCCESS!',
-          content: 'Employee successfully deleted'
-        }
+        modalContent: { title: 'SUCCESS!', content: 'Account Successfully DELETED' },
+        showModalMessage: true
       };
     case DELETE_EMPLOYEES_ERROR:
       return {
@@ -103,7 +103,7 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         showConfirmModal: false,
-        modalContent: { title: 'SUCCESS!', content: `Employee Successfully CREATED` },
+        modalContent: { title: 'SUCCESS!', content: 'Employee Successfully CREATED' },
         showModalMessage: true,
         list: [...state.list, action.payload]
       };
@@ -125,7 +125,7 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         showConfirmModal: false,
-        modalContent: { title: 'SUCCESS!', content: `Employee Successfully UPDATED` },
+        modalContent: { title: 'SUCCESS!', content: 'Employee Successfully UPDATED' },
         showModalMessage: true,
         list: [...state.list, action.payload]
       };
@@ -134,7 +134,10 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoading: false,
         error: action.payload,
-        modalContent: { title: 'ERROR!', content: `Could not UPDATE Employee! ${action.payload}` },
+        modalContent: {
+          title: 'ERROR!',
+          content: `Could not UPDATE Employee! ${action.payload.message}`
+        },
         showModalMessage: true
       };
     case CONFIRM_MODAL_OPEN:
@@ -160,6 +163,16 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         showModalMessage: false
+      };
+    case PASSWORD_MODAL_OPEN:
+      return {
+        ...state,
+        showPasswordModal: true
+      };
+    case PASSWORD_MODAL_CLOSE:
+      return {
+        ...state,
+        showPasswordModal: false
       };
     default:
       return state;

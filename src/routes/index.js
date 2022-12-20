@@ -4,7 +4,9 @@ import styles from './routes.module.css';
 import PrivateRoute from './PrivateRoute';
 import { tokenListener } from 'helpers/firebase';
 import Footer from 'Components/Footer';
+import Header from 'Components/Header';
 
+const Home = lazy(() => import('./home'));
 const AuthRoutes = lazy(() => import('./auth'));
 const SuperAdminRoutes = lazy(() => import('./superAdmins'));
 const AdminRoutes = lazy(() => import('./admins'));
@@ -24,15 +26,17 @@ const Layout = () => {
       }
     >
       <div className={styles.container}>
+        <Header />
         <Switch>
+          <Route path="/home" component={Home} />
           <Route path="/auth" component={AuthRoutes} />
           <PrivateRoute path="/admins" role="ADMIN" component={AdminRoutes} />
           <PrivateRoute path="/super-admins" role="SUPER_ADMIN" component={SuperAdminRoutes} />
           <PrivateRoute path="/employees" role="EMPLOYEE" component={EmployeeRoutes} />
-          <Redirect to="/auth" />
+          <Redirect to="/home" />
         </Switch>
-        <Footer />
       </div>
+      <Footer />
     </Suspense>
   );
 };
