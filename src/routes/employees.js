@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { useRouteMatch, Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setRoutes } from 'redux/routes/thunks';
 
 const EmployeesHome = lazy(() => import('Components/Employees/Home'));
 const EmployeeProfile = lazy(() => import('Components/Employees/Profile'));
@@ -7,6 +9,13 @@ const EmployeeTimeSheet = lazy(() => import('Components/Employees/TimeSheet'));
 
 const Employee = () => {
   const { url } = useRouteMatch();
+  const dispatch = useDispatch();
+  const routes = [
+    { title: 'Projects', url: `${url}/` },
+    { title: 'Timesheets', url: `${url}/timesheets` },
+    { title: 'Profile', url: `${url}/profile` }
+  ];
+  dispatch(setRoutes(routes));
   return (
     <BrowserRouter>
       <Suspense
