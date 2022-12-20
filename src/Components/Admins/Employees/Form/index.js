@@ -14,7 +14,7 @@ import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
 
-function Form() {
+function Form(props) {
   const token = sessionStorage.getItem('token');
   const [formValues, setFormValues] = useState({
     name: '',
@@ -90,8 +90,12 @@ function Form() {
     dispatch(confirmModalOpen(content));
   };
 
+  const redirect = () => {
+    props.history.push('/admins/employees');
+  };
+
   const modalFunction = () => {
-    modalContent.title.includes('SUCCESS');
+    modalContent.title.includes('SUCCESS') && redirect();
     dispatch(messageModalClose());
   };
 

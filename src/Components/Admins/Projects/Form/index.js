@@ -261,7 +261,7 @@ const ProjectsForm = (props) => {
               <Buttons
                 variant="secondary"
                 name="Cancel"
-                onClick={() => props.history.push('/admins')}
+                onClick={() => props.history.push('/admins/home')}
               />
             </div>
           </form>
