@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import styles from './Table.module.css';
 import { Link } from 'react-router-dom';
 
-const Table = ({ data, headers, dataValues, setShowModal, location }) => {
+const Table = ({ data, headers, dataValues, setShowModal, location, displayCreateButton }) => {
   const [search, setSearch] = useState('');
-
   const results = !search
     ? data
     : data.filter(
-        (dato) =>
-          dato.name?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.lastName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.email?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.phone?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.clientName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.startDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.endDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          dato.employees?.toLowerCase().includes(search.toLocaleLowerCase())
+        (value) =>
+          value.name?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.lastName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.email?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.description?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.phone?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.clientName?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.startDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.endDate?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          value.employees?.toLowerCase().includes(search.toLocaleLowerCase())
       );
 
   return (
@@ -33,9 +33,11 @@ const Table = ({ data, headers, dataValues, setShowModal, location }) => {
               onChange={(e) => setSearch(e.target.value)}
             ></input>
           </div>
-          <Link to={`.${location.pathname}/form`}>
-            <button className={styles.createBtn}>+</button>
-          </Link>
+          {displayCreateButton && (
+            <Link to={`.${location.pathname}/form`}>
+              <button className={styles.createBtn}>+</button>
+            </Link>
+          )}
         </div>
         <table className={styles.table}>
           <thead className={styles.header}>

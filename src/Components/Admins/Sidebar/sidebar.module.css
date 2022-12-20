@@ -1,0 +1,31 @@
+.sidebar {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 170px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #EA3354;
+}
+
+.sidebar ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    list-style-type: none;
+}
+
+.sidebar li {
+    margin-bottom: 25px;
+  }
+
+.sidebar li > a {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: black;
+}

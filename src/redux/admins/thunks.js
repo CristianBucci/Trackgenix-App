@@ -93,12 +93,7 @@ export const updateAdmins = (input, id, token) => {
           Accept: 'application/json',
           'Content-type': 'application/json; charset=UTF-8'
         },
-        body: JSON.stringify({
-          name: input.name,
-          lastName: input.lastName,
-          email: input.email,
-          password: input.password
-        })
+        body: JSON.stringify(input)
       });
       if (response.status == 200) {
         const data = await response.json();
