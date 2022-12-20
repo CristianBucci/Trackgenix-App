@@ -78,7 +78,12 @@ const employeesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        list: [...state.list.filter((employee) => employee._id !== action.payload)]
+        list: [...state.list.filter((employee) => employee._id !== action.payload)],
+        showModalMessage: true,
+        modalContent: {
+          title: 'SUCCESS!',
+          content: 'Employee successfully deleted'
+        }
       };
     case DELETE_EMPLOYEES_ERROR:
       return {

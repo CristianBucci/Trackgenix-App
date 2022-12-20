@@ -86,16 +86,11 @@ export const updateAdmins = (id, input, token) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admin/${id}`, {
         method: 'PUT',
         headers: {
-          Accept: 'application/json',
           token,
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          name: input.name,
-          lastName: input.lastName,
-          email: input.email,
-          password: input.password
-        })
+        body: JSON.stringify(input)
       });
       if (response.status == 200) {
         const data = await response.json();

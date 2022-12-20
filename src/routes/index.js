@@ -26,7 +26,7 @@ const Layout = () => {
       <div className={styles.container}>
         <Switch>
           <Route path="/auth" component={AuthRoutes} />
-          <PrivateRoute exact path="/admins" role="ADMIN" component={AdminRoutes} />
+          <PrivateRoute path="/admins" role="ADMIN" component={AdminRoutes} />
           <PrivateRoute path="/super-admins" role="SUPER_ADMIN" component={SuperAdminRoutes} />
           <PrivateRoute path="/employees" role="EMPLOYEE" component={EmployeeRoutes} />
           <Redirect to="/auth" />

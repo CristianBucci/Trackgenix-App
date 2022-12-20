@@ -1,19 +1,16 @@
-import React from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { getProjects, deleteProject } from 'redux/projects/thunks';
-import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Table from 'Components/Shared/Table/Table';
+import { getProjects, deleteProject } from 'redux/projects/thunks';
 import styles from './homeAdmin.module.css';
-import Sidebar from 'Components/Admins/Sidebar';
+import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
+import Sidebar from '../Sidebar';
 
 const Projects = () => {
   const token = sessionStorage.getItem('token');
-
-  console.log(token);
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
@@ -33,7 +30,7 @@ const Projects = () => {
   };
 
   const onConfirm = () => {
-    dispatch(deleteProject(itemId));
+    dispatch(deleteProject(itemId, token));
     dispatch(confirmModalClose());
   };
 
@@ -47,7 +44,7 @@ const Projects = () => {
   };
 
   useEffect(() => {
-    dispatch(getProjects());
+    dispatch(getProjects(token));
   }, []);
 
   const projectList = [];
@@ -79,6 +76,7 @@ const Projects = () => {
 
   return (
     <>
+      <Sidebar />
       <ModalConfirm
         show={showConfirmModal}
         modalTitle={modalContent.title}
@@ -92,39 +90,29 @@ const Projects = () => {
         modalContent={modalContent.content}
         modalFunction={modalFunction}
       />
-      <Sidebar />
       <div className={styles.container}>
+        <div className={styles.title}>
+          <h2>projects</h2>
+        </div>
         {isLoading ? (
           <div className={styles.spinnerContainer}>
             <img src="/assets/images/spinner.gif" alt="spinner" />
           </div>
         ) : (
-          <>
-            <div className={styles.title}>
-              <h2>Manage Projects</h2>
-            </div>
-            <Table
-              data={projectList}
-              headers={[
-                'Project Name',
-                'Description',
-                'Client Name',
-                'Starting Date',
-                'End Date',
-                'Employees'
-              ]}
-              dataValues={[
-                'name',
-                'description',
-                'clientName',
-                'startDate',
-                'endDate',
-                'employees'
-              ]}
-              location={location}
-              setShowModal={modalWrapper}
-            />
-          </>
+          <Table
+            data={projectList}
+            headers={[
+              'Project Name',
+              'Desription',
+              'Client Name',
+              'Starting Date',
+              'End Date',
+              'Employees'
+            ]}
+            dataValues={['name', 'description', 'clientName', 'startDate', 'endDate', 'employees']}
+            location={location}
+            setShowModal={modalWrapper}
+          />
         )}
       </div>
     </>

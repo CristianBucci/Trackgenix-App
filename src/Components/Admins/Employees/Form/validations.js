@@ -30,7 +30,6 @@ export const employeeSchema = Joi.object({
       'string.pattern.base': 'Insert a valid email.'
     }),
   password: Joi.string()
-    .required()
     .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
     .messages({
       'string.empty': 'Password is required.',

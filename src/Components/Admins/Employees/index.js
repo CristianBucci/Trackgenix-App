@@ -7,9 +7,10 @@ import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Table from 'Components/Shared/Table/Table';
 import styles from './employees.module.css';
-import Sidebar from 'Components/Admins/Sidebar';
+import Sidebar from '../Sidebar';
 
-const Employees = (props) => {
+const Employees = () => {
+  const token = sessionStorage.getItem('token');
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
@@ -29,7 +30,7 @@ const Employees = (props) => {
   };
 
   const onConfirm = () => {
-    dispatch(deleteEmployee(itemId));
+    dispatch(deleteEmployee(itemId, token));
     dispatch(confirmModalClose());
   };
 
@@ -38,20 +39,17 @@ const Employees = (props) => {
   };
 
   useEffect(() => {
-    dispatch(getEmployees());
+    dispatch(getEmployees(token));
   }, []);
 
-  const redirect = () => {
-    props.history.push('/employees');
-  };
-
   const modalFunction = () => {
-    modalContent.title.includes('SUCCESS') && redirect();
+    modalContent.title.includes('SUCCESS');
     dispatch(messageModalClose());
   };
 
   return (
     <>
+      <Sidebar />
       <ModalConfirm
         show={showConfirmModal}
         modalTitle={modalContent.title}
@@ -65,25 +63,22 @@ const Employees = (props) => {
         modalContent={modalContent.content}
         modalFunction={modalFunction}
       />
-      <Sidebar />
       <div className={styles.container}>
+        <div className={styles.title}>
+          <h2>employees</h2>
+        </div>
         {isLoading ? (
           <div className={styles.spinnerContainer}>
             <img src="/assets/images/spinner.gif" alt="spinner" />
           </div>
         ) : (
-          <>
-            <div className={styles.title}>
-              <h2>List of Radium Rocket Employees</h2>
-            </div>
-            <Table
-              data={employeesList}
-              headers={['First name', 'Last name', 'Phone', 'Email']}
-              dataValues={['name', 'lastName', 'phone', 'email']}
-              location={location}
-              setShowModal={modalWrapper}
-            />
-          </>
+          <Table
+            data={employeesList}
+            headers={['First name', 'Last name', 'Phone', 'Email']}
+            dataValues={['name', 'lastName', 'phone', 'email']}
+            location={location}
+            setShowModal={modalWrapper}
+          />
         )}
       </div>
     </>

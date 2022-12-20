@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
 import { getByIdEmployee, updateEmployee, createEmployee } from 'redux/employees/thunks';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { employeeSchema } from './validations';
 
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
@@ -11,12 +14,8 @@ import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
 
-import { useForm } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
-import { employeeSchema } from './validations';
-import Sidebar from 'Components/Admins/Sidebar';
-
-function Form(props) {
+function Form() {
+  const token = sessionStorage.getItem('token');
   const [formValues, setFormValues] = useState({
     name: '',
     lastName: '',
@@ -49,7 +48,7 @@ function Form(props) {
 
   useEffect(() => {
     if (id) {
-      dispatch(getByIdEmployee(id));
+      dispatch(getByIdEmployee(id, token));
     }
   }, []);
 
@@ -73,16 +72,14 @@ function Form(props) {
   }, [employee]);
 
   const onConfirm = () => {
-    id ? dispatch(updateEmployee(id, formValues)) : dispatch(createEmployee(formValues));
+    id
+      ? dispatch(updateEmployee(id, formValues, token))
+      : dispatch(createEmployee(formValues, token));
     dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
     dispatch(confirmModalClose());
-  };
-
-  const redirect = () => {
-    props.history.push('/employees');
   };
 
   const onSubmit = (event) => {
@@ -101,7 +98,7 @@ function Form(props) {
   };
 
   const modalFunction = () => {
-    modalContent.title.includes('SUCCESS') && redirect();
+    modalContent.title.includes('SUCCESS');
     dispatch(messageModalClose());
   };
 
@@ -124,7 +121,6 @@ function Form(props) {
         modalContent={modalContent.content}
         modalFunction={modalFunction}
       />
-      <Sidebar />
       <div className={styles.container}>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <h2>{id ? 'Edit Employee' : 'Create Employee'}</h2>
@@ -169,7 +165,7 @@ function Form(props) {
             placeholder={'Phone'}
           />
           <div>
-            <Link to={'/admins/employees'}>
+            <Link to={'/employees'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />

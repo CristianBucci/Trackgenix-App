@@ -13,9 +13,9 @@ import Input from 'Components/Shared/Inputs';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
-import Sidebar from '../Sidebar';
 
-const AddProject = (props) => {
+const ProjectsForm = (props) => {
+  const token = sessionStorage.getItem('token');
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -40,6 +40,7 @@ const AddProject = (props) => {
   const [formText, setFormText] = useState('Add Project');
   const [employeesProject, setEmployeesProject] = useState([]);
   const [projectInput, setProjectInput] = useState({});
+  console.log(id);
 
   const onSubmit = (data) => {
     setProjectInput({
@@ -57,11 +58,11 @@ const AddProject = (props) => {
   };
 
   useEffect(() => {
-    dispatch(getEmployees());
+    dispatch(getEmployees(token));
   }, []);
 
   const redirect = () => {
-    props.history.push('/projects');
+    props.history.push('/admins');
   };
 
   const modalFunction = () => {
@@ -75,15 +76,15 @@ const AddProject = (props) => {
 
   const onConfirm = () => {
     id
-      ? dispatch(updateProject(id, projectInput, employeesProject))
-      : dispatch(createProject(projectInput, employeesProject));
+      ? dispatch(updateProject(id, projectInput, employeesProject, token))
+      : dispatch(createProject(projectInput, employeesProject, token));
     dispatch(confirmModalClose());
   };
 
   useEffect(async () => {
     if (id) {
       setFormText('Update Project');
-      dispatch(getByIdProjects(id));
+      dispatch(getByIdProjects(id, token));
     }
   }, []);
 
@@ -139,7 +140,6 @@ const AddProject = (props) => {
         modalContent={modalContent.content}
         modalFunction={modalFunction}
       />
-      <Sidebar />
       <div>
         {!isLoading ? (
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -255,14 +255,14 @@ const AddProject = (props) => {
                 </div>
               </div>
             </div>
-            <div className={styles.buttons}>
+            <div>
+              <Buttons type="submit" variant="primary" name="Confirm" />
+              <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
               <Buttons
                 variant="secondary"
                 name="Cancel"
                 onClick={() => props.history.push('/admins')}
               />
-              <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
-              <Buttons type="submit" variant="primary" name="Confirm" />
             </div>
           </form>
         ) : (
@@ -275,4 +275,4 @@ const AddProject = (props) => {
   );
 };
 
-export default AddProject;
+export default ProjectsForm;
