@@ -1,0 +1,55 @@
+@import url('https://fonts.cdnfonts.com/css/anurati');
+
+.hover {
+  --s: 0.1em;
+  --c: #1095c1;
+  padding-bottom: var(--s);
+  color: rgba(2, 137, 255, 0.34);
+  background:
+  linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
+  linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
+  -webkit-background-clip: text,padding-box;
+  background-clip: text,padding-box;
+  transition: 0.5s;
+}
+
+.hover:hover {
+  --_p: 100%
+}
+
+.sidebar {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 170px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #00021c;
+}
+
+.sidebar ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    list-style-type: none;
+    padding: 10px;
+    font-size: 30px;
+    font-weight: 700;
+    font-family: 'anurati';
+}
+
+.sidebar li {
+    margin-bottom: 25px;
+  }
+
+.sidebar li > a {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: rgba(2, 137, 255, 0.34);
+  cursor: pointer;
+}
