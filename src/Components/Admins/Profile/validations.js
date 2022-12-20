@@ -30,23 +30,10 @@ export const adminSchema = Joi.object({
       'string.pattern.base': 'Insert a valid email.'
     }),
   password: Joi.string()
-    .required()
     .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
     .messages({
       'string.empty': 'Password is required.',
       'any.required': 'Password is required.',
       'string.pattern.base': 'Must contain letters, numbers and at least 8 characters long.'
-    }),
-  phone: Joi.string()
-    .required()
-    .pattern(/^[0-9]+$/)
-    .min(9)
-    .max(15)
-    .messages({
-      'string.empty': 'Phone is required.',
-      'any.required': 'Phone is required.',
-      'string.pattern.base': 'All characters must be digits.',
-      'string.min': 'Phone minimum length is 9.',
-      'string.max': 'Phone maximum length is 15.'
     })
 });

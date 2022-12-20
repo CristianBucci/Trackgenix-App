@@ -62,7 +62,7 @@ const ProjectsForm = (props) => {
   }, []);
 
   const redirect = () => {
-    props.history.push('/admins');
+    props.history.push('/admins/home');
   };
 
   const modalFunction = () => {

@@ -17,7 +17,9 @@ import {
   MESSAGE_MODAL_OPEN,
   MESSAGE_MODAL_CLOSE,
   CONFIRM_MODAL_OPEN,
-  CONFIRM_MODAL_CLOSE
+  CONFIRM_MODAL_CLOSE,
+  PASSWORD_MODAL_OPEN,
+  PASSWORD_MODAL_CLOSE
 } from './constants';
 
 export const getAdminsPending = () => {
@@ -142,5 +144,16 @@ export const confirmModalOpen = (content) => {
 export const confirmModalClose = () => {
   return {
     type: CONFIRM_MODAL_CLOSE
+  };
+};
+export const passwordModalOpen = () => {
+  return {
+    type: PASSWORD_MODAL_OPEN
+  };
+};
+
+export const passwordModalClose = () => {
+  return {
+    type: PASSWORD_MODAL_CLOSE
   };
 };

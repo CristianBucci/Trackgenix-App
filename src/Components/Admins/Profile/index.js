@@ -23,18 +23,9 @@ const AdminProfile = () => {
   const id = sessionStorage.getItem('id');
   const token = sessionStorage.getItem('token');
 
-  const {
-    item: admin,
-    modalContent,
-    showModalMessage,
-    showConfirmModal,
-    showPasswordModal
-  } = useSelector((state) => state.admins);
+  const { admin, modalContent, showModalMessage, showConfirmModal, showPasswordModal } =
+    useSelector((state) => state.admins);
   const [formValues, setFormValues] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const passwordShow = () => {
-    setShowPassword(!showPassword);
-  };
 
   const dispatch = useDispatch();
 
@@ -47,13 +38,11 @@ const AdminProfile = () => {
       setValue('name', admin.name);
       setValue('lastName', admin.lastName);
       setValue('email', admin.email);
-      setValue('password', admin.password);
 
       setFormValues({
         name: admin.name,
         lastName: admin.lastName,
-        email: admin.email,
-        password: admin.password
+        email: admin.email
       });
     }
   }, [admin]);
@@ -71,7 +60,7 @@ const AdminProfile = () => {
 
   const onConfirm = () => {
     !modalContent.content.includes('logout')
-      ? (dispatch(updateAdmins(formValues, id)), dispatch(confirmModalClose()))
+      ? (dispatch(updateAdmins(formValues, id, token)), dispatch(confirmModalClose()))
       : dispatch(logout()),
       dispatch(confirmModalClose());
   };
@@ -88,8 +77,7 @@ const AdminProfile = () => {
     setFormValues({
       name: data.name,
       lastName: data.lastName,
-      email: data.email,
-      password: data.password
+      email: data.email
     });
 
     const content = 'Are you sure you want to edit your Profile?';
@@ -159,16 +147,6 @@ const AdminProfile = () => {
             type="text"
             error={errors.email?.message}
             placeholder={'Email'}
-          />
-          <Input
-            register={register}
-            label={'Password'}
-            name="password"
-            type={showPassword ? 'text' : 'password'}
-            error={errors.password?.message}
-            placeholder={'Password'}
-            show={passwordShow}
-            showState={showPassword}
           />
           <div>
             <Buttons

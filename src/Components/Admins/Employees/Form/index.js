@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/employees/actions';
-import { getByIdEmployee, updateEmployee, createEmployee } from 'redux/employees/thunks';
+import { getByIdEmployee, updateEmployee } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
@@ -53,18 +53,16 @@ function Form() {
   }, []);
 
   useEffect(() => {
-    if (employee && id) {
+    if (employee) {
       setValue('name', employee.name);
       setValue('lastName', employee.lastName);
       setValue('email', employee.email);
-      setValue('password', employee.password);
       setValue('phone', employee.phone);
 
       setFormValues({
         name: employee.name,
         lastName: employee.lastName,
         email: employee.email,
-        password: employee.password,
         phone: employee.phone,
         firebaseUid: employee.firebaseUid
       });
@@ -72,9 +70,7 @@ function Form() {
   }, [employee]);
 
   const onConfirm = () => {
-    id
-      ? dispatch(updateEmployee(id, formValues, token))
-      : dispatch(createEmployee(formValues, token));
+    dispatch(updateEmployee(id, formValues, token));
     dispatch(confirmModalClose());
   };
 
@@ -87,13 +83,10 @@ function Form() {
       name: event.name,
       lastName: event.lastName,
       email: event.email,
-      password: event.password,
       phone: event.phone
     });
 
-    const content = `Are you sure you want to ${
-      id ? 'edit the employee with id ' + id : 'create a new employee'
-    }?`;
+    const content = 'Are you sure you want to edit the employee ?';
     dispatch(confirmModalOpen(content));
   };
 
@@ -123,7 +116,7 @@ function Form() {
       />
       <div className={styles.container}>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <h2>{id ? 'Edit Employee' : 'Create Employee'}</h2>
+          <h2>Edit Employee</h2>
           <Input
             register={register}
             label={'Name'}
@@ -150,14 +143,6 @@ function Form() {
           />
           <Input
             register={register}
-            label={'Password'}
-            name="password"
-            type="password"
-            error={errors.password?.message}
-            placeholder={'Password'}
-          />
-          <Input
-            register={register}
             label={'Phone'}
             name="phone"
             type="text"
@@ -165,7 +150,7 @@ function Form() {
             placeholder={'Phone'}
           />
           <div>
-            <Link to={'/employees'}>
+            <Link to={'/admins/employees'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />

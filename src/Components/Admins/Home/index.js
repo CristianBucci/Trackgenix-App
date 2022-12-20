@@ -8,6 +8,7 @@ import { getProjects, deleteProject } from 'redux/projects/thunks';
 import styles from './homeAdmin.module.css';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
 import Sidebar from '../Sidebar';
+import { logout } from 'redux/auth/thunks';
 
 const Projects = () => {
   const token = sessionStorage.getItem('token');
@@ -30,8 +31,10 @@ const Projects = () => {
   };
 
   const onConfirm = () => {
-    dispatch(deleteProject(itemId, token));
-    dispatch(confirmModalClose());
+    !modalContent.content.includes('logout')
+      ? (dispatch(deleteProject(itemId, token)), dispatch(confirmModalClose()))
+      : dispatch(logout()),
+      dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
@@ -92,7 +95,7 @@ const Projects = () => {
       />
       <div className={styles.container}>
         <div className={styles.title}>
-          <h2>projects</h2>
+          <h2>Projects</h2>
         </div>
         {isLoading ? (
           <div className={styles.spinnerContainer}>
@@ -112,6 +115,7 @@ const Projects = () => {
             dataValues={['name', 'description', 'clientName', 'startDate', 'endDate', 'employees']}
             location={location}
             setShowModal={modalWrapper}
+            displayCreateButton={true}
           />
         )}
       </div>

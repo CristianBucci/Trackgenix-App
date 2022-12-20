@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import styles from './Table.module.css';
 import { Link } from 'react-router-dom';
 
-const Table = ({ data, headers, dataValues, setShowModal, location }) => {
+const Table = ({ data, headers, dataValues, setShowModal, location, displayCreateButton }) => {
   const [search, setSearch] = useState('');
-
   const results = !search
     ? data
     : data.filter(
@@ -34,9 +33,11 @@ const Table = ({ data, headers, dataValues, setShowModal, location }) => {
               onChange={(e) => setSearch(e.target.value)}
             ></input>
           </div>
-          <Link to={`.${location.pathname}/form`}>
-            <button className={styles.createBtn}>+</button>
-          </Link>
+          {displayCreateButton && (
+            <Link to={`.${location.pathname}/form`}>
+              <button className={styles.createBtn}>+</button>
+            </Link>
+          )}
         </div>
         <table className={styles.table}>
           <thead className={styles.header}>

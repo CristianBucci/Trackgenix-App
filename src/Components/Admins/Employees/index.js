@@ -8,6 +8,7 @@ import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Table from 'Components/Shared/Table/Table';
 import styles from './employees.module.css';
 import Sidebar from '../Sidebar';
+import { logout } from 'redux/auth/thunks';
 
 const Employees = () => {
   const token = sessionStorage.getItem('token');
@@ -30,10 +31,11 @@ const Employees = () => {
   };
 
   const onConfirm = () => {
-    dispatch(deleteEmployee(itemId, token));
-    dispatch(confirmModalClose());
+    !modalContent.content.includes('logout')
+      ? (dispatch(deleteEmployee(itemId, token)), dispatch(confirmModalClose()))
+      : dispatch(logout()),
+      dispatch(confirmModalClose());
   };
-
   const onCancel = () => {
     dispatch(confirmModalClose());
   };
@@ -78,6 +80,7 @@ const Employees = () => {
             dataValues={['name', 'lastName', 'phone', 'email']}
             location={location}
             setShowModal={modalWrapper}
+            displayCreateButton={false}
           />
         )}
       </div>

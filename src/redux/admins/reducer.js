@@ -17,7 +17,9 @@ import {
   MESSAGE_MODAL_OPEN,
   MESSAGE_MODAL_CLOSE,
   CONFIRM_MODAL_OPEN,
-  CONFIRM_MODAL_CLOSE
+  CONFIRM_MODAL_CLOSE,
+  PASSWORD_MODAL_OPEN,
+  PASSWORD_MODAL_CLOSE
 } from './constants';
 
 const INITIAL_STATE = {
@@ -26,7 +28,8 @@ const INITIAL_STATE = {
   error: '',
   modalContent: { title: '', content: '' },
   showModalMessage: false,
-  showConfirmModal: false
+  showConfirmModal: false,
+  showPasswordModal: false
 };
 
 const adminsReducer = (state = INITIAL_STATE, action) => {
@@ -179,6 +182,16 @@ const adminsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         showConfirmModal: false
+      };
+    case PASSWORD_MODAL_OPEN:
+      return {
+        ...state,
+        showPasswordModal: true
+      };
+    case PASSWORD_MODAL_CLOSE:
+      return {
+        ...state,
+        showPasswordModal: false
       };
     default:
       return state;
