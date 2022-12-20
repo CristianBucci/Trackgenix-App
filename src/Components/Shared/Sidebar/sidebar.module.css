@@ -2,9 +2,9 @@
 
 .hover {
   --s: 0.1em;
-  --c: #1095c1;
+  --c: #e9e9e9;
   padding-bottom: var(--s);
-  color: rgba(2, 137, 255, 0.34);
+  color: rgba(209, 209, 209, 0.35);
   background:
   linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
   linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
@@ -32,8 +32,9 @@
 .sidebar ul {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100%;
+    margin-top: 350px;
     list-style-type: none;
     padding: 10px;
     font-size: 30px;
@@ -46,10 +47,10 @@
   }
 
 .sidebar li > a {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 600;
   text-decoration: none;
   text-transform: capitalize;
-  color: rgba(2, 137, 255, 0.34);
+  color: rgba(209, 209, 209, 0.7);
   cursor: pointer;
 }
