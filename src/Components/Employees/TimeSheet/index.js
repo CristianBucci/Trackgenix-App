@@ -5,7 +5,7 @@ import Input from 'Components/Shared/Inputs';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './timeSheet.module.css';
-import Sidebar from 'Components/Employees/Sidebar';
+import Sidebar from 'Components/Shared/Sidebar';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/timesheets/actions';

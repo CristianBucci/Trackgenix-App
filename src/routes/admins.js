@@ -1,6 +1,8 @@
 import React, { lazy } from 'react';
 import { Suspense } from 'react';
 import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setRoutes } from 'redux/routes/thunks';
 
 const AdminsHome = lazy(() => import('Components/Admins/Home'));
 const ProjectsForm = lazy(() => import('Components/Admins/Projects'));
@@ -10,6 +12,13 @@ const AdminProfile = lazy(() => import('Components/Admins/Profile'));
 
 const AdminsRouter = () => {
   const { url } = useRouteMatch();
+  const dispatch = useDispatch();
+  const routes = [
+    { title: 'Projects', url: `${url}/` },
+    { title: 'Employees', url: `${url}/employees` },
+    { title: 'Profile', url: `${url}/profile` }
+  ];
+  dispatch(setRoutes(routes));
   return (
     <BrowserRouter>
       <Suspense

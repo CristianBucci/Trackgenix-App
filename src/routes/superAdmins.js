@@ -1,6 +1,8 @@
 import React, { lazy } from 'react';
 import { Suspense } from 'react';
 import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setRoutes } from 'redux/routes/thunks';
 
 const SuperAdminsHome = lazy(() => import('Components/SuperAdmins/Home'));
 const AdminForm = lazy(() => import('Components/SuperAdmins/Admins'));
@@ -9,6 +11,12 @@ const NavBar = lazy(() => import('Components/SuperAdmins/NavBar'));
 
 const SuperAdminRoutes = () => {
   const { url } = useRouteMatch();
+  const dispatch = useDispatch();
+  const routes = [
+    { title: 'Admins', url: `${url}/` },
+    { title: 'Profile', url: `${url}/profile` }
+  ];
+  dispatch(setRoutes(routes));
   return (
     <BrowserRouter>
       <Suspense
