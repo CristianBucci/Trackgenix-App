@@ -7,7 +7,6 @@ import Table from 'Components/Shared/Table/Table';
 import { getProjects, deleteProject } from 'redux/projects/thunks';
 import styles from './homeAdmin.module.css';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
-import Sidebar from '../Sidebar';
 import { logout } from 'redux/auth/thunks';
 
 const Projects = () => {
@@ -79,7 +78,6 @@ const Projects = () => {
 
   return (
     <>
-      <Sidebar />
       <ModalConfirm
         show={showConfirmModal}
         modalTitle={modalContent.title}

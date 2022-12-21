@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProjects } from 'redux/projects/thunks';
 import { Link } from 'react-router-dom';
 
-import Sidebar from 'Components/Shared/Sidebar';
 import styles from './home.module.css';
 import { Spinner } from 'Components/Shared/Spinner';
 
@@ -42,7 +41,7 @@ const EmployeesHome = () => {
         clientName: element.clientName,
         startDate: fixDate(element.startDate),
         endDate: fixDate(element.endDate),
-        role: element.employees.filter((employee) => employee.employeeId._id === id)[0].role
+        role: element.employees.filter((employee) => employee.employeeId?._id === id)[0].role
       });
     });
     return listData;
@@ -90,7 +89,6 @@ const EmployeesHome = () => {
 
   return (
     <div className={styles.projectsWrapper}>
-      <Sidebar />
       {isLoading ? (
         <Spinner />
       ) : (

@@ -4,6 +4,7 @@ import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setRoutes } from 'redux/routes/thunks';
 import { Spinner } from 'Components/Shared/Spinner';
+import Sidebar from 'Components/Shared/Sidebar';
 
 const AdminsHome = lazy(() => import('Components/Admins/Home'));
 const ProjectsForm = lazy(() => import('Components/Admins/Projects/Form'));
@@ -15,7 +16,7 @@ const AdminsRouter = () => {
   const { url } = useRouteMatch();
   const dispatch = useDispatch();
   const routes = [
-    { title: 'Projects', url: `${url}/` },
+    { title: 'Projects', url: `${url}/home` },
     { title: 'Employees', url: `${url}/employees` },
     { title: 'Profile', url: `${url}/profile` }
   ];
@@ -23,6 +24,7 @@ const AdminsRouter = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={<Spinner />}>
+        <Sidebar />
         <Switch>
           <Route exact path={`${url}/home`} component={AdminsHome} />
           <Route exact path={`${url}/admins/home/form`} component={ProjectsForm} />

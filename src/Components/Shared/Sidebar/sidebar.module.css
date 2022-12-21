@@ -26,7 +26,10 @@
   height: 100%;
   top: 0;
   left: 0;
-  background-color: #00021c;
+  background-color: #00021C;
+  border-right: 1px solid #E9E9E9;
+  border-top: 1px solid #E9E9E9;
+  margin-top: 80px;
 }
 
 .sidebar ul {
