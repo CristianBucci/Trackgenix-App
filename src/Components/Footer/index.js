@@ -10,21 +10,27 @@ function Footer() {
       <div className={styles.iconWrapper}>
         <ul>
           <li>
-            <a href="https://www.facebook.com/">
+            <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
               <span>Facebook</span>
-              <img src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`} />
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
+                alt="facebook-icon"
+              />
             </a>
           </li>
           <li>
-            <a href="https://twitter.com/">
+            <a href="https://twitter.com/" target="_blank" rel="noreferrer">
               <span>Twitter</span>
-              <img src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`} />
+              <img src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`} alt="twitter-icon" />
             </a>
           </li>
           <li>
-            <a href="https://www.instagram.com/">
+            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
               <span>Instagram</span>
-              <img src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`} />
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
+                alt="instagram-icon"
+              />
             </a>
           </li>
         </ul>
