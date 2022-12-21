@@ -36,7 +36,7 @@ export const getByIdProjects = (id, token) => {
     dispatch(getByIdProjectsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-        headers: token
+        headers: { token }
       });
       const data = await response.json();
       if (response.status == 200) {
@@ -50,13 +50,14 @@ export const getByIdProjects = (id, token) => {
   };
 };
 
-export const createProject = (input, employees) => {
+export const createProject = (input, employees, token) => {
   return async (dispatch) => {
     dispatch(createProjectPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`, {
         method: 'POST',
         headers: {
+          token,
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
@@ -82,13 +83,14 @@ export const createProject = (input, employees) => {
   };
 };
 
-export const updateProject = (id, input, employees) => {
+export const updateProject = (id, input, employees, token) => {
   return async (dispatch) => {
     dispatch(updateProjectPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
         method: 'PUT',
         headers: {
+          token,
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
@@ -114,20 +116,23 @@ export const updateProject = (id, input, employees) => {
   };
 };
 
-export const deleteProject = (id) => {
+export const deleteProject = (id, token) => {
   return async (dispatch) => {
     dispatch(deleteProjectPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          token,
+          'Content-type': 'application/json; charset=UTF-8'
+        }
       });
       if (response.status == 204) {
-        dispatch(deleteProjectPending(id));
+        dispatch(deleteProjectSuccess(id));
       } else {
         const data = await response.json();
-        dispatch(deleteProjectPending(data.data));
+        dispatch(deleteProjectError(data.data));
       }
-      dispatch(deleteProjectSuccess(id));
     } catch (error) {
       dispatch(deleteProjectError(error.toString()));
     }

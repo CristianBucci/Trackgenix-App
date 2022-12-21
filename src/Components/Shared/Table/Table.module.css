@@ -1,9 +1,9 @@
 .table {
-   width: 100%;
-   border-collapse: collapse;
-   caption-side: top;
-   margin: 0 0 5em 0;
-   text-align: left;
+    border-collapse: collapse;
+    caption-side: top;
+    margin: 2em 0 5em 170px;
+    padding: 50px 0;
+    text-align: left;
 }
 
 .table caption, td, th {
@@ -21,14 +21,13 @@
 .container {
     display: flex;
     flex-direction: column;
-    width: 80%;
     margin: auto;
 }
 
 .top {
     display: flex;
     justify-content: space-between;
-    margin: 30px 0;
+    margin: 30px 40px 0 200px;
 }
 
 .top div {

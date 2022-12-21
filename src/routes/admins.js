@@ -6,8 +6,8 @@ import { setRoutes } from 'redux/routes/thunks';
 import { Spinner } from 'Components/Shared/Spinner';
 
 const AdminsHome = lazy(() => import('Components/Admins/Home'));
-const ProjectsForm = lazy(() => import('Components/Admins/Projects'));
-const EmployeesList = lazy(() => import('Components/Admins/Employees'));
+const ProjectsForm = lazy(() => import('Components/Admins/Projects/Form'));
+const Employees = lazy(() => import('Components/Admins/Employees'));
 const EmployeesForm = lazy(() => import('Components/Admins/Employees/Form'));
 const AdminProfile = lazy(() => import('Components/Admins/Profile'));
 
@@ -24,12 +24,13 @@ const AdminsRouter = () => {
     <BrowserRouter>
       <Suspense fallback={<Spinner />}>
         <Switch>
-          <Route exact path={`${url}/`} component={AdminsHome} />
-          <Route exact path={`${url}/projects`} component={ProjectsForm} />
-          <Route path={`${url}/projects/:id`} component={ProjectsForm} />
-          <Route exact path={`${url}/employees`} component={EmployeesList} />
-          <Route path={`${url}/employees/form/:id`} component={EmployeesForm} />
-          <Route path={`${url}/profile`} component={AdminProfile} />
+          <Route exact path={`${url}/home`} component={AdminsHome} />
+          <Route exact path={`${url}/admins/home/form`} component={ProjectsForm} />
+          <Route exact path={`${url}/home/:id`} component={ProjectsForm} />
+          <Route exact path={`${url}/employees`} component={Employees} />
+          <Route exact path={`${url}/admins/employees/form`} component={EmployeesForm} />
+          <Route exact path={`${url}/employees/:id`} component={EmployeesForm} />
+          <Route exact path={`${url}/profile`} component={AdminProfile} />
         </Switch>
       </Suspense>
     </BrowserRouter>
