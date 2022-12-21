@@ -16,11 +16,13 @@ import {
   putEmployeeError
 } from './actions';
 
-export const getEmployees = () => {
+export const getEmployees = (token) => {
   return async (dispatch) => {
     dispatch(getEmployeesPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+        headers: { token }
+      });
       const data = await response.json();
       dispatch(getEmployeesSuccess(data.data));
     } catch (error) {
@@ -29,11 +31,13 @@ export const getEmployees = () => {
   };
 };
 
-export const getByIdEmployee = (id) => {
+export const getByIdEmployee = (id, token) => {
   return async (dispatch) => {
     dispatch(getByIdEmployeePending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
+        headers: { token }
+      });
       const json = await response.json();
       if (response.status !== 200) {
         dispatch(getByIdEmployeeError(json.msg.toString()));
@@ -46,13 +50,14 @@ export const getByIdEmployee = (id) => {
   };
 };
 
-export const deleteEmployee = (id) => {
+export const deleteEmployee = (id, token) => {
   return async (dispatch) => {
     dispatch(deleteEmployeePending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'DELETE',
         headers: {
+          token,
           'Content-type': 'application/json; charset=UTF-8'
         }
       });
@@ -68,13 +73,14 @@ export const deleteEmployee = (id) => {
   };
 };
 
-export const createEmployee = (newEmployee) => {
+export const createEmployee = (newEmployee, token) => {
   return async (dispatch) => {
     dispatch(postEmployeePending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
         headers: {
+          token,
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify(newEmployee)
@@ -91,28 +97,23 @@ export const createEmployee = (newEmployee) => {
   };
 };
 
-export const updateEmployee = (id, data) => {
+export const updateEmployee = (id, data, token) => {
   return async (dispatch) => {
     dispatch(putEmployeePending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
         headers: {
+          token,
           'Content-Type': 'application/json; charset=UTF-8'
         },
-        body: JSON.stringify({
-          name: data.name,
-          lastName: data.lastName,
-          email: data.email,
-          password: data.password,
-          phone: data.phone
-        })
+        body: JSON.stringify(data)
       });
       if (response.status === 200) {
         dispatch(putEmployeeSuccess(response));
       } else {
         const data = await response.json();
-        dispatch(putEmployeeError(data.data));
+        dispatch(putEmployeeError(data));
       }
     } catch (error) {
       dispatch(putEmployeeError(error.toString()));

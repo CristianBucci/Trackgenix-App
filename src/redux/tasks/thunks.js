@@ -15,11 +15,13 @@ import {
   updateTasksError
 } from './actions';
 
-export const getTasks = () => {
+export const getTasks = (token) => {
   return async (dispatch) => {
     dispatch(getTasksPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
+        headers: { token }
+      });
       const data = await response.json();
       dispatch(getTasksSuccess(data.data));
     } catch (error) {
@@ -28,11 +30,13 @@ export const getTasks = () => {
   };
 };
 
-export const getByIdTask = (id) => {
+export const getByIdTask = (id, token) => {
   return async (dispatch) => {
     dispatch(getByIdTaskPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+        headers: { token }
+      });
       const data = await response.json();
       if (response.status == 200) {
         dispatch(getByIdTaskSuccess(data.data));

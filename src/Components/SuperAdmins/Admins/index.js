@@ -5,19 +5,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { messageModalClose, confirmModalOpen, confirmModalClose } from 'redux/admins/actions';
 import { createAdmins, updateAdmins, getByIdAdmin } from 'redux/admins/thunks';
 import { useForm } from 'react-hook-form';
-import { Schema } from './validatons';
+import { Schema } from './validations';
 import { joiResolver } from '@hookform/resolvers/joi';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
-import styles from './form.module.css';
+import styles from './Form.module.css';
 
 const Form = (props) => {
   const dispatch = useDispatch();
+  const token = sessionStorage.getItem('token');
   const params = useParams();
-  const id = params.Id ? params.Id : '';
+  const id = params.id ? params.id : '';
   const [formText, setFormText] = useState('Add Admins');
+  const [showPassword, setShowPassword] = useState(false);
   const [adminData, setAdminData] = useState({
     name: '',
     lastName: '',
@@ -43,7 +45,7 @@ const Form = (props) => {
   useEffect(async () => {
     if (id) {
       setFormText('Update Admins');
-      dispatch(getByIdAdmin(id));
+      dispatch(getByIdAdmin(id, token));
     } else {
       return null;
     }
@@ -66,7 +68,7 @@ const Form = (props) => {
   }, [admin]);
 
   const onConfirm = () => {
-    id ? dispatch(updateAdmins(adminData, id)) : dispatch(createAdmins(adminData));
+    id ? dispatch(updateAdmins(adminData, id, token)) : dispatch(createAdmins(adminData, token));
     dispatch(confirmModalClose());
   };
 
@@ -75,7 +77,7 @@ const Form = (props) => {
   };
 
   const redirect = () => {
-    props.history.push('/admins');
+    props.history.push('/super-admins');
   };
 
   const modalFunction = () => {
@@ -91,14 +93,16 @@ const Form = (props) => {
       password: event.password
     });
 
-    const content = `Are you sure you want to ${
-      id ? 'edit the Admins with id ' + id : 'create a new Admins'
-    }?`;
+    const content = `Are you sure you want to ${id ? 'edit this Admin' : 'create a new Admin'}?`;
     dispatch(confirmModalOpen(content));
   };
 
   const resetInputs = () => {
     reset(adminData);
+  };
+
+  const passwordShow = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -145,14 +149,16 @@ const Form = (props) => {
           />
           <Input
             label={'Password'}
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder={'Password'}
             register={register}
             error={errors.password?.message}
+            show={passwordShow}
+            showState={showPassword}
           />
           <div>
-            <Link to={'/admins'}>
+            <Link to={'/super-admins'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
             <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetInputs()} />

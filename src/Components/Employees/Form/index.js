@@ -65,7 +65,8 @@ function Form(props) {
         lastName: employee.lastName,
         email: employee.email,
         password: employee.password,
-        phone: employee.phone
+        phone: employee.phone,
+        firebaseUid: employee.firebaseUid
       });
     }
   }, [employee]);
@@ -123,7 +124,7 @@ function Form(props) {
         modalFunction={modalFunction}
       />
       <div className={styles.container}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <h2>{id ? 'Edit Employee' : 'Create Employee'}</h2>
           <Input
             register={register}

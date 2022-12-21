@@ -5,13 +5,13 @@ import Input from 'Components/Shared/Inputs';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './timeSheet.module.css';
-import Sidebar from 'Components/Employees/Sidebar';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/timesheets/actions';
 import { addTimeSheet } from 'redux/timesheets/thunks';
 import { getTasks } from 'redux/tasks/thunks';
 import { getProjects } from 'redux/projects/thunks';
+import { logout } from 'redux/auth/thunks';
 
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -19,13 +19,14 @@ import { timesheetsValidationSchema } from 'Components/Employees/TimeSheet/valid
 import { useParams } from 'react-router-dom';
 
 const EmployeeTimeSheet = (props) => {
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
   const dispatch = useDispatch();
 
   const { modalContent, showModalMessage, showConfirmModal } = useSelector(
     (state) => state.timesheets
   );
 
-  const employeeID_Mocked = '63718325a007c768469fefad';
   const params = useParams();
   const projectID = params.id && params.id;
 
@@ -34,7 +35,7 @@ const EmployeeTimeSheet = (props) => {
     date: '',
     hours: '',
     task: '',
-    employee: employeeID_Mocked,
+    employee: id,
     project: ''
   });
 
@@ -56,7 +57,7 @@ const EmployeeTimeSheet = (props) => {
     let result;
     if (project.employees.length > 0) {
       for (let i = 0; i < project.employees.length; i++) {
-        result = project.employees[i].employeeId?._id === employeeID_Mocked;
+        result = project.employees[i].employeeId?._id === id;
         if (result === true) {
           break;
         }
@@ -66,15 +67,17 @@ const EmployeeTimeSheet = (props) => {
   });
 
   useEffect(() => {
-    dispatch(getTasks());
-    dispatch(getProjects());
+    dispatch(getTasks(token));
+    dispatch(getProjects(token));
     projectID ? setValue('project', projectID) : null;
     projectID ? setTimeSheetInput({ project: projectID }) : null;
   }, []);
 
   const onConfirm = () => {
-    dispatch(addTimeSheet(timeSheetInput));
-    dispatch(confirmModalClose());
+    !modalContent.content.includes('logout')
+      ? (dispatch(addTimeSheet(timeSheetInput, token)), dispatch(confirmModalClose()))
+      : dispatch(logout()),
+      dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
@@ -92,7 +95,7 @@ const EmployeeTimeSheet = (props) => {
       date: e.date,
       hours: e.hours,
       task: e.task,
-      employee: employeeID_Mocked,
+      employee: id,
       project: e.project
     });
     const content = `Are you sure you want to create a new Timesheet'`;
@@ -109,7 +112,6 @@ const EmployeeTimeSheet = (props) => {
 
   return (
     <>
-      <Sidebar />
       <ModalConfirm
         show={showConfirmModal}
         modalTitle={modalContent.title}

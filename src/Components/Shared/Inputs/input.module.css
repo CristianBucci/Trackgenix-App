@@ -1,5 +1,6 @@
 .inputWrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
 }
@@ -32,6 +33,17 @@
 
 .input:focus {
   outline: none;
+}
+
+.inputcontainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.eye {
+  align-self: center;
+  width: 20px;
+  height: 20px;
 }
 
 .disabled {

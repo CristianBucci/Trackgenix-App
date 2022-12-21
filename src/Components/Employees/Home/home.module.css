@@ -2,22 +2,35 @@
   text-align: center;
 }
 
-.spinnerContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.spinnerContainer img {
-  width: 80px;
-}
 .h1 {
   margin-left: 170px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0 0 200px;
+}
+
+.top div {
+  display: flex;
+  border-bottom: 1px solid #999;
+}
+
+.top input {
+  border: none;
 }
 
 .table {
   border-collapse: collapse;
   caption-side: top;
-  margin: 5em 0 5em 170px;
+  margin: 2em 0 5em 170px;
   padding: 50px 0;
   text-align: left;
 }
@@ -46,10 +59,15 @@
 
 .btnContainer {
    display: flex;
+   flex-direction: row;
    justify-content: space-around;
 }
 
 .button {
    background-color: #ffffff00;
    border: none;
+}
+
+.button img {
+  width: 24px;
 }

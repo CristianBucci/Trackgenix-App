@@ -3,53 +3,43 @@ import styles from './footer.module.css';
 
 function Footer() {
   return (
-    <footer className={styles.container}>
-      <div className={styles.main}>
-        <div className={styles.appName}>
-          Track<span>GENIX</span>
-        </div>
-        <ul className={styles.rutes}>
+    <footer className={styles.footer}>
+      <Link className={styles.link} to="/home">
+        <h2 className={styles.hover}>TRACKGENIX</h2>
+      </Link>
+      <div className={styles.iconWrapper}>
+        <ul>
           <li>
-            <Link to="/admins">admins</Link>
+            <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
+              <span>Facebook</span>
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
+                alt="facebook-icon"
+              />
+            </a>
           </li>
           <li>
-            <Link to="/super-admins">super admins</Link>
+            <a href="https://twitter.com/" target="_blank" rel="noreferrer">
+              <span>Twitter</span>
+              <img src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`} alt="twitter-icon" />
+            </a>
           </li>
           <li>
-            <Link to="/employees">employees</Link>
-          </li>
-          <li>
-            <Link to="/projects">projects</Link>
-          </li>
-          <li>
-            <Link to="/timesheets">timesheets</Link>
-          </li>
-          <li>
-            <Link to="/tasks">tasks</Link>
+            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+              <span>Instagram</span>
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
+                alt="instagram-icon"
+              />
+            </a>
           </li>
         </ul>
       </div>
-      <div className={styles.license}>
-        <div className={styles.copyright}>Copyright © {new Date().getFullYear()} Radium Rocket</div>
-        <div>
-          <a href={'https://www.facebook.com/radiumrocket'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
-            />
-          </a>
-          <a href={'https://twitter.com/radiumrocket'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`}
-            />
-          </a>
-          <a href={'https://www.instagram.com/radium.rocket/'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
-            />
-          </a>
+      <div className={styles.copyright}>
+        <p>Copyright ©{new Date().getFullYear()} TrackGenix</p>
+        <div className={styles.email}>
+          <img src={`${process.env.PUBLIC_URL}/assets/images/email-icon.png`} />
+          <p>Trackgenix@genix.com</p>
         </div>
       </div>
     </footer>

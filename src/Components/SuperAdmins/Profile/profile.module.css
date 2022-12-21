@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.container button {
+    width: 250px;
+    margin: auto;
+}
+
+.container a {
+    margin: auto;
+}
+
+.container img {
+    border-radius: 50%;
+    width: 40%;
+    max-width: 400px;
+    margin: auto;
+}

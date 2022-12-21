@@ -8,11 +8,3 @@
   padding: 0px 20px;
   text-transform: uppercase;
 }
-
-.spinnerContainer {
-  display: flex;
-  justify-content: center;
-}
-.spinnerContainer img {
-  width: 80px;
-}

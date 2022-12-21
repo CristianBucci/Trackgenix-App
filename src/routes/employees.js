@@ -1,23 +1,40 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { useRouteMatch, Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setRoutes } from 'redux/routes/thunks';
+import { Spinner } from 'Components/Shared/Spinner';
+import Sidebar from 'Components/Shared/Sidebar';
 
-import Employees from 'Components/Employees/index';
-import EmployeesForm from 'Components/Employees/Form';
-import EmployeesHome from 'Components/Employees/Home';
-import EmployeeTimeSheet from 'Components/Employees/TimeSheet';
-import EmployeeProfile from 'Components/Employees/Profile';
+const EmployeesHome = lazy(() => import('Components/Employees/Home'));
+const EmployeeProfile = lazy(() => import('Components/Employees/Profile'));
+const EmployeeTimeSheet = lazy(() => import('Components/Employees/TimeSheet'));
+const ProjectsForm = lazy(() => import('Components/Employees/Projects'));
+const ProjectsTimesheets = lazy(() => import('Components/Employees/Projects/Timesheets'));
 
 const Employee = () => {
+  const { url } = useRouteMatch();
+  const dispatch = useDispatch();
+  const routes = [
+    { title: 'Projects', url: `${url}/` },
+    { title: 'Timesheets', url: `${url}/timesheets` },
+    { title: 'Profile', url: `${url}/profile` }
+  ];
+  dispatch(setRoutes(routes));
   return (
-    <Switch>
-      <Route exact path="/employees" component={Employees} />
-      <Route path="/employees/home" component={EmployeesHome} />
-      <Route path="/employees/timesheets" component={EmployeeTimeSheet} />
-      <Route path="/employees/timesheets/:id" component={EmployeeTimeSheet} />
-      <Route path="/employees/profile" component={EmployeeProfile} />
-      <Route path="/employees/form" component={EmployeesForm} />
-      <Route path="/employees/:id" component={EmployeesForm} />
-    </Switch>
+    <BrowserRouter>
+      <Suspense fallback={<Spinner />}>
+        <Sidebar />
+        <Switch>
+          <Route exact path={`${url}/`} component={EmployeesHome} />
+          <Route exact path={`${url}/timesheets`} component={EmployeeTimeSheet} />
+          <Route path={`${url}/timesheets/:id`} component={EmployeeTimeSheet} />
+          <Route path={`${url}/projects/form/:id`} component={ProjectsForm} />
+          <Route path={`${url}/project/timesheets/:id`} component={ProjectsTimesheets} />
+          <Route path={`${url}/profile`} component={EmployeeProfile} />
+          <Redirect to={`${url}/`} />
+        </Switch>
+      </Suspense>
+    </BrowserRouter>
   );
 };
 

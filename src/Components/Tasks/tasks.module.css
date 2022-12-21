@@ -106,13 +106,3 @@
 .formContainer form input:hover {
   background-color: #e42447;
 }
-
-.spinnerContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.spinnerContainer img {
-  width: 80px;
-  height: 80px;
-}
