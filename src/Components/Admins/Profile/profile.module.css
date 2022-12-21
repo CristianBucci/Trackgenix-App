@@ -3,6 +3,11 @@
     justify-content: center;
 }
 
+.container h2 {
+    color: #fff;
+    font-size: 1.5em;
+}
+
 .container button {
     width: 250px;
     margin: auto;
