@@ -21,7 +21,7 @@ export const getTimesheets = (token) => {
     dispatch(getTimesheetsPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets`, {
-        headers: token
+        headers: { token }
       });
       const data = await response.json();
       dispatch(getTimesheetsSuccess(data.data));
@@ -136,6 +136,24 @@ export const updateTimeSheet = (input, id, token) => {
       }
     } catch (error) {
       dispatch(putTimesheetsError(error.toString()));
+    }
+  };
+};
+
+export const getTimesheetsByProject = (token, project) => {
+  return async (dispatch) => {
+    dispatch(getTimesheetsPending());
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/timesheets/?project=${project}`,
+        {
+          headers: { token }
+        }
+      );
+      const data = await response.json();
+      dispatch(getTimesheetsSuccess(data.data));
+    } catch (error) {
+      dispatch(getTimesheetsError(error.toString()));
     }
   };
 };

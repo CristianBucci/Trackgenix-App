@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import styles from './Table.module.css';
 import { Link } from 'react-router-dom';
 
-const Table = ({ data, headers, dataValues, setShowModal, location, displayCreateButton }) => {
+const Table = ({
+  data,
+  headers,
+  dataValues,
+  setShowModal,
+  location,
+  displayCreateButton,
+  displayActions
+}) => {
   const [search, setSearch] = useState('');
   const results = !search
     ? data
@@ -45,7 +53,7 @@ const Table = ({ data, headers, dataValues, setShowModal, location, displayCreat
               {headers.map((header, index) => {
                 return <th key={index}>{header}</th>;
               })}
-              <th key={headers.length - 1}>Actions</th>
+              {displayActions && <th key={headers.length - 1}>Actions</th>}
             </tr>
           </thead>
           <tbody className={styles.body}>
@@ -63,18 +71,20 @@ const Table = ({ data, headers, dataValues, setShowModal, location, displayCreat
                         </>
                       );
                     })}
-                    <td key={item._id}>
-                      <div className={styles.btnContainer}>
-                        <Link to={`${location.pathname}/${item._id}`}>
-                          <button className={styles.button}>
-                            <img src="/assets/images/edit.svg" alt="update" />
+                    {displayActions && (
+                      <td key={item._id}>
+                        <div className={styles.btnContainer}>
+                          <Link to={`${location.pathname}/${item._id}`}>
+                            <button className={styles.button}>
+                              <img src="/assets/images/edit.svg" alt="update" />
+                            </button>
+                          </Link>
+                          <button onClick={openModal} className={styles.button}>
+                            <img src="/assets/images/trash.svg" alt="delete" />
                           </button>
-                        </Link>
-                        <button onClick={openModal} className={styles.button}>
-                          <img src="/assets/images/trash.svg" alt="delete" />
-                        </button>
-                      </div>
-                    </td>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 </>
               );

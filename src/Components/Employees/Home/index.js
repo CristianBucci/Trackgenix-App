@@ -117,7 +117,8 @@ const EmployeesHome = () => {
                     {headers.map((header, index) => {
                       return <th key={index}>{header}</th>;
                     })}
-                    <th key={headers.length - 1}>Add hours</th>
+                    <th key={headers.length + 1}>Add hours</th>
+                    <th key={headers.length + 2}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -140,6 +141,24 @@ const EmployeesHome = () => {
                                 </button>
                               </Link>
                             </div>
+                          </td>
+                          <td>
+                            {item.role === 'PM' && (
+                              <>
+                                <div className={styles.btnContainer}>
+                                  <Link to={`projects/form/${item.id}`}>
+                                    <button className={styles.button}>
+                                      <img src="/assets/images/edit.svg" alt="edit" />
+                                    </button>
+                                  </Link>
+                                  <Link to={`project/timesheets/${item.id}`}>
+                                    <button className={styles.button}>
+                                      <img src="/assets/images/clock.png" alt="clock" />
+                                    </button>
+                                  </Link>
+                                </div>
+                              </>
+                            )}
                           </td>
                         </tr>
                       </>
