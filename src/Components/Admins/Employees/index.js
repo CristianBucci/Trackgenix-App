@@ -7,7 +7,6 @@ import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Table from 'Components/Shared/Table/Table';
 import styles from './employees.module.css';
-import Sidebar from '../Sidebar';
 import { logout } from 'redux/auth/thunks';
 
 const Employees = () => {
@@ -51,7 +50,6 @@ const Employees = () => {
 
   return (
     <>
-      <Sidebar />
       <ModalConfirm
         show={showConfirmModal}
         modalTitle={modalContent.title}

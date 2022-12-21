@@ -3,6 +3,7 @@ import { useRouteMatch, Switch, Route, Redirect, BrowserRouter } from 'react-rou
 import { useDispatch } from 'react-redux';
 import { setRoutes } from 'redux/routes/thunks';
 import { Spinner } from 'Components/Shared/Spinner';
+import Sidebar from 'Components/Shared/Sidebar';
 
 const EmployeesHome = lazy(() => import('Components/Employees/Home'));
 const EmployeeProfile = lazy(() => import('Components/Employees/Profile'));
@@ -22,6 +23,7 @@ const Employee = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={<Spinner />}>
+        <Sidebar />
         <Switch>
           <Route exact path={`${url}/`} component={EmployeesHome} />
           <Route exact path={`${url}/timesheets`} component={EmployeeTimeSheet} />
