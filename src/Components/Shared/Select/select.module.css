@@ -1,3 +1,31 @@
-.selectError {
-    color:#ff0404
+.selectWrapper select {
+    width: 100%;
+    min-height: 60px;
+    margin-block: 10px;
+    padding: 4px 14px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid #0000004a;
+    font-size: 18px;
+    color: #f3f3f3;
+    background-color: #3c3951;
+    font-weight: 400;
 }
+
+.selectWrapper option {
+    background-color: #3c3951;
+    font-weight: bold;
+    color: #f3f3f3;
+}
+
+label {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-block: 10px;
+    padding: 0 4px;
+    color: #f3f3f3;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 16px;
+  }

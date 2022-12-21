@@ -11,7 +11,7 @@
     width: 100%;
     margin-block: 10px;
     padding: 0 4px;
-    color: #000000;
+    color: #f3f3f3;
     font-weight: 500;
     font-size: 22px;
     line-height: 16px;
@@ -26,8 +26,8 @@
     border-radius: 6px;
     border: 1px solid #0000004a;
     font-size: 18px;
-    color: #000000;
-    background-color: #c6c4c424;
+    color: #f3f3f3;
+    background-color: #3c3951;
     font-weight: 400;
 }
 
@@ -44,6 +44,8 @@
   align-self: center;
   width: 20px;
   height: 20px;
+  margin: 5px;
+  -webkit-filter: invert(100%);
 }
 
 .disabled {

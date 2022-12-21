@@ -118,8 +118,8 @@ const AdminProfile = () => {
         setData={setFormValues}
       />
       <div className={styles.container}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h2>My profile</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <h2>My Profile</h2>
           <img
             src="https://img.freepik.com/vector-premium/avatar-elegante-hombre-negocios_24877-18075.jpg"
             alt="profile picture"
@@ -151,7 +151,7 @@ const AdminProfile = () => {
           <div>
             <Buttons
               type="button"
-              variant="primary"
+              variant="add"
               name="Change password"
               onClick={openPasswordModal}
             />
@@ -160,7 +160,7 @@ const AdminProfile = () => {
             <Buttons type="submit" variant="primary" name="Save changes" />
           </div>
           <div>
-            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+            <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
           </div>
         </form>
       </div>

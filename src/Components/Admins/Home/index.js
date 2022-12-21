@@ -114,6 +114,7 @@ const Projects = () => {
             location={location}
             setShowModal={modalWrapper}
             displayCreateButton={true}
+            displayActions={true}
           />
         )}
       </div>

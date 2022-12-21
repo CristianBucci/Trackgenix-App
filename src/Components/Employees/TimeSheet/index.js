@@ -126,60 +126,58 @@ const EmployeeTimeSheet = (props) => {
         modalFunction={modalFunction}
       />
       <div className={styles.container}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={styles.card}>
-            {<div className={styles.cardTitle}>Create Timesheet</div>}
-            <Input
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          {<h2>TIMESHEETS</h2>}
+          <Input
+            register={register}
+            label={'Description'}
+            name="description"
+            type="text"
+            error={errors.description?.message}
+            placeholder={'Description'}
+          />
+          <Input
+            register={register}
+            label={'Date'}
+            name="date"
+            type="date"
+            error={errors.date?.message}
+          />
+          <Input
+            register={register}
+            label={'Hours'}
+            name="hours"
+            type="number"
+            error={errors.hours?.message}
+            placeholder={'Hours'}
+          />
+          <div>
+            <label>Task</label>
+            <Select
               register={register}
-              label={'Description'}
-              name="description"
-              type="text"
-              error={errors.description?.message}
-              placeholder={'Description'}
+              options={tasks}
+              keyMap={'_id'}
+              title={'Task'}
+              name={'task'}
+              fieldToShow={'description'}
+              error={errors.task?.message}
             />
-            <Input
+          </div>
+          <div>
+            <label>Project</label>
+            <Select
               register={register}
-              label={'Date'}
-              name="date"
-              type="date"
-              error={errors.date?.message}
+              options={projectsById}
+              keyMap={'_id'}
+              title={'Project'}
+              fieldToShow={'name'}
+              name={'project'}
+              error={errors.project?.message}
             />
-            <Input
-              register={register}
-              label={'Hours'}
-              name="hours"
-              type="number"
-              error={errors.hours?.message}
-              placeholder={'Hours'}
-            />
-            <div className={styles.cardField}>
-              <label>Task</label>
-              <Select
-                register={register}
-                options={tasks}
-                keyMap={'_id'}
-                title={'Task'}
-                name={'task'}
-                fieldToShow={'description'}
-                error={errors.task?.message}
-              />
-            </div>
-            <div className={styles.cardField}>
-              <label>Project</label>
-              <Select
-                register={register}
-                options={projectsById}
-                keyMap={'_id'}
-                title={'Project'}
-                fieldToShow={'name'}
-                name={'project'}
-                error={errors.project?.message}
-              />
-            </div>
-            <div className={styles.cardButton}>
-              <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
-              <Buttons type="submit" variant="primary" name="Confirm" />
-            </div>
+          </div>
+          <div className={styles.formButtons}>
+            <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
+            <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
         </form>
       </div>

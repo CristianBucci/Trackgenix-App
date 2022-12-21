@@ -121,53 +121,51 @@ const ProjectsForm = (props) => {
         modalContent={modalContent.content}
         modalFunction={modalFunction}
       />
-      <div>
+      <div className={styles.container}>
         {!isLoading ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className={styles.card}>
-              <div className={styles.cardTitle}>Edit Project</div>
-              <Input
-                label={'Project Name'}
-                name="name"
-                type="text"
-                placeholder={'Project Name'}
-                register={register}
-                error={errors.name?.message}
-              />
-              <Input
-                label={'Description'}
-                name="description"
-                type="text"
-                placeholder={'Description'}
-                register={register}
-                error={errors.description?.message}
-              />
-              <Input
-                label={'Start Date'}
-                name="startDate"
-                type="date"
-                register={register}
-                error={errors.startDate?.message}
-              />
-              <Input
-                label={'End Date'}
-                name="endDate"
-                type="date"
-                register={register}
-                error={errors.endDate?.message}
-              />
-              <Input
-                label={'Client Name'}
-                name="clientName"
-                type="text"
-                placeholder={'Client Name'}
-                register={register}
-                error={errors.clientName?.message}
-              />
-            </div>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            {<h2>EDIT PROJECT</h2>}
+            <Input
+              label={'Project Name'}
+              name="name"
+              type="text"
+              placeholder={'Project Name'}
+              register={register}
+              error={errors.name?.message}
+            />
+            <Input
+              label={'Description'}
+              name="description"
+              type="text"
+              placeholder={'Description'}
+              register={register}
+              error={errors.description?.message}
+            />
+            <Input
+              label={'Start Date'}
+              name="startDate"
+              type="date"
+              register={register}
+              error={errors.startDate?.message}
+            />
+            <Input
+              label={'End Date'}
+              name="endDate"
+              type="date"
+              register={register}
+              error={errors.endDate?.message}
+            />
+            <Input
+              label={'Client Name'}
+              name="clientName"
+              type="text"
+              placeholder={'Client Name'}
+              register={register}
+              error={errors.clientName?.message}
+            />
             <div className={styles.card}>
               <Buttons type="submit" variant="primary" name="Confirm" />
-              <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+              <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
               <Buttons
                 variant="secondary"
                 name="Cancel"
