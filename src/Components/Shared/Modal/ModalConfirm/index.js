@@ -8,15 +8,17 @@ const ModalConfirm = ({ show, onCancel, onConfirm, modalTitle, modalContent }) =
         <div className={styles.modal}>
           <h1 className={styles.modalTitle}>{modalTitle}</h1>
           <p className={styles.modalText}>{modalContent}</p>
-          <button onClick={onConfirm} className={`${styles.modalBtn} ${styles.BtnConfirm}`}>
-            Confirm
-          </button>
-          <button className={`${styles.modalBtn} ${styles.BtnCancel}`} onClick={onCancel}>
-            Cancel
-          </button>
-          <button className={styles.link2} onClick={onCancel}>
-            X
-          </button>
+          <div>
+            <button className={`${styles.modalBtn} ${styles.BtnCancel}`} onClick={onCancel}>
+              Cancel
+            </button>
+            <button onClick={onConfirm} className={`${styles.modalBtn} ${styles.BtnConfirm}`}>
+              Confirm
+            </button>
+            <button className={styles.link2} onClick={onCancel}>
+              X
+            </button>
+          </div>
         </div>
       </div>
     )
