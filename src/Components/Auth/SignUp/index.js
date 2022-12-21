@@ -131,6 +131,14 @@ function SignUp(props) {
               />
               <Input
                 register={register}
+                label={'Phone'}
+                name="phone"
+                type="text"
+                error={errors.phone?.message}
+                placeholder={'Phone'}
+              />
+              <Input
+                register={register}
                 label={'Password'}
                 name="password"
                 type={showPassword ? 'text' : 'password'}
@@ -148,14 +156,6 @@ function SignUp(props) {
                 placeholder={'Repeat Password'}
                 show={repeatPasswordShow}
                 showState={showRepeatPassword}
-              />
-              <Input
-                register={register}
-                label={'Phone'}
-                name="phone"
-                type="password"
-                error={errors.phone?.message}
-                placeholder={'Phone'}
               />
               <div>
                 <Link to={'/login'}>

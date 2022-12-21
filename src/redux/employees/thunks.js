@@ -89,7 +89,7 @@ export const createEmployee = (newEmployee, token) => {
         dispatch(postEmployeeSuccess(response));
       } else {
         const data = await response.json();
-        dispatch(postEmployeeError(data.data));
+        dispatch(postEmployeeError(data.message));
       }
     } catch (error) {
       dispatch(postEmployeeError(error.toString()));
