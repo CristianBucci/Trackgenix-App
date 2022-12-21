@@ -2,15 +2,6 @@
   text-align: center;
 }
 
-.spinnerContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.spinnerContainer img {
-  width: 80px;
-}
-
 .h1 {
   margin-left: 170px;
 }

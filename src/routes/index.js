@@ -5,6 +5,7 @@ import PrivateRoute from './PrivateRoute';
 import { tokenListener } from 'helpers/firebase';
 import Footer from 'Components/Footer';
 import Header from 'Components/Header';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const Home = lazy(() => import('./home'));
 const AuthRoutes = lazy(() => import('./auth'));
@@ -18,13 +19,7 @@ const Layout = () => {
   }, []);
 
   return (
-    <Suspense
-      fallback={
-        <div>
-          <img src="/assets/images/spinner.gif" alt="spinner" />
-        </div>
-      }
-    >
+    <Suspense fallback={<Spinner />}>
       <div className={styles.container}>
         <Header />
         <Switch>

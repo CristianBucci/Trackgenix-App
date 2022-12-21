@@ -7,6 +7,7 @@ import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Table from 'Components/Shared/Table/Table';
 import styles from './employees.module.css';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const Employees = (props) => {
   const [itemId, setItemId] = useState(null);
@@ -69,9 +70,7 @@ const Employees = (props) => {
           <h2>employees</h2>
         </div>
         {isLoading ? (
-          <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
+          <Spinner />
         ) : (
           <Table
             data={employeesList}

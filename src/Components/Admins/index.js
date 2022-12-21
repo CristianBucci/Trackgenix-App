@@ -1,33 +1,33 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSuperAdmins, deleteSuperAdmin } from 'redux/super-admins/thunks';
-import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/super-admins/actions';
+import { getAdmins, deleteAdmins } from 'redux/admins/thunks';
+import { messageModalClose, confirmModalOpen, confirmModalClose } from 'redux/admins/actions';
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Table from 'Components/Shared/Table/Table';
-import styles from './super-admins.module.css';
+import styles from './admins.module.css';
 import { Spinner } from 'Components/Shared/Spinner';
 
-const SuperAdmins = (props) => {
+const Admins = (props) => {
   const [itemId, setItemId] = useState(null);
   const location = useLocation();
 
   const {
     isLoading,
-    list: superAdminsList,
+    list: adminsList,
     modalContent,
     showModalMessage,
     showConfirmModal
-  } = useSelector((state) => state.superAdmins);
+  } = useSelector((state) => state.admins);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSuperAdmins());
+    dispatch(getAdmins());
   }, []);
 
   const onConfirm = () => {
-    dispatch(deleteSuperAdmin(itemId));
+    dispatch(deleteAdmins(itemId));
     dispatch(confirmModalClose());
   };
 
@@ -36,7 +36,7 @@ const SuperAdmins = (props) => {
   };
 
   const redirect = () => {
-    props.history.push('/super-admins');
+    props.history.push('/admins');
   };
 
   const modalFunction = () => {
@@ -45,7 +45,7 @@ const SuperAdmins = (props) => {
   };
 
   const modalWrapper = (id) => {
-    const content = 'Are you sure you want to delete this SuperAdmin?';
+    const content = 'Are you sure you want to delete this Admins?';
     setItemId(id);
     dispatch(confirmModalOpen(content));
   };
@@ -67,13 +67,13 @@ const SuperAdmins = (props) => {
       />
       <div className={styles.container}>
         <div className={styles.title}>
-          <h2>superadmins</h2>
+          <h2>admins</h2>
         </div>
         {isLoading ? (
           <Spinner />
         ) : (
           <Table
-            data={superAdminsList}
+            data={adminsList}
             headers={['First name', 'Last name', 'Email']}
             dataValues={['name', 'lastName', 'email']}
             location={location}
@@ -85,4 +85,4 @@ const SuperAdmins = (props) => {
   );
 };
 
-export default SuperAdmins;
+export default Admins;

@@ -11,6 +11,7 @@ import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button';
 import styles from './login.module.css';
 import { useState } from 'react';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const Login = () => {
   const { isLoading, showModalMessage, modalContent } = useSelector((state) => state.auth);
@@ -103,9 +104,7 @@ const Login = () => {
             </div>
           </form>
         ) : (
-          <div>
-            <img className={styles.spinner} src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
+          <Spinner />
         )}
       </div>
     </>

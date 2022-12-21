@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { useRouteMatch, Route, Switch, BrowserRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setRoutes } from 'redux/routes/thunks';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const SuperAdminsHome = lazy(() => import('Components/SuperAdmins/Home'));
 const AdminForm = lazy(() => import('Components/SuperAdmins/Admins'));
@@ -19,13 +20,7 @@ const SuperAdminRoutes = () => {
   dispatch(setRoutes(routes));
   return (
     <BrowserRouter>
-      <Suspense
-        fallback={
-          <div>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
-        }
-      >
+      <Suspense fallback={<Spinner />}>
         <NavBar />
         <Switch>
           <Route exact path={`${url}/`} component={SuperAdminsHome} />
