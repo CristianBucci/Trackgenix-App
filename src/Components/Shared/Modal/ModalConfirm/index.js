@@ -1,25 +1,23 @@
 import React from 'react';
-import Buttons from 'Components/Shared/Button/index';
-
 import styles from './modalConfirm.module.css';
 
 const ModalConfirm = ({ show, onCancel, onConfirm, modalTitle, modalContent }) => {
   return (
     show && (
-      <div className={styles.overlay}>
-        <div className={styles.container}>
-          <span className={styles.header}>
-            <p>{modalTitle}</p>
-            <button className={styles.modalCloseButton} onClick={onCancel}>
-              <img src={`${process.env.PUBLIC_URL}/assets/images/close.svg`} alt="Close icon" />
+      <div className={styles.modalContainer}>
+        <div className={styles.modal}>
+          <h1 className={styles.modalTitle}>{modalTitle}</h1>
+          <p className={styles.modalText}>{modalContent}</p>
+          <div>
+            <button className={`${styles.modalBtn} ${styles.BtnCancel}`} onClick={onCancel}>
+              Cancel
             </button>
-          </span>
-          <div className={styles.content}>
-            <span>{modalContent}</span>
-            <span>
-              <Buttons variant="secondary" name="Cancel" onClick={onCancel} />
-              <Buttons variant="primary" name="Confirm" onClick={onConfirm} />
-            </span>
+            <button onClick={onConfirm} className={`${styles.modalBtn} ${styles.BtnConfirm}`}>
+              Confirm
+            </button>
+            <button className={styles.link2} onClick={onCancel}>
+              X
+            </button>
           </div>
         </div>
       </div>
