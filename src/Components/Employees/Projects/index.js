@@ -11,7 +11,6 @@ import { getByIdProjects, updateProject } from 'redux/projects/thunks';
 import { confirmModalClose, confirmModalOpen, messageModalClose } from 'redux/super-admins/actions';
 import { projectsSchema } from './validations';
 import styles from './projects.module.css';
-import Sidebar from '../Sidebar';
 
 const ProjectsForm = (props) => {
   const token = sessionStorage.getItem('token');
@@ -123,7 +122,6 @@ const ProjectsForm = (props) => {
         modalFunction={modalFunction}
       />
       <div>
-        <Sidebar />
         {!isLoading ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.card}>
