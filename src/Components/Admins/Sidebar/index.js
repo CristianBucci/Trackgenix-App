@@ -12,8 +12,7 @@ const Sidebar = () => {
   const { modalContent, showConfirmModal } = useSelector((state) => state.auth);
 
   const onConfirm = () => {
-    dispatch(logout());
-    dispatch(confirmModalClose());
+    modalContent.content.includes('logout') && (dispatch(logout()), dispatch(confirmModalClose()));
   };
 
   const onSubmit = () => {
@@ -37,13 +36,13 @@ const Sidebar = () => {
       <aside className={styles.sidebar}>
         <ul>
           <li>
-            <Link to="/employees/">Projects</Link>
+            <Link to="/admins/home">Manage Projects</Link>
           </li>
           <li>
-            <Link to="/employees/timesheets">Timesheets</Link>
+            <Link to="/admins/employees">Employees</Link>
           </li>
           <li>
-            <Link to="/employees/profile">Profile</Link>
+            <Link to="/admins/profile">Profile</Link>
           </li>
           <li>
             <Link onClick={onSubmit}>Logout</Link>

@@ -7,6 +7,7 @@ import Table from 'Components/Shared/Table/Table';
 import { getProjects, deleteProject } from 'redux/projects/thunks';
 import styles from './projects.module.css';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const Projects = () => {
   const [itemId, setItemId] = useState(null);
@@ -92,9 +93,7 @@ const Projects = () => {
           <h2>projects</h2>
         </div>
         {isLoading ? (
-          <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
+          <Spinner />
         ) : (
           <Table
             data={projectList}

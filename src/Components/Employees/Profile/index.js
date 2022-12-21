@@ -3,7 +3,7 @@ import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
-import Sidebar from 'Components/Employees/Sidebar';
+import Sidebar from 'Components/Shared/Sidebar';
 import styles from './profile.module.css';
 
 import { useEffect, useState } from 'react';
@@ -56,14 +56,12 @@ const EmployeesProfile = () => {
       setValue('name', employee.name);
       setValue('lastName', employee.lastName);
       setValue('email', employee.email);
-      setValue('password', employee.password);
       setValue('phone', employee.phone);
 
       setFormValues({
         name: employee.name,
         lastName: employee.lastName,
         email: employee.email,
-        password: employee.password,
         phone: employee.phone
       });
     }

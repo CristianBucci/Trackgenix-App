@@ -1,5 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import { useRouteMatch, Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setRoutes } from 'redux/routes/thunks';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const EmployeesHome = lazy(() => import('Components/Employees/Home'));
 const EmployeeProfile = lazy(() => import('Components/Employees/Profile'));
@@ -9,15 +12,16 @@ const ProjectsTimesheets = lazy(() => import('Components/Employees/Projects/Time
 
 const Employee = () => {
   const { url } = useRouteMatch();
+  const dispatch = useDispatch();
+  const routes = [
+    { title: 'Projects', url: `${url}/` },
+    { title: 'Timesheets', url: `${url}/timesheets` },
+    { title: 'Profile', url: `${url}/profile` }
+  ];
+  dispatch(setRoutes(routes));
   return (
     <BrowserRouter>
-      <Suspense
-        fallback={
-          <div>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
-          </div>
-        }
-      >
+      <Suspense fallback={<Spinner />}>
         <Switch>
           <Route exact path={`${url}/`} component={EmployeesHome} />
           <Route exact path={`${url}/timesheets`} component={EmployeeTimeSheet} />

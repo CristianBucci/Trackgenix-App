@@ -13,6 +13,7 @@ import styles from './signUp.module.css';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
+import { Spinner } from 'Components/Shared/Spinner';
 
 function SignUp(props) {
   const [formValues, setFormValues] = useState({
@@ -101,9 +102,7 @@ function SignUp(props) {
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <h2>Create new user</h2>
           {isLoading ? (
-            <div className={styles.spinnerContainer}>
-              <img src="/assets/images/spinner.gif" alt="spinner" />
-            </div>
+            <Spinner />
           ) : (
             <>
               <Input

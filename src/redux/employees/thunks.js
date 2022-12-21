@@ -16,11 +16,13 @@ import {
   putEmployeeError
 } from './actions';
 
-export const getEmployees = () => {
+export const getEmployees = (token) => {
   return async (dispatch) => {
     dispatch(getEmployeesPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+        headers: { token }
+      });
       const data = await response.json();
       dispatch(getEmployeesSuccess(data.data));
     } catch (error) {
@@ -71,13 +73,14 @@ export const deleteEmployee = (id, token) => {
   };
 };
 
-export const createEmployee = (newEmployee) => {
+export const createEmployee = (newEmployee, token) => {
   return async (dispatch) => {
     dispatch(postEmployeePending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
         headers: {
+          token,
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify(newEmployee)
@@ -104,13 +107,7 @@ export const updateEmployee = (id, data, token) => {
           token,
           'Content-Type': 'application/json; charset=UTF-8'
         },
-        body: JSON.stringify({
-          name: data.name,
-          lastName: data.lastName,
-          email: data.email,
-          password: data.password,
-          phone: data.phone
-        })
+        body: JSON.stringify(data)
       });
       if (response.status === 200) {
         dispatch(putEmployeeSuccess(response));

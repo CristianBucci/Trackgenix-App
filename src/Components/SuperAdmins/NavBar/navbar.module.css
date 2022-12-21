@@ -1,0 +1,9 @@
+.container {
+    background-color: gray;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+}

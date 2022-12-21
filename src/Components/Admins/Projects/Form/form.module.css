@@ -1,0 +1,71 @@
+.card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: right;
+    align-self: center;
+    width: 70%;
+    margin-left: 15%;
+    background-color: white;
+}
+
+.cardTitle {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 5px;
+}
+
+.cardField {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 45%;
+}
+
+.cardField label {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.cardField input {
+    height: 35px;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid black;
+}
+
+.cardField select {
+    height: 35px;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid black;
+}
+
+.cardButton {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 10px;
+}
+
+.cardButton button {
+    margin: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
