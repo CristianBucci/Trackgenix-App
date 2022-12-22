@@ -11,15 +11,15 @@ class EmployeePage {
     return $('#root > div > div > form > div:nth-child(4) > div > input');
   }
 
-  get inputPassword() {
+  get inputPhone() {
     return $('#root > div > div > form > div:nth-child(5) > div > input');
   }
 
-  get inputRepeatPassword() {
+  get inputPassword() {
     return $('#root > div > div > form > div:nth-child(6) > div > input');
   }
 
-  get inputPhone() {
+  get inputRepeatPassword() {
     return $('#root > div > div > form > div:nth-child(7) > div > input');
   }
 
@@ -46,15 +46,17 @@ class EmployeePage {
   }
 
   get modalConfirmCreateEmployee() {
-    return $('#root > div > div.modalMessage_overlay__6NYRk > div');
+    return $('#root > div > div.modalMessage_modalContainer__tlmdw > div');
   }
 
   get modalConfirmCreateEmployeeText() {
     return $('#root > div > div.modalMessage_overlay__6NYRk > div > div > span');
-  } //#root > div > div.modalMessage_overlay__6NYRk > div > div
+  }
 
   get btnCloseModalConfirmCreateEmployee() {
-    return $('#root > div > div.modalMessage_overlay__6NYRk > div > span > button');
+    return $(
+      '#root > div > div.modalMessage_modalContainer__tlmdw > div > div > button.modalMessage_modalBtn__56Ijk.modalMessage_BtnConfirm__bhtqU'
+    );
   }
 
   get btnLogin() {
@@ -66,7 +68,7 @@ class EmployeePage {
   }
 
   get inputAccessPassword() {
-    return $('#root > div > div > form > div.login_inputPassword__lXbIp > div > div > div > input');
+    return $('#root > div > div > form > div:nth-child(3) > div > div > div > input');
   }
 
   get btnConfirmLogin() {
@@ -98,50 +100,44 @@ class EmployeePage {
   }
 
   get tableTimesheetTitle() {
-    return $('#root > div > div > form > div > div.timeSheet_cardTitle__6xs52');
+    return $('#root > div > div > form > h2');
   }
 
   get inputAddDataDescriptionEmployee() {
-    return $('#root > div > div > form > div > div:nth-child(2) > div > input');
+    return $('#root > div > div > form > div:nth-child(2) > div > input');
   }
 
   get inputAddDataDateEmployee() {
-    return $('#root > div > div > form > div > div:nth-child(3) > div > input');
+    return $('#root > div > div > form > div:nth-child(3) > div > input');
   }
 
   get inputAddDataHoursEmployee() {
-    return $('#root > div > div > form > div > div:nth-child(4) > div > input');
+    return $('#root > div > div > form > div:nth-child(4) > div > input');
   }
 
   get btnSelectTaskEmployee() {
-    return $('#root > div > div > form > div > div:nth-child(5) > div > select');
+    return $('#root > div > div > form > div:nth-child(5) > div > select');
   }
 
   get btnSelectTaskOptionBEEmployee() {
-    return $(
-      '#root > div > div > form > div > div:nth-child(5) > div > select > option:nth-child(2)'
-    );
+    return $('#root > div > div > form > div:nth-child(5) > div > select > option:nth-child(2)');
   }
 
   get btnSelectTaskOptionFEEmployee() {
-    return $(
-      '#root > div > div > form > div > div:nth-child(5) > div > select > option:nth-child(3)'
-    );
+    return $('#root > div > div > form > div:nth-child(5) > div > select > option:nth-child(3)');
   }
 
   get btnSelectProjectEmployee() {
-    return $('#root > div > div > form > div > div:nth-child(6) > div > select');
+    return $('#root > div > div > form > div:nth-child(6) > div > select');
   }
 
   get btnSelectProjectOptionEmployee() {
-    return $(
-      '#root > div > div > form > div > div:nth-child(6) > div > select > option:nth-child(2)'
-    );
+    return $('#root > div > div > form > div:nth-child(6) > div > select > option:nth-child(2)');
   }
 
   get btnConfirmAddDataEmployee() {
     return $(
-      '#root > div > div > form > div > div.timeSheet_cardButton__pJNNA > button.button_primary__Z2ahL'
+      '#root > div > div > form > div.timeSheet_formButtons__wacxT > button.button_primary__Z2ahL'
     );
   }
 
@@ -156,11 +152,13 @@ class EmployeePage {
   }
 
   get modalConfirmCreteTimesheet() {
-    return $('#root > div > div.modalMessage_overlay__6NYRk > div');
+    return $('#root > div > div.modalMessage_modalContainer__tlmdw > div');
   }
 
   get btnClosemodalConfirmCreteTimesheet() {
-    return $('#root > div > div.modalMessage_overlay__6NYRk > div > span > button');
+    return $(
+      '#root > div > div.modalMessage_modalContainer__tlmdw > div > div > button.modalMessage_modalBtn__56Ijk.modalMessage_BtnConfirm__bhtqU'
+    );
   }
 
   get sidebarUl() {
@@ -246,13 +244,13 @@ class EmployeePage {
       '#root > div > div.modalConfirm_modalContainer__UrTfo > div > div > button.modalConfirm_modalBtn__Fd05H.modalConfirm_BtnConfirm__M5fZ6'
     );
   }
-  async create(name, lastName, email, password, repeatPassword, phone) {
+  async create(name, lastName, email, phone, password, repeatPassword) {
     await this.inputName.setValue(name);
     await this.inputLastName.setValue(lastName);
     await this.inputEmail.setValue(email);
+    await this.inputPhone.setValue(phone);
     await this.inputPassword.setValue(password);
     await this.inputRepeatPassword.setValue(repeatPassword);
-    await this.inputPhone.setValue(phone);
   }
   async login(email, password) {
     await this.inputAccessEmail.setValue(email);
