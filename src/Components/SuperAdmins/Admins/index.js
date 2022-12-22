@@ -12,6 +12,7 @@ import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Input from 'Components/Shared/Inputs';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './Form.module.css';
+import { logout } from 'redux/auth/thunks';
 
 const Form = (props) => {
   const dispatch = useDispatch();
@@ -54,20 +55,22 @@ const Form = (props) => {
       setValue('name', admin.name);
       setValue('lastName', admin.lastName);
       setValue('email', admin.email);
-      setValue('password', admin.password);
 
       setAdminData({
         name: admin.name,
         lastName: admin.lastName,
-        email: admin.email,
-        password: admin.password
+        email: admin.email
       });
     }
   }, [admin]);
 
   const onConfirm = () => {
-    id ? dispatch(updateAdmins(adminData, id, token)) : dispatch(createAdmins(adminData, token));
-    dispatch(confirmModalClose());
+    !modalContent.content.includes('logout')
+      ? id
+        ? dispatch(updateAdmins(adminData, id, token))
+        : dispatch(createAdmins(adminData, token))
+      : dispatch(logout()),
+      dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
@@ -145,16 +148,18 @@ const Form = (props) => {
             register={register}
             error={errors.email?.message}
           />
-          <Input
-            label={'Password'}
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            placeholder={'Password'}
-            register={register}
-            error={errors.password?.message}
-            show={passwordShow}
-            showState={showPassword}
-          />
+          {!id && (
+            <Input
+              label={'Password'}
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder={'Password'}
+              register={register}
+              error={errors.password?.message}
+              show={passwordShow}
+              showState={showPassword}
+            />
+          )}
           <div>
             <Link to={'/super-admins'}>
               <Buttons variant="secondary" name="Cancel" />
