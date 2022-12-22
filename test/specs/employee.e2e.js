@@ -1,4 +1,4 @@
-const EmployeePage = require('../pageobjects/signup.page');
+const EmployeePage = require('../pageobjects/employee.page');
 
 describe('My Login application', () => {
   beforeAll('Navigation to URL', () => {
@@ -11,48 +11,60 @@ describe('My Login application', () => {
     await expect(EmployeePage.titleHome).toBeDisplayed();
     await EmployeePage.create(
       'pedro',
-      'picapiedra',
-      'pedrito@pica.com',
+      'pellerano',
+      'pedrito100@pelle.com',
+      3412345678,
       'pedro1234',
-      'pedro1234',
-      '3412345678'
+      'pedro1234'
     );
     await EmployeePage.btnConfirmSignUp.click();
     await EmployeePage.modalConsultConfirmCreateEmployee.waitForDisplayed();
     await EmployeePage.btnModalConfirmCreateEmployee.click();
-    await expect(EmployeePage.modalConsultConfirmCreateEmployee).toBeDisplayed();
-    await expect(EmployeePage.modalConfirmCreateEmployeeText).toHaveText(
-      'Employee Successfully CREATED'
-    );
+    await expect(EmployeePage.modalConfirmCreateEmployee).toBeDisplayed();
     await EmployeePage.btnCloseModalConfirmCreateEmployee.click();
     await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/home');
   });
 
-  it('should login employee', async () => {
+  it('should login employee with no assigned projects', async () => {
     await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/home');
     await expect(EmployeePage.titleHome).toBeDisplayed();
     await EmployeePage.btnLogin.click();
     await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/auth/login');
     await expect(EmployeePage.titleHome).toBeDisplayed();
-    await EmployeePage.login('pedrito@pica.com', 'pedro1234');
+    await EmployeePage.login('pedrito100@pelle.com', 'pedro1234');
     await EmployeePage.btnConfirmLogin.click();
-    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees');
+    await expect(browser).toHaveUrlContaining('https://ayom-a-trackgenix-app.vercel.app/employees');
+    await EmployeePage.sidebarEmployee.waitForDisplayed();
+    await EmployeePage.btnLogout.click();
+    await expect(EmployeePage.modalConfirmLogout).toBeDisplayed();
+    await EmployeePage.btnConfirmLogout.click();
+    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/home');
+  });
+
+  it('should login employee with add projects', async () => {
+    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/home');
+    await expect(EmployeePage.titleHome).toBeDisplayed();
+    await EmployeePage.btnLogin.click();
+    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/auth/login');
+    await expect(EmployeePage.titleHome).toBeDisplayed();
+    await EmployeePage.login('juanpedro@gonza.com', 'hola1234');
+    await EmployeePage.btnConfirmLogin.click();
+    await expect(browser).toHaveUrlContaining('https://ayom-a-trackgenix-app.vercel.app/employees');
     await EmployeePage.sidebarEmployee.waitForDisplayed();
     await expect(EmployeePage.tableProyectEmployee).toBeDisplayed();
-    // await expect(EmployeePage.tableProyectEmployee).toContain(EmployeePage.tableProyectEmployeeItem1);
   });
 
   it('should be able to add data in the projects you are', async () => {
-    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees');
+    await expect(browser).toHaveUrlContaining('https://ayom-a-trackgenix-app.vercel.app/employees');
     await expect(EmployeePage.titleHome).toBeDisplayed();
     await expect(EmployeePage.sidebarEmployee).toBeDisplayed();
     await expect(EmployeePage.tableProyectEmployee).toBeDisplayed();
     await expect(EmployeePage.tableProyectEmployeeData).toBeDisplayed();
     await EmployeePage.tableBtnAddHours.click();
-    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees/');
+    await expect(browser).toHaveUrlContaining('https://ayom-a-trackgenix-app.vercel.app/employees');
     await EmployeePage.tableBtnAddHours.click();
-    await expect(browser).toHaveUrl(
-      'https://ayom-a-trackgenix-app.vercel.app/employees/timesheets/63a328a6f1498c1c4f6c977b'
+    await expect(browser).toHaveUrlContaining(
+      'https://ayom-a-trackgenix-app.vercel.app/employees/timesheets/'
     );
     await EmployeePage.tableTimesheet.waitForDisplayed();
     await EmployeePage.tableTimesheetTitle.waitForDisplayed();
@@ -68,12 +80,12 @@ describe('My Login application', () => {
     await EmployeePage.btnmodalConfirmAddDataEmployee.click();
     await expect(EmployeePage.modalConfirmCreteTimesheet).toBeDisplayed();
     await EmployeePage.btnClosemodalConfirmCreteTimesheet.click();
-    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees/');
+    await expect(browser).toHaveUrlContaining('https://ayom-a-trackgenix-app.vercel.app/employees');
     await expect(EmployeePage.titleHome).toBeDisplayed();
   });
 
   it('should be able to change profile data', async () => {
-    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees');
+    await expect(browser).toHaveUrlContaining('https://ayom-a-trackgenix-app.vercel.app/employees');
     await expect(EmployeePage.titleHome).toBeDisplayed();
     await expect(EmployeePage.sidebarEmployee).toBeDisplayed();
     await expect(EmployeePage.tableProyectEmployee).toBeDisplayed();
@@ -83,35 +95,24 @@ describe('My Login application', () => {
     await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees/profile');
     await expect(EmployeePage.profileForm).toBeDisplayed();
     await expect(EmployeePage.profileImage).toBeDisplayed();
-    await EmployeePage.editProfile(
-      'Juan pedro',
-      'picapiedra buena',
-      'juanpedro@picabu.com',
-      '3514567980'
-    );
+    await EmployeePage.editProfile('Juan pedro', 'gonzalez', 'juanpedro5@gonza.com', '3514567980');
     await EmployeePage.btnChangePasswordAccountEmployee.click();
     await expect(EmployeePage.modalModifyPassword).toBeDisplayed();
-    await EmployeePage.changePassword('prueba1234', 'prueba1234');
+    await EmployeePage.changePassword('hola1234', 'hola1234');
     await EmployeePage.btnConfirmChangePassword.click();
     await expect(EmployeePage.modalConfirmAddDataEmployee).toBeDisplayed();
     await EmployeePage.btnmodalConfirmAddDataEmployee.click();
     await expect(EmployeePage.modalConfirmCreteTimesheet).toBeDisplayed();
-    await expect(EmployeePage.modalConfirmCreateEmployeeText).toHaveText(
-      'Employee Successfully UPDATED'
-    );
     await EmployeePage.btnCloseModalConfirmCreateEmployee.click();
     await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees/profile');
     await EmployeePage.btnSaveChanges.click();
     await expect(EmployeePage.modalConfirmAddDataEmployee).toBeDisplayed();
     await EmployeePage.btnmodalConfirmAddDataEmployee.click();
     await expect(EmployeePage.modalConfirmCreteTimesheet).toBeDisplayed();
-    await expect(EmployeePage.modalConfirmCreateEmployeeText).toHaveText(
-      'Employee Successfully UPDATED'
-    );
     await EmployeePage.btnCloseModalConfirmCreateEmployee.click();
     await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees/profile');
     await EmployeePage.btnMainPage.click();
-    await expect(browser).toHaveUrl('https://ayom-a-trackgenix-app.vercel.app/employees/');
+    await expect(browser).toHaveUrlContaining('https://ayom-a-trackgenix-app.vercel.app/employees');
     await EmployeePage.btnLogout.click();
     await expect(EmployeePage.modalConfirmLogout).toBeDisplayed();
     await EmployeePage.btnConfirmLogout.click();
