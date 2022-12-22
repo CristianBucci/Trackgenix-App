@@ -19,7 +19,6 @@ const Form = (props) => {
   const token = sessionStorage.getItem('token');
   const params = useParams();
   const id = params.id ? params.id : '';
-  const [formText, setFormText] = useState('Add Admins');
   const [showPassword, setShowPassword] = useState(false);
   const [adminData, setAdminData] = useState({
     name: '',
@@ -45,7 +44,6 @@ const Form = (props) => {
 
   useEffect(async () => {
     if (id) {
-      setFormText('Update Admins');
       dispatch(getByIdAdmin(id, token));
     } else {
       return null;
@@ -123,9 +121,9 @@ const Form = (props) => {
         modalContent={modalContent.content}
         modalFunction={modalFunction}
       />
-      <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {<div className={styles.cardTitle}>{formText}</div>}
+      <div className={styles.container}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          {id ? <h2>UPDATE ADMIN</h2> : <h2>CREATE ADMIN</h2>}
           <Input
             label={'Name'}
             type="text"
@@ -166,7 +164,7 @@ const Form = (props) => {
             <Link to={'/super-admins'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
-            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetInputs()} />
+            <Buttons type="button" variant="submit" name="Reset" onClick={() => resetInputs()} />
             <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
         </form>

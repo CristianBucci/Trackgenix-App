@@ -79,6 +79,7 @@ const Employees = () => {
             location={location}
             setShowModal={modalWrapper}
             displayCreateButton={false}
+            displayActions={true}
           />
         )}
       </div>

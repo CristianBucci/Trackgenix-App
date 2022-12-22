@@ -1,19 +1,112 @@
 .primary {
-    padding: 10px 30px;
-    background-color: #FF0000;
-    border: none;
-    text-align: center;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
+  width: 150px;
+  margin-top: 35px;
+  padding: 15px;
+  border: 1px solid hsla(0, 0%, 100%, .2);
+  border-radius: 40px;
+  border: 1px solid #00b315;
+  color: white;
+  background: transparent;
+  font-size: 20px;
+  font-family: inherit;
+  letter-spacing: 3px;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.primary:hover,
+.primary:focus {
+  background: #00b315;
+  border-color: #00b315;
+  transform: translateY(-.4px);
 }
 
 .secondary {
-    padding: 10px 30px;
-    background-color: #001A72;
-    border: none;
-    text-align: center;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
+  width: 150px;
+  margin-top: 35px;
+  padding: 15px;
+  border: 1px solid hsla(0, 0%, 100%, .2);
+  border-radius: 40px;
+  border: 1px solid #ff0000;
+  color: white;
+  background: transparent;
+  font-size: 20px;
+  font-family: inherit;
+  letter-spacing: 3px;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.secondary:hover,
+.secondary:focus {
+  background: #ff0000;
+  border-color: #ff0000;
+  transform: translateY(-.4px);
+}
+
+.submit {
+  width: 150px;
+  margin-top: 35px;
+  padding: 15px;
+  border: 1px solid hsla(0, 0%, 100%, .2);
+  border-radius: 40px;
+  border: 1px solid #0d80f2;
+  color: white;
+  background: transparent;
+  font-size: 20px;
+  font-family: inherit;
+  letter-spacing: 3px;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.submit:hover,
+.submit:focus {
+  background: #0d80f2;
+  border-color: #0d80f2;
+  transform: translateY(-.4px);
+}
+
+.add {
+  width: 120px;
+  margin-top: 35px;
+  padding: 15px;
+  border: 1px solid hsla(0, 0%, 100%, .2);
+  border-radius: 20px;
+  border: 1px solid #c5007a;
+  color: white;
+  background: transparent;
+  font-size: 12px;
+  font-family: inherit;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.add:hover,
+.add:focus {
+  background: #c5007a;
+  border-color: #c5007a;
+  transform: translateY(-.4px);
+}
+
+.delete {
+  width: 120px;
+  margin-top: 35px;
+  padding: 15px;
+  border: 1px solid hsla(0, 0%, 100%, .2);
+  border-radius: 20px;
+  border: 1px solid #ff0000;
+  color: white;
+  background: transparent;
+  font-size: 12px;
+  font-family: inherit;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.delete:hover,
+.delete:focus {
+  background: #ff0000;
+  border-color: #ff0000;
+  transform: translateY(-.4px);
 }

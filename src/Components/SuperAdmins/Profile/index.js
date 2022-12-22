@@ -122,7 +122,7 @@ const SuperAdminProfile = () => {
         setData={setFormValues}
       />
       <div className={styles.container}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <h2>My profile</h2>
           <img
             src="https://img.freepik.com/vector-premium/avatar-elegante-hombre-negocios_24877-18075.jpg"
@@ -155,7 +155,7 @@ const SuperAdminProfile = () => {
           <div>
             <Buttons
               type="button"
-              variant="primary"
+              variant="add"
               name="Change password"
               onClick={openPasswordModal}
             />
@@ -164,7 +164,7 @@ const SuperAdminProfile = () => {
             <Buttons type="submit" variant="primary" name="Save changes" />
           </div>
           <div>
-            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+            <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
           </div>
         </form>
       </div>

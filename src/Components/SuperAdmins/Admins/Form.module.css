@@ -1,89 +1,32 @@
 .container {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    background-color: #ffffff;
-    color: #000000;
-}
-
-.cardTitle {
-    display: flex;
     justify-content: center;
-    width: 100%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 5px;
-    font-size: 20px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.header {
-    width: 100%;
-    background-color: #EA3354;
-}
-
-.header > div {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 75%;
-    margin: auto;
+    height: 100%;
+    background-color: #00021c;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 50%;
-    margin: auto;
+    width: 35%;
+    padding: 20px;
+    margin: 80px 0;
+    border-radius: 20px;
+    gap: 13px;
+    background-color: #00021c00;
+    box-shadow: 1px -1px 15px 2px rgba(0,0,0,0.10);
+    box-shadow: #00ffb3 0px 5px 15px;
 }
 
-.input {
-    display: flex;
-    flex-direction: column;
-    margin: 5px 0;
+.form h2 {
+    color: #f3f3f3 ;
+    text-align: center;
+    font-size: 35px;
 }
 
-.input input {
-    height: 20px;
-    border-radius: 5px;
-    border: #000000 solid 1px;
-}
-
-.submit {
-    display: flex;
-    width: 50%;
-    margin: auto;
-    justify-content: center;
-}
-
-.submit input {
-    width: 100%;
-    padding: 5px 0;
-    margin-top: 5px;
-    background-color: #EA335499;
-    border-radius: 5px;
-    border: #000000 solid 1px;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.submit input:hover {
-    background-color: #EA3354;
-    color: #000000;
-}
-
-.closeBtn {
-    background: none;
-    border: white solid 1px;
-    border-radius: 50px;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.closeBtn:hover {
-    background-color: #00000080;
+.form button {
+    margin: 3px;
 }

@@ -13,7 +13,7 @@ const Select = ({
   error
 }) => {
   return (
-    <div>
+    <div className={styles.selectWrapper}>
       <select disabled={isDisabled} {...register(name)}>
         <option>--Select {title}--</option>
         {options?.map((option) => {

@@ -100,7 +100,7 @@ function SignUp(props) {
       />
       <div className={styles.container}>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <h2>Create new user</h2>
+          <h2>SIGN UP</h2>
           {isLoading ? (
             <Spinner />
           ) : (
@@ -161,12 +161,7 @@ function SignUp(props) {
                 <Link to={'/login'}>
                   <Buttons variant="secondary" name="Cancel" />
                 </Link>
-                <Buttons
-                  type="button"
-                  variant="secondary"
-                  name="Reset"
-                  onClick={() => resetForm()}
-                />
+                <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
                 <Buttons type="submit" variant="primary" name="Confirm" />
               </div>
             </>

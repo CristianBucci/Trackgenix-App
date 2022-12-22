@@ -38,7 +38,6 @@ const ProjectsForm = (props) => {
   const params = useParams();
   const id = params.id && params.id;
   const roles = [{ role: 'DEV' }, { role: 'QA' }, { role: 'PM' }, { role: 'TL' }];
-  const [formText, setFormText] = useState('Add Project');
   const [employeesProject, setEmployeesProject] = useState([]);
   const [projectInput, setProjectInput] = useState({});
 
@@ -52,7 +51,7 @@ const ProjectsForm = (props) => {
     });
     setEmployeesProject(data.employees);
     const content = `Are you sure you want to ${
-      id ? 'edit the Project with id ' + id : 'create a new Project'
+      id ? 'edit this project' : 'create a new Project'
     }?`;
     dispatch(confirmModalOpen(content));
   };
@@ -83,7 +82,6 @@ const ProjectsForm = (props) => {
 
   useEffect(async () => {
     if (id) {
-      setFormText('Update Project');
       dispatch(getByIdProjects(id, token));
     }
   }, []);
@@ -140,124 +138,124 @@ const ProjectsForm = (props) => {
         modalContent={modalContent.content}
         modalFunction={modalFunction}
       />
-      <div>
+      <div className={styles.container}>
         {!isLoading ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className={styles.card}>
-              <div className={styles.cardTitle}>{formText}</div>
-              <Input
-                label={'Project Name'}
-                name="name"
-                type="text"
-                placeholder={'Project Name'}
-                register={register}
-                error={errors.name?.message}
-              />
-              <Input
-                label={'Description'}
-                name="description"
-                type="text"
-                placeholder={'Description'}
-                register={register}
-                error={errors.description?.message}
-              />
-              <Input
-                label={'Start Date'}
-                name="startDate"
-                type="date"
-                register={register}
-                error={errors.startDate?.message}
-              />
-              <Input
-                label={'End Date'}
-                name="endDate"
-                type="date"
-                register={register}
-                error={errors.endDate?.message}
-              />
-              <Input
-                label={'Client Name'}
-                name="clientName"
-                type="text"
-                placeholder={'Client Name'}
-                register={register}
-                error={errors.clientName?.message}
-              />
-              <div className={styles.card}>
-                {employeesProject?.map((option, index) => {
-                  return (
-                    <div key={index}>
-                      <label>Employee</label>
-                      <Select
-                        options={employees}
-                        keyMap={'_id'}
-                        title={'Employee'}
-                        fieldToShow={'name'}
-                        second={'lastName'}
-                        isDisabled={false}
-                        name={`employees[${index}].employeeId`}
-                        register={register}
-                        error={errors.employees && errors.employees[index].employeeId?.message}
-                      ></Select>
-                      <Input
-                        label={'Rate'}
-                        name={`employees[${index}].rate`}
-                        type="number"
-                        placeholder={'Rate'}
-                        register={register}
-                        error={errors.employees && errors.employees[index].rate?.message}
-                      />
-                      <label>Role</label>
-                      <Select
-                        options={roles}
-                        keyMap={'role'}
-                        title={'Role'}
-                        fieldToShow={'role'}
-                        isDisabled={false}
-                        name={`employees[${index}].role`}
-                        register={register}
-                        error={errors.employees && errors.employees[index].role?.message}
-                      ></Select>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setEmployeesProject([
-                            ...employeesProject.slice(0, index),
-                            ...employeesProject.slice(
-                              index + 1 ? index + 1 : index,
-                              employeesProject.length
-                            )
-                          ]);
-                          unregister('employees');
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  );
-                })}
-                <div className={styles.addEmployeeButton}>
-                  <button
-                    onClick={() =>
-                      setEmployeesProject([
-                        ...employeesProject,
-                        {
-                          employeeId: '',
-                          rate: 0,
-                          role: ''
-                        }
-                      ])
-                    }
-                    type="button"
-                  >
-                    Add Employee
-                  </button>
-                </div>
+          <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+            {id ? <h2>UPDATE PROJECT</h2> : <h2>CREATE PROJECT</h2>}
+            <Input
+              label={'Project Name'}
+              name="name"
+              type="text"
+              placeholder={'Project Name'}
+              register={register}
+              error={errors.name?.message}
+            />
+            <Input
+              label={'Description'}
+              name="description"
+              type="text"
+              placeholder={'Description'}
+              register={register}
+              error={errors.description?.message}
+            />
+            <Input
+              label={'Start Date'}
+              name="startDate"
+              type="date"
+              register={register}
+              error={errors.startDate?.message}
+            />
+            <Input
+              label={'End Date'}
+              name="endDate"
+              type="date"
+              register={register}
+              error={errors.endDate?.message}
+            />
+            <Input
+              label={'Client Name'}
+              name="clientName"
+              type="text"
+              placeholder={'Client Name'}
+              register={register}
+              error={errors.clientName?.message}
+            />
+            <div>
+              {employeesProject?.map((option, index) => {
+                return (
+                  <div key={index} className={styles.employees}>
+                    <label>Employee</label>
+                    <Select
+                      options={employees}
+                      keyMap={'_id'}
+                      title={'Employee'}
+                      fieldToShow={'name'}
+                      second={'lastName'}
+                      isDisabled={false}
+                      name={`employees[${index}].employeeId`}
+                      register={register}
+                      error={errors.employees && errors.employees[index].employeeId?.message}
+                    ></Select>
+                    <Input
+                      label={'Rate'}
+                      name={`employees[${index}].rate`}
+                      type="number"
+                      placeholder={'Rate'}
+                      register={register}
+                      error={errors.employees && errors.employees[index].rate?.message}
+                    />
+                    <label>Role</label>
+                    <Select
+                      options={roles}
+                      keyMap={'role'}
+                      title={'Role'}
+                      fieldToShow={'role'}
+                      isDisabled={false}
+                      name={`employees[${index}].role`}
+                      register={register}
+                      error={errors.employees && errors.employees[index].role?.message}
+                    ></Select>
+                    <Buttons
+                      type="button"
+                      variant="delete"
+                      name="DELETE"
+                      onClick={() => {
+                        setEmployeesProject([
+                          ...employeesProject.slice(0, index),
+                          ...employeesProject.slice(
+                            index + 1 ? index + 1 : index,
+                            employeesProject.length
+                          )
+                        ]);
+                        unregister('employees');
+                      }}
+                    >
+                      Delete
+                    </Buttons>
+                  </div>
+                );
+              })}
+              <div className={styles.addEmployeeButton}>
+                <Buttons
+                  type="button"
+                  variant="add"
+                  name="Add Employee"
+                  onClick={() =>
+                    setEmployeesProject([
+                      ...employeesProject,
+                      {
+                        employeeId: '',
+                        rate: 0,
+                        role: ''
+                      }
+                    ])
+                  }
+                />
               </div>
             </div>
             <div>
               <Buttons type="submit" variant="primary" name="Confirm" />
-              <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+              <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
               <Buttons
                 variant="secondary"
                 name="Cancel"
