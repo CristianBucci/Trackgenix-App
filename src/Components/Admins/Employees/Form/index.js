@@ -7,6 +7,7 @@ import { getByIdEmployee, updateEmployee } from 'redux/employees/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { employeeSchema } from './validations';
+import { logout } from 'redux/auth/thunks';
 
 import ModalConfirm from 'Components/Shared/Modal/ModalConfirm';
 import ModalMessage from 'Components/Shared/Modal/ModalMessage';
@@ -70,8 +71,10 @@ function Form(props) {
   }, [employee]);
 
   const onConfirm = () => {
-    dispatch(updateEmployee(id, formValues, token));
-    dispatch(confirmModalClose());
+    !modalContent.content.includes('logout')
+      ? (dispatch(updateEmployee(id, formValues, token)), dispatch(confirmModalClose()))
+      : dispatch(logout()),
+      dispatch(confirmModalClose());
   };
 
   const onCancel = () => {
@@ -153,11 +156,11 @@ function Form(props) {
             error={errors.phone?.message}
             placeholder={'Phone'}
           />
-          <div>
+          <div className={styles.buttons}>
             <Link to={'/admins/employees'}>
               <Buttons variant="secondary" name="Cancel" />
             </Link>
-            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+            <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
             <Buttons type="submit" variant="primary" name="Confirm" />
           </div>
         </form>

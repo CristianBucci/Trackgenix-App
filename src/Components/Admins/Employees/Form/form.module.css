@@ -30,3 +30,8 @@
 .form button {
     margin: 3px;
 }
+
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
