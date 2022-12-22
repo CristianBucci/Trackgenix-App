@@ -51,7 +51,7 @@ const AddProject = (props) => {
     });
     setEmployeesProject(data.employees);
     const content = `Are you sure you want to ${
-      id ? 'edit the Project with id ' + id : 'create a new Project'
+      id ? 'edit this Project' : 'create a new Project'
     }?`;
     dispatch(confirmModalOpen(content));
   };
