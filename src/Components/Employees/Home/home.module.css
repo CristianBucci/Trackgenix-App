@@ -1,9 +1,9 @@
-.projectsWrapper h1 {
-  text-align: center;
-}
-
 .h1 {
   margin-left: 170px;
+}
+
+.projectsWrapper {
+  width: 100%;
 }
 
 .container {
@@ -12,19 +12,70 @@
   margin: auto;
 }
 
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.searchWrap{
+  float: left;
+  width: 250px;
+}
+
+.searchWrap .searchBox{
+	position: relative;
+	width: 200px;
+	height: 40px;
+}
+
+.searchWrap .searchBox .input{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 10px 20px;
+	border-radius: 3px;
+	font-size: 18px;
+}
+
+.searchWrap .searchBox .btn{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 60px;
+	height: 100%;
+	z-index: 0;
+	cursor: pointer;
+  border: none;
+  background-color: #ffffff00;
+  border-radius: 0 15px 15px 0;
+  filter: invert(80%) sepia(0%) saturate(281%) hue-rotate(213deg) brightness(90%) contrast(89%);
+  border: none;
+}
 .top {
   display: flex;
   justify-content: space-between;
-  margin: 30px 0 0 200px;
+  margin: 30px 40px 0 200px;
 }
 
 .top div {
   display: flex;
-  border-bottom: 1px solid #999;
 }
 
 .top input {
+  width: 200px;
   border: none;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.top a {
+  margin-top: 10px;
 }
 
 .table {
@@ -43,10 +94,14 @@
   border-bottom: 1px solid #999;
 }
 
+.table td {
+  color: #b1b1b1;
+}
+
 .header {
    text-align: left;
    font-size: large;
-   color: #FC6225;
+   color: #1095c1;
 }
 
 .header tr th:last-child {
@@ -70,4 +125,13 @@
 
 .button img {
   width: 24px;
+  filter: invert(80%) sepia(0%) saturate(281%) hue-rotate(213deg) brightness(90%) contrast(89%);
+}
+
+.createBtn {
+  background-color: #1095c1;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #ffffff;
 }

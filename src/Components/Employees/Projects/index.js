@@ -28,7 +28,7 @@ const ProjectsForm = (props) => {
   } = useSelector((state) => state.projects);
 
   useEffect(async () => {
-    dispatch(getByIdProjects(id, token));
+    id && dispatch(getByIdProjects(id, token));
   }, []);
 
   useEffect(() => {

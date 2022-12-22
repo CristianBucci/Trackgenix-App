@@ -11,7 +11,7 @@
 }
 
 .table th {
-    color: #FC6225;
+    color: #1095c1;
     border-bottom: 1px solid #999;
 }
 
@@ -93,14 +93,11 @@
 }
 
 .createBtn {
-    background-color: #FC6225;
+    background-color: #1095c1;
     border: none;
     border-radius: 50%;
     font-size: 20px;
     color: #ffffff;
-}
-
-.createBtn {
     align-self: flex-end;
 }
 
@@ -111,7 +108,7 @@
 .header {
     text-align: left;
     font-size: large;
-    color: #FC6225;
+    color: #1095c1;
 }
 
 .header tr th:last-child {
