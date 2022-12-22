@@ -91,9 +91,9 @@
 }
 
 .header {
-    text-align: left;
-    font-size: large;
-    color: #1095c1;
+  text-align: left;
+  font-size: large;
+  color: #1095c1;
 }
 
 .header tr th:last-child {
@@ -126,4 +126,9 @@
   font-size: 20px;
   color: #ffffff;
   align-self: flex-end;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
 }
