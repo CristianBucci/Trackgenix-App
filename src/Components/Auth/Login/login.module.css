@@ -38,12 +38,13 @@
     margin: auto;
 }
 
-.spinner {
-    width: 80px;
-    height: 80px;
-}
-
 .password {
     width: 100%;
     height: 150px;
+}
+
+.spinnerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

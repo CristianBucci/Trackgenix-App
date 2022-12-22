@@ -102,7 +102,9 @@ function SignUp(props) {
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <h2>SIGN UP</h2>
           {isLoading ? (
-            <Spinner />
+            <div className={styles.spinnerContainer}>
+              <Spinner />
+            </div>
           ) : (
             <>
               <Input

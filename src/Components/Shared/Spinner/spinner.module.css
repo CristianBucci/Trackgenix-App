@@ -1,6 +1,7 @@
 .spinnerContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .spinnerContainer img {
   width: 80px;

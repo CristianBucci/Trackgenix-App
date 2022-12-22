@@ -93,7 +93,9 @@ const Projects = () => {
           <h2>projects</h2>
         </div>
         {isLoading ? (
-          <Spinner />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
         ) : (
           <Table
             data={projectList}

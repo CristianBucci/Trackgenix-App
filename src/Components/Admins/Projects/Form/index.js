@@ -14,6 +14,7 @@ import Input from 'Components/Shared/Inputs';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const ProjectsForm = (props) => {
   const token = sessionStorage.getItem('token');
@@ -184,7 +185,7 @@ const ProjectsForm = (props) => {
               {employeesProject?.map((option, index) => {
                 return (
                   <div key={index} className={styles.employees}>
-                    <label>Employee</label>
+                    <label>Assign employee</label>
                     <Select
                       options={employees}
                       keyMap={'_id'}
@@ -195,7 +196,7 @@ const ProjectsForm = (props) => {
                       name={`employees[${index}].employeeId`}
                       register={register}
                       error={errors.employees && errors.employees[index].employeeId?.message}
-                    ></Select>
+                    />
                     <Input
                       label={'Rate'}
                       name={`employees[${index}].rate`}
@@ -214,28 +215,28 @@ const ProjectsForm = (props) => {
                       name={`employees[${index}].role`}
                       register={register}
                       error={errors.employees && errors.employees[index].role?.message}
-                    ></Select>
-                    <Buttons
-                      type="button"
-                      variant="delete"
-                      name="DELETE"
-                      onClick={() => {
-                        setEmployeesProject([
-                          ...employeesProject.slice(0, index),
-                          ...employeesProject.slice(
-                            index + 1 ? index + 1 : index,
-                            employeesProject.length
-                          )
-                        ]);
-                        unregister('employees');
-                      }}
-                    >
-                      Delete
-                    </Buttons>
+                    />
+                    <div className={styles.buttonContainer}>
+                      <Buttons
+                        type="button"
+                        variant="delete"
+                        name="DELETE"
+                        onClick={() => {
+                          setEmployeesProject([
+                            ...employeesProject.slice(0, index),
+                            ...employeesProject.slice(
+                              index + 1 ? index + 1 : index,
+                              employeesProject.length
+                            )
+                          ]);
+                          unregister('employees');
+                        }}
+                      />
+                    </div>
                   </div>
                 );
               })}
-              <div className={styles.addEmployeeButton}>
+              <div className={styles.buttonContainer}>
                 <Buttons
                   type="button"
                   variant="add"
@@ -253,7 +254,7 @@ const ProjectsForm = (props) => {
                 />
               </div>
             </div>
-            <div>
+            <div className={styles.btnContainer}>
               <Buttons type="submit" variant="primary" name="Confirm" />
               <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
               <Buttons
@@ -265,7 +266,7 @@ const ProjectsForm = (props) => {
           </form>
         ) : (
           <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
+            <Spinner />
           </div>
         )}
       </div>

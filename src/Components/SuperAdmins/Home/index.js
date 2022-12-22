@@ -88,7 +88,9 @@ const SuperAdminsHome = () => {
           <h2>Admins</h2>
         </div>
         {isLoading ? (
-          <Spinner />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
         ) : (
           <>
             {adminsList.length == 0 ? (

@@ -1,5 +1,6 @@
 .h1 {
-  margin-left: 170px;
+  margin-left: 550px;
+  color: #fff;
 }
 
 .projectsWrapper {
@@ -134,4 +135,10 @@
   border-radius: 50%;
   font-size: 20px;
   color: #ffffff;
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

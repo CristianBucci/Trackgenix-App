@@ -93,7 +93,9 @@ const EmployeesHome = () => {
         <h2>Projects</h2>
       </div>
       {isLoading ? (
-        <Spinner />
+        <div className={styles.spinnerContainer}>
+          <Spinner />
+        </div>
       ) : (
         <>
           {filteredList.length == 0 ? (
