@@ -84,6 +84,9 @@ const SuperAdminsHome = () => {
         modalFunction={modalFunction}
       />
       <div className={styles.projectsWrapper}>
+        <div className={styles.title}>
+          <h2>Admins</h2>
+        </div>
         {isLoading ? (
           <Spinner />
         ) : (
@@ -93,21 +96,23 @@ const SuperAdminsHome = () => {
             ) : (
               <div className={styles.container}>
                 <div className={styles.top}>
-                  <div className={styles.searchBox}>
-                    <img src="/assets/images/lens.svg" alt="lens" />
-                    <input
-                      type="search"
-                      placeholder="Search.."
-                      className="search"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    ></input>
+                  <div className={styles.searchWrap}>
+                    <div className={styles.searchBox}>
+                      <input
+                        type="search"
+                        placeholder="Search.."
+                        className="search"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                      />
+                      <button className={styles.btn}>
+                        <img src="/assets/images/lens.svg" alt="update" />
+                      </button>
+                    </div>
                   </div>
                   <div>
                     <Link to={`/super-admins/admins`}>
-                      <button className={styles.button}>
-                        <img src="/assets/images/add.svg" alt="add" />
-                      </button>
+                      <button className={styles.createBtn}>+</button>
                     </Link>
                   </div>
                 </div>

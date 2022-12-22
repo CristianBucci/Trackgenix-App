@@ -31,15 +31,19 @@ const Table = ({
     <>
       <div className={styles.container}>
         <div className={styles.top}>
-          <div className={styles.searchBox}>
-            <img src="/assets/images/lens.svg" alt="update" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            ></input>
+          <div className={styles.searchWrap}>
+            <div className={styles.searchBox}>
+              <input
+                type="text"
+                placeholder="Search..."
+                className="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              ></input>
+              <button className={styles.btn}>
+                <img src="/assets/images/lens.svg" alt="update" />
+              </button>
+            </div>
           </div>
           {displayCreateButton && (
             <Link to={`.${location.pathname}/form`}>

@@ -8,6 +8,16 @@
     background-color: #00021c;
 }
 
+.container h2 {
+    color: #fff;
+    font-size: 1.5em;
+}
+
+.container button {
+    width: 250px;
+    margin: auto;
+}
+
 .form {
     display: flex;
     flex-direction: column;

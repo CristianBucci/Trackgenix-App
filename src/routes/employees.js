@@ -28,6 +28,7 @@ const Employee = () => {
           <Route exact path={`${url}/`} component={EmployeesHome} />
           <Route exact path={`${url}/timesheets`} component={EmployeeTimeSheet} />
           <Route path={`${url}/timesheets/:id`} component={EmployeeTimeSheet} />
+          <Route exact path={`${url}/projects/form`} component={ProjectsForm} />
           <Route path={`${url}/projects/form/:id`} component={ProjectsForm} />
           <Route path={`${url}/project/timesheets/:id`} component={ProjectsTimesheets} />
           <Route path={`${url}/profile`} component={EmployeeProfile} />

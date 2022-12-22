@@ -65,7 +65,7 @@ const Employees = () => {
       />
       <div className={styles.container}>
         <div className={styles.title}>
-          <h2>employees</h2>
+          <h2>Employees</h2>
         </div>
         {isLoading ? (
           <div className={styles.spinnerContainer}>
