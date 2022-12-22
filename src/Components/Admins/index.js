@@ -70,7 +70,9 @@ const Admins = (props) => {
           <h2>admins</h2>
         </div>
         {isLoading ? (
-          <Spinner />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
         ) : (
           <Table
             data={adminsList}

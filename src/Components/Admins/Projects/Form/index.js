@@ -14,6 +14,7 @@ import Input from 'Components/Shared/Inputs';
 import Select from 'Components/Shared/Select/index';
 import Buttons from 'Components/Shared/Button/index';
 import styles from './form.module.css';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const ProjectsForm = (props) => {
   const token = sessionStorage.getItem('token');
@@ -265,7 +266,7 @@ const ProjectsForm = (props) => {
           </form>
         ) : (
           <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
+            <Spinner />
           </div>
         )}
       </div>

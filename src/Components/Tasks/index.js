@@ -63,7 +63,9 @@ const Tasks = () => {
       <section className={styles.container}>
         <h2 className={styles.title}>Tasks</h2>
         {isLoading ? (
-          <Spinner />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
         ) : (
           <Table
             data={tasksList}

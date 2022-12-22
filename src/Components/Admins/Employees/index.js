@@ -8,6 +8,7 @@ import ModalMessage from 'Components/Shared/Modal/ModalMessage';
 import Table from 'Components/Shared/Table/Table';
 import styles from './employees.module.css';
 import { logout } from 'redux/auth/thunks';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const Employees = () => {
   const token = sessionStorage.getItem('token');
@@ -69,7 +70,7 @@ const Employees = () => {
         </div>
         {isLoading ? (
           <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
+            <Spinner />
           </div>
         ) : (
           <Table

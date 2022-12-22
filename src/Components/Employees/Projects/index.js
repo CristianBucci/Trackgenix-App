@@ -11,6 +11,7 @@ import { getByIdProjects, updateProject } from 'redux/projects/thunks';
 import { confirmModalClose, confirmModalOpen, messageModalClose } from 'redux/super-admins/actions';
 import { projectsSchema } from './validations';
 import styles from './projects.module.css';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const ProjectsForm = (props) => {
   const token = sessionStorage.getItem('token');
@@ -175,7 +176,7 @@ const ProjectsForm = (props) => {
           </form>
         ) : (
           <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
+            <Spinner />
           </div>
         )}
       </div>

@@ -30,3 +30,9 @@
 .form button {
     margin: 3px;
 }
+
+.spinnerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

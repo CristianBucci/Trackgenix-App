@@ -70,7 +70,9 @@ const Employees = (props) => {
           <h2>employees</h2>
         </div>
         {isLoading ? (
-          <Spinner />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
         ) : (
           <Table
             data={employeesList}

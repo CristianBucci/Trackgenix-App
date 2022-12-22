@@ -132,3 +132,9 @@
   display: flex;
   flex-direction: column;
 }
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

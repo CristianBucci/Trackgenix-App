@@ -63,3 +63,9 @@
 .cardButton button {
     margin: 10px;
 }
+
+.spinnerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

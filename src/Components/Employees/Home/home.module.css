@@ -135,3 +135,9 @@
   font-size: 20px;
   color: #ffffff;
 }
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

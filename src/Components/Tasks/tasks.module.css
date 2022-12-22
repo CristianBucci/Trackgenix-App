@@ -106,3 +106,9 @@
 .formContainer form input:hover {
   background-color: #e42447;
 }
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

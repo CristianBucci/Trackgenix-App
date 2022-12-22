@@ -152,7 +152,9 @@ const TimeSheets = (props) => {
           <h2>timesheets</h2>
         </div>
         {isLoading ? (
-          <Spinner />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
         ) : (
           <Table
             data={timeSheetList}

@@ -8,6 +8,7 @@ import { getProjects, deleteProject } from 'redux/projects/thunks';
 import styles from './homeAdmin.module.css';
 import { confirmModalOpen, confirmModalClose, messageModalClose } from 'redux/projects/actions';
 import { logout } from 'redux/auth/thunks';
+import { Spinner } from 'Components/Shared/Spinner';
 
 const Projects = () => {
   const token = sessionStorage.getItem('token');
@@ -97,7 +98,7 @@ const Projects = () => {
         </div>
         {isLoading ? (
           <div className={styles.spinnerContainer}>
-            <img src="/assets/images/spinner.gif" alt="spinner" />
+            <Spinner />
           </div>
         ) : (
           <Table

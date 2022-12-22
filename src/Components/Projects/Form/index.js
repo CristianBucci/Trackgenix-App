@@ -265,7 +265,9 @@ const AddProject = (props) => {
             </div>
           </form>
         ) : (
-          <Spinner />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
         )}
       </div>
     </>
