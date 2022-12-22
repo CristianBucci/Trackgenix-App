@@ -68,7 +68,7 @@ const Login = () => {
       <div className={styles.container}>
         {!isLoading ? (
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            {<h1>Login</h1>}
+            {<h2>Login</h2>}
             <Input
               label={'Email'}
               type="text"
@@ -97,7 +97,7 @@ const Login = () => {
             <div className={styles.buttonContainer}>
               <Buttons
                 type="button"
-                variant="secondary"
+                variant="submit"
                 name="Sign Up"
                 onClick={() => history.push('/auth/sign-up')}
               />

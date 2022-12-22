@@ -45,15 +45,10 @@ const ModalPassword = ({ show, onCancel, setData, userData }) => {
 
   return (
     show && (
-      <div className={styles.overlay}>
+      <div className={styles.modalContainer}>
         <div className={styles.container}>
-          <span className={styles.header}>
-            <p>Reset password:</p>
-            <button className={styles.modalCloseButton} onClick={onCancel}>
-              <img src={`${process.env.PUBLIC_URL}/assets/images/close.svg`} alt="Close icon" />
-            </button>
-          </span>
-          <form className={styles.content}>
+          <form className={styles.form}>
+            <h2 className={styles.modalTitle}>Reset password:</h2>
             <Input
               register={register}
               label={'Password'}
@@ -74,16 +69,16 @@ const ModalPassword = ({ show, onCancel, setData, userData }) => {
               show={repeatPasswordShow}
               showState={showRepeatPassword}
             />
+            <div className={styles.buttons}>
+              <Buttons variant="secondary" name="Cancel" onClick={onCancel} />
+              <Buttons
+                type="submit"
+                variant="primary"
+                name="Confirm"
+                onClick={handleSubmit(passwordSubmit)}
+              />
+            </div>
           </form>
-          <div className={styles.buttons}>
-            <Buttons variant="secondary" name="Cancel" onClick={onCancel} />
-            <Buttons
-              type="submit"
-              variant="primary"
-              name="Confirm"
-              onClick={handleSubmit(passwordSubmit)}
-            />
-          </div>
         </div>
       </div>
     )

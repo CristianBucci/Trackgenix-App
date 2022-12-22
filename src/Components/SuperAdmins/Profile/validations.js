@@ -27,7 +27,6 @@ export const superAdminSchema = Joi.object({
     }),
   password: Joi.string()
     .pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
-    .required()
     .messages({
       'string.pattern.base':
         'Must contain letter and numbers. Needs to have at least 8 charactertes',

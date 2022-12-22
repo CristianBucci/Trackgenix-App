@@ -1,7 +1,7 @@
 @import url('https://fonts.cdnfonts.com/css/anurati');
 
 body {
-	background-color: #00021c;
+  background-color: #00021c;
   font-family: 'Exo', sans-serif;
 }
 
@@ -29,9 +29,10 @@ body {
 }
 
 .container img {
-  width: 40%;
+  width: 38%;
   margin: 20px;
   margin-top: 70px;
+  margin-left: 70px;
   border-radius: 30px;
 }
 

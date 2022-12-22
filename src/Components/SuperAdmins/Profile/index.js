@@ -31,10 +31,6 @@ const SuperAdminProfile = () => {
     showPasswordModal
   } = useSelector((state) => state.superAdmins);
   const [formValues, setFormValues] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const passwordShow = () => {
-    setShowPassword(!showPassword);
-  };
 
   const dispatch = useDispatch();
 
@@ -47,13 +43,11 @@ const SuperAdminProfile = () => {
       setValue('name', superAdmin.name);
       setValue('lastName', superAdmin.lastName);
       setValue('email', superAdmin.email);
-      setValue('password', superAdmin.password);
 
       setFormValues({
         name: superAdmin.name,
         lastName: superAdmin.lastName,
-        email: superAdmin.email,
-        password: superAdmin.password
+        email: superAdmin.email
       });
     }
   }, [superAdmin]);
@@ -88,8 +82,7 @@ const SuperAdminProfile = () => {
     setFormValues({
       name: data.name,
       lastName: data.lastName,
-      email: data.email,
-      password: data.password
+      email: data.email
     });
 
     const content = 'Are you sure you want to edit your Profile?';
@@ -129,7 +122,7 @@ const SuperAdminProfile = () => {
         setData={setFormValues}
       />
       <div className={styles.container}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <h2>My profile</h2>
           <img
             src="https://img.freepik.com/vector-premium/avatar-elegante-hombre-negocios_24877-18075.jpg"
@@ -159,20 +152,10 @@ const SuperAdminProfile = () => {
             error={errors.email?.message}
             placeholder={'Email'}
           />
-          <Input
-            register={register}
-            label={'Password'}
-            name="password"
-            type={showPassword ? 'text' : 'password'}
-            error={errors.password?.message}
-            placeholder={'Password'}
-            show={passwordShow}
-            showState={showPassword}
-          />
           <div>
             <Buttons
               type="button"
-              variant="primary"
+              variant="add"
               name="Change password"
               onClick={openPasswordModal}
             />
@@ -181,7 +164,7 @@ const SuperAdminProfile = () => {
             <Buttons type="submit" variant="primary" name="Save changes" />
           </div>
           <div>
-            <Buttons type="button" variant="secondary" name="Reset" onClick={() => resetForm()} />
+            <Buttons type="button" variant="submit" name="Reset" onClick={() => resetForm()} />
           </div>
         </form>
       </div>

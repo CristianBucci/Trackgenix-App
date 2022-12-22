@@ -102,7 +102,7 @@
 
 .link2:hover,
 .link2:focus {
-  background:  hsl(210, 90%, 50%);
-  border-color:hsl(210, 90%, 50%);
+  background:  #0d80f2;
+  border-color:#0d80f2;
   transform: translateY(-.2rem);
 }
