@@ -1,24 +1,31 @@
 import React from 'react';
-
 import styles from './modalMessage.module.css';
 
 const ModalMessage = ({ show, modalFunction, modalTitle, modalContent }) => {
   return (
     show && (
-      <div className={styles.overlay}>
-        <div className={styles.container}>
-          <span className={modalTitle.includes('ERROR') ? styles.header : styles.headerSuccess}>
-            <p>{modalTitle}</p>
-            <button className={styles.modalCloseButton} onClick={modalFunction}>
-              <img src={`${process.env.PUBLIC_URL}/assets/images/close.svg`} alt="Close icon" />
+      <div className={styles.modalContainer}>
+        <div className={styles.modal}>
+          <h1
+            className={
+              modalTitle.includes('ERROR') ? styles.modalTitleError : styles.modalTitleSuccess
+            }
+          >
+            {modalTitle}
+          </h1>
+          <p className={styles.modalText}>{modalContent}</p>
+          <div>
+            <button onClick={modalFunction} className={`${styles.modalBtn} ${styles.BtnConfirm}`}>
+              Accept
             </button>
-          </span>
-          <div className={styles.content}>
-            <span>{modalContent}</span>
+            <button className={styles.link2} onClick={modalFunction}>
+              X
+            </button>
           </div>
         </div>
       </div>
     )
   );
 };
+
 export default ModalMessage;
